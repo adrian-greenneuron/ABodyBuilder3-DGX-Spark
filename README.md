@@ -1,81 +1,189 @@
-# ABodyBuilder3
+# ABodyBuilder3 for NVIDIA DGX Spark (ARM64 / Grace Blackwell GB10)
 
-Code for the paper [ABodyBuilder3: Improved and scalable antibody structure predictions](https://arxiv.org/abs/2405.20863).
+This repository provides a specialized Docker deployment for running **ABodyBuilder3** (antibody structure prediction) on the NVIDIA DGX Spark system, powered by **Grace Blackwell (GB10)** GPUs and **ARM64** architecture.
 
-# Code
+## What is ABodyBuilder3?
 
-## Download data from zenodo
+ABodyBuilder3 is a state-of-the-art deep learning model for predicting antibody variable region structures from sequence. It achieves high accuracy on CDR loops (especially CDRH3) by leveraging ProtT5 language model embeddings and includes per-residue confidence scores (pLDDT).
 
-Data and model weights are hosted at https://zenodo.org/records/11354577.
+**Paper**: [ABodyBuilder3: Improved and scalable antibody structure predictions](https://doi.org/10.1093/bioinformatics/btae576) (Bioinformatics, 2024)
 
-The bash script `download.sh` will download and extract data and model weights into
-appropriate directories. 
+## Why This Exists
 
-If you only require model weights for inference, these can be downloaded and extracted with the following commands.
+The original ABodyBuilder3 was developed for x86_64 with CUDA 11.7 and Python 3.9. DGX Spark uses ARM64 and Blackwell GPUs (sm_120/sm_121), requiring custom builds with specific compatibility fixes.
+
+This build solves:
+- **Flash Attention API**: Updated imports for NGC container's newer flash_attn version
+- **OpenMM Source Build**: Builds OpenMM from source for full Blackwell GPU relaxation support
+- **PyTorch 2.10 Compatibility**: Handles stricter `weights_only=True` checkpoint loading
+- **CUDA 13 Support**: Uses NGC 25.11 with native CUDA 13.0 and Python 3.12
+
+## Quick Start
+
+### 1. Build the Docker Image
+
+```bash
+# Clone this repository
+git clone https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
+cd ABodyBuilder3-DGX-Spark
+
+# Build with the build script (recommended, ~15-20 minutes)
+./docker_build.sh build
+
+# Or build manually
+DOCKER_BUILDKIT=1 docker build -t abodybuilder3-spark:latest .
 ```
-mkdir -p output/ zenodo/
-wget -P zenodo/ https://zenodo.org/records/11354577/files/output.tar.gz
-tar -xzvf zenodo/output.tar.gz -C output/
+
+### 2. Run the Test
+
+```bash
+./docker_build.sh test
 ```
 
-## Installation
+Expected output:
+```
+============================================================
+ABodyBuilder3 Docker Image Test
+============================================================
+PyTorch version: 2.10.0a0+b558c986e8.nv25.11
+CUDA version: 13.0
+OpenMM version: 8.4.0
+CUDA available: True
+GPU: NVIDIA GB10
+GPU Memory: 128.5 GB
+============================================================
+All imports successful!
+```
 
-To create a conda environment with all required dependencies, you can use
+### 3. Predict an Antibody Structure
+
+```bash
+docker run --rm --gpus all --ipc=host \
+    -v $(pwd)/scripts:/scripts \
+    -v $(pwd)/output:/output \
+    abodybuilder3-spark:latest \
+    python3 /scripts/test_inference.py
+```
+
+Output:
+```
+✅ Structure prediction successful!
+  Output file: /tmp/test_antibody.pdb
+  Total atoms: 3407
+  Total residues: 229
+```
+
+## Usage Examples
+
+### Basic Inference (Python)
+
+```python
+import torch
+import ml_collections
+from abodybuilder3.utils import string_to_input, output_to_pdb, add_atom37_to_output
+from abodybuilder3.lightning_module import LitABB3
+
+# Required for PyTorch 2.10+ checkpoint loading
+torch.serialization.add_safe_globals([ml_collections.ConfigDict])
+
+# Your antibody sequences
+heavy = "QVQLVQSGAEVKKPGSSVKVSCKASGGTFS..."
+light = "DIQMTQSPSTLSASVGDRVTITCRASQSIS..."
+
+# Load model
+module = LitABB3.load_from_checkpoint("output/plddt-loss/best_second_stage.ckpt")
+model = module.model.eval().cuda()
+
+# Prepare input and run inference
+ab_input = string_to_input(heavy=heavy, light=light)
+ab_input_batch = {k: v.unsqueeze(0).cuda() if k not in ["single", "pair"] else v.cuda() 
+                  for k, v in ab_input.items()}
+
+with torch.no_grad():
+    output = model(ab_input_batch, ab_input_batch["aatype"])
+    output = add_atom37_to_output(output, ab_input["aatype"].cuda())
+
+pdb_string = output_to_pdb(output, ab_input)
+```
+
+### Available Models
+
+| Model | Checkpoint Path | Description |
+|-------|-----------------|-------------|
+| **pLDDT** (recommended) | `output/plddt-loss/best_second_stage.ckpt` | Includes confidence scores |
+| Base | `output/base-loss/best_second_stage.ckpt` | Standard model, faster |
+| Language | `output/language-loss/best_second_stage.ckpt` | Best CDR accuracy with ProtT5 |
+
+## Repository Structure
 
 ```
-./init_conda_venv.sh
+├── Dockerfile              # DGX Spark optimized build
+├── docker_build.sh         # Build/test/shell helper script
+├── scripts/
+│   └── test_inference.py   # Inference test script
+├── src/abodybuilder3/      # Model source code
+├── output/                 # Model weights (downloaded during build)
+└── README.md               # This file
 ```
-After installation, the environment can be activated with
+
+## Technical Details
+
+| Component | Version |
+|-----------|---------|
+| **Base Image** | `nvcr.io/nvidia/pytorch:25.11-py3` |
+| **CUDA** | 13.0 |
+| **PyTorch** | 2.10 |
+| **Python** | 3.12 |
+| **OpenMM** | 8.4.0 (built from source) |
+| **Flash Attention** | 2.7.4 (NGC built-in) |
+| **Triton** | 3.5.0 (NGC built-in) |
+
+### Key Fixes Applied
+
+| Fix | Purpose |
+|-----|---------|
+| `primitives.py` flash_attn imports | Handle NGC's newer Flash Attention API |
+| `setup.cfg` version relaxation | Allow numpy/scipy/pandas compatible with Python 3.12 |
+| PyTorch safe globals | Register `ml_collections.ConfigDict` for `weights_only=True` |
+| OpenMM source build | Blackwell sm_120/sm_121 GPU compatibility |
+
+## Requirements
+
+- **Hardware**: NVIDIA DGX Spark (Grace Blackwell / GB10)
+- **Docker**: 20.10+ with NVIDIA Container Toolkit
+- **Disk Space**: ~25GB for the Docker image
+- **Memory**: 16GB+ recommended
+
+## Data Sources
+
+Model weights are automatically downloaded from [Zenodo](https://zenodo.org/records/11354577) during Docker build:
+- `output.tar.gz` (~1.3GB) - Pre-trained model checkpoints
+
+For training data and language model embeddings, run:
+```bash
+./download.sh
 ```
-conda activate ./.venv
+
+## Troubleshooting
+
+### "ModuleNotFoundError: No module named 'flash_attn.flash_attention'"
+This is fixed in this repository. The NGC container uses a newer flash_attn API without the legacy `FlashAttention` class.
+
+### "WeightsUnpickler error: Unsupported global: ConfigDict"
+Add this before loading checkpoints:
+```python
+import ml_collections
+torch.serialization.add_safe_globals([ml_collections.ConfigDict])
 ```
 
-## Notebook example
+### OpenMM/pdbfixer import errors
+Ensure you're using the Docker image from this repository, which builds OpenMM from source for Blackwell compatibility.
 
-A simple example of using the model is given in `notebooks/example.ipynb`.
+## Citation
 
-## Filter and split data 
+If you use ABodyBuilder3, please cite:
 
-The repo comes with pre-specified data filtering (specified in `data/filters.csv`) and
-splits (specified in `data/split.csv`). If you want to reproduce these steps then run 
-
-1. `python src/abodybuilder3/stages/data/combine_data_dfs.py`
-2. `python src/abodybuilder3/stages/data/filter_data.py`
-3. `python src/abodybuilder3/stages/data/split_data.py`
-
-## Embed sequences using language model 
-
-Pre-computed language model embeddings are provided in `data/structures/structures_plm`
-after running `download.sh`. If you wish to regenerate then run
-
-`python src/abodybuilder3/stages/data/language_model_embeddings.py`
-
-## Train model
-
-The model can be trained using
- 
-1. `python src/abodybuilder3/stages/train.py`
-2. `python src/abodybuilder3/stages/finetune.py`
-
-## Inference and evaluation
-
-The model can be used to predict structures from the validation and test set using 
-
-`python src/abodybuilder3/stages/inference.py`
-
-For general sequences inputs can be prepared following the examples given in `notebooks/example.ipynb`.
-
-## DVC
-
-Our code is built using dvc pipelines, an alternative way to run the code is via `dvc
-exp run`. See `experiment_scripts` for the configurations we used for the experiments in
-the manuscript.
-
-# Citation
-
-If this code is useful to you please cite our paper using the following bibtex entry,
-
-```
+```bibtex
 @article{abodybuilder3,
     author = {Kenlay, Henry and Dreyer, Frédéric A and Cutting, Daniel and Nissley, Daniel and Deane, Charlotte M},
     title = "{ABodyBuilder3: improved and scalable antibody structure predictions}",
@@ -84,24 +192,17 @@ If this code is useful to you please cite our paper using the following bibtex e
     number = {10},
     pages = {btae576},
     year = {2024},
-    month = {10},
-    issn = {1367-4811},
     doi = {10.1093/bioinformatics/btae576}
 }
 ```
 
-along with the original ImmuneBuilder paper on which this work was based.
+## Resources
 
-```
-@article{immunebuilder,
-  author = {Abanades, Brennan and Wong, Wing Ki and Boyles, Fergus and Georges, Guy and Bujotzek, Alexander and Deane, Charlotte M.},
-  doi = {10.1038/s42003-023-04927-7},
-  issn = {2399-3642},
-  journal = {Communications Biology},
-  number = {1},
-  pages = {575},
-  title = {ImmuneBuilder: Deep-Learning models for predicting the structures of immune proteins},
-  volume = {6},
-  year = {2023}
-}
-```
+- [Original ABodyBuilder3 Repository](https://github.com/Exscientia/abodybuilder3)
+- [ABodyBuilder3 Paper](https://doi.org/10.1093/bioinformatics/btae576)
+- [Zenodo Data](https://zenodo.org/records/11354577)
+- [NVIDIA NGC PyTorch Containers](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch)
+
+## License
+
+Apache 2.0 (same as original ABodyBuilder3)
