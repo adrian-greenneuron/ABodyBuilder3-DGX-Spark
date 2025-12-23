@@ -25,10 +25,22 @@ if deepspeed_is_installed:
     import deepspeed
 
 fa_is_installed = importlib.util.find_spec("flash_attn") is not None
+FlashAttention = None  # Not used in this codebase, but kept for compatibility
 if fa_is_installed:
-    from flash_attn.bert_padding import unpad_input, pad_input
-    from flash_attn.flash_attention import FlashAttention
-    from flash_attn.flash_attn_interface import flash_attn_unpadded_kvpacked_func
+    try:
+        from flash_attn.bert_padding import unpad_input, pad_input
+    except ImportError:
+        # Newer flash_attn versions may have different module structure
+        unpad_input, pad_input = None, None
+    try:
+        # Try newer API first (flash_attn >= 2.0)
+        from flash_attn import flash_attn_varlen_kvpacked_func as flash_attn_unpadded_kvpacked_func
+    except ImportError:
+        try:
+            # Fallback to older API
+            from flash_attn.flash_attn_interface import flash_attn_unpadded_kvpacked_func
+        except ImportError:
+            flash_attn_unpadded_kvpacked_func = None
 
 import torch
 import torch.nn as nn
