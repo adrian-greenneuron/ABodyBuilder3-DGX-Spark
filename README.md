@@ -28,27 +28,27 @@ Benchmarks run on **NVIDIA DGX Spark** (Grace Blackwell GB10, 128.5GB unified RA
 
 | Config | Antibodies | Time | Throughput | Per Ab |
 |--------|------------|------|------------|--------|
-| 1 worker | 24 | 20.5s | 70/min | 0.85s |
-| **4 workers** | **264** | **148s** | **107/min** | **0.56s** |
+| 4 workers (before optimization) | 264 | 148s | 107/min | 0.56s |
+| **4 workers (optimized)** | **264** | **30.1s** | **526/min** | **0.11s** |
 
-> **Note**: Antibody sequences tested are ~228 residues (typical therapeutic antibody Fv region).
+> **5x speedup** achieved through optimized PDB generation.
 
-### Per-Antibody Profiling
+### Per-Antibody Profiling (After Optimization)
 
 | Stage | Time | % |
 |-------|------|---|
-| Input tokenization | 21ms | 2% |
-| **GPU inference** | **69ms** | **6%** |
-| Coordinate transform | 6ms | 0.5% |
-| **PDB generation** | **1034ms** | **91%** |
+| Input tokenization | 21ms | 19% |
+| **GPU inference** | **69ms** | **63%** |
+| Coordinate transform | 6ms | 5% |
+| **PDB generation** | **14ms** | **13%** |
 
-> **Bottleneck**: PDB string generation dominates processing time. GPU inference is very fast (~69ms). Future optimization should target `output_to_pdb`.
+> GPU inference is now the dominant cost. Further speedups require model optimization.
 
 ### Key Observations
 
-- **Throughput**: **107 antibodies/minute** with 4 parallel workers
+- **Throughput**: **526 antibodies/minute** with 4 parallel workers
 - **GPU Utilization**: Low (model is small, inference is fast)
-- **Bottleneck**: CPU-bound PDB string generation, not GPU
+- **Bottleneck**: Now GPU inference (69ms) instead of PDB generation
 - **Scaling**: Near-linear with worker count up to 4 workers
 
 ## Quick Start

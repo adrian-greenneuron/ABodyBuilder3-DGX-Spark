@@ -304,13 +304,18 @@ def generate_json_output(
 
 
 def apply_relaxation(pdb_string: str) -> str:
-    """Apply structure relaxation using OpenMM/pdbfixer."""
+    """Apply structure relaxation using pdbfixer.
+    
+    Uses pdbfixer to add hydrogens and fix any issues. This is slower
+    but more robust than OpenMM Modeller for handling edge cases like
+    terminal residues and non-standard conformations.
+    """
     try:
         from pdbfixer import PDBFixer
         from openmm import app
         from io import StringIO
         
-        # Use pdbfixer to clean up the structure
+        # Use pdbfixer to clean up and add hydrogens
         fixer = PDBFixer(pdbfile=StringIO(pdb_string))
         fixer.findMissingResidues()
         fixer.findMissingAtoms()
