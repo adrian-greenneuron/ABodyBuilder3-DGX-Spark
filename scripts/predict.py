@@ -2,20 +2,31 @@
 """
 ABodyBuilder3 Command Line Interface
 
-Predict antibody structures from sequences via command line.
+Predict antibody 3D structures from heavy and light chain sequences.
+Supports single sequences, FASTA files, and CSV batch processing.
 
-Usage:
-    # Single antibody (sequences on command line)
-    python predict.py predict --heavy "QVQL..." --light "DIQM..." -o output.pdb
-
-    # From FASTA file (paired heavy/light chains)
-    python predict.py predict --fasta antibodies.fasta -o output_dir/
-
-    # CSV input with multiple antibodies (with multiprocessing)
-    python predict.py predict --csv antibodies.csv -o output_dir/ --workers auto
+Examples:
+    # Single antibody from command line
+    predict.py predict --heavy "EVQL..." --light "DIQM..." -o antibody.pdb
     
-    # With relaxation for higher accuracy
-    python predict.py predict --csv antibodies.csv -o output_dir/ --relaxation
+    # Batch processing from CSV (recommended for multiple antibodies)
+    predict.py predict --csv antibodies.csv -o output_dir/
+    
+    # Using the Language model (highest accuracy, requires ProtT5)
+    predict.py predict --csv input.csv -o output/ --model language
+    
+    # With structure relaxation (slower but more accurate bond geometries)
+    predict.py predict --csv input.csv -o output/ --relaxation
+
+Input Formats:
+    CSV: Must have columns 'name', 'heavy', 'light' (or 'VH', 'VL')
+    FASTA: Pairs sequences by header keywords (_heavy/_light, _VH/_VL, _H/_L)
+           or by position (alternating heavy/light)
+
+Models:
+    base     - Fast baseline model (~60 antibodies/min)
+    plddt    - Base + pLDDT confidence scores (~30/min) [default]
+    language - ProtT5 embeddings for best CDR accuracy (~4/min)
 """
 
 import os
@@ -47,14 +58,26 @@ from abodybuilder3.lightning_module import LitABB3
 
 
 class OutputFormat(str, Enum):
+    """Output file format."""
     pdb = "pdb"
     cif = "cif"
     json = "json"
 
 
+HELP_EPILOG = """
+For more information, run: predict.py info
+
+CSV Format Example:
+    name,heavy,light
+    trastuzumab,EVQLVESGG...,DIQMTQSPS...
+    adalimumab,EVQLVESGG...,DIQMTQSPS...
+"""
+
 app = typer.Typer(
-    help="ABodyBuilder3: Predict antibody 3D structures from sequence",
+    help="ABodyBuilder3: Predict antibody 3D structures from sequences.",
+    epilog=HELP_EPILOG,
     add_completion=False,
+    rich_markup_mode="rich",
 )
 console = Console()
 
@@ -437,33 +460,88 @@ def parse_csv(csv_path: Path) -> List[Tuple[str, str, str]]:
 @app.command()
 def predict(
     # Input options
-    heavy: Optional[str] = typer.Option(None, "--heavy", "-H", help="Heavy chain sequence"),
-    light: Optional[str] = typer.Option(None, "--light", "-L", help="Light chain sequence"),
-    name: str = typer.Option("antibody", "--name", "-n", help="Antibody name (for --heavy/--light input)"),
-    fasta: Optional[Path] = typer.Option(None, "--fasta", "-f", help="FASTA file with paired heavy/light chains"),
-    csv_file: Optional[Path] = typer.Option(None, "--csv", "-c", help="CSV file with name,heavy,light columns"),
+    heavy: Optional[str] = typer.Option(
+        None, "--heavy", "-H",
+        help="Heavy chain amino acid sequence (VH). Use with --light for single antibody."
+    ),
+    light: Optional[str] = typer.Option(
+        None, "--light", "-L", 
+        help="Light chain amino acid sequence (VL). Use with --heavy for single antibody."
+    ),
+    name: str = typer.Option(
+        "antibody", "--name", "-n",
+        help="Name for the antibody. Used in output filename when using --heavy/--light."
+    ),
+    fasta: Optional[Path] = typer.Option(
+        None, "--fasta", "-f",
+        help="FASTA file with paired heavy/light chains. Headers should contain _heavy/_light or _VH/_VL suffixes."
+    ),
+    csv_file: Optional[Path] = typer.Option(
+        None, "--csv", "-c",
+        help="CSV file with columns: name, heavy, light (or VH, VL). Recommended for batch processing."
+    ),
     
     # Output options
-    output: Path = typer.Option("output.pdb", "--output", "-o", help="Output PDB file or directory"),
-    output_format: OutputFormat = typer.Option(OutputFormat.pdb, "--format", help="Output format: pdb, cif, or json"),
-    overwrite: bool = typer.Option(False, "--overwrite", help="Overwrite existing output files"),
+    output: Path = typer.Option(
+        "output.pdb", "--output", "-o",
+        help="Output file or directory. Use trailing / for directory output (e.g., output/)."
+    ),
+    output_format: OutputFormat = typer.Option(
+        OutputFormat.pdb, "--format",
+        help="Output format: 'pdb' (default), 'cif' (mmCIF), or 'json' (includes pLDDT scores)."
+    ),
+    overwrite: bool = typer.Option(
+        False, "--overwrite",
+        help="Overwrite existing output files without prompting."
+    ),
     
     # Model options
-    model_type: str = typer.Option("plddt", "--model", "-m", help="Model type: plddt, base, or language"),
-    checkpoint: Optional[Path] = typer.Option(None, "--checkpoint", help="Custom checkpoint path"),
-    device_str: str = typer.Option("cuda", "--device", "-d", help="Device: cuda or cpu"),
+    model_type: str = typer.Option(
+        "plddt", "--model", "-m",
+        help="Model: 'plddt' (default, with confidence), 'base' (fastest), 'language' (best accuracy, uses ProtT5)."
+    ),
+    checkpoint: Optional[Path] = typer.Option(
+        None, "--checkpoint",
+        help="Path to custom model checkpoint. Overrides --model selection."
+    ),
+    device_str: str = typer.Option(
+        "cuda", "--device", "-d",
+        help="Compute device: 'cuda' (GPU, default) or 'cpu'."
+    ),
     
     # Processing options
-    relaxation: bool = typer.Option(False, "--relaxation", "-r", help="Apply structure relaxation (slower but more accurate)"),
-    confidence_threshold: Optional[float] = typer.Option(None, "--confidence-threshold", "-t", help="Filter outputs by minimum pLDDT score (0-100)"),
-    workers: str = typer.Option("auto", "--workers", "-w", help="Number of workers (auto, 1, or integer)"),
-    seed: Optional[int] = typer.Option(None, "--seed", "-s", help="Random seed for reproducibility"),
+    relaxation: bool = typer.Option(
+        False, "--relaxation", "-r",
+        help="Apply OpenMM structure relaxation. Improves bond geometries but increases runtime ~20%."
+    ),
+    confidence_threshold: Optional[float] = typer.Option(
+        None, "--confidence-threshold", "-t",
+        help="Skip antibodies with mean pLDDT below this threshold (0-100). Only works with plddt model."
+    ),
+    workers: str = typer.Option(
+        "auto", "--workers", "-w",
+        help="Parallel workers: 'auto' (detects optimal), '1' (sequential), or integer. Affects I/O, not GPU."
+    ),
+    seed: Optional[int] = typer.Option(
+        None, "--seed", "-s",
+        help="Random seed for reproducible predictions."
+    ),
     
     # Output verbosity
-    quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress non-error output"),
-    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose output"),
+    quiet: bool = typer.Option(
+        False, "--quiet", "-q",
+        help="Suppress progress output. Only show errors."
+    ),
+    verbose: bool = typer.Option(
+        False, "--verbose", "-v",
+        help="Show detailed processing information."
+    ),
 ):
-    """Predict antibody structure from sequence."""
+    """
+    Predict 3D structure of antibody from heavy and light chain sequences.
+    
+    Requires either --heavy/--light, --fasta, or --csv input.
+    """
     global VERBOSE
     VERBOSE = not quiet
     
@@ -502,7 +580,8 @@ def predict(
             log("Error: Output must be a directory for multiple antibodies", "error")
             raise typer.Exit(1)
     else:
-        if output.exists() and not overwrite:
+        # For single antibody: if output is dir, that's fine; only block if it's an existing file
+        if output.exists() and output.is_file() and not overwrite:
             log(f"Error: Output file exists: {output} (use --overwrite)", "error")
             raise typer.Exit(1)
     
@@ -646,7 +725,13 @@ def predict(
     # Write outputs
     ext = {"pdb": ".pdb", "cif": ".cif", "json": ".json"}[output_format.value]
     
-    if len(results) > 1:
+    # Determine if output is a directory
+    output_is_dir = str(output).endswith('/') or output.is_dir() or len(results) > 1
+    
+    if output_is_dir:
+        # Ensure directory exists
+        output.mkdir(parents=True, exist_ok=True)
+        
         def write_output(item: Tuple[str, str, Optional[float]]) -> str:
             unique_name, output_string, _ = item
             output_path = output / f"{unique_name}{ext}"
@@ -654,11 +739,16 @@ def predict(
                 f.write(output_string)
             return unique_name
         
-        with ThreadPoolExecutor(max_workers=num_workers) as executor:
-            list(executor.map(write_output, results))
+        if len(results) > 1:
+            with ThreadPoolExecutor(max_workers=num_workers) as executor:
+                list(executor.map(write_output, results))
+        elif results:
+            write_output(results[0])
     elif results:
+        # Single file output
         unique_name, output_string, _ = results[0]
         output_path = output if str(output).endswith(ext) else Path(str(output).rsplit(".", 1)[0] + ext)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "w") as f:
             f.write(output_string)
     
