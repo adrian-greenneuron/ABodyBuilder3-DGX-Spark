@@ -35,7 +35,7 @@ import json
 import warnings
 from pathlib import Path
 from typing import Optional, List, Tuple, Dict, Any
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_completed
 from multiprocessing import cpu_count
 import csv
 import time
@@ -98,20 +98,12 @@ def log(message: str, level: str = "info"):
 
 
 def get_optimal_workers() -> int:
-    """Determine optimal number of workers based on system specs."""
-    num_cpus = cpu_count()
+    """Determine optimal number of workers based on benchmarks.
     
-    # Get available memory (rough heuristic)
-    try:
-        import psutil
-        mem_gb = psutil.virtual_memory().available / 1e9
-        mem_workers = int(mem_gb / 0.5)
-    except ImportError:
-        mem_workers = num_cpus
-    
-    # Leave 2 cores for system/GPU operations
-    optimal = min(num_cpus - 2, mem_workers)
-    return max(1, optimal)
+    Benchmarks show 4 workers is optimal for DGX Spark (106 antibodies/min).
+    """
+    # 4 workers is optimal based on benchmarks
+    return 4
 
 
 def load_model(model_type: str, device: torch.device, checkpoint: Optional[Path] = None):
@@ -377,6 +369,60 @@ def process_single_antibody(
         output_string = apply_relaxation(output_string)
     
     return name, output_string, mean_plddt
+
+
+# Worker state for multiprocessing
+_worker_model = None
+_worker_device = None
+_worker_prott5 = None
+_worker_config = None
+
+
+def _init_worker(model_type: str, checkpoint_path: Optional[str], use_language: bool):
+    """Initialize worker process with its own model instance."""
+    global _worker_model, _worker_device, _worker_prott5, _worker_config
+    
+    # Suppress warnings in worker
+    import warnings
+    warnings.filterwarnings("ignore")
+    
+    # Register safe globals
+    torch.serialization.add_safe_globals([ml_collections.ConfigDict])
+    
+    # Setup device
+    _worker_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
+    # Load model
+    _worker_model = load_model(model_type, _worker_device, Path(checkpoint_path) if checkpoint_path else None)
+    
+    # Load ProtT5 for language model
+    if use_language:
+        _worker_prott5 = load_prott5(_worker_device)
+    
+    _worker_config = {
+        "model_type": model_type,
+        "use_language": use_language,
+    }
+
+
+def _worker_process_antibody(args: Tuple) -> Tuple[str, Optional[str], Optional[float]]:
+    """Process a single antibody in worker process."""
+    name, heavy, light, relaxation, output_format, confidence_threshold = args
+    
+    global _worker_model, _worker_device, _worker_prott5
+    
+    try:
+        result = process_single_antibody(
+            name, heavy, light,
+            _worker_model, _worker_device,
+            relaxation=relaxation,
+            output_format=output_format,
+            confidence_threshold=confidence_threshold,
+            prott5_model=_worker_prott5,
+        )
+        return result
+    except Exception as e:
+        return name, None, None
 
 
 def parse_fasta(fasta_path: Path) -> List[Tuple[str, str, str]]:
@@ -654,53 +700,57 @@ def predict(
     ) as progress:
         task = progress.add_task("Predicting structures", total=len(antibodies))
         
-        if num_workers > 1 and len(antibodies) > 2 and model_type != "language":
-            # Parallel input preparation (not for language model which needs sequential ProtT5)
-            prepared_inputs = []
-            with ThreadPoolExecutor(max_workers=num_workers) as executor:
+        # Determine parallelization strategy
+        use_multiprocess = num_workers > 1 and len(antibodies) >= num_workers * 2
+        
+        if use_multiprocess:
+            # Use ProcessPoolExecutor with each worker having its own model
+            from multiprocessing import get_context
+            
+            log(f"[dim]Using {num_workers} parallel workers for inference[/dim]")
+            
+            # Prepare work items with unique names
+            work_items = []
+            for ab_name, heavy_seq, light_seq in antibodies:
+                unique_name = get_unique_name(ab_name)
+                work_items.append((
+                    unique_name, heavy_seq, light_seq,
+                    relaxation, output_format, confidence_threshold
+                ))
+            
+            # Use spawn context to create clean worker processes
+            ctx = get_context("spawn")
+            checkpoint_path = str(checkpoint) if checkpoint else None
+            
+            with ProcessPoolExecutor(
+                max_workers=num_workers,
+                mp_context=ctx,
+                initializer=_init_worker,
+                initargs=(model_type, checkpoint_path, model_type == "language"),
+            ) as executor:
+                # Submit all work
                 futures = {
-                    executor.submit(prepare_input, heavy_seq, light_seq): (ab_name, heavy_seq, light_seq)
-                    for ab_name, heavy_seq, light_seq in antibodies
+                    executor.submit(_worker_process_antibody, item): item[0]
+                    for item in work_items
                 }
                 
+                # Collect results as they complete
                 for future in as_completed(futures):
-                    ab_name, heavy_seq, light_seq = futures[future]
+                    name = futures[future]
                     try:
-                        ab_input = future.result()
-                        prepared_inputs.append((ab_name, heavy_seq, light_seq, ab_input))
+                        result_name, output_string, mean_plddt = future.result()
+                        
+                        if output_string is None:
+                            skipped += 1
+                            progress.update(task, advance=1, description=f"Skipped {result_name}")
+                        else:
+                            results.append((result_name, output_string, mean_plddt))
+                            progress.update(task, advance=1, description=f"Predicted {result_name}")
                     except Exception as e:
-                        log(f"Warning: Failed to prepare {ab_name}: {e}", "warning")
-            
-            # Sequential GPU inference
-            for ab_name, heavy_seq, light_seq, ab_input in prepared_inputs:
-                try:
-                    unique_name = get_unique_name(ab_name)
-                    output_dict = run_inference(model, ab_input, device)
-                    
-                    plddt_scores = extract_plddt_scores(output_dict)
-                    mean_plddt = sum(plddt_scores) / len(plddt_scores) if plddt_scores else None
-                    
-                    if confidence_threshold and mean_plddt and mean_plddt < confidence_threshold:
-                        skipped += 1
-                        progress.update(task, advance=1, description=f"Skipped {unique_name} (pLDDT={mean_plddt:.1f})")
-                        continue
-                    
-                    if output_format == OutputFormat.json:
-                        output_string = json.dumps(generate_json_output(unique_name, heavy_seq, light_seq, output_dict, ab_input), indent=2)
-                    elif output_format == OutputFormat.cif:
-                        output_string = generate_cif(output_dict, ab_input, unique_name)
-                    else:
-                        output_string = generate_pdb(output_dict, ab_input)
-                    
-                    if relaxation and output_format == OutputFormat.pdb:
-                        output_string = apply_relaxation(output_string)
-                    
-                    results.append((unique_name, output_string, mean_plddt))
-                    progress.update(task, advance=1, description=f"Predicted {unique_name}")
-                except Exception as e:
-                    log(f"Warning: Failed to predict {ab_name}: {e}", "warning")
+                        log(f"Warning: Failed to predict {name}: {e}", "warning")
+                        progress.update(task, advance=1)
         else:
-            # Sequential processing
+            # Sequential processing (small batches or single antibody)
             for ab_name, heavy_seq, light_seq in antibodies:
                 try:
                     unique_name = get_unique_name(ab_name)

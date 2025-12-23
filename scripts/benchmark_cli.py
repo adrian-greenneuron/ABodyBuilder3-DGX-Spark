@@ -160,7 +160,7 @@ def run_benchmark(
         '--csv', '/input/test.csv',
         '-o', '/output/',
         '--model', model,
-        '--workers', '1',
+        '--workers', 'auto',
     ]
     
     if relaxation:
