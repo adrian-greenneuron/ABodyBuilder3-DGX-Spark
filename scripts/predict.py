@@ -655,19 +655,27 @@ def predict(
     if model_type == "language":
         log("[dim]Language model: will generate ProtT5 embeddings (slower)[/dim]")
     
-    # Load model
-    start_time = time.time()
-    with console.status("[bold green]Loading model..."):
-        model = load_model(model_type, device, checkpoint)
-    load_time = time.time() - start_time
-    log(f"Model loaded in {load_time:.2f}s")
+    # Determine parallelization strategy early
+    use_multiprocess = num_workers > 1 and len(antibodies) >= num_workers * 2
     
-    # Load ProtT5 for language model
+    # Load model (only if sequential)
+    model = None
     prott5_model = None
-    if model_type == "language":
-        with console.status("[bold green]Loading ProtT5 embedder..."):
-            prott5_model = load_prott5(device)
-        log("ProtT5 embedder loaded")
+    
+    if not use_multiprocess:
+        start_time = time.time()
+        with console.status("[bold green]Loading model..."):
+            model = load_model(model_type, device, checkpoint)
+        load_time = time.time() - start_time
+        log(f"Model loaded in {load_time:.2f}s")
+        
+        # Load ProtT5 for language model
+        if model_type == "language":
+            with console.status("[bold green]Loading ProtT5 embedder..."):
+                prott5_model = load_prott5(device)
+            log("ProtT5 embedder loaded")
+    else:
+        log("[dim]Skipping main process model load (using worker processes)[/dim]")
     
     # Setup output
     if len(antibodies) > 1:
@@ -700,8 +708,8 @@ def predict(
     ) as progress:
         task = progress.add_task("Predicting structures", total=len(antibodies))
         
-        # Determine parallelization strategy
-        use_multiprocess = num_workers > 1 and len(antibodies) >= num_workers * 2
+        # Parallelization strategy decided earlier
+
         
         if use_multiprocess:
             # Use ProcessPoolExecutor with each worker having its own model

@@ -29,9 +29,10 @@ Benchmarks run on **NVIDIA DGX Spark** (Grace Blackwell GB10, 128.5GB unified RA
 | Model | Batch | Time (s) | Per Ab (s) | Throughput | Memory Δ | GPU % | CPU % |
 |-------|-------|----------|------------|------------|----------|-------|-------|
 | Base | 1 | 7.9 | 7.87 | 7.6/min | 2.0 GB | 4% | 8% |
-| Base | 25 | 35.6 | 1.42 | **42.2/min** | 2.1 GB | 3% | 7% |
+| Base | 25 | 35.6 | 1.42 | 42.2/min | 2.1 GB | 3% | 7% |
+| Base | 200 (4 workers) | 113.4 | 0.57 | **106.0/min** | ~2.5 GB | ~18% | ~30% |
 | pLDDT | 1 | 7.8 | 7.83 | 7.7/min | 2.0 GB | 0% | 8% |
-| pLDDT | 25 | 35.1 | 1.41 | **42.7/min** | 2.3 GB | 2% | 8% |
+| pLDDT | 25 | 35.1 | 1.41 | 42.7/min | 2.3 GB | 2% | 8% |
 
 > **Note**: Antibody sequences tested are ~228 residues (typical therapeutic antibody Fv region). Times include Docker container startup (~6s overhead).
 
