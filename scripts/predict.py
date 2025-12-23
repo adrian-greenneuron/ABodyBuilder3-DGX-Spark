@@ -304,25 +304,56 @@ def generate_json_output(
 
 
 def apply_relaxation(pdb_string: str) -> str:
-    """Apply structure relaxation using pdbfixer.
+    """Add hydrogens using reduce (MolProbity, Richardson Lab).
     
-    Uses pdbfixer to add hydrogens and fix any issues. This is slower
-    but more robust than OpenMM Modeller for handling edge cases like
-    terminal residues and non-standard conformations.
+    Uses 'reduce' for fast hydrogen addition (~10ms per antibody).
+    Falls back to pdbfixer if reduce is not available.
     """
+    import subprocess
+    import tempfile
+    import os
+    
+    try:
+        # Write PDB to temp file
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.pdb', delete=False) as f:
+            f.write(pdb_string)
+            input_path = f.name
+        
+        try:
+            # Run reduce -BUILD to add all hydrogens
+            result = subprocess.run(
+                ['reduce', '-BUILD', '-Quiet', input_path],
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+            
+            if result.returncode == 0 and result.stdout:
+                return result.stdout
+            else:
+                # Fall back to pdbfixer if reduce fails
+                return _apply_relaxation_pdbfixer(pdb_string)
+        finally:
+            os.unlink(input_path)
+            
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        # reduce not installed or timed out, use pdbfixer
+        return _apply_relaxation_pdbfixer(pdb_string)
+
+
+def _apply_relaxation_pdbfixer(pdb_string: str) -> str:
+    """Fallback: Add hydrogens using pdbfixer."""
     try:
         from pdbfixer import PDBFixer
         from openmm import app
         from io import StringIO
         
-        # Use pdbfixer to clean up and add hydrogens
         fixer = PDBFixer(pdbfile=StringIO(pdb_string))
         fixer.findMissingResidues()
         fixer.findMissingAtoms()
         fixer.addMissingAtoms()
         fixer.addMissingHydrogens(7.0)
         
-        # Write back to PDB
         output = StringIO()
         app.PDBFile.writeFile(fixer.topology, fixer.positions, output)
         return output.getvalue()

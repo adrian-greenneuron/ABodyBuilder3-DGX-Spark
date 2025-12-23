@@ -35,6 +35,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     cmake \
     doxygen \
     swig \
+    libboost-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # -----------------------------------------------------------------------------
@@ -56,6 +57,19 @@ RUN git clone https://github.com/openmm/openmm.git \
 # hadolint ignore=DL3013
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install git+https://github.com/openmm/pdbfixer.git
+
+# -----------------------------------------------------------------------------
+# Reduce (MolProbity/Richardson Lab) for fast hydrogen addition
+# -----------------------------------------------------------------------------
+# reduce is ~100x faster than pdbfixer for adding hydrogens (~10ms vs ~1000ms)
+# hadolint ignore=DL3003
+RUN git clone --depth 1 https://github.com/rlabduke/reduce.git /tmp/reduce \
+    && cd /tmp/reduce \
+    && mkdir build && cd build \
+    && cmake .. \
+    && make -j"$(nproc)" \
+    && cp reduce_src/reduce /usr/local/bin/ \
+    && cd / && rm -rf /tmp/reduce
 
 # -----------------------------------------------------------------------------
 # Python Dependencies (Relaxed versions for CUDA 13 / PyTorch 2.10 compatibility)
