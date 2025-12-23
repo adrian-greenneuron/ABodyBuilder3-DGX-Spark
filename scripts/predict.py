@@ -119,6 +119,78 @@ def load_model(model_type: str, device: torch.device, checkpoint: Optional[Path]
     return model
 
 
+# Global ProtT5 model (lazy loaded)
+_prott5_model = None
+_prott5_device = None
+
+
+def load_prott5(device: torch.device):
+    """Load ProtT5 model for embedding generation (lazy load)."""
+    global _prott5_model, _prott5_device
+    
+    if _prott5_model is not None and _prott5_device == device:
+        return _prott5_model
+    
+    log("[dim]Loading ProtT5 model for language embeddings...[/dim]")
+    from abodybuilder3.language.model import ProtT5
+    
+    _prott5_model = ProtT5(device_map=str(device) if device.type == 'cuda' else 'cpu')
+    _prott5_device = device
+    return _prott5_model
+
+
+def prepare_input_with_embeddings(heavy: str, light: str, prott5_model, device: torch.device) -> Dict[str, Any]:
+    """Prepare model input with ProtT5 embeddings for Language model."""
+    from abodybuilder3.dataloader import ABDataset
+    from abodybuilder3.openfold.np.residue_constants import restype_order_with_x
+    
+    # Build basic input
+    aatype = []
+    is_heavy = []
+    for character in heavy:
+        is_heavy.append(1)
+        aatype.append(restype_order_with_x[character])
+    for character in light:
+        is_heavy.append(0)
+        aatype.append(restype_order_with_x[character])
+    is_heavy = torch.tensor(is_heavy)
+    aatype = torch.tensor(aatype)
+    residue_index = torch.cat(
+        (torch.arange(len(heavy)), torch.arange(len(light)) + 500)
+    )
+    
+    # Generate ProtT5 embeddings
+    embeddings = prott5_model.get_embeddings([heavy], [light])
+    plm_embedding = embeddings[0]  # (seq_len, 1024)
+    
+    # Build model input with PLM embeddings
+    model_input = {
+        "is_heavy": is_heavy,
+        "aatype": aatype,
+        "residue_index": residue_index,
+        "plm_embedding": plm_embedding,
+    }
+    
+    # Generate pair features
+    pair = residue_index[None] - residue_index[:, None]
+    pair = pair.clamp(-64, 64) + 64
+    pair = torch.nn.functional.one_hot(pair, 2 * 64 + 1)
+    
+    # Add edge chain features
+    is_heavy_tensor = model_input["is_heavy"]
+    is_heavy_edge = 2 * is_heavy_tensor.outer(is_heavy_tensor) + (
+        (1 - is_heavy_tensor).outer(1 - is_heavy_tensor)
+    )
+    is_heavy_edge = torch.nn.functional.one_hot(is_heavy_edge.long())
+    pair = torch.cat((is_heavy_edge, pair), dim=-1)
+    
+    model_input["single"] = plm_embedding.float().unsqueeze(0)
+    model_input["pair"] = pair.float().unsqueeze(0)
+    
+    model_input = {k: v.to(device) for k, v in model_input.items()}
+    return model_input
+
+
 def prepare_input(heavy: str, light: str) -> Dict[str, Any]:
     """Prepare model input (CPU-bound, can be parallelized)."""
     return string_to_input(heavy=heavy, light=light)
@@ -248,9 +320,16 @@ def process_single_antibody(
     relaxation: bool = False,
     output_format: OutputFormat = OutputFormat.pdb,
     confidence_threshold: Optional[float] = None,
+    prott5_model = None,
 ) -> Tuple[str, str, Optional[float]]:
     """Process a single antibody end-to-end. Returns (name, output_string, mean_plddt)."""
-    ab_input = prepare_input(heavy, light)
+    
+    # Prepare input (with embeddings for language model)
+    if prott5_model is not None:
+        ab_input = prepare_input_with_embeddings(heavy, light, prott5_model, device)
+    else:
+        ab_input = prepare_input(heavy, light)
+    
     output = run_inference(model, ab_input, device)
     
     # Extract pLDDT scores
@@ -448,6 +527,8 @@ def predict(
         log("[dim]Relaxation enabled (will take longer)[/dim]")
     if confidence_threshold:
         log(f"[dim]Confidence threshold: {confidence_threshold}[/dim]")
+    if model_type == "language":
+        log("[dim]Language model: will generate ProtT5 embeddings (slower)[/dim]")
     
     # Load model
     start_time = time.time()
@@ -455,6 +536,13 @@ def predict(
         model = load_model(model_type, device, checkpoint)
     load_time = time.time() - start_time
     log(f"Model loaded in {load_time:.2f}s")
+    
+    # Load ProtT5 for language model
+    prott5_model = None
+    if model_type == "language":
+        with console.status("[bold green]Loading ProtT5 embedder..."):
+            prott5_model = load_prott5(device)
+        log("ProtT5 embedder loaded")
     
     # Setup output
     if len(antibodies) > 1:
@@ -487,8 +575,8 @@ def predict(
     ) as progress:
         task = progress.add_task("Predicting structures", total=len(antibodies))
         
-        if num_workers > 1 and len(antibodies) > 2:
-            # Parallel input preparation
+        if num_workers > 1 and len(antibodies) > 2 and model_type != "language":
+            # Parallel input preparation (not for language model which needs sequential ProtT5)
             prepared_inputs = []
             with ThreadPoolExecutor(max_workers=num_workers) as executor:
                 futures = {
@@ -542,6 +630,7 @@ def predict(
                         relaxation=relaxation,
                         output_format=output_format,
                         confidence_threshold=confidence_threshold,
+                        prott5_model=prott5_model,
                     )
                     
                     if output_string is None:
