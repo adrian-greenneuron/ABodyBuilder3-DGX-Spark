@@ -4,18 +4,19 @@ ABodyBuilder3 Benchmark Script
 
 Benchmarks inference performance across:
 - Different model types (base, language, plddt)
-- Different batch sizes (1, 10, 100)
-- Memory tracking
+- Different batch sizes (1, 10, 100, 1000)
+- Memory tracking (absolute and incremental)
+- GPU utilization
 """
 
 import gc
 import time
 import torch
 import ml_collections
+import subprocess
 from pathlib import Path
 from typing import List, Tuple
 import random
-import string
 
 # Register safe globals for PyTorch 2.10+
 torch.serialization.add_safe_globals([ml_collections.ConfigDict])
@@ -44,12 +45,26 @@ EXAMPLE_ANTIBODIES = [
 ]
 
 
-def get_memory_mb() -> float:
-    """Get current GPU memory usage in MB."""
+def get_gpu_utilization() -> float:
+    """Get current GPU utilization percentage."""
+    try:
+        result = subprocess.run(
+            ['nvidia-smi', '--query-gpu=utilization.gpu', '--format=csv,noheader,nounits'],
+            capture_output=True, text=True
+        )
+        return float(result.stdout.strip().split('\n')[0])
+    except:
+        return 0.0
+
+
+def get_memory_stats() -> Tuple[float, float]:
+    """Get current and max GPU memory in MB."""
     if torch.cuda.is_available():
         torch.cuda.synchronize()
-        return torch.cuda.max_memory_allocated() / 1024 / 1024
-    return 0.0
+        current = torch.cuda.memory_allocated() / 1024 / 1024
+        peak = torch.cuda.max_memory_allocated() / 1024 / 1024
+        return current, peak
+    return 0.0, 0.0
 
 
 def reset_memory():
@@ -60,19 +75,10 @@ def reset_memory():
         torch.cuda.reset_peak_memory_stats()
 
 
-def generate_random_sequence(length: int, seed: int = None) -> str:
-    """Generate a random amino acid sequence."""
-    if seed is not None:
-        random.seed(seed)
-    amino_acids = "ACDEFGHIKLMNPQRSTVWY"
-    return "".join(random.choices(amino_acids, k=length))
-
-
 def create_batch(batch_size: int) -> List[Tuple[str, str]]:
     """Create a batch of antibodies by cycling through examples."""
     batch = []
     for i in range(batch_size):
-        # Cycle through examples and add slight variations
         heavy, light = EXAMPLE_ANTIBODIES[i % len(EXAMPLE_ANTIBODIES)]
         batch.append((heavy, light))
     return batch
@@ -92,22 +98,28 @@ def benchmark_model(
     print(f"Checkpoint: {checkpoint_path}")
     print(f"{'='*60}")
     
+    # Reset and measure baseline memory
+    reset_memory()
+    baseline_mem = get_memory_stats()[0]
+    
     # Load model
     print("Loading model...")
-    reset_memory()
     load_start = time.perf_counter()
     module = LitABB3.load_from_checkpoint(checkpoint_path)
     model = module.model
     model.to(device)
     model.eval()
     load_time = time.perf_counter() - load_start
-    load_memory = get_memory_mb()
-    print(f"  Load time: {load_time:.2f}s, Memory: {load_memory:.1f} MB")
+    
+    model_mem_current, model_mem_peak = get_memory_stats()
+    model_memory = model_mem_peak - baseline_mem
+    print(f"  Load time: {load_time:.2f}s")
+    print(f"  Model memory: {model_memory:.1f} MB ({model_memory/1024:.3f} GB)")
     
     results = {
         "model": model_name,
         "load_time_s": load_time,
-        "load_memory_mb": load_memory,
+        "model_memory_mb": model_memory,
         "batch_results": []
     }
     
@@ -130,12 +142,18 @@ def benchmark_model(
                 _ = model(ab_input_batch, ab_input_batch["aatype"])
         print(" done")
         
-        # Reset memory for accurate measurement
-        reset_memory()
+        # Reset memory for accurate measurement (but model stays loaded)
+        torch.cuda.reset_peak_memory_stats()
         
         # Benchmark run
         times = []
+        gpu_utils = []
+        
         for i, (heavy, light) in enumerate(batch):
+            # Sample GPU utilization periodically
+            if i % max(1, batch_size // 20) == 0:
+                gpu_utils.append(get_gpu_utilization())
+            
             torch.cuda.synchronize()
             start = time.perf_counter()
             
@@ -156,19 +174,28 @@ def benchmark_model(
             elapsed = time.perf_counter() - start
             times.append(elapsed)
             
-            if (i + 1) % max(1, batch_size // 10) == 0:
+            if batch_size >= 100 and (i + 1) % (batch_size // 10) == 0:
                 print(f"    Progress: {i+1}/{batch_size}", end="\r", flush=True)
         
-        peak_memory = get_memory_mb()
+        if batch_size >= 100:
+            print()  # New line after progress
+        
+        # Get memory stats
+        inference_mem_current, inference_mem_peak = get_memory_stats()
+        total_peak_memory = model_memory + (inference_mem_peak - model_mem_current)
+        
         total_time = sum(times)
         avg_time = total_time / len(times)
+        avg_gpu_util = sum(gpu_utils) / len(gpu_utils) if gpu_utils else 0.0
         
         result = {
             "batch_size": batch_size,
             "total_time_s": total_time,
             "avg_time_per_antibody_s": avg_time,
             "throughput_per_min": 60.0 / avg_time,
-            "peak_memory_mb": peak_memory,
+            "inference_memory_mb": inference_mem_peak - model_mem_current,
+            "total_peak_memory_mb": model_memory + (inference_mem_peak - model_mem_current),
+            "gpu_utilization_pct": avg_gpu_util,
             "min_time_s": min(times),
             "max_time_s": max(times),
         }
@@ -176,7 +203,8 @@ def benchmark_model(
         
         print(f"    Total time: {total_time:.2f}s")
         print(f"    Avg per antibody: {avg_time:.3f}s ({60/avg_time:.1f}/min)")
-        print(f"    Peak memory: {peak_memory:.1f} MB ({peak_memory/1024:.2f} GB)")
+        print(f"    Peak memory (total): {result['total_peak_memory_mb']:.1f} MB ({result['total_peak_memory_mb']/1024:.2f} GB)")
+        print(f"    GPU utilization: {avg_gpu_util:.0f}%")
     
     # Cleanup
     del model
@@ -190,27 +218,28 @@ def benchmark_model(
 def print_summary_table(all_results: List[dict]):
     """Print a summary table of all benchmark results."""
     
-    print("\n" + "="*80)
+    print("\n" + "="*100)
     print("BENCHMARK SUMMARY")
-    print("="*80)
+    print("="*100)
     
     # Header
-    print(f"\n{'Model':<20} {'Batch':<8} {'Total(s)':<10} {'Per Ab(s)':<12} {'Throughput':<15} {'Memory(GB)':<12}")
-    print("-"*80)
+    print(f"\n{'Model':<12} {'Batch':<8} {'Total(s)':<10} {'Per Ab(s)':<11} {'Throughput':<14} {'Memory(GB)':<12} {'GPU %':<8}")
+    print("-"*100)
     
     for result in all_results:
         model_name = result["model"]
         for batch in result["batch_results"]:
-            print(f"{model_name:<20} {batch['batch_size']:<8} "
+            print(f"{model_name:<12} {batch['batch_size']:<8} "
                   f"{batch['total_time_s']:<10.2f} "
-                  f"{batch['avg_time_per_antibody_s']:<12.3f} "
-                  f"{batch['throughput_per_min']:<15.1f}/min "
-                  f"{batch['peak_memory_mb']/1024:<12.2f}")
+                  f"{batch['avg_time_per_antibody_s']:<11.3f} "
+                  f"{batch['throughput_per_min']:<14.1f}/min "
+                  f"{batch['total_peak_memory_mb']/1024:<12.2f} "
+                  f"{batch['gpu_utilization_pct']:<8.0f}")
 
 
 def main():
     print("="*60)
-    print("ABodyBuilder3 Benchmark")
+    print("ABodyBuilder3 Comprehensive Benchmark")
     print("="*60)
     
     # Setup
@@ -225,12 +254,11 @@ def main():
     models = [
         ("pLDDT", str(base_path / "plddt-loss" / "best_second_stage.ckpt")),
         ("Base", str(base_path / "base-loss" / "best_second_stage.ckpt")),
-        # Note: Language model requires ProtT5 embeddings, skipping for now
-        # ("Language", str(base_path / "language-loss" / "best_second_stage.ckpt")),
+        ("Language", str(base_path / "language-loss" / "best_second_stage.ckpt")),
     ]
     
-    # Batch sizes to test
-    batch_sizes = [1, 10, 100]
+    # Batch sizes to test (including 1000)
+    batch_sizes = [1, 10, 100, 1000]
     
     # Run benchmarks
     all_results = []

@@ -26,23 +26,26 @@ Benchmarks run on **NVIDIA DGX Spark** (Grace Blackwell GB10, 128.5GB unified RA
 
 ### Performance Summary
 
-| Model | Batch Size | Total Time (s) | Per Antibody (s) | Throughput | Peak Memory |
-|-------|------------|----------------|------------------|------------|-------------|
-| **pLDDT** | 1 | 2.09 | 2.094 | 28.7/min | 0.18 GB |
-| **pLDDT** | 10 | 12.72 | 1.272 | 47.2/min | 0.19 GB |
-| **pLDDT** | 100 | 98.23 | 0.982 | **61.1/min** | 0.19 GB |
-| Base | 1 | 0.89 | 0.887 | **67.7/min** | 0.18 GB |
-| Base | 10 | 9.87 | 0.987 | 60.8/min | 0.19 GB |
-| Base | 100 | 98.25 | 0.983 | 61.1/min | 0.19 GB |
+| Model | Batch Size | Total Time (s) | Per Antibody (s) | Throughput | Peak Memory | GPU % |
+|-------|------------|----------------|------------------|------------|-------------|-------|
+| **pLDDT** | 1 | 2.12 | 2.12 | 28.3/min | 0.26 GB | ~0% |
+| **pLDDT** | 10 | 12.72 | 1.27 | 47.2/min | 0.27 GB | ~2% |
+| **pLDDT** | 100 | 100.56 | 1.01 | 59.7/min | 0.27 GB | ~2% |
+| **pLDDT** | 1000 | 1000.94 | 1.00 | **59.9/min** | 0.26 GB | ~3% |
+| Base | 1 | 0.89 | 0.89 | **67.7/min** | 0.26 GB | ~0% |
+| Base | 10 | 9.87 | 0.99 | 60.8/min | 0.26 GB | ~4% |
+| Base | 100 | 101.11 | 1.01 | 59.3/min | 0.26 GB | ~4% |
+| Base | 1000 | 1000.94 | 1.00 | 59.9/min | 0.26 GB | ~3% |
 
-> **Note**: Antibody sequences tested are ~228 residues (typical therapeutic antibody variable region). Model load time: ~0.5-0.7s.
+> **Note**: Antibody sequences tested are ~228 residues (typical therapeutic antibody variable region). Model load time: ~0.5s.
 
 ### Key Observations
 
-- **Throughput**: ~60 antibodies/minute at scale (batch size ≥10)
-- **Memory**: Extremely efficient at ~0.19 GB peak GPU memory
-- **Single inference**: Base model fastest at 0.89s, pLDDT adds confidence scores for ~2s total
-- **Scaling**: Performance improves with batch size due to warmup amortization
+- **Throughput**: ~60 antibodies/minute sustained at scale
+- **Memory**: ~0.26 GB peak GPU memory (extremely efficient)
+- **GPU Utilization**: Low (~3%) because inference is very fast and model is small
+- **Single inference**: Base model fastest at 0.89s, pLDDT adds confidence for ~2s
+- **Language model**: Requires pre-computed ProtT5 embeddings (not included in simple sequence workflow)
 
 ## Quick Start
 
