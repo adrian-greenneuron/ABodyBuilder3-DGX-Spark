@@ -241,9 +241,9 @@ def main():
     print("=" * 80)
     
     # Configuration
-    models = ['base', 'plddt', 'language']
-    batch_sizes = [1, 10, 100]
-    relaxation_options = [False, True]
+    models = ['base', 'plddt']
+    batch_sizes = [1, 25]
+    relaxation_options = [False]
     
     scripts_dir = Path('/home/adrian/data/abodybuilder3/scripts')
     benchmark_dir = Path('/tmp/cli_benchmark')
@@ -253,24 +253,13 @@ def main():
     
     results = []
     
-    # Count total tests (excluding language 100)
-    total_tests = 0
-    for model in models:
-        for batch_size in batch_sizes:
-            if model == 'language' and batch_size == 100:
-                continue
-            for _ in relaxation_options:
-                total_tests += 1
+    # Count total tests
+    total_tests = len(models) * len(batch_sizes) * len(relaxation_options)
     
     test_num = 0
     
     for model in models:
         for batch_size in batch_sizes:
-            # Skip 100 antibodies for language model (too slow)
-            if model == 'language' and batch_size == 100:
-                print(f"\n[--/--] Skipping language model with 100 antibodies (estimated >25 min)")
-                continue
-            
             for relaxation in relaxation_options:
                 test_num += 1
                 relax_str = "w/ relax" if relaxation else "no relax"

@@ -22,30 +22,26 @@ This build solves:
 
 Benchmarks run on **NVIDIA DGX Spark** (Grace Blackwell GB10, 128.5GB unified RAM).
 
-*Benchmark date: 2024-12-23 | CUDA 13.0 | PyTorch 2.10*
+*Benchmark date: 2025-12-23 | CUDA 13.0 | PyTorch 2.10*
 
 ### Performance Summary
 
-| Model | Batch Size | Total Time (s) | Per Antibody (s) | Throughput | Peak Memory | GPU % |
-|-------|------------|----------------|------------------|------------|-------------|-------|
-| **pLDDT** | 1 | 2.12 | 2.12 | 28.3/min | 0.26 GB | ~0% |
-| **pLDDT** | 10 | 12.72 | 1.27 | 47.2/min | 0.27 GB | ~2% |
-| **pLDDT** | 100 | 100.56 | 1.01 | 59.7/min | 0.27 GB | ~2% |
-| **pLDDT** | 1000 | 1000.94 | 1.00 | **59.9/min** | 0.26 GB | ~3% |
-| Base | 1 | 0.89 | 0.89 | **67.7/min** | 0.26 GB | ~0% |
-| Base | 10 | 9.87 | 0.99 | 60.8/min | 0.26 GB | ~4% |
-| Base | 100 | 101.11 | 1.01 | 59.3/min | 0.26 GB | ~4% |
-| Base | 1000 | 1000.94 | 1.00 | 59.9/min | 0.26 GB | ~3% |
+| Model | Batch | Time (s) | Per Ab (s) | Throughput | Memory Δ | GPU % | CPU % |
+|-------|-------|----------|------------|------------|----------|-------|-------|
+| Base | 1 | 7.9 | 7.87 | 7.6/min | 2.0 GB | 4% | 8% |
+| Base | 25 | 35.6 | 1.42 | **42.2/min** | 2.1 GB | 3% | 7% |
+| pLDDT | 1 | 7.8 | 7.83 | 7.7/min | 2.0 GB | 0% | 8% |
+| pLDDT | 25 | 35.1 | 1.41 | **42.7/min** | 2.3 GB | 2% | 8% |
 
-> **Note**: Antibody sequences tested are ~228 residues (typical therapeutic antibody variable region). Model load time: ~0.5s.
+> **Note**: Antibody sequences tested are ~228 residues (typical therapeutic antibody Fv region). Times include Docker container startup (~6s overhead).
 
 ### Key Observations
 
-- **Throughput**: ~60 antibodies/minute sustained at scale
-- **Memory**: ~0.26 GB peak GPU memory (extremely efficient)
-- **GPU Utilization**: Low (~3%) because inference is very fast and model is small
-- **Single inference**: Base model fastest at 0.89s, pLDDT adds confidence for ~2s
-- **Language model**: Requires pre-computed ProtT5 embeddings (not included in simple sequence workflow)
+- **Throughput**: ~42 antibodies/minute at batch size 25
+- **Memory**: ~2 GB unified memory delta (very efficient on GB10)
+- **GPU Utilization**: Low (2-4%) — model is small and inference is fast
+- **Per-antibody time**: ~1.4s at scale (amortizes model loading overhead)
+- **Language model**: Significantly slower (~7 min/antibody), requires ProtT5 embeddings
 
 ## Quick Start
 
