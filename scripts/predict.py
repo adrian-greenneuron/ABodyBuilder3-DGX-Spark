@@ -303,24 +303,34 @@ def generate_json_output(
     }
 
 
-def apply_relaxation(pdb_string: str) -> str:
-    """Add hydrogens using reduce (MolProbity, Richardson Lab).
+def add_hydrogens(pdb_string: str, method: str = "reduce") -> str:
+    """Add hydrogens to PDB structure.
     
-    Uses 'reduce' for fast hydrogen addition (~10ms per antibody).
-    Falls back to pdbfixer if reduce is not available.
+    Args:
+        pdb_string: Input PDB string without hydrogens
+        method: "reduce" (fast, ~600ms) or "pdbfixer" (slower, ~700ms)
+        
+    Returns:
+        PDB string with hydrogens added
     """
+    if method == "reduce":
+        return _add_hydrogens_reduce(pdb_string)
+    else:
+        return _add_hydrogens_pdbfixer(pdb_string)
+
+
+def _add_hydrogens_reduce(pdb_string: str) -> str:
+    """Add hydrogens using reduce (MolProbity, Richardson Lab)."""
     import subprocess
     import tempfile
     import os
     
     try:
-        # Write PDB to temp file
         with tempfile.NamedTemporaryFile(mode='w', suffix='.pdb', delete=False) as f:
             f.write(pdb_string)
             input_path = f.name
         
         try:
-            # Run reduce -BUILD to add all hydrogens
             result = subprocess.run(
                 ['reduce', '-BUILD', '-Quiet', input_path],
                 capture_output=True,
@@ -332,17 +342,17 @@ def apply_relaxation(pdb_string: str) -> str:
                 return result.stdout
             else:
                 # Fall back to pdbfixer if reduce fails
-                return _apply_relaxation_pdbfixer(pdb_string)
+                return _add_hydrogens_pdbfixer(pdb_string)
         finally:
             os.unlink(input_path)
             
     except (FileNotFoundError, subprocess.TimeoutExpired):
-        # reduce not installed or timed out, use pdbfixer
-        return _apply_relaxation_pdbfixer(pdb_string)
+        # reduce not installed or timed out
+        return _add_hydrogens_pdbfixer(pdb_string)
 
 
-def _apply_relaxation_pdbfixer(pdb_string: str) -> str:
-    """Fallback: Add hydrogens using pdbfixer."""
+def _add_hydrogens_pdbfixer(pdb_string: str) -> str:
+    """Add hydrogens using pdbfixer."""
     try:
         from pdbfixer import PDBFixer
         from openmm import app
@@ -358,8 +368,14 @@ def _apply_relaxation_pdbfixer(pdb_string: str) -> str:
         app.PDBFile.writeFile(fixer.topology, fixer.positions, output)
         return output.getvalue()
     except Exception as e:
-        log(f"Warning: Relaxation failed: {e}", "warning")
+        log(f"Warning: Hydrogen addition failed: {e}", "warning")
         return pdb_string
+
+
+# Keep old name for backwards compatibility
+def apply_relaxation(pdb_string: str) -> str:
+    """Deprecated: Use add_hydrogens() instead."""
+    return add_hydrogens(pdb_string, method="reduce")
 
 
 def process_single_antibody(
@@ -369,6 +385,8 @@ def process_single_antibody(
     model,
     device: torch.device,
     relaxation: bool = False,
+    add_h: bool = False,
+    hydrogen_method: str = "reduce",
     output_format: OutputFormat = OutputFormat.pdb,
     confidence_threshold: Optional[float] = None,
     prott5_model = None,
@@ -400,9 +418,9 @@ def process_single_antibody(
     else:
         output_string = generate_pdb(output, ab_input)
     
-    # Apply relaxation if requested
-    if relaxation and output_format == OutputFormat.pdb:
-        output_string = apply_relaxation(output_string)
+    # Add hydrogens if requested (--relaxation or --add-hydrogens)
+    if (relaxation or add_h) and output_format == OutputFormat.pdb:
+        output_string = add_hydrogens(output_string, method=hydrogen_method)
     
     return name, output_string, mean_plddt
 
@@ -443,7 +461,7 @@ def _init_worker(model_type: str, checkpoint_path: Optional[str], use_language: 
 
 def _worker_process_antibody(args: Tuple) -> Tuple[str, Optional[str], Optional[float]]:
     """Process a single antibody in worker process."""
-    name, heavy, light, relaxation, output_format, confidence_threshold = args
+    name, heavy, light, relaxation, add_h, hydrogen_method, output_format, confidence_threshold = args
     
     global _worker_model, _worker_device, _worker_prott5
     
@@ -452,6 +470,8 @@ def _worker_process_antibody(args: Tuple) -> Tuple[str, Optional[str], Optional[
             name, heavy, light,
             _worker_model, _worker_device,
             relaxation=relaxation,
+            add_h=add_h,
+            hydrogen_method=hydrogen_method,
             output_format=output_format,
             confidence_threshold=confidence_threshold,
             prott5_model=_worker_prott5,
@@ -594,7 +614,15 @@ def predict(
     # Processing options
     relaxation: bool = typer.Option(
         False, "--relaxation", "-r",
-        help="Apply OpenMM structure relaxation. Improves bond geometries but increases runtime ~20%."
+        help="Add hydrogens and apply structure relaxation. Increases runtime ~600ms per antibody."
+    ),
+    add_hydrogens: bool = typer.Option(
+        False, "--add-hydrogens", "-H",
+        help="Add hydrogens to output PDB (without full relaxation). Uses 'reduce' by default."
+    ),
+    hydrogen_method: str = typer.Option(
+        "reduce", "--hydrogen-method",
+        help="Method for adding hydrogens: 'reduce' (default, fast) or 'pdbfixer'."
     ),
     confidence_threshold: Optional[float] = typer.Option(
         None, "--confidence-threshold", "-t",
@@ -685,7 +713,9 @@ def predict(
     log(f"[bold]ABodyBuilder3[/bold] - {model_type} model on {device}")
     log(f"Processing {len(antibodies)} antibody(ies) with {num_workers} worker(s)...")
     if relaxation:
-        log("[dim]Relaxation enabled (will take longer)[/dim]")
+        log(f"[dim]Relaxation enabled with {hydrogen_method}[/dim]")
+    elif add_hydrogens:
+        log(f"[dim]Adding hydrogens with {hydrogen_method}[/dim]")
     if confidence_threshold:
         log(f"[dim]Confidence threshold: {confidence_threshold}[/dim]")
     if model_type == "language":
@@ -759,7 +789,8 @@ def predict(
                 unique_name = get_unique_name(ab_name)
                 work_items.append((
                     unique_name, heavy_seq, light_seq,
-                    relaxation, output_format, confidence_threshold
+                    relaxation, add_hydrogens, hydrogen_method,
+                    output_format, confidence_threshold
                 ))
             
             # Use spawn context to create clean worker processes
@@ -801,6 +832,8 @@ def predict(
                     _, output_string, mean_plddt = process_single_antibody(
                         unique_name, heavy_seq, light_seq, model, device,
                         relaxation=relaxation,
+                        add_h=add_hydrogens,
+                        hydrogen_method=hydrogen_method,
                         output_format=output_format,
                         confidence_threshold=confidence_threshold,
                         prott5_model=prott5_model,
