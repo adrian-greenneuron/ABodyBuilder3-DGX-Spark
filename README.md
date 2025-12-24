@@ -32,6 +32,8 @@ Benchmarks run on **NVIDIA DGX Spark** (Grace Blackwell GB10, 128.5GB unified RA
 | 2 | 451/min | 4.2x |
 | 3 | 552/min | 5.2x |
 | 4 | 631/min | 5.9x |
+| 5 | 694/min | 6.5x |
+| 6 | 740/min | 6.9x |
 | 7 | 742/min | 6.9x |
 | **8** | **751/min** | **7.0x** |
 | 10 | 681/min | 6.4x |
