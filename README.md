@@ -157,14 +157,38 @@ pdb_string = output_to_pdb(output, ab_input)
 Use `--workers` to control parallelism. Each worker loads its own model copy and processes antibodies independently.
 
 ```bash
-# Maximum throughput (recommended)
-python3 scripts/predict.py predict --csv input.csv -o output/ --workers 4
+# Maximum throughput (recommended, 8 workers = 751/min)
+python3 scripts/predict.py predict --csv input.csv -o output/ --workers 8
+
+# Auto-detect optimal workers
+python3 scripts/predict.py predict --csv input.csv -o output/ --workers auto
 
 # Single worker (lower memory, slower)
 python3 scripts/predict.py predict --csv input.csv -o output/ --workers 1
 ```
 
-> **Tip**: With 4 workers on DGX Spark, expect ~107 antibodies/minute.
+> **Tip**: With 8 workers on DGX Spark, expect ~751 antibodies/minute.
+
+### Adding Hydrogens
+
+By default, output PDBs contain only heavy atoms. Use these options to add hydrogens:
+
+```bash
+# Add hydrogens using reduce (fast, default)
+python3 scripts/predict.py predict --csv input.csv -o output/ --add-hydrogens
+
+# Add hydrogens using pdbfixer
+python3 scripts/predict.py predict --csv input.csv -o output/ --add-hydrogens --hydrogen-method pdbfixer
+
+# Full relaxation (includes hydrogen addition)
+python3 scripts/predict.py predict --csv input.csv -o output/ --relaxation
+```
+
+| Option | Description |
+|--------|-------------|
+| `--add-hydrogens` / `-H` | Add hydrogens to output PDB |
+| `--hydrogen-method` | `reduce` (default, fast) or `pdbfixer` |
+| `--relaxation` / `-r` | Full relaxation (includes hydrogens) |
 
 ## Repository Structure
 
