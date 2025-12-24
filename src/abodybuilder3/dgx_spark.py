@@ -103,6 +103,109 @@ def get_total_memory_gb() -> float:
     return torch.cuda.get_device_properties(0).total_memory / (1024**3)
 
 
+def get_memory_usage_gb() -> float:
+    """
+    Get current memory usage in GB.
+    
+    On unified memory systems (DGX Spark), returns system memory usage.
+    On discrete GPU systems, returns GPU memory usage.
+    
+    Returns:
+        Current memory usage in GB
+    """
+    if is_unified_memory_architecture():
+        # Use system memory for unified architecture
+        try:
+            with open('/proc/meminfo') as f:
+                meminfo = {}
+                for line in f:
+                    parts = line.split()
+                    if len(parts) >= 2:
+                        key = parts[0].rstrip(':')
+                        meminfo[key] = int(parts[1]) / 1024 / 1024  # KB to GB
+                total = meminfo.get('MemTotal', 0)
+                available = meminfo.get('MemAvailable', 0)
+                return total - available
+        except Exception:
+            pass
+    
+    # Fallback to PyTorch CUDA memory
+    if torch.cuda.is_available():
+        return torch.cuda.memory_allocated() / (1024**3)
+    return 0.0
+
+
+def get_available_memory_gb() -> float:
+    """
+    Get available memory in GB.
+    
+    On unified memory systems (DGX Spark), returns available system memory.
+    On discrete GPU systems, returns available GPU memory.
+    
+    Returns:
+        Available memory in GB
+    """
+    if is_unified_memory_architecture():
+        try:
+            with open('/proc/meminfo') as f:
+                for line in f:
+                    if line.startswith('MemAvailable:'):
+                        parts = line.split()
+                        return int(parts[1]) / 1024 / 1024  # KB to GB
+        except Exception:
+            pass
+    
+    # Fallback to PyTorch CUDA memory
+    if torch.cuda.is_available():
+        total = torch.cuda.get_device_properties(0).total_memory
+        allocated = torch.cuda.memory_allocated()
+        return (total - allocated) / (1024**3)
+    return 0.0
+
+
+class MemoryTracker:
+    """
+    Context manager for tracking memory usage.
+    
+    Works correctly on both unified memory (DGX Spark) and discrete GPU systems.
+    
+    Usage:
+        >>> with MemoryTracker() as tracker:
+        ...     # do work
+        >>> print(f"Used: {tracker.used_gb:.1f} GB, Peak: {tracker.peak_gb:.1f} GB")
+    """
+    
+    def __init__(self):
+        self.start_gb = 0.0
+        self.end_gb = 0.0
+        self.peak_gb = 0.0
+        self._is_unified = is_unified_memory_architecture()
+    
+    def __enter__(self):
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
+            torch.cuda.reset_peak_memory_stats()
+        self.start_gb = get_memory_usage_gb()
+        return self
+    
+    def __exit__(self, *args):
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
+        self.end_gb = get_memory_usage_gb()
+        
+        if self._is_unified:
+            # For unified memory, peak is approximated by end usage
+            self.peak_gb = max(self.end_gb, self.start_gb)
+        else:
+            # For discrete GPU, use PyTorch's peak tracking
+            self.peak_gb = torch.cuda.max_memory_allocated() / (1024**3)
+    
+    @property
+    def used_gb(self) -> float:
+        """Memory used during the tracked block."""
+        return self.end_gb - self.start_gb
+
+
 def get_optimal_batch_size(
     model_memory_mb: float = 2500,
     avg_sequence_length: int = 250,
