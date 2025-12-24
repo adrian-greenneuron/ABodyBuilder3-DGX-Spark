@@ -55,6 +55,12 @@ torch.serialization.add_safe_globals([ml_collections.ConfigDict])
 
 from abodybuilder3.utils import string_to_input, output_to_pdb, add_atom37_to_output
 from abodybuilder3.lightning_module import LitABB3
+from abodybuilder3.batched_inference import predict_batch, chunked_predict
+from abodybuilder3.dgx_spark import (
+    is_unified_memory_architecture,
+    get_optimal_batch_size,
+    get_optimal_workers as dgx_optimal_workers,
+)
 
 
 class OutputFormat(str, Enum):
@@ -102,8 +108,10 @@ def get_optimal_workers() -> int:
     
     Benchmarks show 8 workers is optimal for DGX Spark (751 antibodies/min).
     Performance drops at 10+ workers due to GPU contention.
+    
+    Uses dgx_spark module for unified memory detection.
     """
-    return 8
+    return dgx_optimal_workers()
 
 
 def load_model(model_type: str, device: torch.device, checkpoint: Optional[Path] = None):
@@ -632,6 +640,10 @@ def predict(
         "auto", "--workers", "-w",
         help="Parallel workers: 'auto' (detects optimal), '1' (sequential), or integer. Affects I/O, not GPU."
     ),
+    batch_size: str = typer.Option(
+        "auto", "--batch-size", "-b",
+        help="Batch size for GPU inference: 'auto' (optimal for memory), '1' (sequential), or integer. Larger = faster but more memory."
+    ),
     seed: Optional[int] = typer.Option(
         None, "--seed", "-s",
         help="Random seed for reproducible predictions."
@@ -707,11 +719,22 @@ def predict(
         except ValueError:
             num_workers = 1
     
+    # Determine batch size for GPU inference
+    if batch_size == "auto":
+        gpu_batch_size = get_optimal_batch_size()
+    else:
+        try:
+            gpu_batch_size = int(batch_size)
+        except ValueError:
+            gpu_batch_size = 1
+    
     if len(antibodies) <= 2:
         num_workers = 1
     
     log(f"[bold]ABodyBuilder3[/bold] - {model_type} model on {device}")
-    log(f"Processing {len(antibodies)} antibody(ies) with {num_workers} worker(s)...")
+    log(f"Processing {len(antibodies)} antibody(ies) with {num_workers} worker(s), batch_size={gpu_batch_size}...")
+    if is_unified_memory_architecture():
+        log(f"[dim]Unified memory architecture detected (DGX Spark)[/dim]")
     if relaxation:
         log(f"[dim]Relaxation enabled with {hydrogen_method}[/dim]")
     elif add_hydrogens:
