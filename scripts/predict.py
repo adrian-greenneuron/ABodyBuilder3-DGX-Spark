@@ -100,10 +100,10 @@ def log(message: str, level: str = "info"):
 def get_optimal_workers() -> int:
     """Determine optimal number of workers based on benchmarks.
     
-    Benchmarks show 4 workers is optimal for DGX Spark (106 antibodies/min).
+    Benchmarks show 8 workers is optimal for DGX Spark (751 antibodies/min).
+    Performance drops at 10+ workers due to GPU contention.
     """
-    # 4 workers is optimal based on benchmarks
-    return 4
+    return 8
 
 
 def load_model(model_type: str, device: torch.device, checkpoint: Optional[Path] = None):

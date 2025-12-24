@@ -22,34 +22,37 @@ This build solves:
 
 Benchmarks run on **NVIDIA DGX Spark** (Grace Blackwell GB10, 128.5GB unified RAM).
 
-*Benchmark date: 2025-12-23 | CUDA 13.0 | PyTorch 2.10*
+*Benchmark date: 2025-12-24 | CUDA 13.0 | PyTorch 2.10 | 1000 antibodies*
 
-### Performance Summary
+### Worker Scaling
 
-| Config | Antibodies | Time | Throughput | Per Ab |
-|--------|------------|------|------------|--------|
-| 4 workers (before optimization) | 264 | 148s | 107/min | 0.56s |
-| **4 workers (optimized)** | **264** | **30.1s** | **526/min** | **0.11s** |
+| Workers | Throughput | Speedup vs Baseline |
+|---------|------------|---------------------|
+| 1 | 270/min | 2.5x |
+| 2 | 451/min | 4.2x |
+| 3 | 552/min | 5.2x |
+| 4 | 631/min | 5.9x |
+| 7 | 742/min | 6.9x |
+| **8** | **751/min** | **7.0x** |
+| 10 | 681/min | 6.4x |
 
-> **5x speedup** achieved through optimized PDB generation.
+> **Optimal: 8 workers = 751 antibodies/minute** (7x faster than 107/min baseline)
 
-### Per-Antibody Profiling (After Optimization)
+![Worker Scaling](docs/worker_scaling.png)
 
-| Stage | Time | % |
-|-------|------|---|
-| Input tokenization | 21ms | 19% |
-| **GPU inference** | **69ms** | **63%** |
-| Coordinate transform | 6ms | 5% |
-| **PDB generation** | **14ms** | **13%** |
+### Optimization Summary
 
-> GPU inference is now the dominant cost. Further speedups require model optimization.
+| Metric | Before | After | Improvement |
+|--------|--------|-------|-------------|
+| Throughput | 107/min | **751/min** | **7x faster** |
+| Per antibody | 0.56s | 0.08s | 7x faster |
+| Bottleneck | PDB generation (91%) | GPU inference (63%) | Fixed |
 
 ### Key Observations
 
-- **Throughput**: **526 antibodies/minute** with 4 parallel workers
-- **GPU Utilization**: Low (model is small, inference is fast)
-- **Bottleneck**: Now GPU inference (69ms) instead of PDB generation
-- **Scaling**: Near-linear with worker count up to 4 workers
+- **Peak throughput**: 751 antibodies/minute with 8 workers
+- **Optimal workers**: 8 (performance drops at 10+ due to GPU contention)
+- **Bottleneck**: Now GPU inference, not CPU PDB generation
 
 ## Quick Start
 
