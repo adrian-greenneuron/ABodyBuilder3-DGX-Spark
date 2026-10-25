@@ -16,6 +16,8 @@ from structural_metrics import fit, rmsd, BACKBONE
 VARIANTS=['reference','accepted','attention','point_ieee','compiled','strict_reference','strict_attention','strict_compiled']
 TITLES=['Reference','Current dev','Attention','Attention: local FP32','Compiled',
         'Reference: FP32','Attention: FP32','Compiled: FP32']
+TITLE_MAP=dict(zip(VARIANTS,TITLES)) | {'combined_compiled':'Attention + compiled',
+    'strict_combined_compiled':'Attention + compiled: FP32'}
 
 
 def tree(matrix):
@@ -28,13 +30,15 @@ def tree(matrix):
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--study',type=Path,required=True)
     parser.add_argument('--render-only',action='store_true',help='Reuse saved matrices without repeating comparisons.')
+    parser.add_argument('--variants',nargs='+',default=VARIANTS)
     args=parser.parse_args();root=args.study
     if args.render_only:
         render(json.loads((root/'pairwise_summary_251026.json').read_text()),root)
         return
     out=root/'pairwise';out.mkdir(exist_ok=False)
     ids=json.loads((root/'data/test_ids_251026.json').read_text())
-    labels=[f'{model}/{variant}' for model in ['base','plddt'] for variant in VARIANTS]
+    variants=args.variants;nvar=len(variants)
+    labels=[f'{model}/{variant}' for model in ['base','plddt'] for variant in variants]
     metrics=['ca_aligned_rmsd','backbone_aligned_rmsd','cdrh3_framework_backbone_rmsd','local_ca_distance_rmsd']
     stack={name:[] for name in metrics};coherence={name:[] for name in metrics}
     case_results=[]
@@ -70,8 +74,10 @@ def main():
         (out/(name+'.json')).write_text(json.dumps(entry,indent=2)+'\n')
         for metric,matrix in matrices.items():
             stack[metric].append(matrix)
-            for model,offset in [('base',0),('plddt',8)]:
-                strict=[offset+i for i in [5,6,7]];other=[offset+i for i in range(5)]
+            for model,offset in [('base',0),('plddt',nvar)]:
+                strict=[offset+i for i,v in enumerate(variants) if v.startswith('strict_')]
+                other=[offset+i for i,v in enumerate(variants) if not v.startswith('strict_')]
+                if len(strict)<2 or not other:continue
                 within=max(matrix[i,j] for i,j in itertools.combinations(strict,2))
                 outward=min(matrix[i,j] for i in strict for j in other)
                 coherence[metric].append({'target':name,'model':model,'strict_group_max_internal':float(within),
@@ -79,7 +85,7 @@ def main():
     summary={'targets':len(ids),'predictions_per_antibody':len(labels),
         'unordered_pairs_per_antibody':len(labels)*(len(labels)-1)//2,
         'total_unordered_pairs':len(ids)*len(labels)*(len(labels)-1)//2,
-        'labels':labels,'scope':'All pairs of predictions of each same antibody; the 100 antibodies are not aligned to each other.',
+        'labels':labels,'variants':variants,'scope':'All pairs of predictions of each same antibody; the 100 antibodies are not aligned to each other.',
         'zero_roundoff_threshold_A':1e-12,'metrics':{}}
     for metric,values in stack.items():
         a=np.stack(values);median=np.median(a,axis=0)
@@ -93,6 +99,8 @@ def main():
 
 
 def render(summary,root):
+    variants=summary.get('variants',VARIANTS);nvar=len(variants)
+    titles=[TITLE_MAP.get(v,v) for v in variants]
     # Publish compact, readable static figures; all individual matrices/trees
     # remain machine-readable rather than choosing a convenient example alone.
     import matplotlib
@@ -103,19 +111,19 @@ def render(summary,root):
                          ('cdrh3_framework_backbone_rmsd','CDR-H3 backbone RMSD after framework alignment')]:
         matrix=np.array(summary['metrics'][metric]['median_matrix'])
         fig,axes=plt.subplots(1,2,figsize=(15,7.8),layout='constrained')
-        vmax=max(float(matrix[:8,:8].max()),float(matrix[8:,8:].max()))
-        for ax,model,start in zip(axes,['Base checkpoint','pLDDT checkpoint'],[0,8]):
-            m=matrix[start:start+8,start:start+8]
+        vmax=max(float(matrix[:nvar,:nvar].max()),float(matrix[nvar:,nvar:].max()))
+        for ax,model,start in zip(axes,['Base checkpoint','pLDDT checkpoint'],[0,nvar]):
+            m=matrix[start:start+nvar,start:start+nvar]
             ax.set_facecolor('#fafafa')
             im=ax.imshow(np.ma.masked_less_equal(m,0),norm=LogNorm(vmin=1e-6,vmax=max(vmax,1e-5)),cmap='viridis')
-            for i in range(8):
-                for j in range(8):
+            for i in range(nvar):
+                for j in range(nvar):
                     value=m[i,j]
                     label='0' if value==0 else (f'{value:.6f}' if value<.00001 else f'{value:.5f}')
                     ax.text(j,i,label,ha='center',va='center',fontsize=8,
                             color='black' if value==0 or value>vmax/3 else 'white')
-            ax.set_xticks(range(8),TITLES,rotation=55,ha='right',fontsize=9)
-            ax.set_yticks(range(8),TITLES,fontsize=9);ax.set_title(model,fontsize=14)
+            ax.set_xticks(range(nvar),titles,rotation=55,ha='right',fontsize=9)
+            ax.set_yticks(range(nvar),titles,fontsize=9);ax.set_title(model,fontsize=14)
         fig.colorbar(im,ax=axes,shrink=.65,label='Å; logarithmic colour scale; 0 is white')
         fig.suptitle(title+'\nMedian of 100 experimental-test antibodies; each cell compares the same antibody',fontsize=15)
         basename='abodybuilder3_pairwise_ca_251026' if metric=='ca_aligned_rmsd' else 'abodybuilder3_pairwise_cdrh3_251026'
@@ -124,7 +132,7 @@ def render(summary,root):
     from matplotlib.ticker import FuncFormatter
     matrix=np.array(summary['metrics']['ca_aligned_rmsd']['median_matrix'])
     fig,ax=plt.subplots(figsize=(13,8),layout='constrained')
-    names=[f'{model} | {title}' for model in ['Base','pLDDT'] for title in TITLES]
+    names=[f'{model} | {title}' for model in ['Base','pLDDT'] for title in titles]
     dendrogram(np.array(summary['metrics']['ca_aligned_rmsd']['median_matrix_tree']['linkage']),
                labels=names,orientation='left',color_threshold=0,above_threshold_color='#465568',ax=ax)
     ax.set_xscale('symlog',linthresh=1e-5)

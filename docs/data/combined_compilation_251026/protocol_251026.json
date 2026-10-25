@@ -1,0 +1,33 @@
+{
+  "study_id": "abodybuilder3_combined_attention_compiler_251026",
+  "parent_study": "structural_checks_251026",
+  "component_parent_commit": "6a8320ff9362c85d04215314b960057fe3ab333a",
+  "main": "a5deeb1b73994491f94b5724d2f2baa9993d47a6",
+  "dev": "bd8a12ea9f58fa3577215532653a05c47e90e256",
+  "variants": [
+    "compiled",
+    "combined_compiled",
+    "strict_compiled",
+    "strict_combined_compiled"
+  ],
+  "models": [
+    "base",
+    "plddt"
+  ],
+  "dataset": "The same 100 published held-out antibodies, all included; engineering fixtures excluded.",
+  "dataset_source": "/home/adrian/codex_wd/projects/abodybuilder3/runs/structural_checks_251026/data",
+  "dataset_ids_sha256": "4a15d6f33abd8d41496eb5b35cc0a8ab1f8cf1c486e8bccfce5de933a2f386ae",
+  "feature_mode": "compact for all conditions, including strict controls; unlike the earlier dense strict diagnostic",
+  "implementation": "One candidate module in every condition: point-matmul disabled for compilation-alone control, enabled for combined; unchanged accepted inference flags and weights.",
+  "precision": {
+    "normal": "Original high/TF32-permitted runtime",
+    "strict": "highest, TF32 disabled before model load and compilation"
+  },
+  "comparison": "Compare combined against compilation alone within the SAME precision; also show normal/strict absolute accuracy.",
+  "timing": "Four warmed model passes, fixed B=16/N=272, 100 real targets plus 12 discarded dummy rows. Fresh offline container/cache per condition; reverse condition order for second checkpoint. Report first-forward/compilation latency separately.",
+  "memory": "CUDA allocated/reserved peaks and sampled process-tree RSS, kept separate on unified memory.",
+  "accuracy": "All six CDRs and frameworks, whole-Fv CA/BB RMSD, local CA lDDT, confidence, sidechain accuracy/torsions and geometric clash proxy. Reuse qualified scorers.",
+  "no_enable": true,
+  "no_training": true,
+  "decision": "Show all results before enabling either combination on dev; main unchanged."
+}

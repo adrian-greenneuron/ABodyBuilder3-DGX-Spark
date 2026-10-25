@@ -31,17 +31,21 @@ def bootstrap_paired(values,clusters):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--study',type=Path,required=True)
+    parser.add_argument('--reference',default='accepted')
+    parser.add_argument('--strict-reference',default='strict_reference')
+    parser.add_argument('--matched-precision',action='store_true',help='Use the same-precision baseline for experimental accuracy too.')
     args=parser.parse_args();root=args.study
     all_rows=[];summaries=[];timings=[];layer_stats=[]
     for model in ('base','plddt'):
         folders={p.name:p for p in (root/model).iterdir() if (p/'metadata_251026.json').exists()}
-        base_meta=json.loads((folders['accepted']/'metadata_251026.json').read_text())
+        base_meta=json.loads((folders[args.reference]/'metadata_251026.json').read_text())
         names=list(base_meta['targets']);exp=[x for x in names if base_meta['targets'][x]['experimental']]
         metrics={}
         for variant,folder in folders.items():
             metadata=json.loads((folder/'metadata_251026.json').read_text())
             if set(names)!=set(metadata['targets']):raise ValueError('Unmatched target sets')
-            pair_folder=folders['strict_reference'] if variant in ('strict_attention','strict_compiled') else folders['accepted']
+            strict_pair=variant.startswith('strict_') and (args.matched_precision or variant!=args.strict_reference)
+            pair_folder=folders[args.strict_reference] if strict_pair else folders[args.reference]
             rows=[];full=[]
             for name in names:
                 d=np.load(folder/(name+'.npz'));reference=np.load(pair_folder/(name+'.npz'))
@@ -74,12 +78,14 @@ def main():
                 'sampled_process_rss_gib':max(r['sampled_process_tree_rss_peak_bytes'] for r in records)/2**30})
         # The current dev shortcuts themselves must match the frozen original on
         # this expanded set, with identical batch shapes, before attributing drift.
-        exact_control=all(r['coordinates_exact'] for r in metrics['reference'])
-        baseline={r['name']:r for r in metrics['accepted']}
+        exact_control=all(r['coordinates_exact'] for r in metrics['reference']) if 'reference' in metrics else None
         for variant,rows in metrics.items():
+            baseline_variant=args.strict_reference if args.matched_precision and variant.startswith('strict_') else args.reference
+            baseline={r['name']:r for r in metrics[baseline_variant]}
             true_rows=[r for r in rows if r['experimental']]
             summary={'model':model,'variant':variant,'targets':len(rows),'experimental_targets':len(true_rows),
                 'reference_accepted_control_exact':exact_control,
+                'experimental_comparison_reference':baseline_variant,
                 'coordinates_exact_count':sum(r['coordinates_exact'] for r in rows),
                 'max_raw_ca_displacement':max(r['numerical']['raw_ca_max'] for r in rows),
                 'max_raw_atom_displacement':max(r['numerical']['raw_atom_max'] for r in rows),
@@ -109,11 +115,11 @@ def main():
             summary['experimental_ca_lddt']={'baseline_mean':float(control_lddt.mean()),'candidate_mean':float(lddt.mean()),
                 'mean_paired_change_percentage_points':float((lddt-control_lddt).mean()),
                 'max_absolute_paired_change_percentage_points':float(np.abs(lddt-control_lddt).max())}
-            if variant in ('strict_attention','strict_compiled'):
-                strict_control={r['name']:r for r in metrics['strict_reference']}
+            if variant.startswith('strict_') and variant!=args.strict_reference:
+                strict_control={r['name']:r for r in metrics[args.strict_reference]}
                 changes=np.array([r['accuracy']['regions']['cdrh3']['framework_aligned_backbone_rmsd']-
                     strict_control[r['name']]['accuracy']['regions']['cdrh3']['framework_aligned_backbone_rmsd'] for r in true_rows])
-                summary['precision_matched_cdrh3_accuracy_change']={'reference':'strict_reference',
+                summary['precision_matched_cdrh3_accuracy_change']={'reference':args.strict_reference,
                     'mean':float(changes.mean()),'max_absolute':float(np.abs(changes).max())}
             candidate_clashes=np.array([r['numerical']['geometry']['severe_clashes'] for r in true_rows])
             control_clashes=np.array([baseline[r['name']]['numerical']['geometry']['severe_clashes'] for r in true_rows])
@@ -129,7 +135,8 @@ def main():
         for variant,folder in folders.items():
             f=folder/'ipa_first_batch.npz'
             if not f.exists():continue
-            ref=folders['strict_reference'] if variant in ('strict_attention','strict_compiled') else folders['accepted']
+            strict_pair=variant.startswith('strict_') and (args.matched_precision or variant!=args.strict_reference)
+            ref=folders[args.strict_reference] if strict_pair else folders[args.reference]
             with np.load(f) as a,np.load(ref/'ipa_first_batch.npz') as b:
                 layer_stats.append({'model':model,'variant':variant,'reference':ref.name,
                     'scope':'First fixed batch; IPA outputs including padded rows; diagnostic pass only.',

@@ -95,6 +95,16 @@ The runtime uses FP32 tensors/weights with unchanged NGC defaults, including
 `float32_matmul_precision='high'` and `allow_tf32=True`. Thus FP32 here must not
 be read as a claim that every matrix multiplication uses strict IEEE FP32.
 
+The follow-up [attention-plus-compilation comparison](docs/abodybuilder3_combined_compilation_251026.md)
+tests both combinations against compilation alone at matched precision on the
+same 100 experimental antibodies. Normal precision reduced warmed model-stage
+time by 3.7–5.1%; strict FP32 increased it by 1.2–1.6%. Peak CUDA allocation
+changed by about 4.8 MiB. CDR-H3 backbone accuracy changed by at most 0.0051 Å,
+but normal-precision side-chain atoms moved by up to 0.775 Å. These are model-stage
+measurements, excluding compilation and CLI overhead; neither combination is
+enabled on dev. The report includes all eight conditions, local accuracy,
+pairwise comparisons and resource definitions.
+
 [Component measurements](docs/component_comparisons_251026.json) and
 [source provenance](docs/provenance_251026.json) retain the accepted and held
 results separately. The production pipeline and complete-job measurements are

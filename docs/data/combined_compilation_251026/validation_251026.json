@@ -1,0 +1,13 @@
+{
+  "conditions": 8,
+  "targets_per_condition": 100,
+  "raw_predictions": 800,
+  "four_timed_passes_each": true,
+  "same_tensor_hashes_and_observed_atom_masks": true,
+  "same_compact_features": true,
+  "same_module_and_options_except_point_matmul": true,
+  "normal_and_strict_precision_verified": true,
+  "repeatability_targets_per_condition": 16,
+  "pairwise_unordered_pairs": 2800,
+  "main_and_dev_unchanged": true
+}

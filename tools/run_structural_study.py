@@ -15,6 +15,15 @@ def main():
     p.add_argument('--component',type=Path)
     p.add_argument('--image',default=IMAGE,help='Pinned reference image, or a verified rebuild of dev 07bfe1e.')
     p.add_argument('--variants',nargs='+',default=['reference','accepted','attention','point_ieee','compiled','strict_reference','strict_attention'])
+    p.add_argument('--data',type=Path,help='Reuse a verified immutable prepared dataset.')
+    p.add_argument('--experimental-only',action='store_true')
+    p.add_argument('--feature-mode',choices=['auto','compact','dense'],default='auto')
+    p.add_argument('--implementation',choices=['auto','accepted','candidate'],default='auto')
+    p.add_argument('--repeats',type=int,default=2)
+    p.add_argument('--reference',default='accepted')
+    p.add_argument('--strict-reference',default='strict_reference')
+    p.add_argument('--matched-precision',action='store_true')
+    p.add_argument('--reverse-second-model',action='store_true')
     args=p.parse_args();root=args.study.resolve();frozen=(args.component or root/'frozen_component').resolve()
     assert frozen.is_dir()
     image=subprocess.check_output(['docker','image','inspect',args.image,'--format','{{.Id}}'],text=True).strip()
@@ -23,11 +32,13 @@ def main():
         '-e','PYTHONPATH=/measurement:/component/tools',
         '-v',f'{frozen}:/component:ro','-v',f'{root}:/study',
         '-v',f'{args.measurement_tools.resolve()}:/measurement:ro']
+    data=args.data.resolve() if args.data else root/'data'
+    common+=['-v',f'{data}:/dataset:ro']
     variants=args.variants
     records=json.loads((root/'commands_251026.json').read_text()) if (root/'commands_251026.json').exists() else []
     for model in ['base','plddt']:
         (root/model).mkdir(exist_ok=True)
-        for variant in variants:
+        for variant in (list(reversed(variants)) if model=='plddt' and args.reverse_second_model else variants):
             dest=root/model/variant
             if (dest/'metadata_251026.json').exists():
                 print('Reusing completed condition',model,variant,flush=True)
@@ -37,8 +48,11 @@ def main():
                 '-e',f'TRITON_CACHE_DIR=/study/{model}/{variant}/triton_cache',
                 '-e','TORCHINDUCTOR_COMPILE_THREADS=4',
                 '--entrypoint','python',image,'-u','/component/tools/check_structures.py',
-                '--data','/study/data','--output',f'/study/{model}/{variant}',
-                '--model',model,'--variant',variant]
+                '--data','/dataset','--output',f'/study/{model}/{variant}',
+                '--model',model,'--variant',variant,'--feature-mode',args.feature_mode,
+                '--implementation',args.implementation,
+                '--repeats',str(args.repeats)]
+            if args.experimental_only:command+=['--experimental-only']
             start=time.time();print('Starting',model,variant,flush=True)
             with (root/f'{model}_{variant}_251026.log').open('w') as log:
                 result=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT)
@@ -50,7 +64,9 @@ def main():
                 raise SystemExit(result.returncode)
             assert (dest/'metadata_251026.json').exists()
             print('Completed',model,variant,round(time.time()-start,2),'s',flush=True)
-    command=common+['--entrypoint','python',image,'-u','/component/tools/analyse_structures.py','--study','/study']
+    command=common+['--entrypoint','python',image,'-u','/component/tools/analyse_structures.py','--study','/study',
+                    '--reference',args.reference,'--strict-reference',args.strict_reference]
+    if args.matched_precision:command+=['--matched-precision']
     with (root/'analysis_251026.log').open('w') as log:
         subprocess.run(command,check=True,stdout=log,stderr=subprocess.STDOUT)
     completed=sum(1 for model in ['base','plddt'] for folder in (root/model).iterdir() if (folder/'metadata_251026.json').exists())

@@ -73,10 +73,13 @@ def main():
     p.add_argument('--data',type=Path,required=True)
     p.add_argument('--output',type=Path,required=True)
     p.add_argument('--model',choices=['base','plddt'],required=True)
-    p.add_argument('--variant',choices=['reference','accepted','attention','point_ieee','compiled','strict_reference','strict_attention','strict_compiled'],required=True)
+    p.add_argument('--variant',choices=['reference','accepted','attention','point_ieee','compiled','strict_reference','strict_attention','strict_compiled','combined_compiled','strict_combined_compiled'],required=True)
     p.add_argument('--batch-size',type=int,default=16)
     p.add_argument('--padded-length',type=int,default=272)
     p.add_argument('--repeats',type=int,default=2)
+    p.add_argument('--experimental-only',action='store_true')
+    p.add_argument('--feature-mode',choices=['auto','compact','dense'],default='auto')
+    p.add_argument('--implementation',choices=['auto','accepted','candidate'],default='auto')
     args=p.parse_args()
     # Torch can create its explicit cache directory during import, before main.
     # Accept that empty/cache-only destination, never an existing prediction.
@@ -89,6 +92,7 @@ def main():
     strict=args.variant.startswith('strict_')
     if strict:torch.set_float32_matmul_precision('highest');torch.backends.cuda.matmul.allow_tf32=False
     rows=load_targets(args.data)
+    if args.experimental_only:rows=[r for r in rows if r['experimental']]
     work=groups(rows,args.batch_size)
     ref=import_file('structure_reference',ROOT/'reference/structure_module.py')
     accepted=import_file('structure_accepted',ROOT/'accepted/structure_module.py')
@@ -97,14 +101,21 @@ def main():
     cli=import_file('structure_cli','/opt/abodybuilder3/scripts/predict.py');cli.VERBOSE=False
     is_ref=args.variant in ('reference','strict_reference')
     use_compact=args.variant not in ('reference','strict_reference','strict_attention','strict_compiled')
-    module=ref if is_ref else (candidate if args.variant in ('attention','point_ieee','strict_attention') else accepted)
+    if args.feature_mode!='auto':use_compact=args.feature_mode=='compact'
+    if use_compact and is_ref:p.error('The untouched reference requires dense features.')
+    module=ref if is_ref else (candidate if args.variant in ('attention','point_ieee','strict_attention','combined_compiled','strict_combined_compiled') else accepted)
+    if args.implementation!='auto':
+        if is_ref:p.error('The untouched reference cannot be replaced.')
+        module=candidate if args.implementation=='candidate' else accepted
+        if module is accepted and args.variant in ('attention','point_ieee','strict_attention','combined_compiled','strict_combined_compiled'):
+            p.error('Attention experiments require the candidate implementation.')
     model=cli.load_model(args.model,torch.device('cuda'))
     model.__class__=module.StructureModule
     for layer in model.ipa_layers:layer.__class__=module.InvariantPointAttention
     model.eval()
     kwargs={} if is_ref else {'_inference_final_only':True,'_inference_pair_buffer':True}
     if use_compact:kwargs['_inference_pair_projected']=True
-    if args.variant in ('attention','strict_attention'):kwargs['_inference_point_matmul']=True
+    if args.variant in ('attention','strict_attention','combined_compiled','strict_combined_compiled'):kwargs['_inference_point_matmul']=True
     if args.variant=='point_ieee':kwargs['_inference_point_ieee']=True
     projector=compact.PairProjection(model.linear_in_edge) if use_compact else None
     execute=torch.compile(model,mode='default',dynamic=False) if args.variant.endswith('compiled') else model
@@ -208,6 +219,9 @@ def main():
         'normal_runtime_tf32':original_tf32,'normal_runtime_precision':original_precision,
         'first_batch_forward_seconds':first_batch_seconds,'measurements':measurements,
         'batch_size':args.batch_size,'padded_length':args.padded_length,'targets':predictions,
+        'feature_mode':'compact' if use_compact else 'dense','model_options':kwargs,
+        'experimental_only':args.experimental_only,
+        'implementation':('reference' if is_ref else ('candidate' if module is candidate else 'accepted')),
         'repeatability_checked_targets':work[0][1],
         'weighted_point_reduction_probe':reduction_probe,
         'source_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},

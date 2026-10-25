@@ -42,17 +42,24 @@ def clash_map(p,mask,heavy):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--study',type=Path,required=True)
+    p.add_argument('--data',type=Path)
+    p.add_argument('--reference',default='accepted')
+    p.add_argument('--strict-reference',default='strict_reference')
+    p.add_argument('--matched-precision',action='store_true')
+    p.add_argument('--variants',nargs='+',default=['accepted','attention','point_ieee','compiled','strict_reference','strict_attention','strict_compiled'])
     args=p.parse_args();root=args.study;results=[];target_rows=[]
-    ids=json.loads((root/'data/test_ids_251026.json').read_text())
-    truth={name:torch.load(root/'data/experimental'/f'{name}.pt',weights_only=False,map_location='cpu') for name in ids}
+    data=args.data or root/'data'
+    ids=json.loads((data/'test_ids_251026.json').read_text())
+    truth={name:torch.load(data/'experimental'/f'{name}.pt',weights_only=False,map_location='cpu') for name in ids}
     baseline_residue_errors={}
     for model in ('base','plddt'):
-        for variant in ('accepted','attention','point_ieee','compiled','strict_reference','strict_attention','strict_compiled'):
+        for variant in args.variants:
+            reference=args.strict_reference if args.matched_precision and variant.startswith('strict_') else args.reference
             folder=root/model/variant
             if not (folder/'metadata_251026.json').exists():continue
             largest=[];chi_changes=[];new_clashes=[];rows=[];residue_accuracy_changes=[]
             for name in ids:
-                d=np.load(folder/f'{name}.npz');base=np.load(root/model/'accepted'/f'{name}.npz');t=truth[name]
+                d=np.load(folder/f'{name}.npz');base=np.load(root/model/reference/f'{name}.npz');t=truth[name]
                 pos=d['positions'];bp=base['positions'];mask=d['masks'];heavy=d['heavy'];regions=d['regions']
                 valid=mask&base['masks'];difference=np.linalg.norm(pos.astype(float)-bp,axis=-1)
                 difference[~valid]=0;i,a=np.unravel_index(difference.argmax(),difference.shape)
@@ -74,14 +81,14 @@ def main():
                 squared=symmetry_error(predicted14,gt,alt,observed)
                 counts=observed.sum(-1)
                 residue_error=np.sqrt(np.divide(squared,counts,out=np.zeros_like(squared),where=counts>0))
-                if variant=='accepted':baseline_residue_errors[(model,name)]=residue_error
-                delta=residue_error-baseline_residue_errors[(model,name)]
+                if variant==reference:baseline_residue_errors[(model,reference,name)]=residue_error
+                delta=residue_error-baseline_residue_errors[(model,reference,name)]
                 for residue in np.flatnonzero(counts>0):
                     residue_accuracy_changes.append({'target':name,'chain':'H' if heavy[residue] else 'L',
                         'input_chain_residue':int(residue+1 if heavy[residue] else residue-h+1),
                         'amino_acid':sequence[residue],'region':str(regions[residue]),
                         'change_negative_is_better':float(delta[residue]),
-                        'baseline_sidechain_rmsd':float(baseline_residue_errors[(model,name)][residue]),
+                        'baseline_sidechain_rmsd':float(baseline_residue_errors[(model,reference,name)][residue]),
                         'candidate_sidechain_rmsd':float(residue_error[residue])})
                 all_side=float(np.sqrt(squared.sum()/counts.sum()))
                 h3=regions=='cdrh3'
@@ -100,12 +107,12 @@ def main():
                     threshold=sum({'C':1.7,'N':1.55,'O':1.52,'S':1.8}[ATOM_NAMES[x][0]] for x in [a1,a2])
                     new_clashes.append({'target':name,'pair':[r1+1,ATOM_NAMES[a1],r2+1,ATOM_NAMES[a2]],
                         'old_overlap':threshold-distance,'new_overlap':current[pair]})
-                row={'model':model,'variant':variant,'target':name,
+                row={'model':model,'variant':variant,'target':name,'comparison_reference':reference,
                     'experimental_symmetry_aware_sidechain_rmsd':all_side,
                     'experimental_cdrh3_sidechain_rmsd':h3_side,'observed_sidechain_atoms':int(counts.sum()),
                     'observed_h3_sidechain_atoms':int(counts[h3].sum())}
                 rows.append(row);target_rows.append(row)
-            results.append({'model':model,'variant':variant,'targets':len(rows),
+            results.append({'model':model,'variant':variant,'targets':len(rows),'comparison_reference':reference,
                 'mean_experimental_symmetry_aware_sidechain_rmsd':float(np.mean([x['experimental_symmetry_aware_sidechain_rmsd'] for x in rows])),
                 'mean_experimental_cdrh3_sidechain_rmsd':float(np.mean([x['experimental_cdrh3_sidechain_rmsd'] for x in rows])),
                 'largest_atom_displacements':sorted(largest,key=lambda x:x['raw_displacement'],reverse=True)[:8],
@@ -114,7 +121,7 @@ def main():
                 'largest_residue_sidechain_accuracy_improvements':sorted(residue_accuracy_changes,key=lambda x:x['change_negative_is_better'])[:8],
                 'new_clash_cutoff_crossings':new_clashes})
     for r in results:
-        controls={x['target']:x for x in target_rows if x['model']==r['model'] and x['variant']=='accepted'}
+        controls={x['target']:x for x in target_rows if x['model']==r['model'] and x['variant']==r['comparison_reference']}
         rows=[x for x in target_rows if x['model']==r['model'] and x['variant']==r['variant']]
         for field in ['experimental_symmetry_aware_sidechain_rmsd','experimental_cdrh3_sidechain_rmsd']:
             changes=np.array([x[field]-controls[x['target']][field] for x in rows])
