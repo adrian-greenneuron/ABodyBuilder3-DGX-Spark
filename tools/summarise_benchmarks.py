@@ -55,7 +55,7 @@ def main():
     for name, data in [('processing', rows), ('cli', cli)]:
         fields = [k for k in data[0] if k != 'raw_repetitions']
         with (args.output / f'abodybuilder3_{name}_251026.csv').open('w', newline='') as f:
-            writer = csv.DictWriter(f, fieldnames=fields, extrasaction='ignore')
+            writer = csv.DictWriter(f, fieldnames=fields, extrasaction='ignore', lineterminator='\n')
             writer.writeheader()
             writer.writerows(data)
     main_rows = [x for x in rows if x['count'] == (20 if x['model'] == 'language' else 1000)]
