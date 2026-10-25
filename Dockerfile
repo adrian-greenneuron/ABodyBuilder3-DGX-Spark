@@ -38,29 +38,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libboost-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# -----------------------------------------------------------------------------
-# OpenMM (Source Build for Blackwell/sm_120 Support)
-# -----------------------------------------------------------------------------
-# Conda binaries are incompatible with Blackwell driver (PTX error).
-# We must build from source linking against the local CUDA toolkit.
-WORKDIR /tmp
-# hadolint ignore=DL3003,SC2046
-RUN git clone https://github.com/openmm/openmm.git \
-    && git -C openmm checkout --detach 07b738c560f31f539674528c3a8ca629fc8320ba \
-    && cd openmm \
-    && mkdir build && cd build \
-    && cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
-    && make -j"$(nproc)" install \
-    && cd python && OPENMM_INCLUDE_PATH=/usr/local/include OPENMM_LIB_PATH=/usr/local/lib python3 setup.py install \
-    && cd /tmp && rm -rf openmm
-
-# Exact Python versions from the original image; NGC supplies the pinned Torch stack.
+# Published ARM64 and CUDA 13 packages replace the historical source builds.
 COPY runtime-constraints.txt /opt/runtime-constraints.txt
-
-# Install pdbfixer from source
-# hadolint ignore=DL3013
-RUN \
-    pip install --no-cache-dir -c /opt/runtime-constraints.txt git+https://github.com/openmm/pdbfixer.git@94cfa4c0ca551cdc5f13320f9a658efd59f2b881
+RUN pip install --no-cache-dir -c /opt/runtime-constraints.txt "openmm[cuda13]==8.6.1" pdbfixer==1.12.0
 
 # -----------------------------------------------------------------------------
 # Reduce (MolProbity/Richardson Lab) for fast hydrogen addition
@@ -68,7 +48,7 @@ RUN \
 # reduce needs het dictionary files for proper operation
 # hadolint ignore=DL3003
 RUN git clone https://github.com/rlabduke/reduce.git /tmp/reduce \
-    && git -C /tmp/reduce checkout --detach 9d4ac1f5f103daa18ea471f11fe1cf9b2cd8ca1f \
+    && git -C /tmp/reduce checkout --detach 6749e64de95fd37bc552014c03a0ababba8a8ef3 \
     && cd /tmp/reduce \
     && mkdir build && cd build \
     && cmake .. \
@@ -108,9 +88,10 @@ RUN \
 # Clone ABodyBuilder3
 # -----------------------------------------------------------------------------
 WORKDIR /opt
-ARG SOURCE_REF=8e4b5af7c347dadcc52678c7ee61ea975eeef1a8
+ARG SOURCE_REF=a323ab3abe48440305e9b4baf1b5a393781d7d78
 RUN git clone https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git /opt/abodybuilder3 \
-    && git -C /opt/abodybuilder3 checkout --detach ${SOURCE_REF}
+    && git -C /opt/abodybuilder3 checkout --detach ${SOURCE_REF} \
+    && git -C /opt/abodybuilder3 merge-base --is-ancestor 18e4058015a39c5405c08a0d5629cf302627b253 HEAD
 WORKDIR /opt/abodybuilder3
 
 # -----------------------------------------------------------------------------
@@ -136,6 +117,9 @@ RUN mkdir -p output/ zenodo/ \
 # -----------------------------------------------------------------------------
 # Validation & Runtime
 # -----------------------------------------------------------------------------
+# Keep the tested model source pinned above; deploy the versioned CLI and its
+# optional preparation module from this checkout, including local changes.
+COPY scripts/predict.py scripts/structure_preparation.py /opt/abodybuilder3/scripts/
 # Verify all imports work
 RUN python3 -c "import abodybuilder3; import torch; import openmm; import pdbfixer; print(f'ABodyBuilder3 on PyTorch {torch.__version__}, CUDA {torch.version.cuda}, OpenMM {openmm.version.short_version}')"
 

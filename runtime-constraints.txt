@@ -184,7 +184,7 @@ omegaconf==2.3.0
 onnx==1.18.0
 onnx-ir==0.1.12
 onnxscript==0.5.6
-OpenMM==8.4.0
+OpenMM==8.6.1
 opt_einsum==3.4.0
 optree==0.17.0
 orjson==3.11.5
@@ -320,3 +320,15 @@ xxhash==3.6.0
 yarl==1.22.0
 zc.lockfile==4.0
 zipp==3.23.0
+
+# CUDA 13.0 wheel dependencies match the tested Spark driver (580.178.04).
+# CUDA 13.4 NVRTC emits PTX that this driver cannot load for OpenMM kernels.
+OpenMM-CUDA-13==8.6.1
+nvidia-cuda-crt==13.0.88
+nvidia-cuda-cupti==13.0.85
+nvidia-cuda-nvcc==13.0.88
+nvidia-cuda-nvrtc==13.0.88
+nvidia-cuda-runtime==13.0.96
+nvidia-cufft==12.0.0.61
+nvidia-nvjitlink==13.0.88
+nvidia-nvvm==13.0.88
