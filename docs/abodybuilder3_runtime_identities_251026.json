@@ -1,0 +1,102 @@
+{
+  "date": "2026-10-25",
+  "original_image_and_default_preserved": true,
+  "images": {
+    "abodybuilder3-spark:latest": {
+      "id": "sha256:69d2841fc0eab3393158c3c6af6bb0c7e5abe4515ac68f7897efd1f70beed335",
+      "bytes": 21634983517,
+      "created": "2025-12-23T23:37:18.656422608Z"
+    },
+    "abodybuilder3-spark:rebuild-251026": {
+      "id": "sha256:371e5c26a5684c1d592e8fb66ee4f6a6f013c0b3d6dfa844b926e82d77e65b9d",
+      "bytes": 21652675047,
+      "created": "2026-10-25T09:57:07.421403083Z"
+    },
+    "abodybuilder3-official-spark:modernised-251026": {
+      "id": "sha256:14b3c3ce5ad0e83b38805a7a64e6e2deaab11013fd67281053b39e9336c3055a",
+      "bytes": 22428570165,
+      "created": "2026-10-25T10:01:34.475615869Z"
+    },
+    "abodybuilder3-official-spark:modernised-pinned-251026": {
+      "id": "sha256:e0178666c427e1c5d8099f3b41038aef1603ae326d40210a033d0fe0b48b16ab",
+      "bytes": 22428570475,
+      "created": "2026-10-25T13:18:35.737307333Z"
+    }
+  },
+  "original_source": "8e4b5af7c347dadcc52678c7ee61ea975eeef1a8",
+  "frozen_cli_source": "a323ab3abe48440305e9b4baf1b5a393781d7d78",
+  "dev_source": "01047c73f7505d46db808f42aa32f1c624a3e21e",
+  "latest_official_source": "18e4058015a39c5405c08a0d5629cf302627b253",
+  "weights_record": "https://zenodo.org/records/11354577",
+  "checkpoints": [
+    {
+      "path": "output/base-loss/best_second_stage.ckpt",
+      "bytes": 85648452,
+      "sha256": "835f0f4c3a183dfa71084a28b59aab87bc778c3c1f07682df879d8423f138938"
+    },
+    {
+      "path": "output/language-loss/best_second_stage.ckpt",
+      "bytes": 88536402,
+      "sha256": "16be44c644eb31d63c78c22166d6cea5cee8d2b3eb2cb36ebee87f5cfeeb0177"
+    },
+    {
+      "path": "output/plddt-loss/best_second_stage.ckpt",
+      "bytes": 86999570,
+      "sha256": "421aa6c52a5152f781b35007411985146fb520a90286a955161cb8e50584d615"
+    }
+  ],
+  "prott5": {
+    "repository": "Rostlab/prot_t5_xl_uniref50",
+    "revision": "973be27c52ee6474de9c945952a8008aeb2a1a73",
+    "files": [
+      {
+        "file": "pytorch_model.bin",
+        "bytes": 11275562724,
+        "sha256": "c06141d42e93c12b5f6d95c701952156bd4079661f5f2d981d0d2036ba96dae9"
+      },
+      {
+        "file": "tokenizer_config.json",
+        "bytes": 24,
+        "sha256": "a5064475340d80a560463f49921407d901eef3e89667a931eb81a186633eff4b"
+      },
+      {
+        "file": "special_tokens_map.json",
+        "bytes": 1786,
+        "sha256": "4720c0fddbe4c5991334f85ad7073d9bd0a294a8ba4641a2f8dab614ca825949"
+      },
+      {
+        "file": "config.json",
+        "bytes": 546,
+        "sha256": "899fe63bf0178fd23583eca238ade81d56a1779c344741f391c3902855c64b77"
+      },
+      {
+        "file": "spiece.model",
+        "bytes": 237990,
+        "sha256": "74da7b4afcde53faa570114b530c726135bdfcdb813dec3abfb27f9d44db7324"
+      }
+    ]
+  },
+  "final_pinning_matches_benchmarked_runtime": {
+    "source_hashes": true,
+    "weights": true,
+    "versions": true,
+    "openmm_full_version": true,
+    "openmm_git_revision": true,
+    "reduce_binary_sha256": true,
+    "reduce_dictionary_sha256": true
+  },
+  "frozen_input_and_measurement_tool_hashes": {
+    "frozen/antibodies_5.csv": "76583854582c7de385d5e65a049ef1fffd1cb69817c4bd11cb82b4a871452064",
+    "frozen/antibodies_100.csv": "f6a84fe1101fd3a0381ec8b1998dc25d66f8944dd10938abea6df828630209d8",
+    "frozen/antibodies.json": "3edb9f25d0adf589b8813c0022eba234b8bdcb8b386c80d821becb3ee8843a1a",
+    "frozen/antibodies_1000.csv": "4ae12fe9365b9f25272dd34df17586edf3600c0768c68699c0feccb793546e10",
+    "frozen/predict_main.py": "4a61986d2b1f49be48677b7f944b2bf55a89553d6ead7668e956204c77280ab9",
+    "instrumentation/compare_predictions.py": "12f380f582873e0b69d5f0b6078880c79ef8559962f2998024bede37d4e71b13",
+    "instrumentation/run_comparison.py": "302228f8766500e1dccf305021d524a30790a576252bd7f6d104e5f7b772b4cb",
+    "instrumentation/benchmark_runtime.py": "2706f201deb8d1ef9fae57aa4d9b4ad292bff4370d0cc81b1ff5b78607a636e3",
+    "instrumentation/measure_cli.py": "29b81f56a82ede3d5802ff8de4c8d9e826e2486a4fc1fd55369e251aeb9dd485",
+    "instrumentation/capture_runtime.py": "a49e6f4e9e5287fe180facef14c548c2aa8c3941a1372d33d220b5dc5eb80a8d",
+    "instrumentation/benchmark_cli.py": "bc11b4bbf12b042d75ccaf03a1c4991c0730b4b98c2f146c96e15280ea2446a9",
+    "instrumentation/instrumentation/sitecustomize.py": "515bdad25320ef77c4e00bec95810d8129c239ccc8260c5d0aa2266ee0aaebb9"
+  }
+}

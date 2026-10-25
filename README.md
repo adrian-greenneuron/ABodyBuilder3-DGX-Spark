@@ -2,6 +2,16 @@
 
 This repository provides a specialized Docker deployment for running **ABodyBuilder3** (antibody structure prediction) on the NVIDIA DGX Spark system, powered by **Grace Blackwell (GB10)** GPUs and **ARM64** architecture.
 
+## Modernised deployment (25 October 2026)
+
+This development branch uses the latest official ABodyBuilder3 code and released checkpoints available when checked, with published OpenMM/CUDA packages and Reduce 4.17. The official model source is unchanged since October 2024 and is already incorporated in the original deployment; there are no newer official trained weights to substitute.
+
+The original remains the working default on [main](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/main). The [original-rebuild branch](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/rebuild/original-runtime) recreates its pinned runtime. This branch retains the original model settings and PyTorch stack while replacing the custom OpenMM/PDBFixer builds. The existing Flash Attention import compatibility, tensor-indexing fix and fast PDB writer remain.
+
+All three models passed unrelaxed prediction-agreement checks. Modernisation gave similar base/pLDDT speed. Dev GPU batching was faster for those two models in warmed processing, with higher CUDA allocation. The language-batching adapter was slower, and language timings are too variable for a firm speed ranking. Optional hydrogen-added outputs differ because the updated Reduce succeeds where the legacy version triggers a PDBFixer fallback.
+
+See the [complete benchmark tables](docs/abodybuilder3_benchmarks_251026.md) and [reproducibility instructions](docs/abodybuilder3_reproducibility_251026.md). The historical benchmark table below records the original December 2025 deployment, not this modernised runtime.
+
 ## What is ABodyBuilder3?
 
 ABodyBuilder3 is a state-of-the-art deep learning model for predicting antibody variable region structures from sequence. It achieves high accuracy on CDR loops (especially CDRH3) by leveraging ProtT5 language model embeddings and includes per-residue confidence scores (pLDDT).
@@ -10,11 +20,11 @@ ABodyBuilder3 is a state-of-the-art deep learning model for predicting antibody 
 
 ## Why This Exists
 
-The original ABodyBuilder3 was developed for x86_64 with CUDA 11.7 and Python 3.9. DGX Spark uses ARM64 and Blackwell GPUs (sm_120/sm_121), requiring custom builds with specific compatibility fixes.
+The original ABodyBuilder3 was developed for x86_64 with CUDA 11.7 and Python 3.9. DGX Spark uses ARM64 and Blackwell GPUs (sm_120/sm_121), requiring compatible packages and a small number of source compatibility fixes.
 
 This build solves:
 - **Flash Attention API**: Updated imports for NGC container's newer flash_attn version
-- **OpenMM Source Build**: Builds OpenMM from source for full Blackwell GPU relaxation support
+- **Published OpenMM wheels**: Uses OpenMM 8.6.1 with the CUDA 13 plugin and PDBFixer 1.12 instead of custom source builds
 - **PyTorch 2.10 Compatibility**: Handles stricter `weights_only=True` checkpoint loading
 - **CUDA 13 Support**: Uses NGC 25.11 with native CUDA 13.0 and Python 3.12
 
@@ -62,14 +72,14 @@ Benchmarks run on **NVIDIA DGX Spark** (Grace Blackwell GB10, 128.5GB unified RA
 
 ```bash
 # Clone this repository
-git clone https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
+git clone --branch official/abodybuilder3-spark https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
 cd ABodyBuilder3-DGX-Spark
 
-# Build with the build script (recommended, ~15-20 minutes)
+# Build with the build script
 ./docker_build.sh build
 
 # Or build manually
-DOCKER_BUILDKIT=1 docker build -t abodybuilder3-spark:latest .
+DOCKER_BUILDKIT=1 docker build -t abodybuilder3-official-spark:latest .
 ```
 
 ### 2. Run the Test
@@ -85,7 +95,7 @@ ABodyBuilder3 Docker Image Test
 ============================================================
 PyTorch version: 2.10.0a0+b558c986e8.nv25.11
 CUDA version: 13.0
-OpenMM version: 8.4.0
+OpenMM version: 8.6.1
 CUDA available: True
 GPU: NVIDIA GB10
 GPU Memory: 128.5 GB
@@ -99,7 +109,7 @@ All imports successful!
 docker run --rm --gpus all --ipc=host \
     -v $(pwd)/scripts:/scripts \
     -v $(pwd)/output:/output \
-    abodybuilder3-spark:latest \
+    abodybuilder3-official-spark:latest \
     python3 /scripts/test_inference.py
 ```
 
@@ -180,7 +190,7 @@ python3 scripts/predict.py predict --csv input.csv -o output/ --add-hydrogens
 # Add hydrogens using pdbfixer
 python3 scripts/predict.py predict --csv input.csv -o output/ --add-hydrogens --hydrogen-method pdbfixer
 
-# Full relaxation (includes hydrogen addition)
+# Legacy alias for hydrogen addition (does not energy-minimise the structure)
 python3 scripts/predict.py predict --csv input.csv -o output/ --relaxation
 ```
 
@@ -188,7 +198,7 @@ python3 scripts/predict.py predict --csv input.csv -o output/ --relaxation
 |--------|-------------|
 | `--add-hydrogens` / `-H` | Add hydrogens to output PDB |
 | `--hydrogen-method` | `reduce` (default, fast) or `pdbfixer` |
-| `--relaxation` / `-r` | Full relaxation (includes hydrogens) |
+| `--relaxation` / `-r` | Legacy alias for hydrogen addition; no energy minimisation |
 
 ## Repository Structure
 
