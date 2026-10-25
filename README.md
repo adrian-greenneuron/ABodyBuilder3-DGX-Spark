@@ -6,7 +6,7 @@ This repository provides a specialized Docker deployment for running **ABodyBuil
 
 This development branch uses the latest official ABodyBuilder3 code and released checkpoints available when checked, with published OpenMM/CUDA packages and Reduce 4.17. The official model source is unchanged since October 2024 and is already incorporated in the original deployment; there are no newer official trained weights to substitute.
 
-The original remains the working default on [main](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/main). The [original-rebuild branch](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/rebuild/original-runtime) recreates its pinned runtime. This branch retains the original model settings and PyTorch stack while replacing the custom OpenMM/PDBFixer builds. The existing Flash Attention import compatibility, tensor-indexing fix and fast PDB writer remain.
+The original remains the working default on [main](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/main), which now includes its pinned rebuild recipe. This branch retains the original model settings and PyTorch stack while replacing the custom OpenMM/PDBFixer builds. The existing Flash Attention import compatibility, tensor-indexing fix and fast PDB writer remain.
 
 All three models passed unrelaxed prediction-agreement checks. Modernisation gave similar base/pLDDT speed. Dev GPU batching was faster for those two models in warmed processing, with higher CUDA allocation. The language-batching adapter was slower, and language timings are too variable for a firm speed ranking. Optional hydrogen-added outputs differ because the updated Reduce succeeds where the legacy version triggers a PDBFixer fallback.
 

@@ -16,7 +16,7 @@ The latest official ABodyBuilder3 source checked was [18e4058](https://github.co
 ## Rebuild the original from public sources
 
 ```bash
-git clone --branch rebuild/original-runtime https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
+git clone --branch main https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
 cd ABodyBuilder3-DGX-Spark
 NO_CACHE=1 IMAGE_TAG=rebuild-local ./docker_build.sh build
 IMAGE_TAG=rebuild-local ./docker_build.sh test
