@@ -1,0 +1,4248 @@
+{
+  "components-small": {
+    "results": [
+      {
+        "model": "base",
+        "variant": "compatibility",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.4937054109996097,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6520045568,
+            "sampled_process_tree_rss_peak_bytes": 2664898560,
+            "main_process_lifetime_rss_peak_bytes": 2664001536,
+            "container_lifetime_memory_peak_bytes": 2372526080
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.4684741509991,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2664898560,
+            "main_process_lifetime_rss_peak_bytes": 2664054784,
+            "container_lifetime_memory_peak_bytes": 2372640768
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.464437579999867,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2664898560,
+            "main_process_lifetime_rss_peak_bytes": 2664054784,
+            "container_lifetime_memory_peak_bytes": 2372640768
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.4714900510007283,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2664898560,
+            "main_process_lifetime_rss_peak_bytes": 2664054784,
+            "container_lifetime_memory_peak_bytes": 2372640768
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.477216989000226,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2664898560,
+            "main_process_lifetime_rss_peak_bytes": 2664054784,
+            "container_lifetime_memory_peak_bytes": 2372677632
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.4669341770004394,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2664898560,
+            "main_process_lifetime_rss_peak_bytes": 2664054784,
+            "container_lifetime_memory_peak_bytes": 2372677632
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.474353520000477,
+          "compatibility": 2.465685878500153
+        },
+        "reference_over_candidate": 1.003515306461339,
+        "acceptance": "eligible_for_full_job_check"
+      },
+      {
+        "model": "base",
+        "variant": "pair_lookup",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.507786808999299,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2740498432,
+            "main_process_lifetime_rss_peak_bytes": 2739605504,
+            "container_lifetime_memory_peak_bytes": 2446684160
+          },
+          {
+            "condition": "pair_lookup",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 1.9721688739991805,
+            "peak_cuda_allocated_bytes": 4155752960,
+            "peak_cuda_reserved_bytes": 5620367360,
+            "sampled_process_tree_rss_peak_bytes": 1779994624,
+            "main_process_lifetime_rss_peak_bytes": 2739605504,
+            "container_lifetime_memory_peak_bytes": 2446684160
+          },
+          {
+            "condition": "pair_lookup",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 1.972793240000101,
+            "peak_cuda_allocated_bytes": 4155752960,
+            "peak_cuda_reserved_bytes": 5620367360,
+            "sampled_process_tree_rss_peak_bytes": 1777803264,
+            "main_process_lifetime_rss_peak_bytes": 2739605504,
+            "container_lifetime_memory_peak_bytes": 2446684160
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.51608514200052,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2740498432,
+            "main_process_lifetime_rss_peak_bytes": 2739691520,
+            "container_lifetime_memory_peak_bytes": 2446684160
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.500264350001089,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2740498432,
+            "main_process_lifetime_rss_peak_bytes": 2739720192,
+            "container_lifetime_memory_peak_bytes": 2446684160
+          },
+          {
+            "condition": "pair_lookup",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 1.9432618459995865,
+            "peak_cuda_allocated_bytes": 4155752960,
+            "peak_cuda_reserved_bytes": 5620367360,
+            "sampled_process_tree_rss_peak_bytes": 1796812800,
+            "main_process_lifetime_rss_peak_bytes": 2739720192,
+            "container_lifetime_memory_peak_bytes": 2446684160
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.5081747460008046,
+          "pair_lookup": 1.9580275429998437
+        },
+        "reference_over_candidate": 1.2809701043112471,
+        "acceptance": "eligible_for_full_job_check"
+      },
+      {
+        "model": "base",
+        "variant": "point_matmul",
+        "exact": false,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.0343165397644043,
+            "max_ca_difference": 0.009774088859558105
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.010616302490234375,
+            "max_ca_difference": 0.0022411346435546875
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.018448829650878906,
+            "max_ca_difference": 0.0026092529296875
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.029088973999023438,
+            "max_ca_difference": 0.007102012634277344
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.009416580200195312,
+            "max_ca_difference": 0.007879018783569336
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.055622100830078125,
+            "max_ca_difference": 0.003365755081176758
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.011493682861328125,
+            "max_ca_difference": 0.004067420959472656
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.011991500854492188,
+            "max_ca_difference": 0.0047779083251953125
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.010544300079345703,
+            "max_ca_difference": 0.00890350341796875
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.013485908508300781,
+            "max_ca_difference": 0.005106687545776367
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.025819778442382812,
+            "max_ca_difference": 0.0051021575927734375
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.03472328186035156,
+            "max_ca_difference": 0.0034284591674804688
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.017261505126953125,
+            "max_ca_difference": 0.0034427642822265625
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.04258918762207031,
+            "max_ca_difference": 0.003981590270996094
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": false,
+            "confidence_exact": true,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.07300376892089844,
+            "max_ca_difference": 0.043300628662109375
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.4859685489991534,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2740498432,
+            "main_process_lifetime_rss_peak_bytes": 2739720192,
+            "container_lifetime_memory_peak_bytes": 2446684160
+          },
+          {
+            "condition": "point_matmul",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.20642712299923,
+            "peak_cuda_allocated_bytes": 4954354176,
+            "peak_cuda_reserved_bytes": 5683281920,
+            "sampled_process_tree_rss_peak_bytes": 2740498432,
+            "main_process_lifetime_rss_peak_bytes": 2739720192,
+            "container_lifetime_memory_peak_bytes": 2446684160
+          },
+          {
+            "condition": "point_matmul",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.2083403409997118,
+            "peak_cuda_allocated_bytes": 4954354176,
+            "peak_cuda_reserved_bytes": 5683281920,
+            "sampled_process_tree_rss_peak_bytes": 2740498432,
+            "main_process_lifetime_rss_peak_bytes": 2739720192,
+            "container_lifetime_memory_peak_bytes": 2446684160
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.4799258390012255,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2740498432,
+            "main_process_lifetime_rss_peak_bytes": 2739720192,
+            "container_lifetime_memory_peak_bytes": 2446684160
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.4856403169997066,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2740498432,
+            "main_process_lifetime_rss_peak_bytes": 2739732480,
+            "container_lifetime_memory_peak_bytes": 2446778368
+          },
+          {
+            "condition": "point_matmul",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.2180057010009477,
+            "peak_cuda_allocated_bytes": 4954354176,
+            "peak_cuda_reserved_bytes": 5683281920,
+            "sampled_process_tree_rss_peak_bytes": 2740498432,
+            "main_process_lifetime_rss_peak_bytes": 2739761152,
+            "container_lifetime_memory_peak_bytes": 2446778368
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.482783078000466,
+          "point_matmul": 2.2131730210003298
+        },
+        "reference_over_candidate": 1.1218205962398167,
+        "acceptance": "requires_user_discussion"
+      },
+      {
+        "model": "base",
+        "variant": "final_only",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.464531542000259,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2740637696,
+            "main_process_lifetime_rss_peak_bytes": 2739765248,
+            "container_lifetime_memory_peak_bytes": 2446778368
+          },
+          {
+            "condition": "final_only",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.410038121999605,
+            "peak_cuda_allocated_bytes": 4988911104,
+            "peak_cuda_reserved_bytes": 5611978752,
+            "sampled_process_tree_rss_peak_bytes": 2740637696,
+            "main_process_lifetime_rss_peak_bytes": 2739793920,
+            "container_lifetime_memory_peak_bytes": 2446778368
+          },
+          {
+            "condition": "final_only",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.4036795849988266,
+            "peak_cuda_allocated_bytes": 4988911104,
+            "peak_cuda_reserved_bytes": 5611978752,
+            "sampled_process_tree_rss_peak_bytes": 2740637696,
+            "main_process_lifetime_rss_peak_bytes": 2739793920,
+            "container_lifetime_memory_peak_bytes": 2446778368
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.468919142998857,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2740637696,
+            "main_process_lifetime_rss_peak_bytes": 2739793920,
+            "container_lifetime_memory_peak_bytes": 2446778368
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.473080978001235,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2740645888,
+            "main_process_lifetime_rss_peak_bytes": 2739793920,
+            "container_lifetime_memory_peak_bytes": 2446778368
+          },
+          {
+            "condition": "final_only",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.407249611000225,
+            "peak_cuda_allocated_bytes": 4988911104,
+            "peak_cuda_reserved_bytes": 5611978752,
+            "sampled_process_tree_rss_peak_bytes": 2740645888,
+            "main_process_lifetime_rss_peak_bytes": 2739793920,
+            "container_lifetime_memory_peak_bytes": 2446778368
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.471000060500046,
+          "final_only": 2.4054645979995257
+        },
+        "reference_over_candidate": 1.0272444094812379,
+        "acceptance": "eligible_for_full_job_check"
+      },
+      {
+        "model": "plddt",
+        "variant": "compatibility",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.4303028880003694,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759630848,
+            "container_lifetime_memory_peak_bytes": 2466594816
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.425129379000282,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759630848,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.4318143560012686,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759630848,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.431899630000771,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.43416237800011,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.435028367999621,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.4330310040004406,
+          "compatibility": 2.433421362000445
+        },
+        "reference_over_candidate": 0.9998395847073179,
+        "acceptance": "no_measured_speed_improvement"
+      },
+      {
+        "model": "plddt",
+        "variant": "pair_lookup",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.4342729170002713,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "pair_lookup",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 1.9005506400008016,
+            "peak_cuda_allocated_bytes": 4156648960,
+            "peak_cuda_reserved_bytes": 5620367360,
+            "sampled_process_tree_rss_peak_bytes": 1790730240,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "pair_lookup",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 1.9055999369993515,
+            "peak_cuda_allocated_bytes": 4156648960,
+            "peak_cuda_reserved_bytes": 5620367360,
+            "sampled_process_tree_rss_peak_bytes": 1790730240,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.442603068000608,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.436303857999519,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "pair_lookup",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 1.8995495910003228,
+            "peak_cuda_allocated_bytes": 4156648960,
+            "peak_cuda_reserved_bytes": 5620367360,
+            "sampled_process_tree_rss_peak_bytes": 1792323584,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.4394534630000635,
+          "pair_lookup": 1.9025747639998372
+        },
+        "reference_over_candidate": 1.2821853359767743,
+        "acceptance": "eligible_for_full_job_check"
+      },
+      {
+        "model": "plddt",
+        "variant": "point_matmul",
+        "exact": false,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.027914047241210938,
+            "max_ca_difference": 0.02121257781982422
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.006364345550537109,
+            "max_ca_difference": 0.002323150634765625
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.009430885314941406,
+            "max_ca_difference": 0.0034165382385253906
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.01470184326171875,
+            "max_ca_difference": 0.004269599914550781
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.016843438148498535,
+            "max_ca_difference": 0.0039424896240234375
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.019695281982421875,
+            "max_ca_difference": 0.005541801452636719
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.010129451751708984,
+            "max_ca_difference": 0.006597280502319336
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.0391693115234375,
+            "max_ca_difference": 0.011228084564208984
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.0179901123046875,
+            "max_ca_difference": 0.006862640380859375
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.02666950225830078,
+            "max_ca_difference": 0.005688190460205078
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.02693963050842285,
+            "max_ca_difference": 0.011028289794921875
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.020116329193115234,
+            "max_ca_difference": 0.004223823547363281
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.008131980895996094,
+            "max_ca_difference": 0.003772258758544922
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.02123546600341797,
+            "max_ca_difference": 0.009631156921386719
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.07626819610595703,
+            "max_ca_difference": 0.04423046112060547
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.434612205999656,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "point_matmul",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.1695076050000353,
+            "peak_cuda_allocated_bytes": 4955250176,
+            "peak_cuda_reserved_bytes": 5683281920,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "point_matmul",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.1681690360001085,
+            "peak_cuda_allocated_bytes": 4955250176,
+            "peak_cuda_reserved_bytes": 5683281920,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.4329707689994393,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.4414130019995355,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "point_matmul",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.1621123690001696,
+            "peak_cuda_allocated_bytes": 4955250176,
+            "peak_cuda_reserved_bytes": 5683281920,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.4371918854994874,
+          "point_matmul": 2.165140702500139
+        },
+        "reference_over_candidate": 1.125650579052532,
+        "acceptance": "requires_user_discussion"
+      },
+      {
+        "model": "plddt",
+        "variant": "final_only",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.4331040029992437,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "final_only",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.384549836999213,
+            "peak_cuda_allocated_bytes": 4989807104,
+            "peak_cuda_reserved_bytes": 5611978752,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "final_only",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.379102357001102,
+            "peak_cuda_allocated_bytes": 4989807104,
+            "peak_cuda_reserved_bytes": 5611978752,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.440052485999331,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.4451848240005347,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          },
+          {
+            "condition": "final_only",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.377955006000775,
+            "peak_cuda_allocated_bytes": 4989807104,
+            "peak_cuda_reserved_bytes": 5611978752,
+            "sampled_process_tree_rss_peak_bytes": 2760491008,
+            "main_process_lifetime_rss_peak_bytes": 2759639040,
+            "container_lifetime_memory_peak_bytes": 2466607104
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.442618654999933,
+          "final_only": 2.3785286815009385
+        },
+        "reference_over_candidate": 1.0269452178556666,
+        "acceptance": "eligible_for_full_job_check"
+      }
+    ],
+    "source_manifest": {
+      "torch": "2.10.0a0+b558c986e8.nv25.11",
+      "cuda": "13.0",
+      "source_sha256": {
+        "reference/structure_module.py": "1d9b3500f0c524d641b23a7d21f1c946a4c57b336deead84c432328d584e7a78",
+        "candidate/features.py": "a2c153acc0f254389548e3cd4b02dc0c83e7aff8431fe52afb0a4ecf4c925efd",
+        "candidate/structure_module.py": "aef98659bf58d42e61b8efbe211aaf4ec5e3f0cd456ca2a38f0d23482208cfd5",
+        "tools/compare_component.py": "d78fe0e6f6947b06aa435bd49b054e9ae0c8ac087b71af8894e02e672817b247"
+      },
+      "scope": "FP32 matched model weights; engineering fixtures, not biological accuracy"
+    }
+  },
+  "components-exact-combined": {
+    "results": [
+      {
+        "model": "base",
+        "variant": "compatibility",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.488864162000027,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6520045568,
+            "sampled_process_tree_rss_peak_bytes": 2676039680,
+            "main_process_lifetime_rss_peak_bytes": 2675318784,
+            "container_lifetime_memory_peak_bytes": 2382749696
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.483769252001366,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2662420480,
+            "main_process_lifetime_rss_peak_bytes": 2675318784,
+            "container_lifetime_memory_peak_bytes": 2382749696
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.501652077999097,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2676080640,
+            "main_process_lifetime_rss_peak_bytes": 2675318784,
+            "container_lifetime_memory_peak_bytes": 2382749696
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.4969677990011405,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2676101120,
+            "main_process_lifetime_rss_peak_bytes": 2675437568,
+            "container_lifetime_memory_peak_bytes": 2382749696
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.4893514730010793,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2676101120,
+            "main_process_lifetime_rss_peak_bytes": 2675437568,
+            "container_lifetime_memory_peak_bytes": 2382749696
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.495640856999671,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2676101120,
+            "main_process_lifetime_rss_peak_bytes": 2675437568,
+            "container_lifetime_memory_peak_bytes": 2382749696
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.49315963600111,
+          "compatibility": 2.498646467499384
+        },
+        "reference_over_candidate": 0.9978040785002429,
+        "acceptance": "no_measured_speed_improvement"
+      },
+      {
+        "model": "base",
+        "variant": "lookup_final",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.5275597910003853,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2739814400,
+            "main_process_lifetime_rss_peak_bytes": 2739011584,
+            "container_lifetime_memory_peak_bytes": 2443042816
+          },
+          {
+            "condition": "lookup_final",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 1.9056284279995452,
+            "peak_cuda_allocated_bytes": 4087323648,
+            "peak_cuda_reserved_bytes": 4710203392,
+            "sampled_process_tree_rss_peak_bytes": 1777254400,
+            "main_process_lifetime_rss_peak_bytes": 2739011584,
+            "container_lifetime_memory_peak_bytes": 2443042816
+          },
+          {
+            "condition": "lookup_final",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 1.9197959640005138,
+            "peak_cuda_allocated_bytes": 4087323648,
+            "peak_cuda_reserved_bytes": 4710203392,
+            "sampled_process_tree_rss_peak_bytes": 1777258496,
+            "main_process_lifetime_rss_peak_bytes": 2739011584,
+            "container_lifetime_memory_peak_bytes": 2443042816
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.5223857490000228,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2739814400,
+            "main_process_lifetime_rss_peak_bytes": 2739011584,
+            "container_lifetime_memory_peak_bytes": 2443042816
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.5229374090013152,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2726154240,
+            "main_process_lifetime_rss_peak_bytes": 2739011584,
+            "container_lifetime_memory_peak_bytes": 2443042816
+          },
+          {
+            "condition": "lookup_final",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 1.9141950549983449,
+            "peak_cuda_allocated_bytes": 4087323648,
+            "peak_cuda_reserved_bytes": 4710203392,
+            "sampled_process_tree_rss_peak_bytes": 1777393664,
+            "main_process_lifetime_rss_peak_bytes": 2739011584,
+            "container_lifetime_memory_peak_bytes": 2443042816
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.522661579000669,
+          "lookup_final": 1.9169955094994293
+        },
+        "reference_over_candidate": 1.315945481614296,
+        "acceptance": "eligible_for_full_job_check"
+      },
+      {
+        "model": "plddt",
+        "variant": "compatibility",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.465543931000866,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753765376,
+            "main_process_lifetime_rss_peak_bytes": 2753069056,
+            "container_lifetime_memory_peak_bytes": 2456543232
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.464276716000313,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753765376,
+            "main_process_lifetime_rss_peak_bytes": 2753069056,
+            "container_lifetime_memory_peak_bytes": 2456543232
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.4595395299984375,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753765376,
+            "main_process_lifetime_rss_peak_bytes": 2753069056,
+            "container_lifetime_memory_peak_bytes": 2456543232
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.4679894809996767,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753765376,
+            "main_process_lifetime_rss_peak_bytes": 2753069056,
+            "container_lifetime_memory_peak_bytes": 2456543232
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.463256168999578,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753765376,
+            "main_process_lifetime_rss_peak_bytes": 2753069056,
+            "container_lifetime_memory_peak_bytes": 2456543232
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.47103115200116,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753765376,
+            "main_process_lifetime_rss_peak_bytes": 2753069056,
+            "container_lifetime_memory_peak_bytes": 2456543232
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.4656228249996275,
+          "compatibility": 2.465285340999799
+        },
+        "reference_over_candidate": 1.000136894498262,
+        "acceptance": "eligible_for_full_job_check"
+      },
+      {
+        "model": "plddt",
+        "variant": "lookup_final",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.4689492159996007,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753765376,
+            "main_process_lifetime_rss_peak_bytes": 2753069056,
+            "container_lifetime_memory_peak_bytes": 2456543232
+          },
+          {
+            "condition": "lookup_final",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 1.8550271359999897,
+            "peak_cuda_allocated_bytes": 4088219648,
+            "peak_cuda_reserved_bytes": 4710203392,
+            "sampled_process_tree_rss_peak_bytes": 1784086528,
+            "main_process_lifetime_rss_peak_bytes": 2753069056,
+            "container_lifetime_memory_peak_bytes": 2456543232
+          },
+          {
+            "condition": "lookup_final",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 1.8558954750005796,
+            "peak_cuda_allocated_bytes": 4088219648,
+            "peak_cuda_reserved_bytes": 4710203392,
+            "sampled_process_tree_rss_peak_bytes": 1786421248,
+            "main_process_lifetime_rss_peak_bytes": 2753069056,
+            "container_lifetime_memory_peak_bytes": 2456543232
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.4785478779995174,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753765376,
+            "main_process_lifetime_rss_peak_bytes": 2753069056,
+            "container_lifetime_memory_peak_bytes": 2456543232
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.4710234710000805,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753765376,
+            "main_process_lifetime_rss_peak_bytes": 2753077248,
+            "container_lifetime_memory_peak_bytes": 2456543232
+          },
+          {
+            "condition": "lookup_final",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 1.8561767840001266,
+            "peak_cuda_allocated_bytes": 4088219648,
+            "peak_cuda_reserved_bytes": 4710203392,
+            "sampled_process_tree_rss_peak_bytes": 1784004608,
+            "main_process_lifetime_rss_peak_bytes": 2753077248,
+            "container_lifetime_memory_peak_bytes": 2456543232
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.474785674499799,
+          "lookup_final": 1.8560361295003531
+        },
+        "reference_over_candidate": 1.3333714980893254,
+        "acceptance": "eligible_for_full_job_check"
+      }
+    ],
+    "source_manifest": {
+      "torch": "2.10.0a0+b558c986e8.nv25.11",
+      "cuda": "13.0",
+      "float32_matmul_precision": "high",
+      "allow_tf32": true,
+      "source_sha256": {
+        "reference/structure_module.py": "1d9b3500f0c524d641b23a7d21f1c946a4c57b336deead84c432328d584e7a78",
+        "candidate/features.py": "a2c153acc0f254389548e3cd4b02dc0c83e7aff8431fe52afb0a4ecf4c925efd",
+        "candidate/structure_module.py": "aef98659bf58d42e61b8efbe211aaf4ec5e3f0cd456ca2a38f0d23482208cfd5",
+        "tools/compare_component.py": "85c00de543936149835dd258e9203bdb971075bf2fb56d53945c4bb1f3b7b231"
+      },
+      "scope": "FP32 matched model weights; engineering fixtures, not biological accuracy"
+    }
+  },
+  "components-pair-buffer": {
+    "results": [
+      {
+        "model": "base",
+        "variant": "compatibility",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.495332395999867,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6520045568,
+            "sampled_process_tree_rss_peak_bytes": 2661376000,
+            "main_process_lifetime_rss_peak_bytes": 2660618240,
+            "container_lifetime_memory_peak_bytes": 2367176704
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.506193686000188,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2675036160,
+            "main_process_lifetime_rss_peak_bytes": 2674409472,
+            "container_lifetime_memory_peak_bytes": 2380865536
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.4974089250008547,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2675036160,
+            "main_process_lifetime_rss_peak_bytes": 2674409472,
+            "container_lifetime_memory_peak_bytes": 2380947456
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.5056408069995086,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2661376000,
+            "main_process_lifetime_rss_peak_bytes": 2674409472,
+            "container_lifetime_memory_peak_bytes": 2380947456
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.4985941240011016,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2675036160,
+            "main_process_lifetime_rss_peak_bytes": 2674409472,
+            "container_lifetime_memory_peak_bytes": 2380947456
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.502596648999315,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2675036160,
+            "main_process_lifetime_rss_peak_bytes": 2674409472,
+            "container_lifetime_memory_peak_bytes": 2380947456
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.502117465500305,
+          "compatibility": 2.500002787000085
+        },
+        "reference_over_candidate": 1.0008458704571117,
+        "acceptance": "eligible_for_full_job_check"
+      },
+      {
+        "model": "base",
+        "variant": "pair_buffer",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.4895979369994166,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2675634176,
+            "main_process_lifetime_rss_peak_bytes": 2674982912,
+            "container_lifetime_memory_peak_bytes": 2381168640
+          },
+          {
+            "condition": "pair_buffer",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.3699555120001605,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 5242880000,
+            "sampled_process_tree_rss_peak_bytes": 2675634176,
+            "main_process_lifetime_rss_peak_bytes": 2675003392,
+            "container_lifetime_memory_peak_bytes": 2381168640
+          },
+          {
+            "condition": "pair_buffer",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.385472915999344,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 5242880000,
+            "sampled_process_tree_rss_peak_bytes": 2675634176,
+            "main_process_lifetime_rss_peak_bytes": 2675003392,
+            "container_lifetime_memory_peak_bytes": 2381168640
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.5081836560002557,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2675634176,
+            "main_process_lifetime_rss_peak_bytes": 2675003392,
+            "container_lifetime_memory_peak_bytes": 2381168640
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.4965555840008165,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2675634176,
+            "main_process_lifetime_rss_peak_bytes": 2675003392,
+            "container_lifetime_memory_peak_bytes": 2381168640
+          },
+          {
+            "condition": "pair_buffer",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.3844950860002427,
+            "peak_cuda_allocated_bytes": 5057143296,
+            "peak_cuda_reserved_bytes": 5242880000,
+            "sampled_process_tree_rss_peak_bytes": 2675634176,
+            "main_process_lifetime_rss_peak_bytes": 2675003392,
+            "container_lifetime_memory_peak_bytes": 2381168640
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.502369620000536,
+          "pair_buffer": 2.3849840009997934
+        },
+        "reference_over_candidate": 1.0492186190563686,
+        "acceptance": "eligible_for_full_job_check"
+      },
+      {
+        "model": "base",
+        "variant": "exact_all",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.506759735000742,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2741260288,
+            "main_process_lifetime_rss_peak_bytes": 2740355072,
+            "container_lifetime_memory_peak_bytes": 2442903552
+          },
+          {
+            "condition": "exact_all",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 1.7758803619999526,
+            "peak_cuda_allocated_bytes": 4087323648,
+            "peak_cuda_reserved_bytes": 4269801472,
+            "sampled_process_tree_rss_peak_bytes": 1820168192,
+            "main_process_lifetime_rss_peak_bytes": 2740355072,
+            "container_lifetime_memory_peak_bytes": 2442903552
+          },
+          {
+            "condition": "exact_all",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 1.7853061360001448,
+            "peak_cuda_allocated_bytes": 4087323648,
+            "peak_cuda_reserved_bytes": 4269801472,
+            "sampled_process_tree_rss_peak_bytes": 1778704384,
+            "main_process_lifetime_rss_peak_bytes": 2740355072,
+            "container_lifetime_memory_peak_bytes": 2442903552
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.496533105999333,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2741260288,
+            "main_process_lifetime_rss_peak_bytes": 2740355072,
+            "container_lifetime_memory_peak_bytes": 2443104256
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.4873856120011624,
+            "peak_cuda_allocated_bytes": 5057340416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2741260288,
+            "main_process_lifetime_rss_peak_bytes": 2740355072,
+            "container_lifetime_memory_peak_bytes": 2443112448
+          },
+          {
+            "condition": "exact_all",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 1.774273245000586,
+            "peak_cuda_allocated_bytes": 4087323648,
+            "peak_cuda_reserved_bytes": 4269801472,
+            "sampled_process_tree_rss_peak_bytes": 1778978816,
+            "main_process_lifetime_rss_peak_bytes": 2740355072,
+            "container_lifetime_memory_peak_bytes": 2443112448
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.491959359000248,
+          "exact_all": 1.7797896905003654
+        },
+        "reference_over_candidate": 1.4001425967916832,
+        "acceptance": "eligible_for_full_job_check"
+      },
+      {
+        "model": "plddt",
+        "variant": "compatibility",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.4382878739997977,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456043520
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.434112189001098,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456223744
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.439742151000246,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456231936
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.433323126000687,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456231936
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.436865105999459,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.444249784999556,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.435094116000073,
+          "compatibility": 2.441995967999901
+        },
+        "reference_over_candidate": 0.9971736841132129,
+        "acceptance": "no_measured_speed_improvement"
+      },
+      {
+        "model": "plddt",
+        "variant": "pair_buffer",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.4371457420002116,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          },
+          {
+            "condition": "pair_buffer",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.306177911001214,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 5242880000,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          },
+          {
+            "condition": "pair_buffer",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.314035282999612,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 5242880000,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.436069998999301,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.441499415999715,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          },
+          {
+            "condition": "pair_buffer",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.319292239000788,
+            "peak_cuda_allocated_bytes": 5058039296,
+            "peak_cuda_reserved_bytes": 5242880000,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.438784707499508,
+          "pair_buffer": 2.3166637610002
+        },
+        "reference_over_candidate": 1.0527141437420264,
+        "acceptance": "eligible_for_full_job_check"
+      },
+      {
+        "model": "plddt",
+        "variant": "exact_all",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "padding_short",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_0",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_1",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_2",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_3",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_4",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_5",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_6",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "substitution_7",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "padding_long",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 64,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 2.4499260279990267,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          },
+          {
+            "condition": "exact_all",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 1.7247913089995563,
+            "peak_cuda_allocated_bytes": 4088219648,
+            "peak_cuda_reserved_bytes": 4269801472,
+            "sampled_process_tree_rss_peak_bytes": 1784676352,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          },
+          {
+            "condition": "exact_all",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 1.7218689260007523,
+            "peak_cuda_allocated_bytes": 4088219648,
+            "peak_cuda_reserved_bytes": 4269801472,
+            "sampled_process_tree_rss_peak_bytes": 1784111104,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 2.4517190030001075,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 2.424856842999361,
+            "peak_cuda_allocated_bytes": 5058236416,
+            "peak_cuda_reserved_bytes": 6522142720,
+            "sampled_process_tree_rss_peak_bytes": 2753875968,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          },
+          {
+            "condition": "exact_all",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 1.7256135919997178,
+            "peak_cuda_allocated_bytes": 4088219648,
+            "peak_cuda_reserved_bytes": 4269801472,
+            "sampled_process_tree_rss_peak_bytes": 1784111104,
+            "main_process_lifetime_rss_peak_bytes": 2752770048,
+            "container_lifetime_memory_peak_bytes": 2456256512
+          }
+        ],
+        "medians_seconds": {
+          "reference": 2.4382879229997343,
+          "exact_all": 1.723741259000235
+        },
+        "reference_over_candidate": 1.414532436506123,
+        "acceptance": "eligible_for_full_job_check"
+      }
+    ],
+    "source_manifest": {
+      "torch": "2.10.0a0+b558c986e8.nv25.11",
+      "cuda": "13.0",
+      "float32_matmul_precision": "high",
+      "allow_tf32": true,
+      "source_sha256": {
+        "reference/structure_module.py": "1d9b3500f0c524d641b23a7d21f1c946a4c57b336deead84c432328d584e7a78",
+        "candidate/features.py": "a2c153acc0f254389548e3cd4b02dc0c83e7aff8431fe52afb0a4ecf4c925efd",
+        "candidate/structure_module.py": "2eade8e83f7ee7c330804ef6cdfcac698cc8ce3121c1db3b99a6e7fb0c4225c0",
+        "tools/compare_component.py": "cc2fe3deaeeec567e723d8cd398c89f89e5b04813190e3fb934ef0e61ee6a6ff"
+      },
+      "scope": "FP32 matched model weights; engineering fixtures, not biological accuracy"
+    }
+  },
+  "components-compiled": {
+    "results": [
+      {
+        "model": "plddt",
+        "variant": "compatibility",
+        "exact": true,
+        "comparisons": [
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": true,
+            "confidence_exact": true,
+            "final_states_exact": true,
+            "pdb_exact": true,
+            "max_atom_difference": 0.0,
+            "max_ca_difference": 0.0
+          }
+        ],
+        "count": 32,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 1.4036206700002367,
+            "peak_cuda_allocated_bytes": 5056842240,
+            "peak_cuda_reserved_bytes": 6520045568,
+            "sampled_process_tree_rss_peak_bytes": 2631852032,
+            "main_process_lifetime_rss_peak_bytes": 2631348224,
+            "container_lifetime_memory_peak_bytes": 2326982656
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 1.3393143369994505,
+            "peak_cuda_allocated_bytes": 5056842240,
+            "peak_cuda_reserved_bytes": 6520045568,
+            "sampled_process_tree_rss_peak_bytes": 2651754496,
+            "main_process_lifetime_rss_peak_bytes": 2651078656,
+            "container_lifetime_memory_peak_bytes": 2346872832
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 1.3621860740004195,
+            "peak_cuda_allocated_bytes": 5056842240,
+            "peak_cuda_reserved_bytes": 6520045568,
+            "sampled_process_tree_rss_peak_bytes": 2651947008,
+            "main_process_lifetime_rss_peak_bytes": 2651410432,
+            "container_lifetime_memory_peak_bytes": 2347134976
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 1.3564085100006196,
+            "peak_cuda_allocated_bytes": 5056842240,
+            "peak_cuda_reserved_bytes": 6520045568,
+            "sampled_process_tree_rss_peak_bytes": 2651947008,
+            "main_process_lifetime_rss_peak_bytes": 2651435008,
+            "container_lifetime_memory_peak_bytes": 2347331584
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 1.3485216150002088,
+            "peak_cuda_allocated_bytes": 5056842240,
+            "peak_cuda_reserved_bytes": 6520045568,
+            "sampled_process_tree_rss_peak_bytes": 2651947008,
+            "main_process_lifetime_rss_peak_bytes": 2651435008,
+            "container_lifetime_memory_peak_bytes": 2347331584
+          },
+          {
+            "condition": "compatibility",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 1.3491872929989768,
+            "peak_cuda_allocated_bytes": 5056842240,
+            "peak_cuda_reserved_bytes": 6520045568,
+            "sampled_process_tree_rss_peak_bytes": 2651947008,
+            "main_process_lifetime_rss_peak_bytes": 2651435008,
+            "container_lifetime_memory_peak_bytes": 2347331584
+          }
+        ],
+        "medians_seconds": {
+          "reference": 1.3524650625004142,
+          "compatibility": 1.3556866834996981
+        },
+        "reference_over_candidate": 0.9976236242204819,
+        "acceptance": "no_measured_speed_improvement"
+      },
+      {
+        "model": "plddt",
+        "variant": "compiled",
+        "exact": false,
+        "comparisons": [
+          {
+            "name": "trastuzumab_like",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.004218101501464844,
+            "max_ca_difference": 0.001613616943359375
+          },
+          {
+            "name": "adalimumab_like",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.007716178894042969,
+            "max_ca_difference": 0.003494739532470703
+          },
+          {
+            "name": "6yio_example",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.022454142570495605,
+            "max_ca_difference": 0.004597663879394531
+          },
+          {
+            "name": "bevacizumab_like",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.00432199239730835,
+            "max_ca_difference": 0.0013461112976074219
+          },
+          {
+            "name": "pembrolizumab_like",
+            "coordinates_exact": false,
+            "confidence_exact": false,
+            "final_states_exact": false,
+            "pdb_exact": false,
+            "max_atom_difference": 0.020819664001464844,
+            "max_ca_difference": 0.009215354919433594
+          }
+        ],
+        "count": 32,
+        "batch_size": 32,
+        "measurements": [
+          {
+            "condition": "reference",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 1.3674910359986825,
+            "peak_cuda_allocated_bytes": 5056842240,
+            "peak_cuda_reserved_bytes": 6520045568,
+            "sampled_process_tree_rss_peak_bytes": 12800180224,
+            "main_process_lifetime_rss_peak_bytes": 2848903168,
+            "container_lifetime_memory_peak_bytes": 4761137152
+          },
+          {
+            "condition": "compiled",
+            "repeat": 0,
+            "warmup": true,
+            "seconds": 33.220816590999675,
+            "peak_cuda_allocated_bytes": 4703527424,
+            "peak_cuda_reserved_bytes": 4729077760,
+            "sampled_process_tree_rss_peak_bytes": 12813844480,
+            "main_process_lifetime_rss_peak_bytes": 2862514176,
+            "container_lifetime_memory_peak_bytes": 4775002112
+          },
+          {
+            "condition": "compiled",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 0.8246793899998011,
+            "peak_cuda_allocated_bytes": 3601436672,
+            "peak_cuda_reserved_bytes": 3636461568,
+            "sampled_process_tree_rss_peak_bytes": 13108428800,
+            "main_process_lifetime_rss_peak_bytes": 3015487488,
+            "container_lifetime_memory_peak_bytes": 5116231680
+          },
+          {
+            "condition": "reference",
+            "repeat": 1,
+            "warmup": false,
+            "seconds": 1.3486496420009644,
+            "peak_cuda_allocated_bytes": 5056842240,
+            "peak_cuda_reserved_bytes": 6520045568,
+            "sampled_process_tree_rss_peak_bytes": 13108428800,
+            "main_process_lifetime_rss_peak_bytes": 3015593984,
+            "container_lifetime_memory_peak_bytes": 5116231680
+          },
+          {
+            "condition": "reference",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 1.3494248560000415,
+            "peak_cuda_allocated_bytes": 5056842240,
+            "peak_cuda_reserved_bytes": 6520045568,
+            "sampled_process_tree_rss_peak_bytes": 13108428800,
+            "main_process_lifetime_rss_peak_bytes": 3015593984,
+            "container_lifetime_memory_peak_bytes": 5116465152
+          },
+          {
+            "condition": "compiled",
+            "repeat": 2,
+            "warmup": false,
+            "seconds": 0.8141085589995782,
+            "peak_cuda_allocated_bytes": 3601436672,
+            "peak_cuda_reserved_bytes": 3636461568,
+            "sampled_process_tree_rss_peak_bytes": 13108428800,
+            "main_process_lifetime_rss_peak_bytes": 3015593984,
+            "container_lifetime_memory_peak_bytes": 5116465152
+          }
+        ],
+        "medians_seconds": {
+          "reference": 1.349037249000503,
+          "compiled": 0.8193939744996896
+        },
+        "reference_over_candidate": 1.6463841460686917,
+        "acceptance": "requires_user_discussion"
+      }
+    ],
+    "source_manifest": {
+      "torch": "2.10.0a0+b558c986e8.nv25.11",
+      "cuda": "13.0",
+      "float32_matmul_precision": "high",
+      "allow_tf32": true,
+      "source_sha256": {
+        "reference/structure_module.py": "1d9b3500f0c524d641b23a7d21f1c946a4c57b336deead84c432328d584e7a78",
+        "candidate/features.py": "a2c153acc0f254389548e3cd4b02dc0c83e7aff8431fe52afb0a4ecf4c925efd",
+        "candidate/structure_module.py": "2eade8e83f7ee7c330804ef6cdfcac698cc8ce3121c1db3b99a6e7fb0c4225c0",
+        "tools/compare_component.py": "d239c8c049d11f4036e95fc4260a03efc017aa6388e1ca2695cd3c7aae329c57"
+      },
+      "scope": "FP32 matched model weights; engineering fixtures, not biological accuracy"
+    }
+  }
+}

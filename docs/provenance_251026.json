@@ -1,0 +1,13 @@
+{
+  "source_project": "ABodyBuilder3-DGX-Spark",
+  "source_commit": "07bfe1eb7c01eae955835fee69e38a8ab3f23b7e",
+  "upstream_model_commit": "a323ab3abe48440305e9b4baf1b5a393781d7d78",
+  "reference_sha256": "1d9b3500f0c524d641b23a7d21f1c946a4c57b336deead84c432328d584e7a78",
+  "accepted_source_sha256": {
+    "accepted/features.py": "a2c153acc0f254389548e3cd4b02dc0c83e7aff8431fe52afb0a4ecf4c925efd",
+    "accepted/structure_module.py": "60a6ca09f859d5a9b57ebecb79b3d4113e5cbb77b0065cece30b953c2ddc025b"
+  },
+  "reference_image": "sha256:0a3ffb4edcef8d608d65eca49787fcb4ea820098a63e6dfdca853baee0527afa",
+  "accepted_image": "sha256:18456b5147ea1ec35d8de4f664962baeea6af1bb473ad9107bb1cbfa37fd844d",
+  "prediction_gate": "Exact raw coordinates, masks, confidence and PDB bytes. Nonidentical experiments are not enabled."
+}
