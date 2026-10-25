@@ -1,6 +1,6 @@
 # Preparation and fast-prediction benchmarks — 25 October 2026
 
-The updated CLI was compared with the previous modernised deployment (`3e64fab`). Both use the same ABodyBuilder3 model source and weights. The updated image also pins OpenMM's CUDA dependencies to 13.0 for driver 580.178.04. Main and the retained original image were unchanged.
+The updated CLI was compared with the previous modernised deployment (`3e64fab`). Both use the same ABodyBuilder3 model source and weights. The updated image also pins OpenMM's CUDA dependencies to 13.0 for driver 580.178.04. Measurements preceded promotion of this implementation to main; the retained original image was unchanged.
 
 ## Fast prediction
 

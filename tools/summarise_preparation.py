@@ -43,7 +43,7 @@ def main():
     (data_dir / "abodybuilder3_preparation_measurements_251026.json").write_text(json.dumps(evidence,indent=2)+"\n")
     summary = []
     lines = ["# Preparation and fast-prediction benchmarks — 25 October 2026", "",
-        "The updated CLI was compared with the previous modernised deployment (`3e64fab`). Both use the same ABodyBuilder3 model source and weights. The updated image also pins OpenMM's CUDA dependencies to 13.0 for driver 580.178.04. Main and the retained original image were unchanged.", "",
+        "The updated CLI was compared with the previous modernised deployment (`3e64fab`). Both use the same ABodyBuilder3 model source and weights. The updated image also pins OpenMM's CUDA dependencies to 13.0 for driver 580.178.04. Measurements preceded promotion of this implementation to main; the retained original image was unchanged.", "",
         "## Fast prediction", "",
         "Complete fresh-container jobs include imports, loading, inference and writing PDBs. Each condition has one warm-up and two measured runs, interleaved between conditions; the final pair reverses order. Base/pLDDT use 1,000 inputs and eight workers; language uses 20 inputs and one worker, with live embeddings from the same pinned offline ProtT5 assets. Workloads cycle five public sequence pairs, not 1,000 distinct antibodies.", "",
         "Times are medians of the two measured runs, with their ranges. RSS and CUDA columns are the higher measured peak. RSS is summed process-tree RSS (shared pages can be counted more than once); CUDA is the sampled concurrent PyTorch allocation. These are different quantities and must not be added on the Spark's unified-memory system.", "",

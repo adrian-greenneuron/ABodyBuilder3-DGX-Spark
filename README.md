@@ -1,302 +1,187 @@
-# ABodyBuilder3 for NVIDIA DGX Spark (ARM64 / Grace Blackwell GB10)
+# ABodyBuilder3 on NVIDIA DGX Spark
 
-This repository provides a specialized Docker deployment for running **ABodyBuilder3** (antibody structure prediction) on the NVIDIA DGX Spark system, powered by **Grace Blackwell (GB10)** GPUs and **ARM64** architecture.
+Predict antibody variable-region structures from paired heavy- and light-chain sequences on the DGX Spark's ARM64 CPU and NVIDIA GB10 GPU. This repository packages [ABodyBuilder3](https://github.com/Exscientia/abodybuilder3) in a reproducible Docker environment, with a parallel prediction CLI and optional chemical preparation and restrained energy minimisation.
 
-## Modernised deployment (25 October 2026)
+**Main now contains the tested modernised deployment.** It uses published OpenMM/PDBFixer packages and updated Reduce, while retaining the original model settings and weights. The latest official model source and released weights checked on 25 October 2026 were already incorporated in this deployment; modernisation does not introduce a newly trained model.
 
-This development branch uses the latest official ABodyBuilder3 code and released checkpoints available when checked, with published OpenMM/CUDA packages and Reduce 4.17. The official model source is unchanged since October 2024 and is already incorporated in the original deployment; there are no newer official trained weights to substitute.
-
-The original remains the working default on [main](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/main), which now includes its pinned rebuild recipe. This branch retains the original model settings and PyTorch stack while replacing the custom OpenMM/PDBFixer builds. The existing Flash Attention import compatibility, tensor-indexing fix and fast PDB writer remain.
-
-All three models passed raw prediction-agreement checks. The current CLI separates fast prediction, chemical preparation and real restrained energy minimisation. `--relaxation` has been removed and fails with an explanation. The [new preparation and performance measurements](docs/abodybuilder3_preparation_benchmarks_251026.md) checked 12,120 byte-identical raw predictions; base/pLDDT complete-process runtimes remained within 1.3% of the previous modernised CLI. Language timings remain variable.
-
-See the [complete benchmark tables](docs/abodybuilder3_benchmarks_251026.md) and [reproducibility instructions](docs/abodybuilder3_reproducibility_251026.md). The historical benchmark table below records the original December 2025 deployment, not this modernised runtime.
-
-## What is ABodyBuilder3?
-
-ABodyBuilder3 is a state-of-the-art deep learning model for predicting antibody variable region structures from sequence. It achieves high accuracy on CDR loops (especially CDRH3) by leveraging ProtT5 language model embeddings and includes per-residue confidence scores (pLDDT).
-
-**Paper**: [ABodyBuilder3: Improved and scalable antibody structure predictions](https://doi.org/10.1093/bioinformatics/btae576) (Bioinformatics, 2024)
-
-## Why This Exists
-
-The original ABodyBuilder3 was developed for x86_64 with CUDA 11.7 and Python 3.9. DGX Spark uses ARM64 and Blackwell GPUs (sm_120/sm_121), requiring compatible packages and a small number of source compatibility fixes.
-
-This build solves:
-- **Flash Attention API**: Updated imports for NGC container's newer flash_attn version
-- **Published OpenMM wheels**: Uses OpenMM 8.6.1 with the CUDA 13 plugin and PDBFixer 1.12 instead of custom source builds
-- **PyTorch 2.10 Compatibility**: Handles stricter `weights_only=True` checkpoint loading
-- **CUDA 13 Support**: Uses NGC 25.11 with native CUDA 13.0 and Python 3.12
-
-## Benchmark Results
-
-Benchmarks run on **NVIDIA DGX Spark** (Grace Blackwell GB10, 128.5GB unified RAM).
-
-*Benchmark date: 2025-12-24 | CUDA 13.0 | PyTorch 2.10 | 1000 antibodies*
-
-### Worker Scaling
-
-| Workers | Throughput | Speedup vs Baseline |
-|---------|------------|---------------------|
-| 1 | 270/min | 2.5x |
-| 2 | 451/min | 4.2x |
-| 3 | 552/min | 5.2x |
-| 4 | 631/min | 5.9x |
-| 5 | 694/min | 6.5x |
-| 6 | 740/min | 6.9x |
-| 7 | 742/min | 6.9x |
-| **8** | **751/min** | **7.0x** |
-| 10 | 681/min | 6.4x |
-
-> **Optimal: 8 workers = 751 antibodies/minute** (7x faster than 107/min baseline)
-
-![Worker Scaling](docs/worker_scaling.png)
-
-### Optimization Summary
-
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| Throughput | 107/min | **751/min** | **7x faster** |
-| Per antibody | 0.56s | 0.08s | 7x faster |
-| Bottleneck | PDB generation (91%) | GPU inference (63%) | Fixed |
-
-### Key Observations
-
-- **Peak throughput**: 751 antibodies/minute with 8 workers
-- **Optimal workers**: 8 (performance drops at 10+ due to GPU contention)
-- **Bottleneck**: Now GPU inference, not CPU PDB generation
-
-## Quick Start
-
-### 1. Build the Docker Image
-
-```bash
-# Clone this repository
-git clone --branch official/abodybuilder3-spark https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
-cd ABodyBuilder3-DGX-Spark
-
-# Build with the build script
-./docker_build.sh build
-
-# Or build manually
-DOCKER_BUILDKIT=1 docker build -t abodybuilder3-official-spark:latest .
-```
-
-### 2. Run the Test
-
-```bash
-./docker_build.sh test
-```
-
-Expected output:
-```
-============================================================
-ABodyBuilder3 Docker Image Test
-============================================================
-PyTorch version: 2.10.0a0+b558c986e8.nv25.11
-CUDA version: 13.0
-OpenMM version: 8.6.1
-CUDA available: True
-GPU: NVIDIA GB10
-GPU Memory: 128.5 GB
-============================================================
-All imports successful!
-```
-
-### 3. Predict an Antibody Structure
-
-```bash
-docker run --rm --gpus all --ipc=host \
-    -v $(pwd)/scripts:/scripts \
-    -v $(pwd)/output:/output \
-    abodybuilder3-official-spark:latest \
-    python3 /scripts/test_inference.py
-```
-
-Output:
-```
-✅ Structure prediction successful!
-  Output file: /tmp/test_antibody.pdb
-  Total atoms: 3407
-  Total residues: 229
-```
-
-## Usage Examples
-
-### Basic Inference (Python)
-
-```python
-import torch
-import ml_collections
-from abodybuilder3.utils import string_to_input, output_to_pdb, add_atom37_to_output
-from abodybuilder3.lightning_module import LitABB3
-
-# Required for PyTorch 2.10+ checkpoint loading
-torch.serialization.add_safe_globals([ml_collections.ConfigDict])
-
-# Your antibody sequences
-heavy = "QVQLVQSGAEVKKPGSSVKVSCKASGGTFS..."
-light = "DIQMTQSPSTLSASVGDRVTITCRASQSIS..."
-
-# Load model
-module = LitABB3.load_from_checkpoint("output/plddt-loss/best_second_stage.ckpt")
-model = module.model.eval().cuda()
-
-# Prepare input and run inference
-ab_input = string_to_input(heavy=heavy, light=light)
-ab_input_batch = {k: v.unsqueeze(0).cuda() if k not in ["single", "pair"] else v.cuda() 
-                  for k, v in ab_input.items()}
-
-with torch.no_grad():
-    output = model(ab_input_batch, ab_input_batch["aatype"])
-    output = add_atom37_to_output(output, ab_input["aatype"].cuda())
-
-pdb_string = output_to_pdb(output, ab_input)
-```
-
-### Available Models
-
-| Model | Checkpoint Path | Description |
-|-------|-----------------|-------------|
-| **pLDDT** (recommended) | `output/plddt-loss/best_second_stage.ckpt` | Includes confidence scores |
-| Base | `output/base-loss/best_second_stage.ckpt` | Standard model, faster |
-| Language | `output/language-loss/best_second_stage.ckpt` | Best CDR accuracy with ProtT5 |
-
-### Parallel Processing
-
-Use `--workers` to control parallelism. Each worker loads its own model copy and processes antibodies independently.
-
-```bash
-# Maximum throughput (recommended, 8 workers = 751/min)
-python3 scripts/predict.py predict --csv input.csv -o output/ --workers 8
-
-# Auto-detect optimal workers
-python3 scripts/predict.py predict --csv input.csv -o output/ --workers auto
-
-# Single worker (lower memory, slower)
-python3 scripts/predict.py predict --csv input.csv -o output/ --workers 1
-```
-
-> **Tip**: With 8 workers on DGX Spark, expect ~751 antibodies/minute.
-
-### Chemical preparation and relaxation
-
-Plain prediction keeps the fast heavy-atom output. Preparation is optional and saves separate files, preserving the raw prediction:
-
-```bash
-# Repair missing heavy/terminal atoms, then add hydrogens at pH 7
-python3 scripts/predict.py predict --csv input.csv -o output/ --add-hydrogens --ph 7
-
-# Also allow Reduce to optimise Asn/Gln/His side-chain orientations
-python3 scripts/predict.py predict --csv input.csv -o output/ \
-    --add-hydrogens --hydrogen-method reduce --sidechain-flips
-
-# Genuine restrained energy minimisation on the Spark GPU
-python3 scripts/predict.py predict --csv input.csv -o output/ \
-    --relax restrained --relax-platform cuda --seed 42
-```
-
-| Option | Description |
-|--------|-------------|
-| `--add-hydrogens` | Save `.prepared.pdb` and `.preparation.json` alongside the raw `.pdb` |
-| `--hydrogen-method` | `openmm` (default): PDBFixer repair + OpenMM hydrogens; `reduce`: optional Reduce orientation followed by OpenMM hydrogens |
-| `--ph` | Final OpenMM protonation pH, default 7; unsupported Amber template combinations fail explicitly |
-| `--sidechain-flips` | Allow Reduce side-chain flips; requires `--hydrogen-method reduce` |
-| `--relax restrained` | Prepare, optimise hydrogen positions, then minimise with restraints on heavy atoms; also saves `.relaxed.pdb` |
-| `--relax-platform` | `cpu` (default, portable) or `cuda` (recommended on DGX Spark); no silent fallback |
-| `--relaxation` / `-r` | Removed: exits with an error and explains the replacement options |
-
-Reduce is never a silent fallback. In the Reduce pipeline its hydrogen output is discarded: OpenMM rebuilds hydrogens against the repaired topology, pH and disulfide bonds. Preparation does not rebuild missing sequence stretches. The [preparation guide](docs/abodybuilder3_preparation_251026.md) explains output files, settings, failures and scientific limits. `-H` selects the heavy-chain sequence, not hydrogen addition.
-
-## Repository Structure
-
-```
-├── Dockerfile              # DGX Spark optimized build
-├── docker_build.sh         # Build/test/shell helper script
-├── scripts/
-│   └── test_inference.py   # Inference test script
-├── src/abodybuilder3/      # Model source code
-├── output/                 # Model weights (downloaded during build)
-└── README.md               # This file
-```
-
-## Technical Details
-
-| Component | Version |
-|-----------|---------|
-| **Base Image** | `nvcr.io/nvidia/pytorch:25.11-py3` |
-| **CUDA** | 13.0 |
-| **PyTorch** | 2.10 |
-| **Python** | 3.12 |
-| **OpenMM** | 8.6.1, published ARM64/CUDA 13 wheels; CUDA dependencies pinned to 13.0 for the tested driver |
-| **Flash Attention** | 2.7.4 (NGC built-in) |
-| **Triton** | 3.5.0 (NGC built-in) |
-
-### Key Fixes Applied
-
-| Fix | Purpose |
-|-----|---------|
-| `primitives.py` flash_attn imports | Handle NGC's newer Flash Attention API |
-| `setup.cfg` version relaxation | Allow numpy/scipy/pandas compatible with Python 3.12 |
-| PyTorch safe globals | Register `ml_collections.ConfigDict` for `weights_only=True` |
-| OpenMM CUDA dependency pins | Match CUDA 13.0 to driver 580.178.04; avoid unsupported CUDA 13.4 PTX |
+The original build recipe remains available at [`original-runtime-251026`](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/original-runtime-251026). Experimental GPU batching remains on [`dev`](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/dev) and is not part of the default CLI.
 
 ## Requirements
 
-- **Hardware**: NVIDIA DGX Spark (Grace Blackwell / GB10)
-- **Docker**: 20.10+ with NVIDIA Container Toolkit
-- **Disk Space**: ~25GB for the Docker image
-- **Memory**: 16GB+ recommended
+- NVIDIA DGX Spark running Linux, with Docker and the NVIDIA Container Toolkit configured for GPU containers.
+- A working NVIDIA driver. This deployment was tested with **580.178.04**; its CUDA dependencies are pinned to 13.0 for that driver.
+- Internet access during the build to obtain the public base image, source and checkpoints. No existing local ABodyBuilder3 image or weights are needed.
+- Space for an approximately **22 GB logical Docker image**, plus build cache and outputs. Docker layers may be shared with other images. The language model needs a separate **11.28 GB** ProtT5 download.
 
-## Data Sources
+Memory use depends on the model, worker count and sequence lengths. The measurements below cover five public antibody pairs of 227–231 residues in total; they do not establish the largest supported input.
 
-Model weights are automatically downloaded from [Zenodo](https://zenodo.org/records/11354577) during Docker build:
-- `output.tar.gz` (~1.3GB) - Pre-trained model checkpoints
+## Quick start
 
-For training data and language model embeddings, run:
+### 1. Build and check the environment
+
 ```bash
-./download.sh
+git clone https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
+cd ABodyBuilder3-DGX-Spark
+./docker_build.sh build
+./docker_build.sh test
 ```
 
-## Troubleshooting
+The default image name is `abodybuilder3-official-spark:latest`. The build verifies the downloaded checkpoint hashes; the test checks imports and reports GPU availability. To rebuild without using Docker's build cache:
 
-### "ModuleNotFoundError: No module named 'flash_attn.flash_attention'"
-This is fixed in this repository. The NGC container uses a newer flash_attn API without the legacy `FlashAttention` class.
-
-### "WeightsUnpickler error: Unsupported global: ConfigDict"
-Add this before loading checkpoints:
-```python
-import ml_collections
-torch.serialization.add_safe_globals([ml_collections.ConfigDict])
+```bash
+NO_CACHE=1 ./docker_build.sh build
 ```
 
-### OpenMM/pdbfixer import errors
-Ensure you're using the Docker image from this repository, which builds OpenMM from source for Blackwell compatibility.
+### 2. Predict the five public examples
 
-## Citation
+The input preparation command uses only Python's standard library. Run it once in a fresh output directory:
 
-If you use ABodyBuilder3, please cite:
+```bash
+python3 tools/prepare_benchmark_inputs.py --output benchmark_inputs --counts 5
+mkdir -p predictions
 
-```bibtex
-@article{abodybuilder3,
-    author = {Kenlay, Henry and Dreyer, Frédéric A and Cutting, Daniel and Nissley, Daniel and Deane, Charlotte M},
-    title = "{ABodyBuilder3: improved and scalable antibody structure predictions}",
-    journal = {Bioinformatics},
-    volume = {40},
-    number = {10},
-    pages = {btae576},
-    year = {2024},
-    doi = {10.1093/bioinformatics/btae576}
-}
+docker run --rm --gpus all --ipc=host \
+    -e PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+    -v "$PWD/benchmark_inputs:/inputs:ro" \
+    -v "$PWD/predictions:/predictions" \
+    abodybuilder3-official-spark:latest \
+    python3 scripts/predict.py predict \
+        --csv /inputs/antibodies_5.csv --output /predictions/ \
+        --model plddt --workers 1 --seed 42
 ```
 
-## Resources
+Raw heavy-atom PDB files are saved in `predictions/` on the host. The image runs as root by default, so files written through the mount may be owned by root.
 
-- [Original ABodyBuilder3 Repository](https://github.com/Exscientia/abodybuilder3)
-- [ABodyBuilder3 Paper](https://doi.org/10.1093/bioinformatics/btae576)
-- [Zenodo Data](https://zenodo.org/records/11354577)
-- [NVIDIA NGC PyTorch Containers](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch)
+### 3. Use your own sequences
 
-## License
+Provide a CSV with `name,heavy,light` columns, one paired antibody per row. The generated example CSV shows the expected format. Mount its directory as `/inputs`, then change the `--csv` filename above. Keep the trailing `/` in `--output /predictions/` to request a directory.
 
-Apache 2.0 (same as original ABodyBuilder3)
+The CLI also accepts `--heavy`/`--light` sequences and paired FASTA files. To see all options:
+
+```bash
+docker run --rm abodybuilder3-official-spark:latest \
+    python3 scripts/predict.py predict --help
+```
+
+## Models and parallel prediction
+
+| Selection | Model | Additional assets |
+|---|---|---|
+| `--model plddt` | Default checkpoint, trained with the pLDDT confidence head | Included in the image |
+| `--model base` | Base checkpoint | Included in the image |
+| `--model language` | Checkpoint using ProtT5 sequence embeddings | Separate ProtT5 download |
+
+These are different trained checkpoints. Deployment checks compare each with its own original counterpart; they do not rank their accuracy against experimental structures.
+
+For large base/pLDDT batches, **`--workers 8`** was effective on the Spark. `--workers auto` is the default and selects eight on the tested system. Each prediction worker loads its own model copy, so reducing the worker count can reduce memory use. Use **`--workers 1` for the language model** to match the tested configuration. More workers do not necessarily improve throughput.
+
+**Confidence export limitation:** the current CLI's JSON and `--confidence-threshold` paths use flattened confidence logits rather than properly converted pLDDT scores; PDB B-factors are zero. Do not interpret those exported values as calibrated pLDDT or use the threshold for scientific filtering. This existing limitation is documented in the [reproducibility notes](docs/abodybuilder3_reproducibility_251026.md#interpretation-and-limitations); the model's confidence head itself is unchanged.
+
+### Prepare a reusable ProtT5 download
+
+The CLI can download ProtT5 on first use, but a host-mounted snapshot avoids downloading it again in disposable containers. The helper pins the revision and downloads only the five inference assets:
+
+```bash
+mkdir -p prott5
+docker run --rm \
+    -v "$PWD/tools:/tools:ro" -v "$PWD/prott5:/prott5" \
+    abodybuilder3-official-spark:latest \
+    python3 /tools/download_prott5.py --output /prott5
+
+mkdir -p language_predictions
+docker run --rm --gpus all --ipc=host \
+    -e PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+    -v "$PWD/benchmark_inputs:/inputs:ro" \
+    -v "$PWD/prott5:/opt/abodybuilder3/Rostlab/prot_t5_xl_uniref50:ro" \
+    -v "$PWD/language_predictions:/predictions" \
+    abodybuilder3-official-spark:latest \
+    python3 scripts/predict.py predict \
+        --csv /inputs/antibodies_5.csv --output /predictions/ \
+        --model language --workers 1 --seed 42
+```
+
+Embedding generation is included in the language timings below. Download time is excluded.
+
+## Optional chemical preparation and relaxation
+
+Plain prediction is the fast default. Preparation runs only when requested, saves separate outputs and preserves the raw PDB. Add the desired options to the prediction command inside the container:
+
+| Options | Behaviour |
+|---|---|
+| `--add-hydrogens --ph 7` | Repair missing heavy/terminal atoms and add hydrogens at pH 7 |
+| `--add-hydrogens --hydrogen-method reduce --sidechain-flips` | Also allow Reduce to optimise Asn/Gln/His side-chain orientations |
+| `--relax restrained --relax-platform cuda` | Prepare, then perform restrained energy minimisation on the Spark GPU |
+
+For example, keep the quick-start Docker command and change its final line to:
+
+```bash
+        --model plddt --workers 1 --seed 42 --relax restrained --relax-platform cuda
+```
+
+| Output | Contents |
+|---|---|
+| `.pdb` | Unmodified raw prediction |
+| `.prepared.pdb` | Repaired structure with hydrogens |
+| `.relaxed.pdb` | Restrained energy-minimised structure, when requested |
+| `.preparation.json` | Options, repairs, protonation, inferred disulfides, warnings, timings and minimisation results |
+
+PDBFixer repairs missing heavy/terminal atoms; OpenMM places the final hydrogens. Optional Reduce processing changes side-chain orientations only when requested, then OpenMM rebuilds hydrogens against the repaired topology. There is no silent fallback between methods. Preparation does not reconstruct missing sequence stretches, and unsupported protonation/force-field combinations fail explicitly.
+
+Relaxation uses Amber ff14SB with GBn2 implicit solvent. It first optimises hydrogen positions with heavy atoms fixed, then minimises with positional restraints on heavy atoms. Select `--relax-platform cuda` on Spark: the portable default is `cpu`, which was substantially slower. Inspect the audit's convergence and geometry warnings before downstream use. Lower energy or fewer overlaps does not establish greater accuracy against an experimental structure.
+
+**Changed options:** `--relaxation` and `-r` have been removed and now fail with an explanation. Use `--add-hydrogens` for preparation or `--relax restrained` for genuine minimisation. `-H` selects the heavy-chain sequence; it is not a hydrogen-addition alias. Preparation currently requires PDB output.
+
+See the [preparation guide](docs/abodybuilder3_preparation_251026.md) for settings, units, failure handling and scientific limits.
+
+## Measured performance
+
+Measurements on **DGX Spark / GB10, 25 October 2026**. Each complete prediction job ran in a fresh container and included imports, model loading, inference and PDB writing. One warm-up preceded two measured runs. The workloads cycle five public antibody pairs; these are throughput measurements rather than an accuracy study of distinct antibodies.
+
+| Model | Inputs | Workers | Complete time, median (range) | Peak summed RSS, GiB | Peak PyTorch CUDA allocation, GiB |
+|---|---:|---:|---|---:|---:|
+| Base | 1,000 | 8 | 82.18 s (81.96–82.41) | 14.577 | 1.018 |
+| pLDDT | 1,000 | 8 | 83.32 s (83.18–83.45) | 14.620 | 0.978 |
+| Language | 20 | 1 | 328.83 s (314.65–343.00) | 8.894 | 4.552 |
+
+Memory columns give the higher measured peak across the two runs. Summed process-tree RSS can count shared pages more than once; CUDA allocation is a sampled concurrent PyTorch measurement and can miss short peaks. **Do not add these columns** to estimate physical memory use on the Spark's unified-memory system.
+
+All **12,120 raw PDB files**, including warm-ups, matched the retained original reference byte for byte. Base/pLDDT median runtimes were within 1.3% of the previous modernised CLI. Language timings were variable; two repetitions do not establish a reliable small speed difference.
+
+Optional preparation adds a separate per-antibody cost. For the pLDDT examples, median preparation took **8.46 s** with OpenMM, **9.52 s** with Reduce orientation followed by OpenMM, and **10.66 s** including restrained CUDA relaxation. These exclude inference, startup and file writing. All 30 measured CUDA relaxations met the force criterion; this is a finite test set, not a guarantee for arbitrary structures.
+
+- [Current prediction and preparation benchmarks](docs/abodybuilder3_preparation_benchmarks_251026.md), with protocol, memory definitions and raw measurement links.
+- [Earlier original/rebuilt/modernised and dev-batching comparison](docs/abodybuilder3_benchmarks_251026.md), using the frozen earlier CLI.
+
+## Reproducible builds and verification
+
+The Dockerfile pins the NGC base image by digest, the model source by commit, Reduce by revision and Python dependencies by version. It verifies all three ABodyBuilder3 checkpoint hashes. The model source is kept at the tested commit; this checkout's prediction and preparation scripts are copied into the image separately.
+
+| Component | Tested runtime |
+|---|---|
+| Base image | NVIDIA NGC PyTorch 25.11, pinned digest |
+| Python / PyTorch / CUDA | 3.12 / NGC 2.10 prerelease / 13.0 |
+| OpenMM / PDBFixer | 8.6.1 / 1.12.0, published ARM64 packages |
+| OpenMM CUDA dependencies | Published wheels pinned to CUDA 13.0 |
+| Reduce | 4.17, pinned source revision |
+| ABodyBuilder3 weights | Three checkpoints from [Zenodo 11354577](https://zenodo.org/records/11354577); approximately 441 MB compressed archive |
+
+The deployment retains the Flash Attention import compatibility fix, PyTorch checkpoint-loading compatibility and fast PDB writer. It replaces the historical custom OpenMM/PDBFixer builds with published packages. CUDA dependency pins avoid the unsupported-PTX failure observed with newer NVRTC wheels on the tested driver.
+
+Ubuntu packages and build tools can change, so an identical Docker image digest is not promised across build dates. The [rebuild and verification guide](docs/abodybuilder3_reproducibility_251026.md) explains source/checkpoint/runtime checks, prediction comparisons, the original build tag and the limits of reproducibility. `--seed` alone does not guarantee identical prepared or relaxed coordinates across platforms.
+
+CPU-only interface and measurement checks:
+
+```bash
+python3 -m unittest discover -s tests -p 'test_structure_preparation.py' -v
+python3 -m unittest discover -s tests -p 'test_deployment_comparison.py' -v
+```
+
+The second command requires NumPy. Real chemistry tests run inside the Docker environment with saved public predictions, as described in the preparation guide. An import test alone does not verify CUDA minimisation or prediction agreement.
+
+## Citation and licence
+
+Please cite the original ABodyBuilder3 work when using the model:
+
+> Kenlay H, Dreyer FA, Cutting D, Nissley D, Deane CM. **ABodyBuilder3: improved and scalable antibody structure predictions.** *Bioinformatics* 40(10), btae576 (2024). [doi:10.1093/bioinformatics/btae576](https://doi.org/10.1093/bioinformatics/btae576).
+
+This repository is distributed under [Apache 2.0](LICENSE.txt). External components and downloaded assets retain their own licences; see [upstream ABodyBuilder3](https://github.com/Exscientia/abodybuilder3), the [checkpoint record](https://zenodo.org/records/11354577) and [ProtT5](https://huggingface.co/Rostlab/prot_t5_xl_uniref50).

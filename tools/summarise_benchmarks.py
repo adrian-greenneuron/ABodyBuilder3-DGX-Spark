@@ -61,7 +61,7 @@ def main():
     main_rows = [x for x in rows if x['count'] == (20 if x['model'] == 'language' else 1000)]
     labels = {'original': 'Original', 'rebuilt': 'Rebuilt', 'modernised': 'Modernised', 'dev': 'Dev batching'}
     lines = ['# ABodyBuilder3 deployment benchmarks — 25 October 2026', '',
-             'The original remains the default. All images, containers, checkpoints, inputs and outputs were retained.', '',
+             'This historical comparison preceded promotion of the modernised runtime to main. It uses the frozen earlier CLI; see the [current preparation benchmarks](abodybuilder3_preparation_benchmarks_251026.md) for the deployed CLI. All images, containers, checkpoints, inputs and outputs were retained.', '',
              '## Warmed processing', '',
              'One warm-up workload followed by two measured repetitions in the same loaded process. '
              'Times include feature/embedding preparation, inference and PDB string generation; imports, model loading and disk output are excluded. '
@@ -102,7 +102,7 @@ def main():
               '- All 18,000 PDB files from the 1,000-input CLI jobs were checked for correct heavy/light sequences and finite coordinates. For each model/input pair, all repeats and runtimes gave identical PDB bytes.',
               '- The checks assess deployment agreement, not accuracy against experimental structures. The five-pair workload is a throughput test, not a diverse accuracy benchmark.', '',
               '## Optional hydrogen addition', '',
-              'The CLI option named `--relaxation` currently calls hydrogen addition; it does not perform energy minimisation. '
+              'The frozen historical CLI option named `--relaxation` called hydrogen addition; it did not perform energy minimisation. The current CLI rejects that option; see the [preparation guide](abodybuilder3_preparation_251026.md) for its replacements. '
               'Both supported hydrogen paths were checked separately on the 229-residue public example.', '',
               'Legacy Reduce 4.16 emits an otherwise usable structure but exits with code 1 for this example, causing the CLI to fall back to PDBFixer. '
               'Reduce 4.17 exits with code 0, so the modernised CLI uses its Reduce output. '

@@ -1,12 +1,12 @@
 # Rebuilding and verifying ABodyBuilder3 on DGX Spark
 
-Verified on 25 October 2026. The original remains on main. This branch now includes explicit chemical preparation and restrained relaxation; see [the preparation guide](abodybuilder3_preparation_251026.md) and [updated benchmarks](abodybuilder3_preparation_benchmarks_251026.md). No existing image, container, checkpoint or output was removed.
+Verified on 25 October 2026. Main now contains the modernised runtime with explicit chemical preparation and restrained relaxation; see [the preparation guide](abodybuilder3_preparation_251026.md) and [updated benchmarks](abodybuilder3_preparation_benchmarks_251026.md). The original rebuild recipe is preserved at the [`original-runtime-251026` tag](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/original-runtime-251026), pointing to commit `53f638a58ba9fa4e4dcd65760e0d2c943c52216b`. No existing image, container, checkpoint or output was removed.
 
 ## What is pinned
 
 - Base: NVIDIA NGC PyTorch 25.11, manifest digest `417cbf33f87b5378849df37983552cd1f8bc8b62fe1ceabe004de816a55dff21`.
 - Original image source: deployment commit `8e4b5af7c347dadcc52678c7ee61ea975eeef1a8`. All 88 captured files match the retained image. The repository main CLI at `a323ab3abe48440305e9b4baf1b5a393781d7d78` was frozen and used across all measured runtimes; it differs slightly from the older CLI baked into the original image.
-- Original installed Python package versions: `runtime-constraints.txt` on main; all 322 installed distribution versions matched after the original clean rebuild. This branch contains the deliberate modernised dependency pins instead.
+- Original installed Python package versions: `runtime-constraints.txt` at `original-runtime-251026`; all 322 installed distribution versions matched after the original clean rebuild. Main contains the deliberate modernised dependency pins instead.
 - Original OpenMM source `07b738c560f31f539674528c3a8ca629fc8320ba`, PDBFixer `94cfa4c0ca551cdc5f13320f9a658efd59f2b881`, Reduce `9d4ac1f5f103daa18ea471f11fe1cf9b2cd8ca1f`. The rebuilt Reduce binary and dictionary also matched their original SHA-256 hashes.
 - Three ABodyBuilder3 checkpoints from [Zenodo 11354577](https://zenodo.org/records/11354577); archive MD5 and each checkpoint SHA-256 are checked during the build. There is no dependence on a local copy of the old image or weights.
 - Language embedding model: [Rostlab/prot_t5_xl_uniref50](https://huggingface.co/Rostlab/prot_t5_xl_uniref50), revision `973be27c52ee6474de9c945952a8008aeb2a1a73`. This is the original full ProtT5 model, not the half-precision encoder alternative. Its five inference assets occupy 11.28 GB and are downloaded separately.
@@ -16,7 +16,7 @@ The latest official ABodyBuilder3 source checked was [18e4058](https://github.co
 ## Rebuild the original from public sources
 
 ```bash
-git clone --branch main https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
+git clone --branch original-runtime-251026 https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
 cd ABodyBuilder3-DGX-Spark
 NO_CACHE=1 IMAGE_TAG=rebuild-local ./docker_build.sh build
 IMAGE_TAG=rebuild-local ./docker_build.sh test
@@ -34,16 +34,16 @@ python3 tools/verify_runtime.py   --reference tests/reference_runtime_251026.jso
 
 The identity check includes source, checkpoints, installed Python versions, OpenMM source revision and Reduce artefacts. After a compiler or Ubuntu update, a binary checksum may change; investigate rather than assuming identical predictions or deleting the old image.
 
-## Build this modernised branch
+## Build the current modernised deployment
 
 ```bash
-git clone --branch official/abodybuilder3-spark https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
+git clone --branch main https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
 cd ABodyBuilder3-DGX-Spark
 NO_CACHE=1 IMAGE_TAG=modernised-local ./docker_build.sh build
 IMAGE_TAG=modernised-local ./docker_build.sh test
 ```
 
-This branch defaults to the separate image name `abodybuilder3-official-spark`; it does not replace the original tag. Its OpenMM 8.6.1 CUDA 13 wheel dependencies and Reduce revision are pinned. The current recipe uses CUDA 13.0 wheel dependencies compatible with tested driver 580.178.04, and copies this checkout's prediction/preparation scripts over the pinned model checkout. The preparation study verified actual CUDA minimisation; the earlier CUDA-13.4-wheel image could not load its PTX on this driver. Capture the current image as above and use `tools/verify_runtime.py --reference tests/reference_preparation_runtime_251026.json --candidate verification/original_runtime_manifest_251026.json` for its strict identity check. `tests/reference_modernised_runtime_251026.json` retains the earlier deployment identity. Separately, `--modernised` with the original reference checks shared model source and checkpoints while allowing the deliberate runtime upgrades.
+The current build defaults to the separate image name `abodybuilder3-official-spark`; it does not replace the original tag. Its OpenMM 8.6.1 CUDA 13 wheel dependencies and Reduce revision are pinned. The current recipe uses CUDA 13.0 wheel dependencies compatible with tested driver 580.178.04, and copies this checkout's prediction/preparation scripts over the pinned model checkout. The preparation study verified actual CUDA minimisation; the earlier CUDA-13.4-wheel image could not load its PTX on this driver. Capture the current image as above and use `tools/verify_runtime.py --reference tests/reference_preparation_runtime_251026.json --candidate verification/original_runtime_manifest_251026.json` for its strict identity check. `tests/reference_modernised_runtime_251026.json` retains the earlier deployment identity. Separately, `--modernised` with the original reference checks shared model source and checkpoints while allowing the deliberate runtime upgrades.
 
 ## Prepare the public inputs and run
 
@@ -85,9 +85,9 @@ The five public example pairs contain 227–231 residues in total. Input sizes a
 
 The rebuilt and modernised unrelaxed predictions match the original exactly for these inputs. Dev batching produces small numerical differences; its existing criterion is maximum absolute Cα coordinate difference below 0.01 Å. This is an implementation-agreement check, not experimental-structure validation or a universal tolerance guarantee.
 
-Language runtimes vary substantially between repetitions. No reliable language speed ranking is claimed. The language adapter was slower in this study. The original remains the working default, and the existing dev CLI is unchanged; its parsed `--batch-size` currently does not invoke the batching helper.
+Language runtimes vary substantially between repetitions. No reliable language speed ranking is claimed. The language adapter was slower in this study. Main now uses the modernised runtime. The existing dev CLI is unchanged; its parsed `--batch-size` currently does not invoke the batching helper.
 
-The frozen historical CLI's `--relaxation` flag performed hydrogen addition, not energy minimisation. The current branch rejects it with an error; use `--add-hydrogens` or genuine `--relax restrained` instead. Optional hydrogen-added files need not be byte-identical after updating Reduce: for the checked example, legacy Reduce's nonzero exit caused a PDBFixer fallback; Reduce 4.17 succeeds and the CLI uses its output. See the benchmark report for atom counts. The underlying unrelaxed model predictions were unchanged.
+The frozen historical CLI's `--relaxation` flag performed hydrogen addition, not energy minimisation. The current branch rejects it with an error; use `--add-hydrogens` or genuine `--relax restrained` instead. In that historical CLI comparison, legacy Reduce's nonzero exit caused a PDBFixer fallback, whereas Reduce 4.17 succeeded and its hydrogen-added output was used. Those atom counts describe the earlier pipeline. Current preparation instead uses explicit backend selection and final OpenMM hydrogen placement, as described in the preparation guide. The underlying raw model predictions were unchanged.
 
 CPU checks: `python3 -m unittest discover -s tests -p 'test_deployment_comparison.py' -v`. Full measurements, limits and the static figure are in [the benchmark report](abodybuilder3_benchmarks_251026.md).
 

@@ -2,7 +2,7 @@
 
 These are the earlier deployment/batching measurements using the frozen CLI at `a323ab3`. For the current preparation API, CUDA dependency correction and matched fast-path measurements, see [the preparation benchmarks](abodybuilder3_preparation_benchmarks_251026.md). The measured values below are retained as historical evidence.
 
-The original remains the default. All images, containers, checkpoints, inputs and outputs were retained.
+This historical comparison preceded promotion of the modernised runtime to main. It uses the frozen earlier CLI; see the [current preparation benchmarks](abodybuilder3_preparation_benchmarks_251026.md) for the deployed CLI. All images, containers, checkpoints, inputs and outputs were retained.
 
 ## Warmed processing
 
@@ -70,13 +70,13 @@ An existing CLI limitation was identified: its JSON/confidence-filter path flatt
 
 ## Optional hydrogen addition
 
-The frozen historical CLI option named `--relaxation` called hydrogen addition; it did not perform energy minimisation. Both supported hydrogen paths were checked separately on the 229-residue public example. The current branch rejects that option and uses an explicit preparation pipeline and genuine `--relax restrained` instead.
+The frozen historical CLI option named `--relaxation` called hydrogen addition; it did not perform energy minimisation. Both supported hydrogen paths were checked separately on the 229-residue public example. The current CLI rejects that option and uses an explicit preparation pipeline and genuine `--relax restrained` instead.
 
 Legacy Reduce 4.16 emits an otherwise usable structure but exits with code 1 for this example, causing the CLI to fall back to PDBFixer. Reduce 4.17 exits with code 0, so the modernised CLI uses its Reduce output. The former path produced 3,407 atoms (1,688 hydrogens); Reduce produced 3,399 atoms (1,682 hydrogens). Direct Reduce atom counts match between releases; the CLI difference is the fallback behaviour. PDBFixer succeeds in all three images. Unrelaxed prediction identity does not imply identical optional hydrogen-added files.
 
 ## Interpretation
 
-The original rebuild is reproducible from pinned public sources. Modernisation removes the custom OpenMM/PDBFixer builds while preserving the tested unrelaxed predictions. Its base/pLDDT speed is similar to the original. Dev GPU batching improves warmed structure processing by about 2.5× versus sequential processing, at higher CUDA allocation. It has not been wired into the existing dev CLI: that CLI currently parses `--batch-size` without dispatching the batch helper. No default was changed and no resources were deleted.
+The original rebuild is reproducible from pinned public sources. Modernisation removes the custom OpenMM/PDBFixer builds while preserving the tested unrelaxed predictions. Its base/pLDDT speed is similar to the original. Dev GPU batching improves warmed structure processing by about 2.5× versus sequential processing, at higher CUDA allocation. It has not been wired into the existing dev CLI: that CLI currently parses `--batch-size` without dispatching the batch helper. During this earlier comparison the original remained the default and no resources were deleted.
 
 Only two timed repetitions were used. Language timings are not stable enough for a firm speed claim. Additional diverse sequences, longer loops and broader experimental-structure evaluation would be needed before making accuracy or general scaling claims.
 
