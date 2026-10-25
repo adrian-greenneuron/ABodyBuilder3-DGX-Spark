@@ -528,7 +528,7 @@ def run_batched_pipeline(antibodies, model, device, output, output_format,
     start = time.perf_counter()
 
     def prepare(items):
-        return prepare_cpu_batch([(h, l) for _, h, l in items])
+        return prepare_cpu_batch([(h, l) for _, h, l in items], compact=True)
 
     def infer(items, prepared):
         try:

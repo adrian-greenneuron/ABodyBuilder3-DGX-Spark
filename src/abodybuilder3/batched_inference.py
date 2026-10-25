@@ -14,7 +14,10 @@ from abodybuilder3.openfold.utils.feats import atom14_to_atom37
 from abodybuilder3.utils import to_pdb_fast
 
 
-def prepare_cpu_batch(antibodies):
+def prepare_cpu_batch(antibodies, *, compact=False):
+    if compact:
+        from abodybuilder3.inference_features import prepare_compact_batch
+        return prepare_compact_batch(antibodies)
     if not antibodies:
         raise ValueError('Cannot prepare an empty batch.')
     lengths = [len(h) + len(l) for h, l in antibodies]
@@ -76,12 +79,22 @@ def batch_add_atom37_to_output(output, aatypes, seq_lengths):
     return results
 
 
-def infer_prepared_batch(model, prepared, device='cuda'):
+def infer_prepared_batch(model, prepared, device='cuda', *, final_only=True, reuse_pair_buffer=True):
     cpu_batch, inputs = prepared
     batch = {k: v.to(device) for k, v in cpu_batch.items()}
     with torch.no_grad():
+        options = {'_inference_final_only': final_only,
+                   '_inference_pair_buffer': reuse_pair_buffer}
+        if 'pair_code' in batch:
+            from abodybuilder3.inference_features import PairProjection
+            projector = getattr(model, '_inference_pair_projection', None)
+            if projector is None:
+                projector = PairProjection(model.linear_in_edge)
+                model._inference_pair_projection = projector
+            batch['pair'] = projector(batch.pop('pair_code'))
+            options['_inference_pair_projected'] = True
         output = model({'single': batch['single'], 'pair': batch['pair']},
-                       batch['aatype'], batch['seq_mask'])
+                       batch['aatype'], batch['seq_mask'], **options)
         results = batch_add_atom37_to_output(output, batch['aatype'], [len(x['aatype']) for x in inputs])
     return results, inputs
 

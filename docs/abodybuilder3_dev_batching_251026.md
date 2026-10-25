@@ -1,5 +1,7 @@
 # Dev batching: design and measurements — 25 October 2026
 
+These measurements describe dev at `07bfe1e`. The subsequent [inference optimisation report](abodybuilder3_dev_optimisation_251026.md) compares that frozen implementation with the newer compact-feature and buffer-reuse path; the values below remain the historical record.
+
 Dev now includes main’s modernised runtime and explicit chemistry pipeline, with an integrated length-aware prediction pipeline. Main was left unchanged. Model source, released checkpoints and FP32 settings are unchanged. This is an implementation/throughput comparison, not a new model or an experimental-structure accuracy benchmark.
 
 ## Complete-job performance

@@ -31,7 +31,7 @@ if not paths:
 # The pinned model checkout predates this optional module. Docker COPY adds it
 # without changing the model commit; include it in the deployment identity.
 for optional in ('scripts/structure_preparation.py', 'scripts/batch_pipeline.py',
-                 'src/abodybuilder3/batched_inference.py'):
+                 'src/abodybuilder3/batched_inference.py', 'src/abodybuilder3/inference_features.py'):
     if (root / optional).is_file():
         paths = sorted(set(paths) | {optional})
 hashes = {}

@@ -686,6 +686,9 @@ class StructureModule(nn.Module):
         mask=None,
         inplace_safe=False,
         _offload_inference=False,
+        _inference_pair_projected=False,
+        _inference_final_only=False,
+        _inference_pair_buffer=False,
     ):
         """
         Args:
@@ -702,6 +705,12 @@ class StructureModule(nn.Module):
         Returns:
             A dictionary of outputs
         """
+        if (_inference_pair_projected or _inference_final_only or _inference_pair_buffer) and (
+            self.training or torch.is_grad_enabled()
+        ):
+            raise ValueError("Optimised execution is restricted to eval() with gradients disabled.")
+        if _inference_pair_buffer and _offload_inference:
+            raise ValueError("Pair-buffer reuse is incompatible with the offload path.")
         s = evoformer_output_dict["single"]
 
         if mask is None:
@@ -718,7 +727,10 @@ class StructureModule(nn.Module):
         z_initial = evoformer_output_dict["pair"]
 
         #  # [*, N, N, embed_dim - 1]
-        z_initial = self.linear_in_edge(z_initial)
+        if not _inference_pair_projected:
+            z_initial = self.linear_in_edge(z_initial)
+        elif z_initial.shape[-1] != self.embed_dim - 1:
+            raise ValueError("Unexpected projected pair-feature dimension.")
 
         # Remove because its not not clear how the below _offload_inference will work with how we compute edge embeddings (add additional feature map in for loop)
         z_reference_list = None
@@ -741,16 +753,24 @@ class StructureModule(nn.Module):
             fmt="quat",
         )
         outputs = []
+        pair_buffer = None
+        if _inference_pair_buffer:
+            pair_buffer = z_initial.new_empty((*z_initial.shape[:-1], self.embed_dim))
+            pair_buffer[..., :-1].copy_(z_initial)
         for i in range(self.no_blocks):
-            z = torch.cat(
-                (
-                    z_initial,
-                    self.pairwise_distance_feature_map(rigids, mask)
-                    .unsqueeze(-1)
-                    .to(z_initial.dtype),
-                ),
-                dim=-1,
-            )
+            if _inference_pair_buffer:
+                pair_buffer[..., -1].copy_(self.pairwise_distance_feature_map(rigids, mask).to(z_initial.dtype))
+                z = pair_buffer
+            else:
+                z = torch.cat(
+                    (
+                        z_initial,
+                        self.pairwise_distance_feature_map(rigids, mask)
+                        .unsqueeze(-1)
+                        .to(z_initial.dtype),
+                    ),
+                    dim=-1,
+                )
 
             # [*, N, C_s]
             s = s + self.ipa_layers[i](
@@ -769,6 +789,13 @@ class StructureModule(nn.Module):
             # [*, N]
             # line 10 of algorithm 20
             rigids = rigids.compose_q_update_vec(self.bb_update_layers[i](s))
+
+            # Earlier side-chain predictions do not feed a later backbone/IPA
+            # update. Retain every learned update; omit only unused outputs.
+            if _inference_final_only and i != self.no_blocks - 1:
+                if not self.rotation_propagation:
+                    rigids = rigids.stop_rot_gradient()
+                continue
 
             # To hew as closely as possible to AlphaFold, we convert our
             # quaternion-based transformations to rotation-matrix ones

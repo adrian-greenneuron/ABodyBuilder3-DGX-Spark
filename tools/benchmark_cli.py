@@ -40,6 +40,8 @@ def main():
     p.add_argument('--prott5', type=Path, help='Pinned offline ProtT5 snapshot for language CLI runs.')
     p.add_argument('--batch-size', help='Optional dev batch size; omitted for historical/main CLIs.')
     p.add_argument('--cpu-workers', type=int, default=2)
+    p.add_argument('--inference-mode',choices=['lookup','lookup-final','optimised'],help='Measurement-only ablation of the new dev inference path.')
+    p.add_argument('--fingerprint',action='store_true',help='Hash every raw coordinate/mask/confidence output for strict agreement checks.')
     p.add_argument('--count', type=int, default=1000)
     p.add_argument('--workers', type=int, default=8)
     p.add_argument('--frozen', type=Path, required=True)
@@ -62,6 +64,13 @@ def main():
                image, 'python', '/measurement/measure_cli.py', 'predict',
                '--csv', f'/frozen/antibodies_{args.count}.csv', '--output', '/output/pdbs/',
                '--model', args.model, '--workers', str(args.workers), '--seed', '42', '--quiet']
+        insertion=cmd.index(image)
+        extra=[]
+        if args.inference_mode:
+            extra += ['-e',f'ABB3_BENCHMARK_INFERENCE_MODE={args.inference_mode}']
+        if args.fingerprint:
+            extra += ['-e','ABB3_FINGERPRINT_PATH=/output/prediction_fingerprints.json']
+        cmd[insertion:insertion]=extra
         if args.batch_size is not None:
             cmd += ['--batch-size', args.batch_size, '--cpu-workers', str(args.cpu_workers),
                     '--batch-report', '/output/batching.json']
@@ -84,7 +93,11 @@ def main():
         actual = sorted(x.name for x in (dest / 'pdbs').glob('*.pdb'))
         if actual != sorted(expected):
             raise ValueError(f'Missing/extra predictions: {dest}')
+        fingerprints=json.loads((dest/'prediction_fingerprints.json').read_text()) if args.fingerprint else None
+        if fingerprints is not None and len(fingerprints)!=args.count:
+            raise ValueError('Missing raw prediction fingerprints')
         row = {'label': args.label or args.condition, 'batch_size': args.batch_size, 'cpu_workers': args.cpu_workers,
+               'inference_mode':args.inference_mode,'raw_predictions_fingerprinted':len(fingerprints) if fingerprints is not None else None,
                'condition': args.condition, 'model': args.model, 'count': args.count,
                'workers': args.workers, 'replicate': rep, 'warmup': rep == 0,
                'complete_process_seconds': wall, 'antibodies_per_minute': 60 * args.count / wall,

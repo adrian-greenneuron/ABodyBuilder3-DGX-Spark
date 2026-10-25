@@ -11,3 +11,9 @@ scripts/*
 !src/abodybuilder3/
 src/abodybuilder3/*
 !src/abodybuilder3/batched_inference.py
+!src/abodybuilder3/inference_features.py
+!src/abodybuilder3/openfold/
+src/abodybuilder3/openfold/*
+!src/abodybuilder3/openfold/model/
+src/abodybuilder3/openfold/model/*
+!src/abodybuilder3/openfold/model/structure_module.py
