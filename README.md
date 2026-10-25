@@ -18,6 +18,9 @@ enable one experiment at a time:
   by `candidate/features.py`, using the original learned projection weights.
 - `_inference_point_matmul`: replace the weighted point broadcast/reduction
   with three batched matrix multiplications.
+- `_inference_point_ieee`: run those replacement products with TF32 disabled
+  locally, restoring the previous setting afterwards. This diagnostic assumes
+  one inference thread; it is not installed in dev.
 - `_inference_final_only`: retain all learned backbone/attention updates but
   omit intermediate side-chain outputs which do not feed the next update.
 - `_inference_pair_buffer`: copy the static pair channels once and update only
@@ -74,11 +77,19 @@ comparisons and 18,610 matched complete-job prediction comparisons, including
 warm-ups. Complete 1,000-input jobs used about 14% less time, 57% less process RSS
 and 19% less peak CUDA allocated memory than the preceding dev version.
 
-The point-matmul experiment was faster in the isolated screen but changed Cα
+The initial point-matmul experiment was faster in its small isolated screen but changed Cα
 coordinates by up to 0.0443 Å. The compiler experiment was faster in its warmed
 component screen but changed Cα coordinates by up to 0.0093 Å. Neither is
 deployed or accepted; both require discussion before further adoption. The
 compiler screen excludes compilation latency and is not a complete-job result.
+
+The follow-up [structural accuracy and clustering report](docs/abodybuilder3_attention_compiler_accuracy_251026.md)
+uses all 100 published experimental test antibodies, both base/pLDDT checkpoints,
+strict-precision controls and all 12,000 within-antibody prediction pairs. Accuracy
+changes vary by antibody; no candidate is consistently better. CDR-backbone
+changes were tiny, while some side-chain atoms moved by up to about 0.5 Å.
+Neither attention replacement nor compilation has been enabled on dev. Main and
+dev remain unchanged; this component branch contains the experimental evidence.
 
 The runtime uses FP32 tensors/weights with unchanged NGC defaults, including
 `float32_matmul_precision='high'` and `allow_tf32=True`. Thus FP32 here must not

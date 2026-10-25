@@ -261,6 +261,7 @@ class InvariantPointAttention(nn.Module):
         _offload_inference: bool = False,
         _z_reference_list: Optional[Sequence[torch.Tensor]] = None,
         _inference_point_matmul: bool = False,
+        _inference_point_ieee: bool = False,
     ) -> torch.Tensor:
         """
         Args:
@@ -396,10 +397,14 @@ class InvariantPointAttention(nn.Module):
         o = flatten_final_dims(o, 2)
 
         # [*, H, 3, N_res, P_v]
-        if inplace_safe or _inference_point_matmul:
+        if inplace_safe or _inference_point_matmul or _inference_point_ieee:
             v_pts = permute_final_dims(v_pts, (1, 3, 0, 2))
-            o_pt = [torch.matmul(a, v.to(a.dtype)) for v in torch.unbind(v_pts, dim=-3)]
-            o_pt = torch.stack(o_pt, dim=-3)
+            if _inference_point_ieee:
+                from point_precision import weighted_points
+                o_pt = weighted_points(a, v_pts)
+            else:
+                o_pt = [torch.matmul(a, v.to(a.dtype)) for v in torch.unbind(v_pts, dim=-3)]
+                o_pt = torch.stack(o_pt, dim=-3)
         else:
             o_pt = torch.sum(
                 (
@@ -689,6 +694,7 @@ class StructureModule(nn.Module):
         _offload_inference=False,
         _inference_pair_projected=False,
         _inference_point_matmul=False,
+        _inference_point_ieee=False,
         _inference_final_only=False,
         _inference_pair_buffer=False,
     ):
@@ -707,7 +713,7 @@ class StructureModule(nn.Module):
         Returns:
             A dictionary of outputs
         """
-        if (_inference_pair_projected or _inference_point_matmul or _inference_final_only or _inference_pair_buffer) and (
+        if (_inference_pair_projected or _inference_point_matmul or _inference_point_ieee or _inference_final_only or _inference_pair_buffer) and (
             self.training or torch.is_grad_enabled()
         ):
             raise ValueError("Optimised execution is restricted to eval() with gradients disabled.")
@@ -784,6 +790,7 @@ class StructureModule(nn.Module):
                 _offload_inference=_offload_inference,
                 _z_reference_list=z_reference_list,
                 _inference_point_matmul=_inference_point_matmul,
+                _inference_point_ieee=_inference_point_ieee,
             )
             s = self.ipa_dropout(s)
             s = self.layer_norm_ipa_layers[i](s)
