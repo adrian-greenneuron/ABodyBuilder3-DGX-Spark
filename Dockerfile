@@ -8,7 +8,7 @@
 # - Includes Flash Attention 2.7.4, Triton 3.5.0, CUTLASS 4.0.0
 # =============================================================================
 
-ARG BASE_IMAGE=nvcr.io/nvidia/pytorch:25.11-py3
+ARG BASE_IMAGE=nvcr.io/nvidia/pytorch:25.11-py3@sha256:417cbf33f87b5378849df37983552cd1f8bc8b62fe1ceabe004de816a55dff21
 FROM ${BASE_IMAGE}
 
 LABEL maintainer="ABodyBuilder3"
@@ -38,32 +38,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libboost-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# -----------------------------------------------------------------------------
-# OpenMM (Source Build for Blackwell/sm_120 Support)
-# -----------------------------------------------------------------------------
-# Conda binaries are incompatible with Blackwell driver (PTX error).
-# We must build from source linking against the local CUDA toolkit.
-WORKDIR /tmp
-# hadolint ignore=DL3003,SC2046
-RUN git clone https://github.com/openmm/openmm.git \
-    && cd openmm \
-    && mkdir build && cd build \
-    && cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
-    && make -j"$(nproc)" install \
-    && cd python && OPENMM_INCLUDE_PATH=/usr/local/include OPENMM_LIB_PATH=/usr/local/lib python3 setup.py install \
-    && cd /tmp && rm -rf openmm
-
-# Install pdbfixer from source
-# hadolint ignore=DL3013
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install git+https://github.com/openmm/pdbfixer.git
+# Published ARM64 and CUDA 13 packages replace the historical source builds.
+COPY runtime-constraints.txt /opt/runtime-constraints.txt
+RUN pip install --no-cache-dir -c /opt/runtime-constraints.txt "openmm[cuda13]==8.6.1" pdbfixer==1.12.0
 
 # -----------------------------------------------------------------------------
 # Reduce (MolProbity/Richardson Lab) for fast hydrogen addition
 # -----------------------------------------------------------------------------
 # reduce needs het dictionary files for proper operation
 # hadolint ignore=DL3003
-RUN git clone --depth 1 https://github.com/rlabduke/reduce.git /tmp/reduce \
+RUN git clone https://github.com/rlabduke/reduce.git /tmp/reduce \
+    && git -C /tmp/reduce checkout --detach 6749e64de95fd37bc552014c03a0ababba8a8ef3 \
     && cd /tmp/reduce \
     && mkdir build && cd build \
     && cmake .. \
@@ -73,13 +58,12 @@ RUN git clone --depth 1 https://github.com/rlabduke/reduce.git /tmp/reduce \
     && cd / && rm -rf /tmp/reduce
 
 # -----------------------------------------------------------------------------
-# Python Dependencies (Relaxed versions for CUDA 13 / PyTorch 2.10 compatibility)
+# Python dependencies (captured original versions for a controlled comparison)
 # -----------------------------------------------------------------------------
-# Note: We relax numpy, scipy, and pandas versions from the original pinned versions
-# to maintain compatibility with the newer PyTorch 2.10 in the NGC container.
+# Keep the model/PyTorch stack at the tested versions; runtime constraints prevent drift.
 # hadolint ignore=DL3013
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install \
+RUN \
+    pip install --no-cache-dir -c /opt/runtime-constraints.txt \
     loguru \
     typer \
     "click!=8.1.0" \
@@ -104,15 +88,18 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 # Clone ABodyBuilder3
 # -----------------------------------------------------------------------------
 WORKDIR /opt
-COPY . /opt/abodybuilder3
+ARG SOURCE_REF=a323ab3abe48440305e9b4baf1b5a393781d7d78
+RUN git clone https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git /opt/abodybuilder3 \
+    && git -C /opt/abodybuilder3 checkout --detach ${SOURCE_REF} \
+    && git -C /opt/abodybuilder3 merge-base --is-ancestor 18e4058015a39c5405c08a0d5629cf302627b253 HEAD
 WORKDIR /opt/abodybuilder3
 
 # -----------------------------------------------------------------------------
 # Install ABodyBuilder3
 # -----------------------------------------------------------------------------
 # hadolint ignore=DL3013
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install --no-build-isolation -e .
+RUN \
+    pip install --no-cache-dir -c /opt/runtime-constraints.txt --no-build-isolation -e .
 
 # -----------------------------------------------------------------------------
 # Download Model Weights
@@ -120,12 +107,19 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 # Model weights are required for inference
 RUN mkdir -p output/ zenodo/ \
     && wget -q --progress=dot:giga -P zenodo/ https://zenodo.org/records/11354577/files/output.tar.gz \
+    && echo "2c1d734ed74013865bd95fc2f95cff1e  zenodo/output.tar.gz" | md5sum --check - \
     && tar -xzf zenodo/output.tar.gz -C output/ \
-    && rm -rf zenodo/
+    && rm -rf zenodo/ \
+    && echo "835f0f4c3a183dfa71084a28b59aab87bc778c3c1f07682df879d8423f138938  output/base-loss/best_second_stage.ckpt" | sha256sum --check - \
+    && echo "16be44c644eb31d63c78c22166d6cea5cee8d2b3eb2cb36ebee87f5cfeeb0177  output/language-loss/best_second_stage.ckpt" | sha256sum --check - \
+    && echo "421aa6c52a5152f781b35007411985146fb520a90286a955161cb8e50584d615  output/plddt-loss/best_second_stage.ckpt" | sha256sum --check -
 
 # -----------------------------------------------------------------------------
 # Validation & Runtime
 # -----------------------------------------------------------------------------
+# Keep the tested model source pinned above; deploy the versioned CLI and its
+# optional preparation module from this checkout, including local changes.
+COPY scripts/predict.py scripts/structure_preparation.py /opt/abodybuilder3/scripts/
 # Verify all imports work
 RUN python3 -c "import abodybuilder3; import torch; import openmm; import pdbfixer; print(f'ABodyBuilder3 on PyTorch {torch.__version__}, CUDA {torch.version.cuda}, OpenMM {openmm.version.short_version}')"
 

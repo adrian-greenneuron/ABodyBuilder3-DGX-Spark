@@ -5,7 +5,7 @@
 set -euo pipefail
 
 # Configuration
-IMAGE_NAME="${IMAGE_NAME:-abodybuilder3-spark}"
+IMAGE_NAME="${IMAGE_NAME:-abodybuilder3-official-spark}"
 IMAGE_TAG="${IMAGE_TAG:-latest}"
 DOCKERFILE="${DOCKERFILE:-Dockerfile}"
 
@@ -25,7 +25,7 @@ usage() {
     echo "  shell   Start an interactive shell in the container"
     echo ""
     echo "Environment variables:"
-    echo "  IMAGE_NAME    Name for the Docker image (default: abodybuilder3-spark)"
+    echo "  IMAGE_NAME    Name for the Docker image (default: abodybuilder3-official-spark)"
     echo "  IMAGE_TAG     Tag for the Docker image (default: latest)"
     exit 1
 }
@@ -38,7 +38,11 @@ build() {
         echo -e "${YELLOW}Warning: nvidia-smi not found. Building without GPU verification.${NC}"
     fi
     
-    DOCKER_BUILDKIT=1 docker build \
+    local cache_args=()
+    if [[ "${NO_CACHE:-0}" == "1" ]]; then
+        cache_args+=(--no-cache)
+    fi
+    DOCKER_BUILDKIT=1 docker build "${cache_args[@]}" \
         --progress=plain \
         -t "${IMAGE_NAME}:${IMAGE_TAG}" \
         -f "${DOCKERFILE}" \

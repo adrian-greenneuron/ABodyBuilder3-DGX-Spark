@@ -1,0 +1,7 @@
+**
+!Dockerfile
+!runtime-constraints.txt
+!scripts/
+scripts/*
+!scripts/predict.py
+!scripts/structure_preparation.py
