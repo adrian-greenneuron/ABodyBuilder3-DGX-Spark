@@ -8,7 +8,7 @@ This development branch uses the latest official ABodyBuilder3 code and released
 
 The original remains the working default on [main](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/main), which now includes its pinned rebuild recipe. This branch retains the original model settings and PyTorch stack while replacing the custom OpenMM/PDBFixer builds. The existing Flash Attention import compatibility, tensor-indexing fix and fast PDB writer remain.
 
-All three models passed unrelaxed prediction-agreement checks. Modernisation gave similar base/pLDDT speed. Dev GPU batching was faster for those two models in warmed processing, with higher CUDA allocation. The language-batching adapter was slower, and language timings are too variable for a firm speed ranking. Optional hydrogen-added outputs differ because the updated Reduce succeeds where the legacy version triggers a PDBFixer fallback.
+All three models passed raw prediction-agreement checks. The current CLI separates fast prediction, chemical preparation and real restrained energy minimisation. `--relaxation` has been removed and fails with an explanation. The [new preparation and performance measurements](docs/abodybuilder3_preparation_benchmarks_251026.md) checked 12,120 byte-identical raw predictions; base/pLDDT complete-process runtimes remained within 1.3% of the previous modernised CLI. Language timings remain variable.
 
 See the [complete benchmark tables](docs/abodybuilder3_benchmarks_251026.md) and [reproducibility instructions](docs/abodybuilder3_reproducibility_251026.md). The historical benchmark table below records the original December 2025 deployment, not this modernised runtime.
 
@@ -179,26 +179,34 @@ python3 scripts/predict.py predict --csv input.csv -o output/ --workers 1
 
 > **Tip**: With 8 workers on DGX Spark, expect ~751 antibodies/minute.
 
-### Adding Hydrogens
+### Chemical preparation and relaxation
 
-By default, output PDBs contain only heavy atoms. Use these options to add hydrogens:
+Plain prediction keeps the fast heavy-atom output. Preparation is optional and saves separate files, preserving the raw prediction:
 
 ```bash
-# Add hydrogens using reduce (fast, default)
-python3 scripts/predict.py predict --csv input.csv -o output/ --add-hydrogens
+# Repair missing heavy/terminal atoms, then add hydrogens at pH 7
+python3 scripts/predict.py predict --csv input.csv -o output/ --add-hydrogens --ph 7
 
-# Add hydrogens using pdbfixer
-python3 scripts/predict.py predict --csv input.csv -o output/ --add-hydrogens --hydrogen-method pdbfixer
+# Also allow Reduce to optimise Asn/Gln/His side-chain orientations
+python3 scripts/predict.py predict --csv input.csv -o output/ \
+    --add-hydrogens --hydrogen-method reduce --sidechain-flips
 
-# Legacy alias for hydrogen addition (does not energy-minimise the structure)
-python3 scripts/predict.py predict --csv input.csv -o output/ --relaxation
+# Genuine restrained energy minimisation on the Spark GPU
+python3 scripts/predict.py predict --csv input.csv -o output/ \
+    --relax restrained --relax-platform cuda --seed 42
 ```
 
 | Option | Description |
 |--------|-------------|
-| `--add-hydrogens` / `-H` | Add hydrogens to output PDB |
-| `--hydrogen-method` | `reduce` (default, fast) or `pdbfixer` |
-| `--relaxation` / `-r` | Legacy alias for hydrogen addition; no energy minimisation |
+| `--add-hydrogens` | Save `.prepared.pdb` and `.preparation.json` alongside the raw `.pdb` |
+| `--hydrogen-method` | `openmm` (default): PDBFixer repair + OpenMM hydrogens; `reduce`: optional Reduce orientation followed by OpenMM hydrogens |
+| `--ph` | Final OpenMM protonation pH, default 7; unsupported Amber template combinations fail explicitly |
+| `--sidechain-flips` | Allow Reduce side-chain flips; requires `--hydrogen-method reduce` |
+| `--relax restrained` | Prepare, optimise hydrogen positions, then minimise with restraints on heavy atoms; also saves `.relaxed.pdb` |
+| `--relax-platform` | `cpu` (default, portable) or `cuda` (recommended on DGX Spark); no silent fallback |
+| `--relaxation` / `-r` | Removed: exits with an error and explains the replacement options |
+
+Reduce is never a silent fallback. In the Reduce pipeline its hydrogen output is discarded: OpenMM rebuilds hydrogens against the repaired topology, pH and disulfide bonds. Preparation does not rebuild missing sequence stretches. The [preparation guide](docs/abodybuilder3_preparation_251026.md) explains output files, settings, failures and scientific limits. `-H` selects the heavy-chain sequence, not hydrogen addition.
 
 ## Repository Structure
 
@@ -220,7 +228,7 @@ python3 scripts/predict.py predict --csv input.csv -o output/ --relaxation
 | **CUDA** | 13.0 |
 | **PyTorch** | 2.10 |
 | **Python** | 3.12 |
-| **OpenMM** | 8.4.0 (built from source) |
+| **OpenMM** | 8.6.1, published ARM64/CUDA 13 wheels; CUDA dependencies pinned to 13.0 for the tested driver |
 | **Flash Attention** | 2.7.4 (NGC built-in) |
 | **Triton** | 3.5.0 (NGC built-in) |
 
@@ -231,7 +239,7 @@ python3 scripts/predict.py predict --csv input.csv -o output/ --relaxation
 | `primitives.py` flash_attn imports | Handle NGC's newer Flash Attention API |
 | `setup.cfg` version relaxation | Allow numpy/scipy/pandas compatible with Python 3.12 |
 | PyTorch safe globals | Register `ml_collections.ConfigDict` for `weights_only=True` |
-| OpenMM source build | Blackwell sm_120/sm_121 GPU compatibility |
+| OpenMM CUDA dependency pins | Match CUDA 13.0 to driver 580.178.04; avoid unsupported CUDA 13.4 PTX |
 
 ## Requirements
 

@@ -321,13 +321,14 @@ yarl==1.22.0
 zc.lockfile==4.0
 zipp==3.23.0
 
-# CUDA wheel dependencies resolved in the verified modernised image.
+# CUDA 13.0 wheel dependencies match the tested Spark driver (580.178.04).
+# CUDA 13.4 NVRTC emits PTX that this driver cannot load for OpenMM kernels.
 OpenMM-CUDA-13==8.6.1
-nvidia-cuda-crt==13.4.92
-nvidia-cuda-cupti==13.4.92
-nvidia-cuda-nvcc==13.4.92
-nvidia-cuda-nvrtc==13.4.92
-nvidia-cuda-runtime==13.4.92
-nvidia-cufft==12.4.0.43
-nvidia-nvjitlink==13.4.92
-nvidia-nvvm==13.4.92
+nvidia-cuda-crt==13.0.88
+nvidia-cuda-cupti==13.0.85
+nvidia-cuda-nvcc==13.0.88
+nvidia-cuda-nvrtc==13.0.88
+nvidia-cuda-runtime==13.0.96
+nvidia-cufft==12.0.0.61
+nvidia-nvjitlink==13.0.88
+nvidia-nvvm==13.0.88

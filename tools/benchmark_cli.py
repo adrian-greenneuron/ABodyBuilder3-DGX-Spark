@@ -33,7 +33,11 @@ def cuda_summary(folder):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--condition', choices=['original', 'rebuilt', 'modernised'], required=True)
-    p.add_argument('--model', choices=['base', 'plddt'], required=True)
+    p.add_argument('--model', choices=['base', 'plddt', 'language'], required=True)
+    p.add_argument('--image', help='Override the retained runtime image for a matched comparison.')
+    p.add_argument('--label', help='Unique container-name label for a new comparison.')
+    p.add_argument('--replicate', type=int, choices=[0, 1, 2], help='Run one replicate, permitting interleaved comparisons.')
+    p.add_argument('--prott5', type=Path, help='Pinned offline ProtT5 snapshot for language CLI runs.')
     p.add_argument('--count', type=int, default=1000)
     p.add_argument('--workers', type=int, default=8)
     p.add_argument('--frozen', type=Path, required=True)
@@ -42,12 +46,13 @@ def main():
     args.frozen = args.frozen.resolve()
     args.output = args.output.resolve()
     tools = Path(__file__).resolve().parent
-    image = subprocess.check_output(['docker', 'image', 'inspect', IMAGES[args.condition], '--format', '{{.Id}}'], text=True).strip()
-    rows = []
-    for rep in range(3):
+    image = subprocess.check_output(['docker', 'image', 'inspect', args.image or IMAGES[args.condition], '--format', '{{.Id}}'], text=True).strip()
+    records_path = args.output / 'measurements.json'
+    rows = json.loads(records_path.read_text()) if records_path.exists() else []
+    for rep in ([args.replicate] if args.replicate is not None else range(3)):
         dest = args.output / f'run{rep}'
         dest.mkdir(parents=True, exist_ok=False)
-        name = f'abb3-cli-{args.condition}-{args.model}-n{args.count}-w{args.workers}-r{rep}-251026'
+        name = f'abb3-cli-{args.label or args.condition}-{args.model}-n{args.count}-w{args.workers}-r{rep}-251026'
         cmd = ['docker', 'run', '--name', name, '--network', 'none', '--gpus', 'all', '--ipc=host',
                '-e', 'PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True', '-e', 'PYTHONHASHSEED=0',
                '-e', 'PYTHONPATH=/measurement/instrumentation:/measurement', '-e', 'ABB3_RESOURCE_DIR=/output/resources',
@@ -55,6 +60,12 @@ def main():
                image, 'python', '/measurement/measure_cli.py', 'predict',
                '--csv', f'/frozen/antibodies_{args.count}.csv', '--output', '/output/pdbs/',
                '--model', args.model, '--workers', str(args.workers), '--seed', '42', '--quiet']
+        if args.prott5:
+            # Match the CLI's default relative model directory without patching
+            # its loading code or downloading weights during measurement.
+            index = cmd.index(image)
+            cmd[index:index] = ['-v', f'{args.prott5.resolve()}:/opt/abodybuilder3/Rostlab/prot_t5_xl_uniref50:ro', '-e', 'HF_HOME=/tmp/hf',
+                                '-e', 'HF_HUB_OFFLINE=1', '-e', 'TRANSFORMERS_OFFLINE=1']
         (dest / 'command.json').write_text(json.dumps(cmd, indent=2) + '\n')
         start = time.perf_counter()
         with (dest / 'inference.log').open('w') as log:

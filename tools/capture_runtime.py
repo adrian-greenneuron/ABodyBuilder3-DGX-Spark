@@ -28,6 +28,10 @@ paths = tracked['stdout'].split('\0') if tracked['exit_code'] == 0 else []
 if not paths:
     paths = [str(p.relative_to(root)) for p in root.rglob('*')
              if p.is_file() and not any(x in p.parts for x in ['.git', 'output', '__pycache__'])]
+# The pinned model checkout predates this optional module. Docker COPY adds it
+# without changing the model commit; include it in the deployment identity.
+if (root / 'scripts/structure_preparation.py').is_file():
+    paths = sorted(set(paths) | {'scripts/structure_preparation.py'})
 hashes = {}
 for name in paths:
     p = root / name

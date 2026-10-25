@@ -15,8 +15,9 @@ Examples:
     # Using the Language model (highest accuracy, requires ProtT5)
     predict.py predict --csv input.csv -o output/ --model language
     
-    # With structure relaxation (slower but more accurate bond geometries)
-    predict.py predict --csv input.csv -o output/ --relaxation
+    # Chemical preparation, optionally followed by restrained minimisation
+    predict.py predict --csv input.csv -o output/ --add-hydrogens
+    predict.py predict --csv input.csv -o output/ --relax restrained
 
 Input Formats:
     CSV: Must have columns 'name', 'heavy', 'light' (or 'VH', 'VL')
@@ -40,6 +41,12 @@ from multiprocessing import cpu_count
 import csv
 import time
 from enum import Enum
+
+# Reject the retired flag before importing/loading the model runtime.
+if any(arg in ("--relaxation", "-r") or arg.startswith("--relaxation=") for arg in sys.argv[1:]):
+    raise SystemExit("Error: --relaxation/-r has been removed. It previously only added hydrogens. "
+                     "Use --add-hydrogens for preparation or --relax restrained for genuine energy minimisation.")
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
 import torch
 import ml_collections
@@ -303,79 +310,24 @@ def generate_json_output(
     }
 
 
-def add_hydrogens(pdb_string: str, method: str = "reduce") -> str:
-    """Add hydrogens to PDB structure.
-    
-    Args:
-        pdb_string: Input PDB string without hydrogens
-        method: "reduce" (fast, ~600ms) or "pdbfixer" (slower, ~700ms)
-        
-    Returns:
-        PDB string with hydrogens added
-    """
-    if method == "reduce":
-        return _add_hydrogens_reduce(pdb_string)
-    else:
-        return _add_hydrogens_pdbfixer(pdb_string)
-
-
-def _add_hydrogens_reduce(pdb_string: str) -> str:
-    """Add hydrogens using reduce (MolProbity, Richardson Lab)."""
-    import subprocess
-    import tempfile
-    import os
-    
+def write_prepared_outputs(raw, output_path, options):
+    """Preserve raw output and save requested preparation separately."""
+    script_dir = str(Path(__file__).resolve().parent)
+    if script_dir not in sys.path:
+        sys.path.insert(0, script_dir)
+    from structure_preparation import PreparationError, prepare_structure
+    record_path = output_path.with_suffix(".preparation.json")
     try:
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.pdb', delete=False) as f:
-            f.write(pdb_string)
-            input_path = f.name
-        
-        try:
-            result = subprocess.run(
-                ['reduce', '-BUILD', '-Quiet', input_path],
-                capture_output=True,
-                text=True,
-                timeout=30
-            )
-            
-            if result.returncode == 0 and result.stdout:
-                return result.stdout
-            else:
-                # Fall back to pdbfixer if reduce fails
-                return _add_hydrogens_pdbfixer(pdb_string)
-        finally:
-            os.unlink(input_path)
-            
-    except (FileNotFoundError, subprocess.TimeoutExpired):
-        # reduce not installed or timed out
-        return _add_hydrogens_pdbfixer(pdb_string)
-
-
-def _add_hydrogens_pdbfixer(pdb_string: str) -> str:
-    """Add hydrogens using pdbfixer."""
-    try:
-        from pdbfixer import PDBFixer
-        from openmm import app
-        from io import StringIO
-        
-        fixer = PDBFixer(pdbfile=StringIO(pdb_string))
-        fixer.findMissingResidues()
-        fixer.findMissingAtoms()
-        fixer.addMissingAtoms()
-        fixer.addMissingHydrogens(7.0)
-        
-        output = StringIO()
-        app.PDBFile.writeFile(fixer.topology, fixer.positions, output)
-        return output.getvalue()
-    except Exception as e:
-        log(f"Warning: Hydrogen addition failed: {e}", "warning")
-        return pdb_string
-
-
-# Keep old name for backwards compatibility
-def apply_relaxation(pdb_string: str) -> str:
-    """Deprecated: Use add_hydrogens() instead."""
-    return add_hydrogens(pdb_string, method="reduce")
+        prepared, relaxed, record = prepare_structure(raw, options)
+        output_path.with_suffix(".prepared.pdb").write_text(prepared)
+        if relaxed is not None:
+            output_path.with_suffix(".relaxed.pdb").write_text(relaxed)
+        for warning in record["warnings"]:
+            log(f"{output_path.name}: {warning}", "error")
+    except PreparationError as exc:
+        record_path.write_text(json.dumps(exc.report, indent=2) + "\n")
+        raise
+    record_path.write_text(json.dumps(record, indent=2) + "\n")
 
 
 def process_single_antibody(
@@ -384,9 +336,6 @@ def process_single_antibody(
     light: str,
     model,
     device: torch.device,
-    relaxation: bool = False,
-    add_h: bool = False,
-    hydrogen_method: str = "reduce",
     output_format: OutputFormat = OutputFormat.pdb,
     confidence_threshold: Optional[float] = None,
     prott5_model = None,
@@ -417,10 +366,6 @@ def process_single_antibody(
         output_string = generate_cif(output, ab_input, name)
     else:
         output_string = generate_pdb(output, ab_input)
-    
-    # Add hydrogens if requested (--relaxation or --add-hydrogens)
-    if (relaxation or add_h) and output_format == OutputFormat.pdb:
-        output_string = add_hydrogens(output_string, method=hydrogen_method)
     
     return name, output_string, mean_plddt
 
@@ -461,24 +406,15 @@ def _init_worker(model_type: str, checkpoint_path: Optional[str], use_language: 
 
 def _worker_process_antibody(args: Tuple) -> Tuple[str, Optional[str], Optional[float]]:
     """Process a single antibody in worker process."""
-    name, heavy, light, relaxation, add_h, hydrogen_method, output_format, confidence_threshold = args
+    name, heavy, light, output_format, confidence_threshold = args
     
     global _worker_model, _worker_device, _worker_prott5
     
-    try:
-        result = process_single_antibody(
-            name, heavy, light,
-            _worker_model, _worker_device,
-            relaxation=relaxation,
-            add_h=add_h,
-            hydrogen_method=hydrogen_method,
-            output_format=output_format,
-            confidence_threshold=confidence_threshold,
-            prott5_model=_worker_prott5,
-        )
-        return result
-    except Exception as e:
-        return name, None, None
+    return process_single_antibody(
+        name, heavy, light, _worker_model, _worker_device,
+        output_format=output_format, confidence_threshold=confidence_threshold,
+        prott5_model=_worker_prott5,
+    )
 
 
 def parse_fasta(fasta_path: Path) -> List[Tuple[str, str, str]]:
@@ -612,17 +548,33 @@ def predict(
     ),
     
     # Processing options
-    relaxation: bool = typer.Option(
-        False, "--relaxation", "-r",
-        help="Add hydrogens and apply structure relaxation. Increases runtime ~600ms per antibody."
-    ),
     add_hydrogens: bool = typer.Option(
-        False, "--add-hydrogens", "-H",
-        help="Add hydrogens to output PDB (without full relaxation). Uses 'reduce' by default."
+        False, "--add-hydrogens",
+        help="Save a chemically prepared PDB alongside the unchanged raw prediction."
     ),
-    hydrogen_method: str = typer.Option(
-        "reduce", "--hydrogen-method",
-        help="Method for adding hydrogens: 'reduce' (default, fast) or 'pdbfixer'."
+    hydrogen_method: Optional[str] = typer.Option(
+        None, "--hydrogen-method", help="Preparation: openmm (default) or reduce then OpenMM protonation."
+    ),
+    ph: Optional[float] = typer.Option(
+        None, "--ph", help="Final OpenMM preparation pH, 0-14 (default 7)."
+    ),
+    sidechain_flips: bool = typer.Option(
+        False, "--sidechain-flips", help="Allow Reduce to change Asn/Gln/His side-chain orientations."
+    ),
+    relax: str = typer.Option(
+        "none", "--relax", help="none (default) or restrained: prepare and energy-minimise with OpenMM."
+    ),
+    relax_restraint: float = typer.Option(
+        1000., "--relax-restraint", help="Heavy-atom positional restraint, kJ/mol/nm^2."
+    ),
+    relax_tolerance: float = typer.Option(
+        10., "--relax-tolerance", help="Minimisation RMS force tolerance, kJ/mol/nm."
+    ),
+    relax_max_iterations: int = typer.Option(
+        1000, "--relax-max-iterations", help="Positive finite minimisation iteration budget per stage."
+    ),
+    relax_platform: str = typer.Option(
+        "cpu", "--relax-platform", help="Minimisation platform: cpu (default) or cuda. No fallback."
     ),
     confidence_threshold: Optional[float] = typer.Option(
         None, "--confidence-threshold", "-t",
@@ -654,6 +606,27 @@ def predict(
     """
     global VERBOSE
     VERBOSE = not quiet
+    preparation_options = None
+    if add_hydrogens or relax != "none":
+        if output_format != OutputFormat.pdb:
+            raise typer.BadParameter("Preparation/relaxation currently requires --format pdb; other formats are never silently ignored.")
+        script_dir = str(Path(__file__).resolve().parent)
+        if script_dir not in sys.path:
+            sys.path.insert(0, script_dir)
+        from structure_preparation import Options
+        preparation_options = Options(
+            hydrogen_method=hydrogen_method or "openmm", ph=ph,
+            sidechain_flips=sidechain_flips, relax=relax,
+            restraint_k=relax_restraint, tolerance=relax_tolerance,
+            max_iterations=relax_max_iterations, seed=seed if seed is not None else 0,
+            relax_platform=relax_platform.upper(),
+        )
+        try:
+            preparation_options.validate()
+        except ValueError as exc:
+            raise typer.BadParameter(str(exc)) from exc
+    elif hydrogen_method is not None or ph is not None or sidechain_flips or relax_restraint != 1000. or relax_tolerance != 10. or relax_max_iterations != 1000 or relax_platform != "cpu":
+        raise typer.BadParameter("Preparation settings require --add-hydrogens or --relax restrained.")
     
     # Set random seed if provided
     if seed is not None:
@@ -712,10 +685,8 @@ def predict(
     
     log(f"[bold]ABodyBuilder3[/bold] - {model_type} model on {device}")
     log(f"Processing {len(antibodies)} antibody(ies) with {num_workers} worker(s)...")
-    if relaxation:
-        log(f"[dim]Relaxation enabled with {hydrogen_method}[/dim]")
-    elif add_hydrogens:
-        log(f"[dim]Adding hydrogens with {hydrogen_method}[/dim]")
+    if preparation_options is not None:
+        log(f"[dim]Separate preparation: {preparation_options.hydrogen_method}; relaxation: {relax}[/dim]")
     if confidence_threshold:
         log(f"[dim]Confidence threshold: {confidence_threshold}[/dim]")
     if model_type == "language":
@@ -751,6 +722,7 @@ def predict(
     name_counts = {}
     results = []
     skipped = 0
+    failed = 0
     
     def get_unique_name(name: str) -> str:
         if name in name_counts:
@@ -789,7 +761,6 @@ def predict(
                 unique_name = get_unique_name(ab_name)
                 work_items.append((
                     unique_name, heavy_seq, light_seq,
-                    relaxation, add_hydrogens, hydrogen_method,
                     output_format, confidence_threshold
                 ))
             
@@ -822,7 +793,8 @@ def predict(
                             results.append((result_name, output_string, mean_plddt))
                             progress.update(task, advance=1, description=f"Predicted {result_name}")
                     except Exception as e:
-                        log(f"Warning: Failed to predict {name}: {e}", "warning")
+                        failed += 1
+                        log(f"Failed to predict {name}: {e}", "error")
                         progress.update(task, advance=1)
         else:
             # Sequential processing (small batches or single antibody)
@@ -831,9 +803,6 @@ def predict(
                     unique_name = get_unique_name(ab_name)
                     _, output_string, mean_plddt = process_single_antibody(
                         unique_name, heavy_seq, light_seq, model, device,
-                        relaxation=relaxation,
-                        add_h=add_hydrogens,
-                        hydrogen_method=hydrogen_method,
                         output_format=output_format,
                         confidence_threshold=confidence_threshold,
                         prott5_model=prott5_model,
@@ -847,7 +816,8 @@ def predict(
                     results.append((unique_name, output_string, mean_plddt))
                     progress.update(task, advance=1, description=f"Predicted {unique_name}")
                 except Exception as e:
-                    log(f"Warning: Failed to predict {ab_name}: {e}", "warning")
+                    failed += 1
+                    log(f"Failed to predict {ab_name}: {e}", "error")
     
     # Write outputs
     ext = {"pdb": ".pdb", "cif": ".cif", "json": ".json"}[output_format.value]
@@ -864,13 +834,20 @@ def predict(
             output_path = output / f"{unique_name}{ext}"
             with open(output_path, "w") as f:
                 f.write(output_string)
+            if preparation_options is not None:
+                write_prepared_outputs(output_string, output_path, preparation_options)
             return unique_name
         
-        if len(results) > 1:
+        if len(results) > 1 and preparation_options is None:
             with ThreadPoolExecutor(max_workers=num_workers) as executor:
                 list(executor.map(write_output, results))
-        elif results:
-            write_output(results[0])
+        else:
+            for result in results:
+                try:
+                    write_output(result)
+                except Exception as exc:
+                    failed += 1
+                    log(f"Preparation failed for {result[0]} (raw prediction retained): {exc}", "error")
     elif results:
         # Single file output
         unique_name, output_string, _ = results[0]
@@ -878,7 +855,13 @@ def predict(
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "w") as f:
             f.write(output_string)
-    
+        if preparation_options is not None:
+            try:
+                write_prepared_outputs(output_string, output_path, preparation_options)
+            except Exception as exc:
+                failed += 1
+                log(f"Preparation failed (raw prediction retained): {exc}", "error")
+
     elapsed = time.time() - start_time
     rate = len(results) / elapsed if elapsed > 0 else 0
     
@@ -886,6 +869,9 @@ def predict(
     if skipped:
         log(f"[dim]Skipped {skipped} structures below confidence threshold[/dim]")
     log(f"[dim]Total time: {elapsed:.1f}s ({rate:.1f}/s, {rate*60:.0f}/min)[/dim]")
+    if failed:
+        log(f"{failed} prediction/preparation failure(s); inspect errors and preparation records.", "error")
+        raise typer.Exit(1)
 
 
 @app.command()
