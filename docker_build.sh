@@ -38,7 +38,11 @@ build() {
         echo -e "${YELLOW}Warning: nvidia-smi not found. Building without GPU verification.${NC}"
     fi
     
-    DOCKER_BUILDKIT=1 docker build \
+    local cache_args=()
+    if [[ "${NO_CACHE:-0}" == "1" ]]; then
+        cache_args+=(--no-cache)
+    fi
+    DOCKER_BUILDKIT=1 docker build "${cache_args[@]}" \
         --progress=plain \
         -t "${IMAGE_NAME}:${IMAGE_TAG}" \
         -f "${DOCKERFILE}" \

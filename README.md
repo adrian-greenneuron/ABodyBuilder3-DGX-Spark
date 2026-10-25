@@ -2,6 +2,16 @@
 
 This repository provides a specialized Docker deployment for running **ABodyBuilder3** (antibody structure prediction) on the NVIDIA DGX Spark system, powered by **Grace Blackwell (GB10)** GPUs and **ARM64** architecture.
 
+## Verified rebuild and development comparison (25 October 2026)
+
+This branch preserves the original model and defaults, with pinned sources and dependency versions so the working image can be rebuilt from scratch. The retained original image was not replaced.
+
+The latest official ABodyBuilder3 source and model weights were checked: there is no newer upstream model release than the code already incorporated here. A separate [modernised branch](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/official/abodybuilder3-spark) uses published OpenMM/CUDA packages and updated Reduce.
+
+All three models passed prediction-agreement checks. The rebuilt and modernised runtimes gave exact unrelaxed predictions; optional hydrogen-added files can differ. Dev batching was faster for base and pLDDT in the warmed tests, with higher CUDA allocation. Language timings were variable and do not establish a reliable speed ranking.
+
+See the [complete benchmark tables and limitations](docs/abodybuilder3_benchmarks_251026.md) and [rebuild and verification instructions](docs/abodybuilder3_reproducibility_251026.md). The benchmark section below records the historical December 2025 measurements.
+
 ## What is ABodyBuilder3?
 
 ABodyBuilder3 is a state-of-the-art deep learning model for predicting antibody variable region structures from sequence. It achieves high accuracy on CDR loops (especially CDRH3) by leveraging ProtT5 language model embeddings and includes per-residue confidence scores (pLDDT).
@@ -65,7 +75,7 @@ Benchmarks run on **NVIDIA DGX Spark** (Grace Blackwell GB10, 128.5GB unified RA
 git clone https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
 cd ABodyBuilder3-DGX-Spark
 
-# Build with the build script (recommended, ~15-20 minutes)
+# Build with the build script
 ./docker_build.sh build
 
 # Or build manually
@@ -180,7 +190,7 @@ python3 scripts/predict.py predict --csv input.csv -o output/ --add-hydrogens
 # Add hydrogens using pdbfixer
 python3 scripts/predict.py predict --csv input.csv -o output/ --add-hydrogens --hydrogen-method pdbfixer
 
-# Full relaxation (includes hydrogen addition)
+# Legacy alias for hydrogen addition (does not energy-minimise the structure)
 python3 scripts/predict.py predict --csv input.csv -o output/ --relaxation
 ```
 
@@ -188,7 +198,7 @@ python3 scripts/predict.py predict --csv input.csv -o output/ --relaxation
 |--------|-------------|
 | `--add-hydrogens` / `-H` | Add hydrogens to output PDB |
 | `--hydrogen-method` | `reduce` (default, fast) or `pdbfixer` |
-| `--relaxation` / `-r` | Full relaxation (includes hydrogens) |
+| `--relaxation` / `-r` | Legacy alias for hydrogen addition; no energy minimisation |
 
 ## Repository Structure
 
