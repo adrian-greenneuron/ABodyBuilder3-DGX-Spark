@@ -119,7 +119,8 @@ RUN mkdir -p output/ zenodo/ \
 # -----------------------------------------------------------------------------
 # Keep the tested model source pinned above; deploy the versioned CLI and its
 # optional preparation module from this checkout, including local changes.
-COPY scripts/predict.py scripts/structure_preparation.py /opt/abodybuilder3/scripts/
+COPY scripts/predict.py scripts/structure_preparation.py scripts/batch_pipeline.py /opt/abodybuilder3/scripts/
+COPY src/abodybuilder3/batched_inference.py /opt/abodybuilder3/src/abodybuilder3/
 # Verify all imports work
 RUN python3 -c "import abodybuilder3; import torch; import openmm; import pdbfixer; print(f'ABodyBuilder3 on PyTorch {torch.__version__}, CUDA {torch.version.cuda}, OpenMM {openmm.version.short_version}')"
 

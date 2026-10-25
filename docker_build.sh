@@ -5,7 +5,7 @@
 set -euo pipefail
 
 # Configuration
-IMAGE_NAME="${IMAGE_NAME:-abodybuilder3-official-spark}"
+IMAGE_NAME="${IMAGE_NAME:-abodybuilder3-dev-spark}"
 IMAGE_TAG="${IMAGE_TAG:-latest}"
 DOCKERFILE="${DOCKERFILE:-Dockerfile}"
 
@@ -25,7 +25,7 @@ usage() {
     echo "  shell   Start an interactive shell in the container"
     echo ""
     echo "Environment variables:"
-    echo "  IMAGE_NAME    Name for the Docker image (default: abodybuilder3-official-spark)"
+    echo "  IMAGE_NAME    Name for the Docker image (default: abodybuilder3-dev-spark)"
     echo "  IMAGE_TAG     Tag for the Docker image (default: latest)"
     exit 1
 }

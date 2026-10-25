@@ -247,7 +247,14 @@ def extract_plddt_scores(output: Dict[str, Any]) -> List[float]:
 
 def generate_pdb(output: Dict[str, Any], ab_input: Dict[str, Any]) -> str:
     """Generate PDB string from model output."""
-    return output_to_pdb(output, ab_input)
+    # Formatting GPU scalar coordinates causes thousands of synchronisations.
+    # Keep model computation unchanged and transfer the compact result once.
+    cpu_output = dict(output)
+    coords = cpu_output['atom37']
+    cpu_output['atom37'] = coords.detach().cpu().numpy() if torch.is_tensor(coords) else coords
+    mask = cpu_output['atom37_atom_exists']
+    cpu_output['atom37_atom_exists'] = mask.detach().cpu() if torch.is_tensor(mask) else torch.as_tensor(mask)
+    return output_to_pdb(cpu_output, ab_input)
 
 
 def generate_cif(output: Dict[str, Any], ab_input: Dict[str, Any], name: str) -> str:
@@ -495,6 +502,90 @@ def parse_csv(csv_path: Path) -> List[Tuple[str, str, str]]:
     return antibodies
 
 
+def run_batched_pipeline(antibodies, model, device, output, output_format,
+                         confidence_threshold, preparation_options, max_batch_size,
+                         memory_gib, cpu_workers, report_path, unique_name, progress, task):
+    script_dir = str(Path(__file__).resolve().parent)
+    if script_dir not in sys.path:
+        sys.path.insert(0, script_dir)
+    from batch_pipeline import BatchPolicy, plan_batches, run_pipeline
+    from abodybuilder3.batched_inference import prepare_cpu_batch, infer_prepared_batch
+    import threading
+    named = [(unique_name(name), h, l) for name, h, l in antibodies]
+    # Calibrated conservative estimate from the 227-231-residue FP32 screen.
+    # OOM retries remain necessary: this is not a hard allocator/physical limit.
+    pair_budget = max(1, int((memory_gib - .25) * 2**30 / 3000))
+    policy = BatchPolicy(max_batch_size, pair_budget)
+    stats = {"completed": False, "max_batch_size": max_batch_size,
+             "memory_target_gib": memory_gib, "pair_budget": pair_budget,
+             "batches": [], "oom_retries": [], "saved": 0, "skipped": 0}
+    lock = threading.Lock()
+    prepared_paths = []
+    is_dir = len(named) > 1 or output.is_dir()
+    ext = {"pdb": ".pdb", "cif": ".cif", "json": ".json"}[output_format.value]
+    if is_dir:
+        output.mkdir(parents=True, exist_ok=True)
+    start = time.perf_counter()
+
+    def prepare(items):
+        return prepare_cpu_batch([(h, l) for _, h, l in items])
+
+    def infer(items, prepared):
+        try:
+            outputs, inputs = infer_prepared_batch(model, prepared, device)
+        except torch.cuda.OutOfMemoryError:
+            if len(items) == 1:
+                raise
+        else:
+            stats["batches"].append({"size": len(items), "max_length": max(len(h)+len(l) for _,h,l in items)})
+            return list(zip(items, outputs, inputs))
+        # Exit the exception handler first so its traceback releases GPU arrays.
+        stats["oom_retries"].append([x[0] for x in items])
+        log(f"CUDA memory exhausted for {len(items)} antibodies; splitting batch.", "warning")
+        torch.cuda.empty_cache()
+        middle = len(items)//2
+        return infer(items[:middle], prepare(items[:middle])) + infer(items[middle:], prepare(items[middle:]))
+
+    def write(records):
+        for (name, heavy, light), result, inp in records:
+            scores = extract_plddt_scores(result)
+            mean = sum(scores)/len(scores) if scores else None
+            if confidence_threshold is not None and mean is not None and mean < confidence_threshold:
+                with lock:
+                    stats["skipped"] += 1
+                    progress.update(task, advance=1)
+                continue
+            if output_format == OutputFormat.json:
+                text = json.dumps(generate_json_output(name, heavy, light, result, inp), indent=2)
+            elif output_format == OutputFormat.cif:
+                text = generate_cif(result, inp, name)
+            else:
+                text = generate_pdb(result, inp)
+            path = output / (name+ext) if is_dir else (output if str(output).endswith(ext) else output.with_suffix(ext))
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(text)
+            with lock:
+                stats["saved"] += 1
+                if preparation_options is not None:
+                    prepared_paths.append(path)
+                progress.update(task, advance=1)
+
+    try:
+        run_pipeline(plan_batches(named, policy), prepare, infer, write,
+                     prefetch=cpu_workers, writers=cpu_workers)
+        # Keep OpenMM CUDA work separate from the inference engine, as on main.
+        for path in prepared_paths:
+            write_prepared_outputs(path.read_text(), path, preparation_options)
+        stats["completed"] = True
+    finally:
+        stats["processing_seconds"] = time.perf_counter()-start
+        if report_path is not None:
+            report_path.parent.mkdir(parents=True, exist_ok=True)
+            report_path.write_text(json.dumps(stats, indent=2)+"\n")
+    log(f"Saved {stats['saved']} raw predictions; {stats['skipped']} filtered; "
+        f"{len(stats['batches'])} GPU batches in {stats['processing_seconds']:.2f}s.")
+
+
 @app.command()
 def predict(
     # Input options
@@ -584,6 +675,21 @@ def predict(
         "auto", "--workers", "-w",
         help="Parallel workers: 'auto' (detects optimal), '1' (sequential), or integer. Affects I/O, not GPU."
     ),
+    batch_size: str = typer.Option(
+        "auto", "--batch-size", "-b",
+        help="GPU batch size: auto (up to 32), a positive integer, or 1 for the main worker path. Language uses 1."
+    ),
+    batch_memory_gib: float = typer.Option(
+        6., "--batch-memory-gib", min=0.5,
+        help="Estimated inference allocation target, not a hard total-memory limit."
+    ),
+    cpu_workers: int = typer.Option(
+        2, "--cpu-workers", min=1, max=8,
+        help="CPU preparation/output workers per stage; bounded queues."
+    ),
+    batch_report: Optional[Path] = typer.Option(
+        None, "--batch-report", help="Save batch sizes, OOM retries and completion metadata as JSON."
+    ),
     seed: Optional[int] = typer.Option(
         None, "--seed", "-s",
         help="Random seed for reproducible predictions."
@@ -606,6 +712,23 @@ def predict(
     """
     global VERBOSE
     VERBOSE = not quiet
+    import math
+    if not math.isfinite(batch_memory_gib):
+        raise typer.BadParameter("--batch-memory-gib must be finite.")
+    if batch_size == "auto":
+        max_batch_size = 1 if model_type == "language" else 32
+    else:
+        try:
+            max_batch_size = int(batch_size)
+        except ValueError:
+            raise typer.BadParameter("--batch-size must be auto or a positive integer.")
+        if max_batch_size < 1:
+            raise typer.BadParameter("--batch-size must be positive.")
+    use_batching = max_batch_size > 1
+    if use_batching and model_type == "language":
+        raise typer.BadParameter("Language batching is not qualified; use --batch-size 1 --workers 1.")
+    if use_batching and workers not in ("auto", "1"):
+        raise typer.BadParameter("GPU batching uses one model process; use --workers auto or --workers 1.")
     preparation_options = None
     if add_hydrogens or relax != "none":
         if output_format != OutputFormat.pdb:
@@ -678,7 +801,14 @@ def predict(
         try:
             num_workers = int(workers)
         except ValueError:
-            num_workers = 1
+            raise typer.BadParameter("--workers must be auto or a positive integer.")
+    if num_workers < 1:
+        raise typer.BadParameter("--workers must be positive.")
+    if use_batching or (model_type == "language" and workers == "auto"):
+        num_workers = 1
+    if use_batching:
+        # Avoid native thread oversubscription across CPU pipeline stages.
+        torch.set_num_threads(1)
     
     if len(antibodies) <= 2:
         num_workers = 1
@@ -749,7 +879,13 @@ def predict(
         # Parallelization strategy decided earlier
 
         
-        if use_multiprocess:
+        if use_batching:
+            run_batched_pipeline(antibodies, model, device, output, output_format,
+                                 confidence_threshold, preparation_options, max_batch_size,
+                                 batch_memory_gib, cpu_workers, batch_report, get_unique_name,
+                                 progress, task)
+            return
+        elif use_multiprocess:
             # Use ProcessPoolExecutor with each worker having its own model
             from multiprocessing import get_context
             

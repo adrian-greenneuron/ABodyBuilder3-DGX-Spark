@@ -5,3 +5,9 @@
 scripts/*
 !scripts/predict.py
 !scripts/structure_preparation.py
+
+!scripts/batch_pipeline.py
+!src/
+!src/abodybuilder3/
+src/abodybuilder3/*
+!src/abodybuilder3/batched_inference.py
