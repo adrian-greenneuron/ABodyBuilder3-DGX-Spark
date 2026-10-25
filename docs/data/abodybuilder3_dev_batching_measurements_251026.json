@@ -1,0 +1,2893 @@
+{
+  "main_commit": "a5deeb1b73994491f94b5724d2f2baa9993d47a6",
+  "previous_dev_commit": "01047c73f7505d46db808f42aa32f1c624a3e21e",
+  "measured_pipeline_commit": "230ef920bf4879d1b398704b487cca322cd8d895",
+  "cli_sha256": {
+    "frozen_main": "b61ff09be0565ca69e41425621fb6aeefd7b41fe04a2a3086fb23f8acfc698e5",
+    "frozen_dev": "2cc7e26b2690107d8a539ee6c1738c48f7ae6a4df3fe70af301b345b35bc66f0",
+    "frozen_final": "26680d6cf83577b2462661755f5be880f40c93fd3bf7c2e0a70828f1ff1810ec"
+  },
+  "measurements": [
+    {
+      "case": "final-default",
+      "label": "final-default",
+      "batch_size": "auto",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 32.84819361599966,
+      "antibodies_per_minute": 1826.5844600591756,
+      "image": "sha256:0a3ffb4edcef8d608d65eca49787fcb4ea820098a63e6dfdca853baee0527afa",
+      "container": "abb3-cli-final-default-base-n1000-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 30.76240652300021,
+      "sampled_process_tree_rss_peak_bytes": 4461948928,
+      "main_process_lifetime_rss_peak_bytes": 4461219840,
+      "container_lifetime_memory_peak_bytes": 4309925888,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4865776128,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6538919936,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5030941696,
+          "peak_cuda_reserved_bytes": 6538919936
+        }
+      ]
+    },
+    {
+      "case": "final-default",
+      "label": "final-default",
+      "batch_size": "auto",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 33.24990971999978,
+      "antibodies_per_minute": 1804.5161777961182,
+      "image": "sha256:0a3ffb4edcef8d608d65eca49787fcb4ea820098a63e6dfdca853baee0527afa",
+      "container": "abb3-cli-final-default-base-n1000-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 31.15443140499974,
+      "sampled_process_tree_rss_peak_bytes": 4462399488,
+      "main_process_lifetime_rss_peak_bytes": 4460945408,
+      "container_lifetime_memory_peak_bytes": 4310704128,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4929964032,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6538919936,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5030941696,
+          "peak_cuda_reserved_bytes": 6538919936
+        }
+      ]
+    },
+    {
+      "case": "final-default",
+      "label": "final-default",
+      "batch_size": "auto",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 33.102178582000306,
+      "antibodies_per_minute": 1812.5695217119546,
+      "image": "sha256:0a3ffb4edcef8d608d65eca49787fcb4ea820098a63e6dfdca853baee0527afa",
+      "container": "abb3-cli-final-default-base-n1000-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 31.04305131699948,
+      "sampled_process_tree_rss_peak_bytes": 4464603136,
+      "main_process_lifetime_rss_peak_bytes": 4463886336,
+      "container_lifetime_memory_peak_bytes": 4312731648,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4801416704,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6538919936,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5030941696,
+          "peak_cuda_reserved_bytes": 6538919936
+        }
+      ]
+    },
+    {
+      "case": "final-default",
+      "label": "final-default",
+      "batch_size": "auto",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 33.6036998010004,
+      "antibodies_per_minute": 1785.517676783131,
+      "image": "sha256:0a3ffb4edcef8d608d65eca49787fcb4ea820098a63e6dfdca853baee0527afa",
+      "container": "abb3-cli-final-default-plddt-n1000-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 31.506378787000358,
+      "sampled_process_tree_rss_peak_bytes": 4464132096,
+      "main_process_lifetime_rss_peak_bytes": 4463837184,
+      "container_lifetime_memory_peak_bytes": 4312571904,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4801864704,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5031389696,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "final-default",
+      "label": "final-default",
+      "batch_size": "auto",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 33.66069394399983,
+      "antibodies_per_minute": 1782.4944458905093,
+      "image": "sha256:0a3ffb4edcef8d608d65eca49787fcb4ea820098a63e6dfdca853baee0527afa",
+      "container": "abb3-cli-final-default-plddt-n1000-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 31.644989886000076,
+      "sampled_process_tree_rss_peak_bytes": 4475953152,
+      "main_process_lifetime_rss_peak_bytes": 4474597376,
+      "container_lifetime_memory_peak_bytes": 4323565568,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4863690752,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5031389696,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "final-default",
+      "label": "final-default",
+      "batch_size": "auto",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 33.6606152710001,
+      "antibodies_per_minute": 1782.4986120111798,
+      "image": "sha256:0a3ffb4edcef8d608d65eca49787fcb4ea820098a63e6dfdca853baee0527afa",
+      "container": "abb3-cli-final-default-plddt-n1000-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 31.520445762000236,
+      "sampled_process_tree_rss_peak_bytes": 4463480832,
+      "main_process_lifetime_rss_peak_bytes": 4461912064,
+      "container_lifetime_memory_peak_bytes": 4312420352,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4801864704,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5031389696,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "full-screen-b32c1",
+      "label": "full-screen-b32c1",
+      "batch_size": "32",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 35.223695314,
+      "antibodies_per_minute": 1703.3987906473976,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-full-screen-b32c1-plddt-n1000-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 33.08149750699977,
+      "sampled_process_tree_rss_peak_bytes": 3498418176,
+      "main_process_lifetime_rss_peak_bytes": 3497099264,
+      "container_lifetime_memory_peak_bytes": 3350044672,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4801864704,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5031389696,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "full-screen-b32c1",
+      "label": "full-screen-b32c1",
+      "batch_size": "32",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 34.976685540999824,
+      "antibodies_per_minute": 1715.4284081511307,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-full-screen-b32c1-plddt-n1000-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 32.888379603999965,
+      "sampled_process_tree_rss_peak_bytes": 3507453952,
+      "main_process_lifetime_rss_peak_bytes": 3505930240,
+      "container_lifetime_memory_peak_bytes": 3357540352,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4973637632,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5031389696,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "full-screen-b32c1",
+      "label": "full-screen-b32c1",
+      "batch_size": "32",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 35.15366838799946,
+      "antibodies_per_minute": 1706.7920007029031,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-full-screen-b32c1-plddt-n1000-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 33.05895493800017,
+      "sampled_process_tree_rss_peak_bytes": 3507433472,
+      "main_process_lifetime_rss_peak_bytes": 3505848320,
+      "container_lifetime_memory_peak_bytes": 3358748672,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4801864704,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5031389696,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "full-screen-b32c2",
+      "label": "full-screen-b32c2",
+      "batch_size": "32",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 32.985402729999805,
+      "antibodies_per_minute": 1818.9864313959326,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-full-screen-b32c2-base-n1000-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 30.908369495999978,
+      "sampled_process_tree_rss_peak_bytes": 4461072384,
+      "main_process_lifetime_rss_peak_bytes": 4460208128,
+      "container_lifetime_memory_peak_bytes": 4308434944,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4801416704,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6538919936,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5030941696,
+          "peak_cuda_reserved_bytes": 6538919936
+        }
+      ]
+    },
+    {
+      "case": "full-screen-b32c2",
+      "label": "full-screen-b32c2",
+      "batch_size": "32",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 33.15439624899955,
+      "antibodies_per_minute": 1809.7147524383147,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-full-screen-b32c2-base-n1000-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 31.22156852900025,
+      "sampled_process_tree_rss_peak_bytes": 4476530688,
+      "main_process_lifetime_rss_peak_bytes": 4474716160,
+      "container_lifetime_memory_peak_bytes": 4323778560,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4801416704,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6538919936,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5030941696,
+          "peak_cuda_reserved_bytes": 6538919936
+        }
+      ]
+    },
+    {
+      "case": "full-screen-b32c2",
+      "label": "full-screen-b32c2",
+      "batch_size": "32",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 33.33406620700043,
+      "antibodies_per_minute": 1799.9604256920657,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-full-screen-b32c2-base-n1000-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 31.386602251999648,
+      "sampled_process_tree_rss_peak_bytes": 4461518848,
+      "main_process_lifetime_rss_peak_bytes": 4460449792,
+      "container_lifetime_memory_peak_bytes": 4309643264,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4949295104,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6538919936,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5030941696,
+          "peak_cuda_reserved_bytes": 6538919936
+        }
+      ]
+    },
+    {
+      "case": "full-screen-b32c2",
+      "label": "full-screen-b32c2",
+      "batch_size": "32",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 33.38285123800051,
+      "antibodies_per_minute": 1797.3299995328302,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-full-screen-b32c2-plddt-n1000-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 31.263456949999636,
+      "sampled_process_tree_rss_peak_bytes": 4462272512,
+      "main_process_lifetime_rss_peak_bytes": 4461502464,
+      "container_lifetime_memory_peak_bytes": 4309880832,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4844523520,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5031389696,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "full-screen-b32c2",
+      "label": "full-screen-b32c2",
+      "batch_size": "32",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 33.97967763500037,
+      "antibodies_per_minute": 1765.761307229051,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-full-screen-b32c2-plddt-n1000-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 31.937929898999755,
+      "sampled_process_tree_rss_peak_bytes": 4448698368,
+      "main_process_lifetime_rss_peak_bytes": 4447625216,
+      "container_lifetime_memory_peak_bytes": 4296560640,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4950452736,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5031389696,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "full-screen-b32c2",
+      "label": "full-screen-b32c2",
+      "batch_size": "32",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 33.91762586799996,
+      "antibodies_per_minute": 1768.9917399733986,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-full-screen-b32c2-plddt-n1000-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 31.821557524999662,
+      "sampled_process_tree_rss_peak_bytes": 4461309952,
+      "main_process_lifetime_rss_peak_bytes": 4460146688,
+      "container_lifetime_memory_peak_bytes": 4309368832,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4801864704,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5031389696,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "language-dev",
+      "label": "pipeline-language-dev",
+      "batch_size": "1",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "language",
+      "count": 5,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 216.56228131900025,
+      "antibodies_per_minute": 1.3852827841155517,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-language-dev-language-n5-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 214.18304204700007,
+      "sampled_process_tree_rss_peak_bytes": 8973885440,
+      "main_process_lifetime_rss_peak_bytes": 9048686592,
+      "container_lifetime_memory_peak_bytes": 8732430336,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4883385856,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 4949278720,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 4890911232,
+          "peak_cuda_reserved_bytes": 4949278720
+        }
+      ]
+    },
+    {
+      "case": "language-dev",
+      "label": "pipeline-language-dev",
+      "batch_size": "1",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "language",
+      "count": 5,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 220.41489075200025,
+      "antibodies_per_minute": 1.3610695673802953,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-language-dev-language-n5-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 217.90158264599995,
+      "sampled_process_tree_rss_peak_bytes": 9006981120,
+      "main_process_lifetime_rss_peak_bytes": 9004957696,
+      "container_lifetime_memory_peak_bytes": 8696991744,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4883385856,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 4949278720,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 4890911232,
+          "peak_cuda_reserved_bytes": 4949278720
+        }
+      ]
+    },
+    {
+      "case": "language-dev",
+      "label": "pipeline-language-dev",
+      "batch_size": "1",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "language",
+      "count": 5,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 176.52870606399983,
+      "antibodies_per_minute": 1.6994403159066724,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-language-dev-language-n5-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 173.95160180699986,
+      "sampled_process_tree_rss_peak_bytes": 8940089344,
+      "main_process_lifetime_rss_peak_bytes": 8938414080,
+      "container_lifetime_memory_peak_bytes": 8633085952,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4880256512,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 4949278720,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 4890911232,
+          "peak_cuda_reserved_bytes": 4949278720
+        }
+      ]
+    },
+    {
+      "case": "language-main",
+      "label": "pipeline-language-main",
+      "batch_size": null,
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "language",
+      "count": 5,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 216.2921398809999,
+      "antibodies_per_minute": 1.3870129546318912,
+      "image": "sha256:5cae6273bb8e89fe514fecf8afdf68154389a2c444368b88c88b21a4b2cf2810",
+      "container": "abb3-cli-pipeline-language-main-language-n5-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 213.83587344200032,
+      "sampled_process_tree_rss_peak_bytes": 8910680064,
+      "main_process_lifetime_rss_peak_bytes": 8965144576,
+      "container_lifetime_memory_peak_bytes": 20068655104,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4873544192,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 4949278720,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 4890911232,
+          "peak_cuda_reserved_bytes": 4949278720
+        }
+      ]
+    },
+    {
+      "case": "language-main",
+      "label": "pipeline-language-main",
+      "batch_size": null,
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "language",
+      "count": 5,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 252.50979864600004,
+      "antibodies_per_minute": 1.1880727069153372,
+      "image": "sha256:5cae6273bb8e89fe514fecf8afdf68154389a2c444368b88c88b21a4b2cf2810",
+      "container": "abb3-cli-pipeline-language-main-language-n5-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 249.99724901700029,
+      "sampled_process_tree_rss_peak_bytes": 8910073856,
+      "main_process_lifetime_rss_peak_bytes": 8964976640,
+      "container_lifetime_memory_peak_bytes": 8649498624,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4882213376,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 4949278720,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 4890911232,
+          "peak_cuda_reserved_bytes": 4949278720
+        }
+      ]
+    },
+    {
+      "case": "language-main",
+      "label": "pipeline-language-main",
+      "batch_size": null,
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "language",
+      "count": 5,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 171.36292496999977,
+      "antibodies_per_minute": 1.7506703976517706,
+      "image": "sha256:5cae6273bb8e89fe514fecf8afdf68154389a2c444368b88c88b21a4b2cf2810",
+      "container": "abb3-cli-pipeline-language-main-language-n5-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 168.81521816199984,
+      "sampled_process_tree_rss_peak_bytes": 8822579200,
+      "main_process_lifetime_rss_peak_bytes": 8897167360,
+      "container_lifetime_memory_peak_bytes": 8586682368,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4875972608,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 4949278720,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 4890911232,
+          "peak_cuda_reserved_bytes": 4949278720
+        }
+      ]
+    },
+    {
+      "case": "large-batched",
+      "label": "pipeline-large-batched",
+      "batch_size": "16",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 33.78156079900009,
+      "antibodies_per_minute": 1776.1168691109133,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-large-batched-base-n1000-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 31.695455921000075,
+      "sampled_process_tree_rss_peak_bytes": 3007979520,
+      "main_process_lifetime_rss_peak_bytes": 3007025152,
+      "container_lifetime_memory_peak_bytes": 2854060032,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 2451920384,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 3330277376,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 2534508544,
+          "peak_cuda_reserved_bytes": 3330277376
+        }
+      ]
+    },
+    {
+      "case": "large-batched",
+      "label": "pipeline-large-batched",
+      "batch_size": "16",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 33.99349442100038,
+      "antibodies_per_minute": 1765.0436067829912,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-large-batched-base-n1000-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 32.00474231299995,
+      "sampled_process_tree_rss_peak_bytes": 3012747264,
+      "main_process_lifetime_rss_peak_bytes": 3011993600,
+      "container_lifetime_memory_peak_bytes": 2859868160,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 2419741696,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 3330277376,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 2534508544,
+          "peak_cuda_reserved_bytes": 3330277376
+        }
+      ]
+    },
+    {
+      "case": "large-batched",
+      "label": "pipeline-large-batched",
+      "batch_size": "16",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 33.848136373000216,
+      "antibodies_per_minute": 1772.6234419174832,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-large-batched-base-n1000-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 31.908104084000115,
+      "sampled_process_tree_rss_peak_bytes": 3008421888,
+      "main_process_lifetime_rss_peak_bytes": 3007213568,
+      "container_lifetime_memory_peak_bytes": 2853994496,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 2362317312,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 3330277376,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 2534508544,
+          "peak_cuda_reserved_bytes": 3330277376
+        }
+      ]
+    },
+    {
+      "case": "large-batched",
+      "label": "pipeline-large-batched",
+      "batch_size": "16",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 34.58728169999995,
+      "antibodies_per_minute": 1734.7417042027935,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-large-batched-plddt-n1000-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 32.61555104900026,
+      "sampled_process_tree_rss_peak_bytes": 3013574656,
+      "main_process_lifetime_rss_peak_bytes": 3012792320,
+      "container_lifetime_memory_peak_bytes": 2859700224,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 1921710592,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 3332374528,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 2534956544,
+          "peak_cuda_reserved_bytes": 3332374528
+        }
+      ]
+    },
+    {
+      "case": "large-batched",
+      "label": "pipeline-large-batched",
+      "batch_size": "16",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 34.28767518600034,
+      "antibodies_per_minute": 1749.8999181052088,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-large-batched-plddt-n1000-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 32.23067612499972,
+      "sampled_process_tree_rss_peak_bytes": 3007414272,
+      "main_process_lifetime_rss_peak_bytes": 3006238720,
+      "container_lifetime_memory_peak_bytes": 2852790272,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 2362765312,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 3332374528,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 2534956544,
+          "peak_cuda_reserved_bytes": 3332374528
+        }
+      ]
+    },
+    {
+      "case": "large-batched",
+      "label": "pipeline-large-batched",
+      "batch_size": "16",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 34.78187485699982,
+      "antibodies_per_minute": 1725.036394578513,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-large-batched-plddt-n1000-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 32.648065423999924,
+      "sampled_process_tree_rss_peak_bytes": 3011239936,
+      "main_process_lifetime_rss_peak_bytes": 3010117632,
+      "container_lifetime_memory_peak_bytes": 2857377792,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 2477159424,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 3332374528,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 2534956544,
+          "peak_cuda_reserved_bytes": 3332374528
+        }
+      ]
+    },
+    {
+      "case": "large-main",
+      "label": "pipeline-large-main",
+      "batch_size": null,
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 8,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 79.94295851600009,
+      "antibodies_per_minute": 750.5351454811541,
+      "image": "sha256:5cae6273bb8e89fe514fecf8afdf68154389a2c444368b88c88b21a4b2cf2810",
+      "container": "abb3-cli-pipeline-large-main-base-n1000-w8-r0-251026",
+      "completed": true,
+      "cli_seconds": 78.222445354,
+      "sampled_process_tree_rss_peak_bytes": 15329779712,
+      "main_process_lifetime_rss_peak_bytes": 1017999360,
+      "container_lifetime_memory_peak_bytes": 11709108224,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 1048966144,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 2315255808,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 213,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 204,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 209,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 210,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 212,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 208,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 207,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 211,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        }
+      ]
+    },
+    {
+      "case": "large-main",
+      "label": "pipeline-large-main",
+      "batch_size": null,
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 8,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 80.68220796900005,
+      "antibodies_per_minute": 743.6583790946,
+      "image": "sha256:5cae6273bb8e89fe514fecf8afdf68154389a2c444368b88c88b21a4b2cf2810",
+      "container": "abb3-cli-pipeline-large-main-base-n1000-w8-r1-251026",
+      "completed": true,
+      "cli_seconds": 78.78655158299989,
+      "sampled_process_tree_rss_peak_bytes": 15323975680,
+      "main_process_lifetime_rss_peak_bytes": 1018404864,
+      "container_lifetime_memory_peak_bytes": 11698274304,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 1035212800,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 2315255808,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 215,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 213,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 210,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 212,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 207,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 214,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 211,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 216,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        }
+      ]
+    },
+    {
+      "case": "large-main",
+      "label": "pipeline-large-main",
+      "batch_size": null,
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 8,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 80.19191077799996,
+      "antibodies_per_minute": 748.205142113418,
+      "image": "sha256:5cae6273bb8e89fe514fecf8afdf68154389a2c444368b88c88b21a4b2cf2810",
+      "container": "abb3-cli-pipeline-large-main-base-n1000-w8-r2-251026",
+      "completed": true,
+      "cli_seconds": 78.36676686999999,
+      "sampled_process_tree_rss_peak_bytes": 15340273664,
+      "main_process_lifetime_rss_peak_bytes": 1018318848,
+      "container_lifetime_memory_peak_bytes": 11677282304,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 1076706304,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 2315255808,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 215,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 213,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 206,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 209,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 210,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 212,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 214,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        },
+        {
+          "pid": 211,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        }
+      ]
+    },
+    {
+      "case": "large-main",
+      "label": "pipeline-large-main",
+      "batch_size": null,
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 8,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 81.62102523000021,
+      "antibodies_per_minute": 735.1047090002332,
+      "image": "sha256:5cae6273bb8e89fe514fecf8afdf68154389a2c444368b88c88b21a4b2cf2810",
+      "container": "abb3-cli-pipeline-large-main-plddt-n1000-w8-r0-251026",
+      "completed": true,
+      "cli_seconds": 79.77478023999993,
+      "sampled_process_tree_rss_peak_bytes": 15265906688,
+      "main_process_lifetime_rss_peak_bytes": 1019289600,
+      "container_lifetime_memory_peak_bytes": 11675303936,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 1116741120,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 2332033024,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 215,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 213,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 206,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 209,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 210,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 212,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 214,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 211,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        }
+      ]
+    },
+    {
+      "case": "large-main",
+      "label": "pipeline-large-main",
+      "batch_size": null,
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 8,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 81.42508721500008,
+      "antibodies_per_minute": 736.8736350453283,
+      "image": "sha256:5cae6273bb8e89fe514fecf8afdf68154389a2c444368b88c88b21a4b2cf2810",
+      "container": "abb3-cli-pipeline-large-main-plddt-n1000-w8-r1-251026",
+      "completed": true,
+      "cli_seconds": 79.60424791499963,
+      "sampled_process_tree_rss_peak_bytes": 15221252096,
+      "main_process_lifetime_rss_peak_bytes": 1018146816,
+      "container_lifetime_memory_peak_bytes": 11719929856,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 1026651648,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 2332033024,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 215,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 213,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 210,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 212,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 207,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 214,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 211,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 216,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        }
+      ]
+    },
+    {
+      "case": "large-main",
+      "label": "pipeline-large-main",
+      "batch_size": null,
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 8,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 81.50740644999996,
+      "antibodies_per_minute": 736.1294220152434,
+      "image": "sha256:5cae6273bb8e89fe514fecf8afdf68154389a2c444368b88c88b21a4b2cf2810",
+      "container": "abb3-cli-pipeline-large-main-plddt-n1000-w8-r2-251026",
+      "completed": true,
+      "cli_seconds": 79.7510814000002,
+      "sampled_process_tree_rss_peak_bytes": 15255269376,
+      "main_process_lifetime_rss_peak_bytes": 1017991168,
+      "container_lifetime_memory_peak_bytes": 11684061184,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 1225199104,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 2332033024,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 215,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 213,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 210,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 212,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 207,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 214,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 211,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        },
+        {
+          "pid": 216,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        }
+      ]
+    },
+    {
+      "case": "large-serial",
+      "label": "pipeline-large-serial",
+      "batch_size": "1",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 69.74707363499988,
+      "antibodies_per_minute": 860.251145646508,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-large-serial-base-n1000-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 67.73961446599992,
+      "sampled_process_tree_rss_peak_bytes": 1893072896,
+      "main_process_lifetime_rss_peak_bytes": 1893322752,
+      "container_lifetime_memory_peak_bytes": 1634578432,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 191457792,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 289406976,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        }
+      ]
+    },
+    {
+      "case": "large-serial",
+      "label": "pipeline-large-serial",
+      "batch_size": "1",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 70.13308945200015,
+      "antibodies_per_minute": 855.5162829532079,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-large-serial-base-n1000-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 68.16783784199993,
+      "sampled_process_tree_rss_peak_bytes": 1886314496,
+      "main_process_lifetime_rss_peak_bytes": 1892028416,
+      "container_lifetime_memory_peak_bytes": 1632833536,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 191457792,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 289406976,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        }
+      ]
+    },
+    {
+      "case": "large-serial",
+      "label": "pipeline-large-serial",
+      "batch_size": "1",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "base",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 69.22990657700029,
+      "antibodies_per_minute": 866.6774659484132,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-large-serial-base-n1000-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 67.24709607399973,
+      "sampled_process_tree_rss_peak_bytes": 1892696064,
+      "main_process_lifetime_rss_peak_bytes": 1892073472,
+      "container_lifetime_memory_peak_bytes": 1633484800,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 190129664,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 289406976,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 194106880,
+          "peak_cuda_reserved_bytes": 289406976
+        }
+      ]
+    },
+    {
+      "case": "large-serial",
+      "label": "pipeline-large-serial",
+      "batch_size": "1",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 70.23530061100018,
+      "antibodies_per_minute": 854.2712778053215,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-large-serial-plddt-n1000-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 68.2433125309999,
+      "sampled_process_tree_rss_peak_bytes": 1889353728,
+      "main_process_lifetime_rss_peak_bytes": 1891827712,
+      "container_lifetime_memory_peak_bytes": 1633411072,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 189792256,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 291504128,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        }
+      ]
+    },
+    {
+      "case": "large-serial",
+      "label": "pipeline-large-serial",
+      "batch_size": "1",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 70.44634004199997,
+      "antibodies_per_minute": 851.7120969553296,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-large-serial-plddt-n1000-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 68.48701769599984,
+      "sampled_process_tree_rss_peak_bytes": 1890250752,
+      "main_process_lifetime_rss_peak_bytes": 1892790272,
+      "container_lifetime_memory_peak_bytes": 1632600064,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 191292416,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 291504128,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        }
+      ]
+    },
+    {
+      "case": "large-serial",
+      "label": "pipeline-large-serial",
+      "batch_size": "1",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 1000,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 70.14866489199994,
+      "antibodies_per_minute": 855.3263286247186,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-large-serial-plddt-n1000-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 68.27902666099999,
+      "sampled_process_tree_rss_peak_bytes": 1896808448,
+      "main_process_lifetime_rss_peak_bytes": 1901056000,
+      "container_lifetime_memory_peak_bytes": 1641529344,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 188124672,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 291504128,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        }
+      ]
+    },
+    {
+      "case": "screen-b1-c1",
+      "label": "pipeline-screen-b1-c1",
+      "batch_size": "1",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 11.218400362000011,
+      "antibodies_per_minute": 534.8356099256135,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b1-c1-plddt-n100-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 9.336358722000114,
+      "sampled_process_tree_rss_peak_bytes": 1764835328,
+      "main_process_lifetime_rss_peak_bytes": 1765376000,
+      "container_lifetime_memory_peak_bytes": 1464717312,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 132607488,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 291504128,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        }
+      ]
+    },
+    {
+      "case": "screen-b1-c1",
+      "label": "pipeline-screen-b1-c1",
+      "batch_size": "1",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 11.326230297999928,
+      "antibodies_per_minute": 529.7437754783713,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b1-c1-plddt-n100-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 9.414579360000062,
+      "sampled_process_tree_rss_peak_bytes": 1766047744,
+      "main_process_lifetime_rss_peak_bytes": 1766076416,
+      "container_lifetime_memory_peak_bytes": 1465663488,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 189063680,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 291504128,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        }
+      ]
+    },
+    {
+      "case": "screen-b1-c1",
+      "label": "pipeline-screen-b1-c1",
+      "batch_size": "1",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 11.548766929000067,
+      "antibodies_per_minute": 519.5359848273863,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b1-c1-plddt-n100-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 9.591653075000067,
+      "sampled_process_tree_rss_peak_bytes": 1764093952,
+      "main_process_lifetime_rss_peak_bytes": 1762484224,
+      "container_lifetime_memory_peak_bytes": 1462132736,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 131198464,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 291504128,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 194554880,
+          "peak_cuda_reserved_bytes": 291504128
+        }
+      ]
+    },
+    {
+      "case": "screen-b16-c2",
+      "label": "pipeline-screen-b16-c2",
+      "batch_size": "16",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 8.03672646300015,
+      "antibodies_per_minute": 746.5726284978188,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b16-c2-plddt-n100-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 6.053553531000034,
+      "sampled_process_tree_rss_peak_bytes": 3006660608,
+      "main_process_lifetime_rss_peak_bytes": 3013894144,
+      "container_lifetime_memory_peak_bytes": 2727796736,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 2420189696,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 3332374528,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 2534956544,
+          "peak_cuda_reserved_bytes": 3332374528
+        }
+      ]
+    },
+    {
+      "case": "screen-b16-c2",
+      "label": "pipeline-screen-b16-c2",
+      "batch_size": "16",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 7.884132851000004,
+      "antibodies_per_minute": 761.0221838459984,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b16-c2-plddt-n100-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 5.985517066000057,
+      "sampled_process_tree_rss_peak_bytes": 3011211264,
+      "main_process_lifetime_rss_peak_bytes": 3009970176,
+      "container_lifetime_memory_peak_bytes": 2721693696,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 2362765312,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 3332374528,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 2534956544,
+          "peak_cuda_reserved_bytes": 3332374528
+        }
+      ]
+    },
+    {
+      "case": "screen-b16-c2",
+      "label": "pipeline-screen-b16-c2",
+      "batch_size": "16",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 7.870601030999978,
+      "antibodies_per_minute": 762.330599196652,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b16-c2-plddt-n100-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 5.9859911690000445,
+      "sampled_process_tree_rss_peak_bytes": 3008491520,
+      "main_process_lifetime_rss_peak_bytes": 3007229952,
+      "container_lifetime_memory_peak_bytes": 2720739328,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 2362765312,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 3332374528,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 2534956544,
+          "peak_cuda_reserved_bytes": 3332374528
+        }
+      ]
+    },
+    {
+      "case": "screen-b32-c1",
+      "label": "pipeline-screen-b32-c1",
+      "batch_size": "32",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 8.389488739999933,
+      "antibodies_per_minute": 715.1806487793257,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b32-c1-plddt-n100-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 6.422355585999867,
+      "sampled_process_tree_rss_peak_bytes": 3492007936,
+      "main_process_lifetime_rss_peak_bytes": 3490623488,
+      "container_lifetime_memory_peak_bytes": 3209011200,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4958013440,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5029579776,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "screen-b32-c1",
+      "label": "pipeline-screen-b32-c1",
+      "batch_size": "32",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 8.266064402999973,
+      "antibodies_per_minute": 725.8593337141725,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b32-c1-plddt-n100-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 6.288074658000141,
+      "sampled_process_tree_rss_peak_bytes": 3496566784,
+      "main_process_lifetime_rss_peak_bytes": 3496464384,
+      "container_lifetime_memory_peak_bytes": 3214426112,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4843622400,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5029579776,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "screen-b32-c1",
+      "label": "pipeline-screen-b32-c1",
+      "batch_size": "32",
+      "cpu_workers": 1,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 8.246186635999948,
+      "antibodies_per_minute": 727.6090470480152,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b32-c1-plddt-n100-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 6.338674098999945,
+      "sampled_process_tree_rss_peak_bytes": 3496931328,
+      "main_process_lifetime_rss_peak_bytes": 3495645184,
+      "container_lifetime_memory_peak_bytes": 3214639104,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4843622400,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5029579776,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "screen-b32-c2",
+      "label": "pipeline-screen-b32-c2",
+      "batch_size": "32",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 8.360655578999967,
+      "antibodies_per_minute": 717.6470724461623,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b32-c2-plddt-n100-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 6.359233437999819,
+      "sampled_process_tree_rss_peak_bytes": 4349624320,
+      "main_process_lifetime_rss_peak_bytes": 4349751296,
+      "container_lifetime_memory_peak_bytes": 4065439744,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4843622400,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5029579776,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "screen-b32-c2",
+      "label": "pipeline-screen-b32-c2",
+      "batch_size": "32",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 8.089183247999927,
+      "antibodies_per_minute": 741.7312497505254,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b32-c2-plddt-n100-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 6.168604753999944,
+      "sampled_process_tree_rss_peak_bytes": 4351324160,
+      "main_process_lifetime_rss_peak_bytes": 4355756032,
+      "container_lifetime_memory_peak_bytes": 4071284736,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4843622400,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5029579776,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "screen-b32-c2",
+      "label": "pipeline-screen-b32-c2",
+      "batch_size": "32",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 8.12851462499998,
+      "antibodies_per_minute": 738.1422408402218,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b32-c2-plddt-n100-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 6.159110329999976,
+      "sampled_process_tree_rss_peak_bytes": 4395212800,
+      "main_process_lifetime_rss_peak_bytes": 4394889216,
+      "container_lifetime_memory_peak_bytes": 4111151104,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4904813056,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5029579776,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "screen-b32-c4",
+      "label": "pipeline-screen-b32-c4",
+      "batch_size": "32",
+      "cpu_workers": 4,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 8.26441808200002,
+      "antibodies_per_minute": 726.0039291898913,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b32-c4-plddt-n100-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 6.331815610999911,
+      "sampled_process_tree_rss_peak_bytes": 4475432960,
+      "main_process_lifetime_rss_peak_bytes": 4476624896,
+      "container_lifetime_memory_peak_bytes": 4190822400,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4843622400,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5029579776,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "screen-b32-c4",
+      "label": "pipeline-screen-b32-c4",
+      "batch_size": "32",
+      "cpu_workers": 4,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 8.135512142000152,
+      "antibodies_per_minute": 737.5073499091199,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b32-c4-plddt-n100-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 6.166411109999899,
+      "sampled_process_tree_rss_peak_bytes": 4439023616,
+      "main_process_lifetime_rss_peak_bytes": 4441071616,
+      "container_lifetime_memory_peak_bytes": 4156198912,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4843622400,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5029579776,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "screen-b32-c4",
+      "label": "pipeline-screen-b32-c4",
+      "batch_size": "32",
+      "cpu_workers": 4,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 8.257523558999992,
+      "antibodies_per_minute": 726.6100977042342,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b32-c4-plddt-n100-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 6.231894438999916,
+      "sampled_process_tree_rss_peak_bytes": 4476325888,
+      "main_process_lifetime_rss_peak_bytes": 4480782336,
+      "container_lifetime_memory_peak_bytes": 4197097472,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4843622400,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 6541017088,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5029579776,
+          "peak_cuda_reserved_bytes": 6541017088
+        }
+      ]
+    },
+    {
+      "case": "screen-b64-c2",
+      "label": "pipeline-screen-b64-c2",
+      "batch_size": "64",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 0,
+      "warmup": true,
+      "complete_process_seconds": 8.258795156000133,
+      "antibodies_per_minute": 726.498222400021,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b64-c2-plddt-n100-w1-r0-251026",
+      "completed": true,
+      "cli_seconds": 6.298874555999873,
+      "sampled_process_tree_rss_peak_bytes": 4477181952,
+      "main_process_lifetime_rss_peak_bytes": 4477292544,
+      "container_lifetime_memory_peak_bytes": 4195409920,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 5782495232,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 7694450688,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5964217856,
+          "peak_cuda_reserved_bytes": 7694450688
+        }
+      ]
+    },
+    {
+      "case": "screen-b64-c2",
+      "label": "pipeline-screen-b64-c2",
+      "batch_size": "64",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 8.56201410299991,
+      "antibodies_per_minute": 700.7696936516087,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b64-c2-plddt-n100-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 6.509622535000062,
+      "sampled_process_tree_rss_peak_bytes": 4463071232,
+      "main_process_lifetime_rss_peak_bytes": 4463792128,
+      "container_lifetime_memory_peak_bytes": 4182306816,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 5782495232,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 7694450688,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5964217856,
+          "peak_cuda_reserved_bytes": 7694450688
+        }
+      ]
+    },
+    {
+      "case": "screen-b64-c2",
+      "label": "pipeline-screen-b64-c2",
+      "batch_size": "64",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 100,
+      "workers": 1,
+      "replicate": 2,
+      "warmup": false,
+      "complete_process_seconds": 8.447804912000038,
+      "antibodies_per_minute": 710.2436742445424,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-screen-b64-c2-plddt-n100-w1-r2-251026",
+      "completed": true,
+      "cli_seconds": 6.450490606999892,
+      "sampled_process_tree_rss_peak_bytes": 4459524096,
+      "main_process_lifetime_rss_peak_bytes": 4458827776,
+      "container_lifetime_memory_peak_bytes": 4177567744,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 5782495232,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 7694450688,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5964217856,
+          "peak_cuda_reserved_bytes": 7694450688
+        }
+      ]
+    },
+    {
+      "case": "small",
+      "label": "pipeline-small",
+      "batch_size": "auto",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "base",
+      "count": 5,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 5.230280605999951,
+      "antibodies_per_minute": 57.35829921932927,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-small-base-n5-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 3.2569964909998816,
+      "sampled_process_tree_rss_peak_bytes": 1753407488,
+      "main_process_lifetime_rss_peak_bytes": 1753886720,
+      "container_lifetime_memory_peak_bytes": 1453387776,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 500158976,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 981467136,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 817643008,
+          "peak_cuda_reserved_bytes": 981467136
+        }
+      ]
+    },
+    {
+      "case": "small",
+      "label": "pipeline-small",
+      "batch_size": "auto",
+      "cpu_workers": 2,
+      "condition": "modernised",
+      "model": "plddt",
+      "count": 5,
+      "workers": 1,
+      "replicate": 1,
+      "warmup": false,
+      "complete_process_seconds": 4.993219086000181,
+      "antibodies_per_minute": 60.081481471768356,
+      "image": "sha256:8b86753eedb043a2549977b6a66c90346073c7a8edef85a3ee284a244cfc03c7",
+      "container": "abb3-cli-pipeline-small-plddt-n5-w1-r1-251026",
+      "completed": true,
+      "cli_seconds": 3.127224576999879,
+      "sampled_process_tree_rss_peak_bytes": 1754017792,
+      "main_process_lifetime_rss_peak_bytes": 1754746880,
+      "container_lifetime_memory_peak_bytes": 1454047232,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 469186560,
+      "sampled_concurrent_cuda_reserved_peak_bytes": 983564288,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 818091008,
+          "peak_cuda_reserved_bytes": 983564288
+        }
+      ]
+    }
+  ],
+  "qualification": [
+    {
+      "model": "base",
+      "name": "padding_short",
+      "max_plddt_score_difference": null,
+      "max_ca_coordinate_difference": 0.0,
+      "max_atom_coordinate_difference": 0.0,
+      "atom_coordinate_rms": 0.0
+    },
+    {
+      "model": "base",
+      "name": "trastuzumab_like",
+      "max_plddt_score_difference": null,
+      "max_ca_coordinate_difference": 0.0009860992431640625,
+      "max_atom_coordinate_difference": 0.0021800994873046875,
+      "atom_coordinate_rms": 0.00029250222723931074
+    },
+    {
+      "model": "base",
+      "name": "adalimumab_like",
+      "max_plddt_score_difference": null,
+      "max_ca_coordinate_difference": 0.0018253326416015625,
+      "max_atom_coordinate_difference": 0.02153301239013672,
+      "atom_coordinate_rms": 0.0008015625062398612
+    },
+    {
+      "model": "base",
+      "name": "6yio_example",
+      "max_plddt_score_difference": null,
+      "max_ca_coordinate_difference": 0.007955551147460938,
+      "max_atom_coordinate_difference": 0.01213836669921875,
+      "atom_coordinate_rms": 0.0006506646168418229
+    },
+    {
+      "model": "base",
+      "name": "bevacizumab_like",
+      "max_plddt_score_difference": null,
+      "max_ca_coordinate_difference": 0.001644134521484375,
+      "max_atom_coordinate_difference": 0.009945154190063477,
+      "atom_coordinate_rms": 0.00044418664765544236
+    },
+    {
+      "model": "base",
+      "name": "pembrolizumab_like",
+      "max_plddt_score_difference": null,
+      "max_ca_coordinate_difference": 0.004962444305419922,
+      "max_atom_coordinate_difference": 0.041744232177734375,
+      "atom_coordinate_rms": 0.0011344730155542493
+    },
+    {
+      "model": "base",
+      "name": "padding_long",
+      "max_plddt_score_difference": null,
+      "max_ca_coordinate_difference": 0.0,
+      "max_atom_coordinate_difference": 0.0,
+      "atom_coordinate_rms": 0.0
+    },
+    {
+      "model": "plddt",
+      "name": "padding_short",
+      "max_plddt_score_difference": 0.0,
+      "max_ca_coordinate_difference": 0.0,
+      "max_atom_coordinate_difference": 0.0,
+      "atom_coordinate_rms": 0.0
+    },
+    {
+      "model": "plddt",
+      "name": "trastuzumab_like",
+      "max_plddt_score_difference": 0.014504384369502077,
+      "max_ca_coordinate_difference": 0.0017366409301757812,
+      "max_atom_coordinate_difference": 0.0022516250610351562,
+      "atom_coordinate_rms": 0.0003450535295996815
+    },
+    {
+      "model": "plddt",
+      "name": "adalimumab_like",
+      "max_plddt_score_difference": 0.026591932739393087,
+      "max_ca_coordinate_difference": 0.0027568936347961426,
+      "max_atom_coordinate_difference": 0.008270323276519775,
+      "atom_coordinate_rms": 0.0006174235604703426
+    },
+    {
+      "model": "plddt",
+      "name": "6yio_example",
+      "max_plddt_score_difference": 0.022028408826116674,
+      "max_ca_coordinate_difference": 0.0024569034576416016,
+      "max_atom_coordinate_difference": 0.01218271255493164,
+      "atom_coordinate_rms": 0.0004655625962186605
+    },
+    {
+      "model": "plddt",
+      "name": "bevacizumab_like",
+      "max_plddt_score_difference": 0.024614035995909944,
+      "max_ca_coordinate_difference": 0.0021839141845703125,
+      "max_atom_coordinate_difference": 0.00646209716796875,
+      "atom_coordinate_rms": 0.00047520757652819157
+    },
+    {
+      "model": "plddt",
+      "name": "pembrolizumab_like",
+      "max_plddt_score_difference": 0.03538087852939498,
+      "max_ca_coordinate_difference": 0.004940509796142578,
+      "max_atom_coordinate_difference": 0.011378288269042969,
+      "atom_coordinate_rms": 0.0007127407588995993
+    },
+    {
+      "model": "plddt",
+      "name": "padding_long",
+      "max_plddt_score_difference": 0.0,
+      "max_ca_coordinate_difference": 0.0,
+      "max_atom_coordinate_difference": 0.0,
+      "atom_coordinate_rms": 0.0
+    }
+  ],
+  "chemistry": {
+    "openmm": {
+      "status": "completed_with_warnings",
+      "warnings": [
+        "Long peptide C-N bonds remain in the predicted geometry; no chain was split or capped at an internal gap."
+      ],
+      "options": {
+        "hydrogen_method": "openmm",
+        "ph": null,
+        "sidechain_flips": false,
+        "relax": "none",
+        "restraint_k": 1000.0,
+        "tolerance": 10.0,
+        "max_iterations": 1000,
+        "relax_platform": "CPU",
+        "seed": 42
+      },
+      "versions": {
+        "openmm": "8.6.1",
+        "pdbfixer": "1.12.0"
+      }
+    },
+    "reduce": {
+      "status": "completed_with_warnings",
+      "warnings": [
+        "Long peptide C-N bonds remain in the predicted geometry; no chain was split or capped at an internal gap."
+      ],
+      "options": {
+        "hydrogen_method": "reduce",
+        "ph": null,
+        "sidechain_flips": true,
+        "relax": "none",
+        "restraint_k": 1000.0,
+        "tolerance": 10.0,
+        "max_iterations": 1000,
+        "relax_platform": "CPU",
+        "seed": 42
+      },
+      "versions": {
+        "openmm": "8.6.1",
+        "pdbfixer": "1.12.0"
+      }
+    },
+    "relax": {
+      "status": "completed_with_warnings",
+      "warnings": [
+        "Long peptide C-N bonds remain in the predicted geometry; no chain was split or capped at an internal gap."
+      ],
+      "options": {
+        "hydrogen_method": "openmm",
+        "ph": null,
+        "sidechain_flips": false,
+        "relax": "restrained",
+        "restraint_k": 1000.0,
+        "tolerance": 10.0,
+        "max_iterations": 1000,
+        "relax_platform": "CUDA",
+        "seed": 42
+      },
+      "versions": {
+        "openmm": "8.6.1",
+        "pdbfixer": "1.12.0"
+      },
+      "restrained_minimisation": {
+        "initial_energy_kj_mol": -12797.881667379961,
+        "final_energy_kj_mol": -26658.656658629046,
+        "final_physical_energy_kj_mol": -27025.27949085081,
+        "rms_force_kj_mol_nm": 9.65949174910474,
+        "converged": true,
+        "force_norm_definition": "sqrt(sum(mobile force vector components squared) / total particles)",
+        "force_tolerance_kj_mol_nm": 10.0,
+        "max_iterations": 1000,
+        "platform": "CUDA",
+        "platform_properties": {
+          "Precision": "mixed",
+          "DeterministicForces": "true"
+        },
+        "seconds": 0.4392725249999785
+      }
+    }
+  },
+  "output_audit": {
+    "passed": true,
+    "files_checked": 34840,
+    "distinct_content_comparisons": 43,
+    "rounded_pdb_ca_tolerance_angstrom": 0.011,
+    "cases": [
+      {
+        "case": "final-default",
+        "model": "base",
+        "replicate": 0,
+        "warmup": true,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000117,
+        "max_atom_coordinate_difference_angstrom": 0.041999999999999815,
+        "max_atom_coordinate_rms_angstrom": 0.0012108606752550908
+      },
+      {
+        "case": "final-default",
+        "model": "base",
+        "replicate": 1,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000117,
+        "max_atom_coordinate_difference_angstrom": 0.041999999999999815,
+        "max_atom_coordinate_rms_angstrom": 0.0012108606752550908
+      },
+      {
+        "case": "final-default",
+        "model": "base",
+        "replicate": 2,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000117,
+        "max_atom_coordinate_difference_angstrom": 0.041999999999999815,
+        "max_atom_coordinate_rms_angstrom": 0.0012108606752550908
+      },
+      {
+        "case": "final-default",
+        "model": "plddt",
+        "replicate": 0,
+        "warmup": true,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "final-default",
+        "model": "plddt",
+        "replicate": 1,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "final-default",
+        "model": "plddt",
+        "replicate": 2,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "full-screen-b32c1",
+        "model": "plddt",
+        "replicate": 0,
+        "warmup": true,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "full-screen-b32c1",
+        "model": "plddt",
+        "replicate": 1,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "full-screen-b32c1",
+        "model": "plddt",
+        "replicate": 2,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "full-screen-b32c2",
+        "model": "base",
+        "replicate": 0,
+        "warmup": true,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000117,
+        "max_atom_coordinate_difference_angstrom": 0.041999999999999815,
+        "max_atom_coordinate_rms_angstrom": 0.0012108606752550908
+      },
+      {
+        "case": "full-screen-b32c2",
+        "model": "base",
+        "replicate": 1,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000117,
+        "max_atom_coordinate_difference_angstrom": 0.041999999999999815,
+        "max_atom_coordinate_rms_angstrom": 0.0012108606752550908
+      },
+      {
+        "case": "full-screen-b32c2",
+        "model": "base",
+        "replicate": 2,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000117,
+        "max_atom_coordinate_difference_angstrom": 0.041999999999999815,
+        "max_atom_coordinate_rms_angstrom": 0.0012108606752550908
+      },
+      {
+        "case": "full-screen-b32c2",
+        "model": "plddt",
+        "replicate": 0,
+        "warmup": true,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "full-screen-b32c2",
+        "model": "plddt",
+        "replicate": 1,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "full-screen-b32c2",
+        "model": "plddt",
+        "replicate": 2,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "language-dev",
+        "model": "language",
+        "replicate": 0,
+        "warmup": true,
+        "count": 5,
+        "byte_identical": 5,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "language-dev",
+        "model": "language",
+        "replicate": 1,
+        "warmup": false,
+        "count": 5,
+        "byte_identical": 5,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "language-dev",
+        "model": "language",
+        "replicate": 2,
+        "warmup": false,
+        "count": 5,
+        "byte_identical": 5,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "language-main",
+        "model": "language",
+        "replicate": 0,
+        "warmup": true,
+        "count": 5,
+        "byte_identical": 5,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "language-main",
+        "model": "language",
+        "replicate": 1,
+        "warmup": false,
+        "count": 5,
+        "byte_identical": 5,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "language-main",
+        "model": "language",
+        "replicate": 2,
+        "warmup": false,
+        "count": 5,
+        "byte_identical": 5,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "large-batched",
+        "model": "base",
+        "replicate": 0,
+        "warmup": true,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000117,
+        "max_atom_coordinate_difference_angstrom": 0.041999999999999815,
+        "max_atom_coordinate_rms_angstrom": 0.0012108606752550908
+      },
+      {
+        "case": "large-batched",
+        "model": "base",
+        "replicate": 1,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000117,
+        "max_atom_coordinate_difference_angstrom": 0.041999999999999815,
+        "max_atom_coordinate_rms_angstrom": 0.0012108606752550908
+      },
+      {
+        "case": "large-batched",
+        "model": "base",
+        "replicate": 2,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000117,
+        "max_atom_coordinate_difference_angstrom": 0.041999999999999815,
+        "max_atom_coordinate_rms_angstrom": 0.0012108606752550908
+      },
+      {
+        "case": "large-batched",
+        "model": "plddt",
+        "replicate": 0,
+        "warmup": true,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "large-batched",
+        "model": "plddt",
+        "replicate": 1,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "large-batched",
+        "model": "plddt",
+        "replicate": 2,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "large-main",
+        "model": "base",
+        "replicate": 0,
+        "warmup": true,
+        "count": 1000,
+        "byte_identical": 1000,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "large-main",
+        "model": "base",
+        "replicate": 1,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 1000,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "large-main",
+        "model": "base",
+        "replicate": 2,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 1000,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "large-main",
+        "model": "plddt",
+        "replicate": 0,
+        "warmup": true,
+        "count": 1000,
+        "byte_identical": 1000,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "large-main",
+        "model": "plddt",
+        "replicate": 1,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 1000,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "large-main",
+        "model": "plddt",
+        "replicate": 2,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 1000,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "large-serial",
+        "model": "base",
+        "replicate": 0,
+        "warmup": true,
+        "count": 1000,
+        "byte_identical": 1000,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "large-serial",
+        "model": "base",
+        "replicate": 1,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 1000,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "large-serial",
+        "model": "base",
+        "replicate": 2,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 1000,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "large-serial",
+        "model": "plddt",
+        "replicate": 0,
+        "warmup": true,
+        "count": 1000,
+        "byte_identical": 1000,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "large-serial",
+        "model": "plddt",
+        "replicate": 1,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 1000,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "large-serial",
+        "model": "plddt",
+        "replicate": 2,
+        "warmup": false,
+        "count": 1000,
+        "byte_identical": 1000,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "screen-b1-c1",
+        "model": "plddt",
+        "replicate": 0,
+        "warmup": true,
+        "count": 100,
+        "byte_identical": 100,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "screen-b1-c1",
+        "model": "plddt",
+        "replicate": 1,
+        "warmup": false,
+        "count": 100,
+        "byte_identical": 100,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "screen-b1-c1",
+        "model": "plddt",
+        "replicate": 2,
+        "warmup": false,
+        "count": 100,
+        "byte_identical": 100,
+        "max_ca_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_difference_angstrom": 0.0,
+        "max_atom_coordinate_rms_angstrom": 0.0
+      },
+      {
+        "case": "screen-b16-c2",
+        "model": "plddt",
+        "replicate": 0,
+        "warmup": true,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000561,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b16-c2",
+        "model": "plddt",
+        "replicate": 1,
+        "warmup": false,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000561,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b16-c2",
+        "model": "plddt",
+        "replicate": 2,
+        "warmup": false,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000561,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b32-c1",
+        "model": "plddt",
+        "replicate": 0,
+        "warmup": true,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000561,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b32-c1",
+        "model": "plddt",
+        "replicate": 1,
+        "warmup": false,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000561,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b32-c1",
+        "model": "plddt",
+        "replicate": 2,
+        "warmup": false,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000561,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b32-c2",
+        "model": "plddt",
+        "replicate": 0,
+        "warmup": true,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000561,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b32-c2",
+        "model": "plddt",
+        "replicate": 1,
+        "warmup": false,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000561,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b32-c2",
+        "model": "plddt",
+        "replicate": 2,
+        "warmup": false,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000561,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b32-c4",
+        "model": "plddt",
+        "replicate": 0,
+        "warmup": true,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000561,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b32-c4",
+        "model": "plddt",
+        "replicate": 1,
+        "warmup": false,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000561,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b32-c4",
+        "model": "plddt",
+        "replicate": 2,
+        "warmup": false,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.007000000000000561,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b64-c2",
+        "model": "plddt",
+        "replicate": 0,
+        "warmup": true,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b64-c2",
+        "model": "plddt",
+        "replicate": 1,
+        "warmup": false,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "screen-b64-c2",
+        "model": "plddt",
+        "replicate": 2,
+        "warmup": false,
+        "count": 100,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.006999999999999673,
+        "max_atom_coordinate_difference_angstrom": 0.03399999999999981,
+        "max_atom_coordinate_rms_angstrom": 0.0013867715977158382
+      },
+      {
+        "case": "small",
+        "model": "base",
+        "replicate": 1,
+        "warmup": false,
+        "count": 5,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.008000000000000007,
+        "max_atom_coordinate_difference_angstrom": 0.041999999999999815,
+        "max_atom_coordinate_rms_angstrom": 0.0012108606752550908
+      },
+      {
+        "case": "small",
+        "model": "plddt",
+        "replicate": 1,
+        "warmup": false,
+        "count": 5,
+        "byte_identical": 0,
+        "max_ca_coordinate_difference_angstrom": 0.004999999999999893,
+        "max_atom_coordinate_difference_angstrom": 0.01200000000000001,
+        "max_atom_coordinate_rms_angstrom": 0.0007980839186988676
+      }
+    ]
+  },
+  "small_screen_selection": {
+    "screen": [
+      {
+        "batch": 16,
+        "cpu": 2,
+        "median": 7.877366940999991
+      },
+      {
+        "batch": 32,
+        "cpu": 1,
+        "median": 8.25612551949996
+      },
+      {
+        "batch": 32,
+        "cpu": 2,
+        "median": 8.108848936499953
+      },
+      {
+        "batch": 32,
+        "cpu": 4,
+        "median": 8.196517850500072
+      },
+      {
+        "batch": 64,
+        "cpu": 2,
+        "median": 8.504909507499974
+      },
+      {
+        "batch": 1,
+        "cpu": 1,
+        "median": 11.437498613499997
+      }
+    ],
+    "selected": {
+      "batch": 16,
+      "cpu": 2,
+      "median": 7.877366940999991
+    }
+  },
+  "final_configuration": {
+    "batch_size": "auto",
+    "small_job_cap": 16,
+    "large_job_cap": 32,
+    "small_job_max_inputs": 128,
+    "cpu_workers_per_stage": 2,
+    "length_bin_residues": 8,
+    "sorting_window": 512,
+    "memory_target_gib": 6
+  }
+}

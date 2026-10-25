@@ -38,6 +38,8 @@ def main():
     p.add_argument('--label', help='Unique container-name label for a new comparison.')
     p.add_argument('--replicate', type=int, choices=[0, 1, 2], help='Run one replicate, permitting interleaved comparisons.')
     p.add_argument('--prott5', type=Path, help='Pinned offline ProtT5 snapshot for language CLI runs.')
+    p.add_argument('--batch-size', help='Optional dev batch size; omitted for historical/main CLIs.')
+    p.add_argument('--cpu-workers', type=int, default=2)
     p.add_argument('--count', type=int, default=1000)
     p.add_argument('--workers', type=int, default=8)
     p.add_argument('--frozen', type=Path, required=True)
@@ -60,6 +62,9 @@ def main():
                image, 'python', '/measurement/measure_cli.py', 'predict',
                '--csv', f'/frozen/antibodies_{args.count}.csv', '--output', '/output/pdbs/',
                '--model', args.model, '--workers', str(args.workers), '--seed', '42', '--quiet']
+        if args.batch_size is not None:
+            cmd += ['--batch-size', args.batch_size, '--cpu-workers', str(args.cpu_workers),
+                    '--batch-report', '/output/batching.json']
         if args.prott5:
             # Match the CLI's default relative model directory without patching
             # its loading code or downloading weights during measurement.
@@ -79,7 +84,8 @@ def main():
         actual = sorted(x.name for x in (dest / 'pdbs').glob('*.pdb'))
         if actual != sorted(expected):
             raise ValueError(f'Missing/extra predictions: {dest}')
-        row = {'condition': args.condition, 'model': args.model, 'count': args.count,
+        row = {'label': args.label or args.condition, 'batch_size': args.batch_size, 'cpu_workers': args.cpu_workers,
+               'condition': args.condition, 'model': args.model, 'count': args.count,
                'workers': args.workers, 'replicate': rep, 'warmup': rep == 0,
                'complete_process_seconds': wall, 'antibodies_per_minute': 60 * args.count / wall,
                'image': image, 'container': name,

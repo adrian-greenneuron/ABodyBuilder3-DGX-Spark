@@ -15,6 +15,7 @@ args.output.mkdir(parents=True, exist_ok=False)
 (args.output / 'antibodies.json').write_text(json.dumps(fixtures, indent=2) + '\n')
 shutil.copy2(repo / 'scripts/predict.py', args.output / 'predict_main.py')
 shutil.copy2(repo / 'scripts/structure_preparation.py', args.output / 'structure_preparation.py')
+shutil.copy2(repo / 'scripts/batch_pipeline.py', args.output / 'batch_pipeline.py')
 for count in args.counts:
     if count < 1:
         raise ValueError('Count must be positive')

@@ -1,3 +1,5 @@
+# Historical experiment helpers. The current CLI uses scripts/batch_pipeline.py.
+# Endpoint system-memory changes in this module are not peak-memory measurements.
 """
 DGX Spark Utilities for ABodyBuilder3
 

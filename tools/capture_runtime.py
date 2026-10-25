@@ -30,8 +30,10 @@ if not paths:
              if p.is_file() and not any(x in p.parts for x in ['.git', 'output', '__pycache__'])]
 # The pinned model checkout predates this optional module. Docker COPY adds it
 # without changing the model commit; include it in the deployment identity.
-if (root / 'scripts/structure_preparation.py').is_file():
-    paths = sorted(set(paths) | {'scripts/structure_preparation.py'})
+for optional in ('scripts/structure_preparation.py', 'scripts/batch_pipeline.py',
+                 'src/abodybuilder3/batched_inference.py'):
+    if (root / optional).is_file():
+        paths = sorted(set(paths) | {optional})
 hashes = {}
 for name in paths:
     p = root / name

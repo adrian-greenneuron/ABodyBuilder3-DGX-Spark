@@ -1,10 +1,12 @@
-# ABodyBuilder3 on NVIDIA DGX Spark
+# ABodyBuilder3 on NVIDIA DGX Spark — batched development branch
 
 Predict antibody variable-region structures from paired heavy- and light-chain sequences on the DGX Spark's ARM64 CPU and NVIDIA GB10 GPU. This repository packages [ABodyBuilder3](https://github.com/Exscientia/abodybuilder3) in a reproducible Docker environment, with a parallel prediction CLI and optional chemical preparation and restrained energy minimisation.
 
-**Main now contains the tested modernised deployment.** It uses published OpenMM/PDBFixer packages and updated Reduce, while retaining the original model settings and weights. The latest official model source and released weights checked on 25 October 2026 were already incorporated in this deployment; modernisation does not introduce a newly trained model.
+**This is `dev`: the modernised main runtime with integrated GPU batching.** The model architecture, released weights and FP32 settings are unchanged. Bounded CPU preparation and output queues overlap prediction in one GPU-owning process.
 
-The original build recipe remains available at [`original-runtime-251026`](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/original-runtime-251026). Experimental GPU batching remains on [`dev`](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/dev) and is not part of the default CLI.
+On the tested Spark, the final default completed 1,000 base/pLDDT inputs in **33–34 seconds**, approximately **2.42× faster** than the matched eight-worker main CLI. These workloads repeat five public antibody pairs; they do not establish an accuracy improvement or universal scaling. See the [complete dev measurements and validation](docs/abodybuilder3_dev_batching_251026.md).
+
+[Main](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/main) remains the stable worker-based deployment. The original rebuild recipe is preserved at [`original-runtime-251026`](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/original-runtime-251026). This dev branch includes main’s explicit chemical preparation and restrained minimisation.
 
 ## Requirements
 
@@ -20,13 +22,13 @@ Memory use depends on the model, worker count and sequence lengths. The measurem
 ### 1. Build and check the environment
 
 ```bash
-git clone https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
+git clone --branch dev https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark.git
 cd ABodyBuilder3-DGX-Spark
 ./docker_build.sh build
 ./docker_build.sh test
 ```
 
-The default image name is `abodybuilder3-official-spark:latest`. The build verifies the downloaded checkpoint hashes; the test checks imports and reports GPU availability. To rebuild without using Docker's build cache:
+The default image name is `abodybuilder3-dev-spark:latest`. The build verifies the downloaded checkpoint hashes; the test checks imports and reports GPU availability. To rebuild without using Docker's build cache:
 
 ```bash
 NO_CACHE=1 ./docker_build.sh build
@@ -44,10 +46,10 @@ docker run --rm --gpus all --ipc=host \
     -e PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
     -v "$PWD/benchmark_inputs:/inputs:ro" \
     -v "$PWD/predictions:/predictions" \
-    abodybuilder3-official-spark:latest \
+    abodybuilder3-dev-spark:latest \
     python3 scripts/predict.py predict \
         --csv /inputs/antibodies_5.csv --output /predictions/ \
-        --model plddt --workers 1 --seed 42
+        --model plddt --batch-size auto --seed 42
 ```
 
 Raw heavy-atom PDB files are saved in `predictions/` on the host. The image runs as root by default, so files written through the mount may be owned by root.
@@ -59,7 +61,7 @@ Provide a CSV with `name,heavy,light` columns, one paired antibody per row. The 
 The CLI also accepts `--heavy`/`--light` sequences and paired FASTA files. To see all options:
 
 ```bash
-docker run --rm abodybuilder3-official-spark:latest \
+docker run --rm abodybuilder3-dev-spark:latest \
     python3 scripts/predict.py predict --help
 ```
 
@@ -73,7 +75,20 @@ docker run --rm abodybuilder3-official-spark:latest \
 
 These are different trained checkpoints. Deployment checks compare each with its own original counterpart; they do not rank their accuracy against experimental structures.
 
-For large base/pLDDT batches, **`--workers 8`** was effective on the Spark. `--workers auto` is the default and selects eight on the tested system. Each prediction worker loads its own model copy, so reducing the worker count can reduce memory use. Use **`--workers 1` for the language model** to match the tested configuration. More workers do not necessarily improve throughput.
+Base and pLDDT use GPU batching by default. Antibodies are grouped by combined chain length into eight-residue bins, reducing padding, then processed by a single model. Results are transferred to CPU before formatting and writing. Input names remain associated with their predictions even though execution is reordered.
+
+| Option | Meaning |
+|---|---|
+| `--batch-size auto` | Default: cap at 16 for at most 128 inputs, otherwise 32; the memory estimate can reduce batches further |
+| `--batch-size 16` | Explicit cap with lower measured CUDA allocation than 32 on the public workload |
+| `--batch-size 1` | Disable GPU batching and use the worker-based path |
+| `--cpu-workers 2` | Default: two workers per preparation/output stage, with bounded queues |
+| `--batch-memory-gib 6` | Estimated inference-allocation target; not a hard total-memory limit |
+| `--batch-report /predictions/batching.json` | Optional record of actual batches, CUDA OOM splits and completion |
+
+Batching accepts `--workers auto` or `--workers 1`, using one GPU model process. To compare the worker approach, explicitly select `--batch-size 1 --workers 8`. Invalid worker counts are rejected; the old DataLoader worker-selection helper is not used by the current CLI.
+
+The language checkpoint keeps its established single-model path: `auto` selects batch size 1 and one worker. Explicit language batching is rejected until a qualified implementation demonstrates an improvement. Its separate ProtT5 download is described below.
 
 **Confidence export limitation:** the current CLI's JSON and `--confidence-threshold` paths use flattened confidence logits rather than properly converted pLDDT scores; PDB B-factors are zero. Do not interpret those exported values as calibrated pLDDT or use the threshold for scientific filtering. This existing limitation is documented in the [reproducibility notes](docs/abodybuilder3_reproducibility_251026.md#interpretation-and-limitations); the model's confidence head itself is unchanged.
 
@@ -85,7 +100,7 @@ The CLI can download ProtT5 on first use, but a host-mounted snapshot avoids dow
 mkdir -p prott5
 docker run --rm \
     -v "$PWD/tools:/tools:ro" -v "$PWD/prott5:/prott5" \
-    abodybuilder3-official-spark:latest \
+    abodybuilder3-dev-spark:latest \
     python3 /tools/download_prott5.py --output /prott5
 
 mkdir -p language_predictions
@@ -94,7 +109,7 @@ docker run --rm --gpus all --ipc=host \
     -v "$PWD/benchmark_inputs:/inputs:ro" \
     -v "$PWD/prott5:/opt/abodybuilder3/Rostlab/prot_t5_xl_uniref50:ro" \
     -v "$PWD/language_predictions:/predictions" \
-    abodybuilder3-official-spark:latest \
+    abodybuilder3-dev-spark:latest \
     python3 scripts/predict.py predict \
         --csv /inputs/antibodies_5.csv --output /predictions/ \
         --model language --workers 1 --seed 42
@@ -135,26 +150,25 @@ See the [preparation guide](docs/abodybuilder3_preparation_251026.md) for settin
 
 ## Measured performance
 
-Measurements on **DGX Spark / GB10, 25 October 2026**. Each complete prediction job ran in a fresh container and included imports, model loading, inference and PDB writing. One warm-up preceded two measured runs. The workloads cycle five public antibody pairs; these are throughput measurements rather than an accuracy study of distinct antibodies.
+Measurements on **DGX Spark / GB10, 25 October 2026**. Each complete job ran in a fresh offline container and included imports, model loading, feature preparation, inference and PDB writing. One warm-up preceded two measured runs. Base/pLDDT workloads repeat five public antibody pairs; language uses those five pairs once per run with fresh embeddings.
 
-| Model | Inputs | Workers | Complete time, median (range) | Peak summed RSS, GiB | Peak PyTorch CUDA allocation, GiB |
-|---|---:|---:|---|---:|---:|
-| Base | 1,000 | 8 | 82.18 s (81.96–82.41) | 14.577 | 1.018 |
-| pLDDT | 1,000 | 8 | 83.32 s (83.18–83.45) | 14.620 | 0.978 |
-| Language | 20 | 1 | 328.83 s (314.65–343.00) | 8.894 | 4.552 |
+| Model | Inputs | Main time | Dev time | Dev peak summed RSS, GiB | Dev sampled CUDA allocation, GiB |
+|---|---:|---:|---:|---:|---:|
+| Base | 1,000 | 80.44 s | **33.18 s** | 4.158 | 4.591 |
+| pLDDT | 1,000 | 81.47 s | **33.66 s** | 4.169 | 4.530 |
+| Language | 5 | 211.94 s | 198.47 s | 8.388 | 4.548 |
 
-Memory columns give the higher measured peak across the two runs. Summed process-tree RSS can count shared pages more than once; CUDA allocation is a sampled concurrent PyTorch measurement and can miss short peaks. **Do not add these columns** to estimate physical memory use on the Spark's unified-memory system.
+Times are medians. Main used eight workers for base/pLDDT; dev used automatic batching with one GPU model. Both language conditions used one worker. Language timings varied widely, so no reliable language speed improvement is claimed.
 
-All **12,120 raw PDB files**, including warm-ups, matched the retained original reference byte for byte. Base/pLDDT median runtimes were within 1.3% of the previous modernised CLI. Language timings were variable; two repetitions do not establish a reliable small speed difference.
+Memory columns give the higher measured peak. Summed RSS can count shared pages more than once; sampled CUDA allocation can miss short peaks. **Do not add them** to estimate physical unified-memory use. Compared with main, dev had lower measured RSS/container memory accounting but higher CUDA allocation. Full ranges, control runs and memory definitions are in the [dev benchmark report](docs/abodybuilder3_dev_batching_251026.md).
 
-Optional preparation adds a separate per-antibody cost. For the pLDDT examples, median preparation took **8.46 s** with OpenMM, **9.52 s** with Reduce orientation followed by OpenMM, and **10.66 s** including restrained CUDA relaxation. These exclude inference, startup and file writing. All 30 measured CUDA relaxations met the force criterion; this is a finite test set, not a guarantee for arbitrary structures.
+All **34,840 saved benchmark PDB files** were audited, including warm-ups and screens. Serial formatting changes preserved PDB bytes. GPU batching produced small numerical differences: the maximum Cα coordinate difference in the saved PDBs was **0.008 Å**. These checks establish implementation agreement on the tested inputs, not accuracy against experimental structures.
 
-- [Current prediction and preparation benchmarks](docs/abodybuilder3_preparation_benchmarks_251026.md), with protocol, memory definitions and raw measurement links.
-- [Earlier original/rebuilt/modernised and dev-batching comparison](docs/abodybuilder3_benchmarks_251026.md), using the frozen earlier CLI.
+The installed CLI also passed the three chemical preparation/relaxation workflows. Those stages remain separate from raw prediction and retain geometry warnings and audit records. For matched per-antibody chemistry timings, see the [preparation benchmarks](docs/abodybuilder3_preparation_benchmarks_251026.md).
 
 ## Reproducible builds and verification
 
-The Dockerfile pins the NGC base image by digest, the model source by commit, Reduce by revision and Python dependencies by version. It verifies all three ABodyBuilder3 checkpoint hashes. The model source is kept at the tested commit; this checkout's prediction and preparation scripts are copied into the image separately.
+The Dockerfile pins the NGC base image by digest, the model source by commit, Reduce by revision and Python dependencies by version. It verifies all three ABodyBuilder3 checkpoint hashes. The model source is kept at the tested commit; this checkout's prediction/preparation scripts, scheduler and batching module are copied into the image separately.
 
 | Component | Tested runtime |
 |---|---|
@@ -167,16 +181,17 @@ The Dockerfile pins the NGC base image by digest, the model source by commit, Re
 
 The deployment retains the Flash Attention import compatibility fix, PyTorch checkpoint-loading compatibility and fast PDB writer. It replaces the historical custom OpenMM/PDBFixer builds with published packages. CUDA dependency pins avoid the unsupported-PTX failure observed with newer NVRTC wheels on the tested driver.
 
-Ubuntu packages and build tools can change, so an identical Docker image digest is not promised across build dates. The [rebuild and verification guide](docs/abodybuilder3_reproducibility_251026.md) explains source/checkpoint/runtime checks, prediction comparisons, the original build tag and the limits of reproducibility. `--seed` alone does not guarantee identical prepared or relaxed coordinates across platforms.
+Ubuntu packages and build tools can change, so an identical Docker image digest is not promised across build dates. The [rebuild and verification guide](docs/abodybuilder3_reproducibility_251026.md) explains source/checkpoint/runtime checks, prediction comparisons, the original build tag and the limits of reproducibility. For this dev image, use `tests/reference_dev_batch_runtime_251026.json` as the strict runtime reference, rather than main’s preparation reference. `--seed` alone does not guarantee identical prepared or relaxed coordinates across platforms.
 
 CPU-only interface and measurement checks:
 
 ```bash
+python3 -m unittest discover -s tests -p 'test_batch_pipeline.py' -v
 python3 -m unittest discover -s tests -p 'test_structure_preparation.py' -v
 python3 -m unittest discover -s tests -p 'test_deployment_comparison.py' -v
 ```
 
-The second command requires NumPy. Real chemistry tests run inside the Docker environment with saved public predictions, as described in the preparation guide. An import test alone does not verify CUDA minimisation or prediction agreement.
+The measurement checks require NumPy. `tests/test_batch_cli.py` runs inside the deployment image; `tests/check_batch_gpu.py` performs the bounded numerical GPU check. Real chemistry tests run inside the Docker environment with saved public predictions, as described in the preparation guide. An import test alone does not verify CUDA minimisation or prediction agreement.
 
 ## Citation and licence
 

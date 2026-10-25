@@ -677,7 +677,7 @@ def predict(
     ),
     batch_size: str = typer.Option(
         "auto", "--batch-size", "-b",
-        help="GPU batch size: auto (up to 32), a positive integer, or 1 for the main worker path. Language uses 1."
+        help="GPU batch size: auto (16 for up to 128 inputs, otherwise 32), a positive integer, or 1 for workers. Language uses 1."
     ),
     batch_memory_gib: float = typer.Option(
         6., "--batch-memory-gib", min=0.5,
@@ -780,6 +780,9 @@ def predict(
         log("Error: No valid antibody sequences found", "error")
         raise typer.Exit(1)
     
+    if batch_size == "auto" and use_batching and len(antibodies) <= 128:
+        max_batch_size = 16
+
     # Check output exists
     if len(antibodies) > 1:
         if output.exists() and not output.is_dir():
@@ -850,17 +853,20 @@ def predict(
     
     # Track used names and results
     name_counts = {}
+    used_names = set()
     results = []
     skipped = 0
     failed = 0
     
     def get_unique_name(name: str) -> str:
-        if name in name_counts:
-            name_counts[name] += 1
-            return f"{name}_{name_counts[name]}"
-        else:
-            name_counts[name] = 0
-            return name
+        count = name_counts.get(name, 0)
+        candidate = name if count == 0 else f"{name}_{count}"
+        while candidate in used_names:
+            count += 1
+            candidate = f"{name}_{count}"
+        name_counts[name] = count + 1
+        used_names.add(candidate)
+        return candidate
     
     start_time = time.time()
     
