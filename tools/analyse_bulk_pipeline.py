@@ -26,12 +26,17 @@ def main():
     parser.add_argument('--study', type=Path, required=True)
     parser.add_argument('--truth-study', type=Path, required=True)
     parser.add_argument('--date-code', default='261026')
+    parser.add_argument('--count',type=int,default=10000)
+    parser.add_argument('--expected-jobs',type=int,default=32)
+    parser.add_argument('--reference-label',default='current_dev')
+    parser.add_argument('--output-prefix',default='bulk')
     args = parser.parse_args()
     root = args.study
     records = json.loads((root / f'measurements_{args.date_code}.json').read_text())
     assert json.loads((root / f'completed_{args.date_code}.json').read_text())['completed']
-    bulk = [row for row in records if row['count'] == 10000]
-    assert len(bulk) == 32
+    count=args.count
+    bulk = [row for row in records if row['count'] == count]
+    assert len(bulk) == args.expected_jobs
     names = list(json.loads((args.truth_study / 'base/compiled/metadata_251026.json').read_text())['targets'])
     assert len(names) == 100
     truth = {name: load(args.truth_study / 'base/compiled' / f'{name}.npz') for name in names}
@@ -48,25 +53,25 @@ def main():
         groups[key[:3]].append(row)
         path = root / row['relative_output']
         metrics = row['metrics']
-        assert metrics['completed'] and row['batching']['saved'] == 10000
+        assert metrics['completed'] and row['batching']['saved'] == count
         assert not row['batching']['oom_retries']
         assert metrics['allow_tf32'] == (row['precision'] == 'normal')
         assert metrics['float32_matmul_precision'] == ('highest' if row['precision'] == 'strict' else 'high')
         fp = json.loads((path / 'fingerprints.json').read_text())
-        assert len(fp) == 10000 and len({entry['name'] for entry in fp}) == 10000
-        assert len(list((path / 'pdbs').glob('*.pdb'))) == 10000
+        assert len(fp) == count and len({entry['name'] for entry in fp}) == count
+        assert len(list((path / 'pdbs').glob('*.pdb'))) == count
         fingerprints[key] = fp
         data[key] = {name: load(path / 'raw' / f'{name}.npz') for name in names}
         for name, actual in data[key].items():
             assert np.isfinite(actual['positions']).all()
             assert np.array_equal(actual['heavy'], truth[name]['heavy'])
         if row['native_formatter']:
-            assert json.loads((path / 'formatter_usage.json').read_text())['native_calls'] == 10000
+            assert json.loads((path / 'formatter_usage.json').read_text())['native_calls'] == count
         if row['mode'] != 'eager':
             assert metrics['packaged_cache_manifest_sha256']
         validations.append({'model':key[0], 'precision':key[1], 'label':key[2],
                             'replicate':key[3], 'written_pdbs':len(fp), 'finite_saved_raw_targets':100,
-                            'native_calls':10000 if row['native_formatter'] else None,
+                            'native_calls':count if row['native_formatter'] else None,
                             'dynamo_counters':metrics['dynamo_counters'],
                             'packaged_cache_manifest_sha256':metrics['packaged_cache_manifest_sha256']})
     for (model, precision, label), rows in sorted(groups.items()):
@@ -86,6 +91,8 @@ def main():
         if key[2] != 'native_writer':
             continue
         ref_key = key[:2] + ('current_dev', key[3])
+        if ref_key not in by_key:
+            continue
         control = by_key[ref_key]
         assert row['batching']['batches'] == control['batching']['batches']
         a, b = fingerprints[key], fingerprints[ref_key]
@@ -96,15 +103,15 @@ def main():
         pdb_equal = sum((actual_path / f"{entry['name']}.pdb").read_bytes() ==
                         (reference_path / f"{entry['name']}.pdb").read_bytes() for entry in a)
         exact_writer.append({'model':key[0], 'precision':key[1], 'replicate':key[3],
-                             'count':10000, 'raw_exact':raw_equal, 'pdb_exact':pdb_equal})
-        assert raw_equal == pdb_equal == 10000
+                             'count':count, 'raw_exact':raw_equal, 'pdb_exact':pdb_equal})
+        assert raw_equal == pdb_equal == count
         print('Writer exact', key, flush=True)
     repeatability = []
     for key in groups:
         a, b = fingerprints[key + (1,)], fingerprints[key + (2,)]
         assert [x['name'] for x in a] == [x['name'] for x in b]
         repeatability.append({'model':key[0], 'precision':key[1], 'label':key[2],
-                              'raw_exact':sum(x == y for x,y in zip(a,b)), 'count':10000})
+                              'raw_exact':sum(x == y for x,y in zip(a,b)), 'count':count})
     accuracy = {}
     target_accuracy = []
     for key, actuals in data.items():
@@ -122,12 +129,21 @@ def main():
     per_target = []
     pairs = []
     for key in by_key:
-        if key[2] != 'current_dev':
-            pairs.append((key, key[:2] + ('current_dev',key[3]), 'vs_matched_dev'))
+        if key[2] != args.reference_label:
+            pairs.append((key, key[:2] + (args.reference_label,key[3]),
+                          'vs_matched_dev' if args.reference_label=='current_dev' else 'vs_matched_reference'))
         if key[2] == 'cached_combined_native':
-            pairs.append((key,key[:2]+('cached_compiled_native',key[3]),'vs_compilation_alone'))
+            ref_key=key[:2]+('cached_compiled_native',key[3])
+            if ref_key in by_key:
+                pairs.append((key,ref_key,'vs_compilation_alone'))
         if key[1] == 'normal':
-            pairs.append((key,(key[0],'strict',key[2],key[3]),'tf32_vs_strict_fp32'))
+            ref_key=(key[0],'strict',key[2],key[3])
+            if ref_key in by_key:
+                pairs.append((key,ref_key,'tf32_vs_strict_fp32'))
+            elif key[2]=='cached_combined_native':
+                ref_key=(key[0],'strict','cached_compiled_native',key[3])
+                if ref_key in by_key:
+                    pairs.append((key,ref_key,'selected_profiles_precision_and_attention_differ'))
     for key, ref_key, reason in pairs:
         assert by_key[key]['batching']['batches'] == by_key[ref_key]['batching']['batches']
         rows = []
@@ -170,7 +186,7 @@ def main():
             'coordinates_exact':sum(x['coordinates_exact'] for x in rows),
             'max_confidence_difference':max((x.get('max_confidence_difference',0) for x in rows))})
         print('Compared',key,reason,flush=True)
-    result={'scope':'32 fresh 10,000-input jobs; 100 distinct experimental targets repeated 100 times per job. '
+    result={'scope':f'{len(bulk)} fresh {count:,}-input jobs; 100 distinct experimental targets repeated {count//100} times per job. '
                     'Two timing replicates are not independent biological samples. Experimental accuracy scores '
                     'use the first occurrence of each distinct target, in both fresh processes.',
             'metrics':'CA lDDT is in percent, deltas in percentage points; distances in Angstrom. '
@@ -178,9 +194,9 @@ def main():
                       '0.01 Angstrom is a descriptive reporting band, not an accuracy acceptance threshold.',
             'resources':resources,'comparisons':comparisons,'exact_writer':exact_writer,
             'repeatability':repeatability,'validation':validations}
-    (root/f'bulk_analysis_{args.date_code}.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
-    (root/f'bulk_per_target_{args.date_code}.json').write_text(json.dumps(per_target,indent=2,allow_nan=False)+'\n')
-    (root/f'bulk_experimental_accuracy_{args.date_code}.json').write_text(json.dumps(target_accuracy,indent=2,allow_nan=False)+'\n')
+    (root/f'{args.output_prefix}_analysis_{args.date_code}.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
+    (root/f'{args.output_prefix}_per_target_{args.date_code}.json').write_text(json.dumps(per_target,indent=2,allow_nan=False)+'\n')
+    (root/f'{args.output_prefix}_experimental_accuracy_{args.date_code}.json').write_text(json.dumps(target_accuracy,indent=2,allow_nan=False)+'\n')
     print('Bulk scoring complete',flush=True)
 
 

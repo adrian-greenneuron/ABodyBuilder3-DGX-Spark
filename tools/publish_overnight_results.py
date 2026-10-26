@@ -53,9 +53,15 @@ def compact(row):
 
 def evidence(path, payloads):
     path.parent.mkdir(parents=True,exist_ok=True)
+    entries={name:json.dumps(payload,indent=2,allow_nan=False)+'\n' for name,payload in payloads.items()}
+    if path.exists():
+        with zipfile.ZipFile(path) as archive:
+            if (set(archive.namelist())==set(entries) and archive.testzip() is None and
+                    all(archive.read(name)==value.encode() for name,value in entries.items())):
+                return
     with zipfile.ZipFile(path,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as archive:
-        for name, payload in payloads.items():
-            archive.writestr(name,json.dumps(payload,indent=2,allow_nan=False)+'\n')
+        for name, value in entries.items():
+            archive.writestr(name,value)
     with zipfile.ZipFile(path) as archive:
         assert archive.testzip() is None
 
@@ -242,6 +248,9 @@ The [cache evidence archive](data/abodybuilder3_cached_pipeline_evidence_261026.
     for workers in [1,2,4,8]:
         rr=[r for r in policy['resources'] if r['policy']==f'batch16_workers{workers}']
         workerrows.append([workers,f"{statistics.mean(r['seconds_median'] for r in rr):.2f}"])
+    crossover = docs/'abodybuilder3_job_size_crossover_261026.md'
+    job_size_status = ('The subsequent [64-job size calibration](abodybuilder3_job_size_crossover_261026.md) found eager inference faster at 1,000 inputs and cached execution faster at 1,500, 2,000 and 5,000 inputs, in both precision profiles and checkpoints. That brackets the crossover for this length range; wider workloads still need qualification before an automatic selector is deployed.' if crossover.exists() else
+                       'The exact crossover with the native writer has **not** been measured; an automatic job-size selector needs intermediate matched measurements before choosing a threshold.')
     overall=f'''# Batching optimisation results — 26 October 2026
 
 **Two useful gains emerged.** Replacing Python PDB formatting with an exact-output native writer gives **1.19–1.22× throughput** on 10,000-input jobs. Combining that writer with Docker-packaged compilation gives approximately **2.9–3.0× throughput**, including fresh startup and writing every PDB. Compilation changes floating-point results, so it remains a candidate for review. **Main and dev are unchanged; no new option is enabled there.**
@@ -284,7 +293,7 @@ Each entry is the higher peak across two jobs, in GiB. Compiler paths lower CUDA
 
 ## Other completed experiments
 
-**Docker caches and job size.** The [packaged-cache comparison](abodybuilder3_cached_pipeline_261026.md) completed 48 fresh jobs with the original writer. At 100 inputs, dev took around 7 seconds and cached compilation 28 seconds. At 1,000 inputs, dev took around 29 seconds and cached compilation 38 seconds. Cache packaging removes much of cold kernel code generation, but fresh-process tracing/guards still cost time. The 10,000-input bulk results show that this cost can be amortised. The exact crossover with the native writer has **not** been measured; an automatic job-size selector needs intermediate matched measurements before choosing a threshold. The number of antibodies in the job and the GPU microbatch size are different decisions.
+**Docker caches and job size.** The [packaged-cache comparison](abodybuilder3_cached_pipeline_261026.md) completed 48 fresh jobs with the original writer. At 100 inputs, dev took around 7 seconds and cached compilation 28 seconds. At 1,000 inputs, dev took around 29 seconds and cached compilation 38 seconds. Cache packaging removes much of cold kernel code generation, but fresh-process tracing/guards still cost time. The 10,000-input bulk results show that this cost can be amortised. {job_size_status} The number of antibodies in the job and the GPU microbatch size are different decisions.
 
 **CUDA graph replay.** Small and large graph-only jobs and graph-plus-native-writer jobs completed. All **177,600** matched graph predictions and PDBs were exact. Graph replay added startup and private-buffer costs; it did not give a dependable full-pipeline gain. At 1,000 inputs it took around 53 seconds versus 29 seconds without the writer change; with the native writer, around 51 versus 26 seconds. At 10,000 inputs, graphs plus the writer took around 248–251 seconds versus 213–216 seconds for the writer alone. Graph-only CUDA peaks rose to about 5.15 GiB. This implementation is not recommended for adoption.
 
@@ -298,7 +307,7 @@ Each entry is the higher peak across two jobs, in GiB. Compiler paths lower CUDA
 
 ## Recommended next step
 
-Review the exact-output writer for adoption first. Keep explicit strict-FP32 and TF32-permitted modes, optimise each separately, and qualify any automatic eager/compiled selector on intermediate job sizes and wider length distributions. Keep the existing batch/worker policy while those measurements are incomplete. The language checkpoint, optional preparation stages, broad antibody-length coverage and cross-hardware cache portability need their own checks before claiming universal support.
+Review the exact-output writer for adoption first. Keep explicit strict-FP32 and TF32-permitted modes, optimise each separately, and qualify any automatic eager/compiled selector across the intended job sizes and wider length distributions. Keep the existing batch/worker policy while that qualification is incomplete. The language checkpoint, optional preparation stages, broad antibody-length coverage and cross-hardware cache portability need their own checks before claiming universal support.
 
 The isolated [PDB formatter branch]({URL}/tree/components/pdb-formatting-261026) contains the original and C++ candidate, regression tests and [writer report]({URL}/blob/components/pdb-formatting-261026/docs/abodybuilder3_pdb_formatting_261026.md). The [overnight evidence archive](data/abodybuilder3_overnight_optimisation_evidence_261026.zip) contains per-job timing/memory, both-replicate per-target accuracy, repeatability, exactness, cache identities and policy results. Raw predictions, model weights, cache payloads and all Docker images remain local and intact.
 

@@ -124,6 +124,12 @@ contains its original, candidate and byte-regression tests. CUDA graph replay,
 larger GPU batches and extra CPU workers did not yield a dependable further gain.
 Main and dev remain unchanged; the compiler/attention candidates await review.
 
+The [job-size calibration](docs/abodybuilder3_job_size_crossover_261026.md) adds
+64 fresh jobs with both speed profiles: eager wins at 1,000 inputs, while cached
+execution wins at 1,500, 2,000, 5,000 and 10,000 inputs for these tested antibody
+lengths. This informs a future startup selector; precision remains explicit and
+no automatic policy has been enabled.
+
 [Component measurements](docs/component_comparisons_251026.json) and
 [source provenance](docs/provenance_251026.json) retain the accepted and held
 results separately. The production pipeline and complete-job measurements are
