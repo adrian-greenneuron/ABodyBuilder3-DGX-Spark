@@ -7,19 +7,25 @@ default direction for dev on 26 October 2026. This supersedes the earlier
 proposal to use cached JIT only above a job-size threshold. Precision must remain
 explicit: no automatic switch to TF32, BF16 or FP16.
 
-The [AOT study](abodybuilder3_aot_deployment_261026.md), committed as `936cb6f`,
+The [AOT study](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/components/openfold-structure-251026/docs/abodybuilder3_aot_deployment_261026.md), committed as `936cb6f`,
 provides the current evidence. It tested both base/pLDDT checkpoints, 100 distinct
 experimental antibodies of 219–242 residues, and complete jobs of 100, 1,000 and
 10,000 inputs, with two fresh repetitions. Larger jobs repeat those targets;
 they are not broader biological validation. AOT improved complete-job time and
 CPU RSS, with about 0.132 GiB more peak CUDA allocation than cached JIT.
 
-**Approval of the default is recorded here; it has not yet been integrated into
-the production dev CLI.** Dev remains `bd8a12ea9f58fa3577215532653a05c47e90e256`.
-The tested packages and measurement adapter are on the isolated component branch.
-Main remains `a5deeb1b73994491f94b5724d2f2baa9993d47a6` and is outside this change.
-The language checkpoint needs its own qualification; the accepted AOT evidence
-does not cover ProtT5 embedding generation or language-model inference.
+The approved route is now integrated into dev. Deployment priorities 1–5
+passed the scoped checks in the [installed-CLI validation report](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/dev/docs/abodybuilder3_dev_aot_validation_261026.md).
+The initial integration is commit `159c8af`, followed by CLI failure checks and
+compact evidence. The 150-target panel is independent of our implementation
+tuning but is the upstream authors' validation split, not an unseen model test.
+Length extremes remain engineering fixtures. Main remains
+`a5deeb1b73994491f94b5724d2f2baa9993d47a6` and is outside this change.
+
+The language checkpoint completed one offline strict-eager compatibility check;
+it has no AOT or language-batching qualification. Optional chemistry keeps its
+established protocol. Next: optimisation experiment A, profiling the integrated
+pipeline before considering further implementation changes.
 
 ## Deployment checks, in order
 
@@ -119,6 +125,6 @@ controlled measurement.
 - [NVIDIA NVTX](https://docs.nvidia.com/nvtx/overview/): annotations connect application stages with those traces.
 - [DGX Spark memory reporting](https://docs.nvidia.com/dgx/dgx-spark/known-issues.html): platform-specific unified-memory accounting limits.
 
-This document records the agreed default direction and proposed investigations.
-It does not claim that integration, broader validation or the listed
-optimisations have already been completed.
+This document records the accepted default and the scoped deployment validation.
+Optimisation experiments A–J remain proposed until their own results are recorded.
+The separate confidence-output correction remains disabled.

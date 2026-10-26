@@ -1,5 +1,7 @@
 # Ahead-of-time deployment results — 26 October 2026
 
+**Deployment update, 26 October:** the approved saved-AOT route is now integrated and qualified on dev. See the [installed-CLI report](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/dev/docs/abodybuilder3_dev_aot_validation_261026.md). The isolated comparison below retains its original sources and measurements.
+
 **Saving and loading the complete executable works.** Strict-FP32 AOT deployment is **4.9× faster at 100 inputs, 2.6× at 1,000 and 1.07× at 10,000** than the existing cached-JIT compiler path. These are complete fresh-container jobs, including every PDB write. Both use the same native writer. Main and dev remain unchanged; the candidate is available only on this isolated component branch.
 
 ## Complete-job performance
