@@ -1,0 +1,1526 @@
+{
+  "completed": true,
+  "protocol": "Same-parent H permutation matching; fixed-coordinate Amber ff14SB/GBn2 energy, NoCutoff, CUDA double deterministic; no minimisation. PDB-rounded coordinates.",
+  "rows": [
+    {
+      "route": "openmm",
+      "condition": "cpu_serial",
+      "target": "antibody_000000",
+      "hydrogen_max_by_name_angstrom": 2.144441419111279,
+      "hydrogen_max_after_matching_angstrom": 2.144441419111279,
+      "hydrogen_rms_by_name_angstrom": 0.12849701301174737,
+      "hydrogen_rms_after_matching_angstrom": 0.07143788745970785,
+      "reference_energy": {
+        "potential_energy_kj_mol": -17253.735172187942,
+        "hydrogen_force_rms_kj_mol_nm": 74.05635651042545
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": -17156.553139991207,
+        "hydrogen_force_rms_kj_mol_nm": 88.16727265754132
+      },
+      "delta_energy_kj_mol": 97.18203219673524,
+      "largest_remaining_H_group": {
+        "parent": [
+          "L",
+          "225",
+          " ",
+          "LYS",
+          "CA"
+        ],
+        "hydrogens": [
+          [
+            "L",
+            "225",
+            " ",
+            "LYS",
+            "HA"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 2.144441419111279,
+        "max_by_atom_name_angstrom": 2.144441419111279
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "cpu_serial",
+      "target": "antibody_000001",
+      "hydrogen_max_by_name_angstrom": 2.0043078605842974,
+      "hydrogen_max_after_matching_angstrom": 0.6469196240646886,
+      "hydrogen_rms_by_name_angstrom": 0.06412923265814685,
+      "hydrogen_rms_after_matching_angstrom": 0.03127870879695802,
+      "reference_energy": {
+        "potential_energy_kj_mol": 14593.862931555454,
+        "hydrogen_force_rms_kj_mol_nm": 51.89246319411165
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 14591.846100996207,
+        "hydrogen_force_rms_kj_mol_nm": 61.925896944948995
+      },
+      "delta_energy_kj_mol": -2.016830559246955,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "30",
+          " ",
+          "THR",
+          "CG2"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "30",
+            " ",
+            "THR",
+            "HG21"
+          ],
+          [
+            "H",
+            "30",
+            " ",
+            "THR",
+            "HG22"
+          ],
+          [
+            "H",
+            "30",
+            " ",
+            "THR",
+            "HG23"
+          ]
+        ],
+        "permutation": [
+          2,
+          1,
+          0
+        ],
+        "max_after_matching_angstrom": 0.6469196240646886,
+        "max_by_atom_name_angstrom": 2.0043078605842974
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "cpu_serial",
+      "target": "antibody_000002",
+      "hydrogen_max_by_name_angstrom": 0.11135977729862927,
+      "hydrogen_max_after_matching_angstrom": 0.11135977729862927,
+      "hydrogen_rms_by_name_angstrom": 0.011558445026105675,
+      "hydrogen_rms_after_matching_angstrom": 0.011558445026105675,
+      "reference_energy": {
+        "potential_energy_kj_mol": 359281.0417992919,
+        "hydrogen_force_rms_kj_mol_nm": 110.9037594353808
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 359306.03456469614,
+        "hydrogen_force_rms_kj_mol_nm": 170.11001114013422
+      },
+      "delta_energy_kj_mol": 24.992765404225793,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "64",
+          " ",
+          "LYS",
+          "CB"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "64",
+            " ",
+            "LYS",
+            "HB2"
+          ],
+          [
+            "H",
+            "64",
+            " ",
+            "LYS",
+            "HB3"
+          ]
+        ],
+        "permutation": [
+          0,
+          1
+        ],
+        "max_after_matching_angstrom": 0.11135977729862927,
+        "max_by_atom_name_angstrom": 0.11135977729862927
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "cpu_serial",
+      "target": "antibody_000003",
+      "hydrogen_max_by_name_angstrom": 0.9477953365574229,
+      "hydrogen_max_after_matching_angstrom": 0.9477953365574229,
+      "hydrogen_rms_by_name_angstrom": 0.12467925710742271,
+      "hydrogen_rms_after_matching_angstrom": 0.12467925710742271,
+      "reference_energy": {
+        "potential_energy_kj_mol": 1978707.7924506979,
+        "hydrogen_force_rms_kj_mol_nm": 912.2485381806656
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 1987926.5547929325,
+        "hydrogen_force_rms_kj_mol_nm": 1071.2332694038475
+      },
+      "delta_energy_kj_mol": 9218.762342234608,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "93",
+          " ",
+          "VAL",
+          "CG1"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "93",
+            " ",
+            "VAL",
+            "HG11"
+          ],
+          [
+            "H",
+            "93",
+            " ",
+            "VAL",
+            "HG12"
+          ],
+          [
+            "H",
+            "93",
+            " ",
+            "VAL",
+            "HG13"
+          ]
+        ],
+        "permutation": [
+          0,
+          1,
+          2
+        ],
+        "max_after_matching_angstrom": 0.9477953365574229,
+        "max_by_atom_name_angstrom": 0.9477953365574229
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "cpu_serial",
+      "target": "antibody_000004",
+      "hydrogen_max_by_name_angstrom": 0.0014142135623710552,
+      "hydrogen_max_after_matching_angstrom": 0.0014142135623710552,
+      "hydrogen_rms_by_name_angstrom": 6.751595780553004e-05,
+      "hydrogen_rms_after_matching_angstrom": 6.751595780553004e-05,
+      "reference_energy": {
+        "potential_energy_kj_mol": 115949538084224.12,
+        "hydrogen_force_rms_kj_mol_nm": 7403.504099012354
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 115949538084257.92,
+        "hydrogen_force_rms_kj_mol_nm": 7403.827129200328
+      },
+      "delta_energy_kj_mol": 33.796875,
+      "largest_remaining_H_group": {
+        "parent": [
+          "L",
+          "232",
+          " ",
+          "LYS",
+          "CA"
+        ],
+        "hydrogens": [
+          [
+            "L",
+            "232",
+            " ",
+            "LYS",
+            "HA"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 0.0014142135623710552,
+        "max_by_atom_name_angstrom": 0.0014142135623710552
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "cpu_serial",
+      "target": "antibody_000005",
+      "hydrogen_max_by_name_angstrom": 2.027601785361218,
+      "hydrogen_max_after_matching_angstrom": 0.375130643909558,
+      "hydrogen_rms_by_name_angstrom": 0.09547947002480422,
+      "hydrogen_rms_after_matching_angstrom": 0.0336429503573489,
+      "reference_energy": {
+        "potential_energy_kj_mol": -16002.325156327279,
+        "hydrogen_force_rms_kj_mol_nm": 145.02728059922688
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": -15912.30860055276,
+        "hydrogen_force_rms_kj_mol_nm": 159.47909842062336
+      },
+      "delta_energy_kj_mol": 90.01655577451857,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "55",
+          " ",
+          "ARG",
+          "NH2"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "55",
+            " ",
+            "ARG",
+            "HH21"
+          ],
+          [
+            "H",
+            "55",
+            " ",
+            "ARG",
+            "HH22"
+          ]
+        ],
+        "permutation": [
+          0,
+          1
+        ],
+        "max_after_matching_angstrom": 0.375130643909558,
+        "max_by_atom_name_angstrom": 0.375130643909558
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "cpu_serial",
+      "target": "antibody_000006",
+      "hydrogen_max_by_name_angstrom": 0.20509997562164792,
+      "hydrogen_max_after_matching_angstrom": 0.20509997562164792,
+      "hydrogen_rms_by_name_angstrom": 0.013713171180649174,
+      "hydrogen_rms_after_matching_angstrom": 0.013713171180649174,
+      "reference_energy": {
+        "potential_energy_kj_mol": -15406.479998145682,
+        "hydrogen_force_rms_kj_mol_nm": 71.69620925336031
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": -15385.159533286442,
+        "hydrogen_force_rms_kj_mol_nm": 44.271490157090774
+      },
+      "delta_energy_kj_mol": 21.32046485924002,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "86",
+          " ",
+          "THR",
+          "OG1"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "86",
+            " ",
+            "THR",
+            "HG1"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 0.20509997562164792,
+        "max_by_atom_name_angstrom": 0.20509997562164792
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "cpu_serial",
+      "target": "antibody_000007",
+      "hydrogen_max_by_name_angstrom": 1.934939275532957,
+      "hydrogen_max_after_matching_angstrom": 1.2176982384811106,
+      "hydrogen_rms_by_name_angstrom": 0.09128080625617906,
+      "hydrogen_rms_after_matching_angstrom": 0.06407131293496626,
+      "reference_energy": {
+        "potential_energy_kj_mol": 38097.00950431749,
+        "hydrogen_force_rms_kj_mol_nm": 210.42131411534098
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 37541.02888076919,
+        "hydrogen_force_rms_kj_mol_nm": 203.31580750846965
+      },
+      "delta_energy_kj_mol": -555.9806235482974,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "24",
+          " ",
+          "ILE",
+          "CD1"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "24",
+            " ",
+            "ILE",
+            "HD11"
+          ],
+          [
+            "H",
+            "24",
+            " ",
+            "ILE",
+            "HD12"
+          ],
+          [
+            "H",
+            "24",
+            " ",
+            "ILE",
+            "HD13"
+          ]
+        ],
+        "permutation": [
+          0,
+          1,
+          2
+        ],
+        "max_after_matching_angstrom": 1.2176982384811106,
+        "max_by_atom_name_angstrom": 1.2176982384811106
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "double_serial",
+      "target": "antibody_000000",
+      "hydrogen_max_by_name_angstrom": 2.148529264403907,
+      "hydrogen_max_after_matching_angstrom": 2.148529264403907,
+      "hydrogen_rms_by_name_angstrom": 0.1186922738949462,
+      "hydrogen_rms_after_matching_angstrom": 0.05531441148242526,
+      "reference_energy": {
+        "potential_energy_kj_mol": -17253.735172187942,
+        "hydrogen_force_rms_kj_mol_nm": 74.05635651042545
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": -17008.060825156383,
+        "hydrogen_force_rms_kj_mol_nm": 120.38916092823925
+      },
+      "delta_energy_kj_mol": 245.6743470315596,
+      "largest_remaining_H_group": {
+        "parent": [
+          "L",
+          "225",
+          " ",
+          "LYS",
+          "CA"
+        ],
+        "hydrogens": [
+          [
+            "L",
+            "225",
+            " ",
+            "LYS",
+            "HA"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 2.148529264403907,
+        "max_by_atom_name_angstrom": 2.148529264403907
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "double_serial",
+      "target": "antibody_000001",
+      "hydrogen_max_by_name_angstrom": 2.0211998911537656,
+      "hydrogen_max_after_matching_angstrom": 0.7188789884257334,
+      "hydrogen_rms_by_name_angstrom": 0.06623059514308129,
+      "hydrogen_rms_after_matching_angstrom": 0.03762182497747338,
+      "reference_energy": {
+        "potential_energy_kj_mol": 14593.862931555454,
+        "hydrogen_force_rms_kj_mol_nm": 51.89246319411165
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 14643.716841519872,
+        "hydrogen_force_rms_kj_mol_nm": 94.99421176476888
+      },
+      "delta_energy_kj_mol": 49.85390996441856,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "30",
+          " ",
+          "THR",
+          "CG2"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "30",
+            " ",
+            "THR",
+            "HG21"
+          ],
+          [
+            "H",
+            "30",
+            " ",
+            "THR",
+            "HG22"
+          ],
+          [
+            "H",
+            "30",
+            " ",
+            "THR",
+            "HG23"
+          ]
+        ],
+        "permutation": [
+          2,
+          1,
+          0
+        ],
+        "max_after_matching_angstrom": 0.7188789884257334,
+        "max_by_atom_name_angstrom": 2.0211998911537656
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "double_serial",
+      "target": "antibody_000002",
+      "hydrogen_max_by_name_angstrom": 0.11135977729862927,
+      "hydrogen_max_after_matching_angstrom": 0.11135977729862927,
+      "hydrogen_rms_by_name_angstrom": 0.01154860208579243,
+      "hydrogen_rms_after_matching_angstrom": 0.01154860208579243,
+      "reference_energy": {
+        "potential_energy_kj_mol": 359281.0417992919,
+        "hydrogen_force_rms_kj_mol_nm": 110.9037594353808
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 359306.0315820554,
+        "hydrogen_force_rms_kj_mol_nm": 170.37125535647985
+      },
+      "delta_energy_kj_mol": 24.98978276347043,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "64",
+          " ",
+          "LYS",
+          "CB"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "64",
+            " ",
+            "LYS",
+            "HB2"
+          ],
+          [
+            "H",
+            "64",
+            " ",
+            "LYS",
+            "HB3"
+          ]
+        ],
+        "permutation": [
+          0,
+          1
+        ],
+        "max_after_matching_angstrom": 0.11135977729862927,
+        "max_by_atom_name_angstrom": 0.11135977729862927
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "double_serial",
+      "target": "antibody_000003",
+      "hydrogen_max_by_name_angstrom": 0.9434092431177465,
+      "hydrogen_max_after_matching_angstrom": 0.9434092431177465,
+      "hydrogen_rms_by_name_angstrom": 0.1140990352645808,
+      "hydrogen_rms_after_matching_angstrom": 0.1140990352645808,
+      "reference_energy": {
+        "potential_energy_kj_mol": 1978707.7924506979,
+        "hydrogen_force_rms_kj_mol_nm": 912.2485381806656
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 1988442.6080364564,
+        "hydrogen_force_rms_kj_mol_nm": 2302.830420629412
+      },
+      "delta_energy_kj_mol": 9734.815585758537,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "93",
+          " ",
+          "VAL",
+          "CG1"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "93",
+            " ",
+            "VAL",
+            "HG11"
+          ],
+          [
+            "H",
+            "93",
+            " ",
+            "VAL",
+            "HG12"
+          ],
+          [
+            "H",
+            "93",
+            " ",
+            "VAL",
+            "HG13"
+          ]
+        ],
+        "permutation": [
+          0,
+          1,
+          2
+        ],
+        "max_after_matching_angstrom": 0.9434092431177465,
+        "max_by_atom_name_angstrom": 0.9434092431177465
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "double_serial",
+      "target": "antibody_000004",
+      "hydrogen_max_by_name_angstrom": 0.0014142135623710552,
+      "hydrogen_max_after_matching_angstrom": 0.0014142135623710552,
+      "hydrogen_rms_by_name_angstrom": 6.315539556204343e-05,
+      "hydrogen_rms_after_matching_angstrom": 6.315539556204343e-05,
+      "reference_energy": {
+        "potential_energy_kj_mol": 115949538084224.12,
+        "hydrogen_force_rms_kj_mol_nm": 7403.504099012354
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 115949538084256.34,
+        "hydrogen_force_rms_kj_mol_nm": 7403.81521309437
+      },
+      "delta_energy_kj_mol": 32.21875,
+      "largest_remaining_H_group": {
+        "parent": [
+          "L",
+          "232",
+          " ",
+          "LYS",
+          "CA"
+        ],
+        "hydrogens": [
+          [
+            "L",
+            "232",
+            " ",
+            "LYS",
+            "HA"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 0.0014142135623710552,
+        "max_by_atom_name_angstrom": 0.0014142135623710552
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "double_serial",
+      "target": "antibody_000005",
+      "hydrogen_max_by_name_angstrom": 2.044057484514562,
+      "hydrogen_max_after_matching_angstrom": 0.33370945446600986,
+      "hydrogen_rms_by_name_angstrom": 0.09664912716887777,
+      "hydrogen_rms_after_matching_angstrom": 0.031012932938634878,
+      "reference_energy": {
+        "potential_energy_kj_mol": -16002.325156327279,
+        "hydrogen_force_rms_kj_mol_nm": 145.02728059922688
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": -16001.486656148689,
+        "hydrogen_force_rms_kj_mol_nm": 142.50062416898402
+      },
+      "delta_energy_kj_mol": 0.8385001785900386,
+      "largest_remaining_H_group": {
+        "parent": [
+          "L",
+          "145",
+          " ",
+          "ARG",
+          "NH1"
+        ],
+        "hydrogens": [
+          [
+            "L",
+            "145",
+            " ",
+            "ARG",
+            "HH11"
+          ],
+          [
+            "L",
+            "145",
+            " ",
+            "ARG",
+            "HH12"
+          ]
+        ],
+        "permutation": [
+          0,
+          1
+        ],
+        "max_after_matching_angstrom": 0.33370945446600986,
+        "max_by_atom_name_angstrom": 0.33370945446600986
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "double_serial",
+      "target": "antibody_000006",
+      "hydrogen_max_by_name_angstrom": 0.20685018733373398,
+      "hydrogen_max_after_matching_angstrom": 0.20685018733373398,
+      "hydrogen_rms_by_name_angstrom": 0.013569655939265,
+      "hydrogen_rms_after_matching_angstrom": 0.013569655939265,
+      "reference_energy": {
+        "potential_energy_kj_mol": -15406.479998145682,
+        "hydrogen_force_rms_kj_mol_nm": 71.69620925336031
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": -15386.587640877475,
+        "hydrogen_force_rms_kj_mol_nm": 44.316713368400535
+      },
+      "delta_energy_kj_mol": 19.89235726820698,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "86",
+          " ",
+          "THR",
+          "OG1"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "86",
+            " ",
+            "THR",
+            "HG1"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 0.20685018733373398,
+        "max_by_atom_name_angstrom": 0.20685018733373398
+      }
+    },
+    {
+      "route": "openmm",
+      "condition": "double_serial",
+      "target": "antibody_000007",
+      "hydrogen_max_by_name_angstrom": 1.934939275532957,
+      "hydrogen_max_after_matching_angstrom": 1.2176982384811106,
+      "hydrogen_rms_by_name_angstrom": 0.09126859369994379,
+      "hydrogen_rms_after_matching_angstrom": 0.0640537418452693,
+      "reference_energy": {
+        "potential_energy_kj_mol": 38097.00950431749,
+        "hydrogen_force_rms_kj_mol_nm": 210.42131411534098
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 37540.69636462886,
+        "hydrogen_force_rms_kj_mol_nm": 202.6858491818637
+      },
+      "delta_energy_kj_mol": -556.313139688631,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "24",
+          " ",
+          "ILE",
+          "CD1"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "24",
+            " ",
+            "ILE",
+            "HD11"
+          ],
+          [
+            "H",
+            "24",
+            " ",
+            "ILE",
+            "HD12"
+          ],
+          [
+            "H",
+            "24",
+            " ",
+            "ILE",
+            "HD13"
+          ]
+        ],
+        "permutation": [
+          0,
+          1,
+          2
+        ],
+        "max_after_matching_angstrom": 1.2176982384811106,
+        "max_by_atom_name_angstrom": 1.2176982384811106
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "cpu_serial",
+      "target": "antibody_000000",
+      "hydrogen_max_by_name_angstrom": 0.0,
+      "hydrogen_max_after_matching_angstrom": 0.0,
+      "hydrogen_rms_by_name_angstrom": 0.0,
+      "hydrogen_rms_after_matching_angstrom": 0.0,
+      "reference_energy": {
+        "potential_energy_kj_mol": -17140.395209088536,
+        "hydrogen_force_rms_kj_mol_nm": 61.708690777959255
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": -17140.395209088536,
+        "hydrogen_force_rms_kj_mol_nm": 61.708690777959255
+      },
+      "delta_energy_kj_mol": 0.0,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "1",
+          " ",
+          "GLU",
+          "CA"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "1",
+            " ",
+            "GLU",
+            "HA"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 0.0,
+        "max_by_atom_name_angstrom": 0.0
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "cpu_serial",
+      "target": "antibody_000001",
+      "hydrogen_max_by_name_angstrom": 2.0390208434442263,
+      "hydrogen_max_after_matching_angstrom": 2.0390208434442263,
+      "hydrogen_rms_by_name_angstrom": 0.08458169829500134,
+      "hydrogen_rms_after_matching_angstrom": 0.062430129959504053,
+      "reference_energy": {
+        "potential_energy_kj_mol": 14163.50250098729,
+        "hydrogen_force_rms_kj_mol_nm": 64.57047135444128
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 14301.647103251033,
+        "hydrogen_force_rms_kj_mol_nm": 126.38047324582736
+      },
+      "delta_energy_kj_mol": 138.14460226374285,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "103",
+          " ",
+          "ASN",
+          "CA"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "103",
+            " ",
+            "ASN",
+            "HA"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 2.0390208434442263,
+        "max_by_atom_name_angstrom": 2.0390208434442263
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "cpu_serial",
+      "target": "antibody_000002",
+      "hydrogen_max_by_name_angstrom": 0.18496215829190638,
+      "hydrogen_max_after_matching_angstrom": 0.18496215829190638,
+      "hydrogen_rms_by_name_angstrom": 0.020057827401028322,
+      "hydrogen_rms_after_matching_angstrom": 0.020057827401028322,
+      "reference_energy": {
+        "potential_energy_kj_mol": 359298.47763685964,
+        "hydrogen_force_rms_kj_mol_nm": 98.9970803356931
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 359306.2181436396,
+        "hydrogen_force_rms_kj_mol_nm": 170.5316091112223
+      },
+      "delta_energy_kj_mol": 7.740506779984571,
+      "largest_remaining_H_group": {
+        "parent": [
+          "L",
+          "120",
+          " ",
+          "GLN",
+          "NE2"
+        ],
+        "hydrogens": [
+          [
+            "L",
+            "120",
+            " ",
+            "GLN",
+            "HE21"
+          ],
+          [
+            "L",
+            "120",
+            " ",
+            "GLN",
+            "HE22"
+          ]
+        ],
+        "permutation": [
+          0,
+          1
+        ],
+        "max_after_matching_angstrom": 0.18496215829190638,
+        "max_by_atom_name_angstrom": 0.18496215829190638
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "cpu_serial",
+      "target": "antibody_000003",
+      "hydrogen_max_by_name_angstrom": 0.44202488617723906,
+      "hydrogen_max_after_matching_angstrom": 0.44202488617723906,
+      "hydrogen_rms_by_name_angstrom": 0.05338023268533266,
+      "hydrogen_rms_after_matching_angstrom": 0.05338023268533266,
+      "reference_energy": {
+        "potential_energy_kj_mol": 1981132.827392552,
+        "hydrogen_force_rms_kj_mol_nm": 1027.3651160688482
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 1978240.2298099508,
+        "hydrogen_force_rms_kj_mol_nm": 728.2266288626566
+      },
+      "delta_energy_kj_mol": -2892.5975826012436,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "93",
+          " ",
+          "VAL",
+          "CG1"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "93",
+            " ",
+            "VAL",
+            "HG11"
+          ],
+          [
+            "H",
+            "93",
+            " ",
+            "VAL",
+            "HG12"
+          ],
+          [
+            "H",
+            "93",
+            " ",
+            "VAL",
+            "HG13"
+          ]
+        ],
+        "permutation": [
+          0,
+          1,
+          2
+        ],
+        "max_after_matching_angstrom": 0.44202488617723906,
+        "max_by_atom_name_angstrom": 0.44202488617723906
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "cpu_serial",
+      "target": "antibody_000004",
+      "hydrogen_max_by_name_angstrom": 0.0009999999999994458,
+      "hydrogen_max_after_matching_angstrom": 0.0009999999999994458,
+      "hydrogen_rms_by_name_angstrom": 2.38704958013012e-05,
+      "hydrogen_rms_after_matching_angstrom": 2.38704958013012e-05,
+      "reference_energy": {
+        "potential_energy_kj_mol": 115949538084239.75,
+        "hydrogen_force_rms_kj_mol_nm": 7403.504469839184
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 115949538084258.11,
+        "hydrogen_force_rms_kj_mol_nm": 7403.5113650767
+      },
+      "delta_energy_kj_mol": 18.359375,
+      "largest_remaining_H_group": {
+        "parent": [
+          "L",
+          "232",
+          " ",
+          "LYS",
+          "CA"
+        ],
+        "hydrogens": [
+          [
+            "L",
+            "232",
+            " ",
+            "LYS",
+            "HA"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 0.0009999999999994458,
+        "max_by_atom_name_angstrom": 0.0009999999999994458
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "cpu_serial",
+      "target": "antibody_000005",
+      "hydrogen_max_by_name_angstrom": 0.0,
+      "hydrogen_max_after_matching_angstrom": 0.0,
+      "hydrogen_rms_by_name_angstrom": 0.0,
+      "hydrogen_rms_after_matching_angstrom": 0.0,
+      "reference_energy": {
+        "potential_energy_kj_mol": -16172.447562826077,
+        "hydrogen_force_rms_kj_mol_nm": 122.4048517223394
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": -16172.447562826077,
+        "hydrogen_force_rms_kj_mol_nm": 122.4048517223394
+      },
+      "delta_energy_kj_mol": 0.0,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "2",
+          " ",
+          "VAL",
+          "CA"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "2",
+            " ",
+            "VAL",
+            "HA"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 0.0,
+        "max_by_atom_name_angstrom": 0.0
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "cpu_serial",
+      "target": "antibody_000006",
+      "hydrogen_max_by_name_angstrom": 0.11658473313431854,
+      "hydrogen_max_after_matching_angstrom": 0.11658473313431854,
+      "hydrogen_rms_by_name_angstrom": 0.010448076857986655,
+      "hydrogen_rms_after_matching_angstrom": 0.010448076857986655,
+      "reference_energy": {
+        "potential_energy_kj_mol": -15370.447240574962,
+        "hydrogen_force_rms_kj_mol_nm": 50.68126077401095
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": -15369.28333781285,
+        "hydrogen_force_rms_kj_mol_nm": 53.33460302631341
+      },
+      "delta_energy_kj_mol": 1.16390276211132,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "1",
+          " ",
+          "GLN",
+          "NE2"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "1",
+            " ",
+            "GLN",
+            "HE21"
+          ],
+          [
+            "H",
+            "1",
+            " ",
+            "GLN",
+            "HE22"
+          ]
+        ],
+        "permutation": [
+          0,
+          1
+        ],
+        "max_after_matching_angstrom": 0.11658473313431854,
+        "max_by_atom_name_angstrom": 0.11658473313431854
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "cpu_serial",
+      "target": "antibody_000007",
+      "hydrogen_max_by_name_angstrom": 1.792425730678959,
+      "hydrogen_max_after_matching_angstrom": 1.5394963462119693,
+      "hydrogen_rms_by_name_angstrom": 0.14527408062500666,
+      "hydrogen_rms_after_matching_angstrom": 0.12157689896979774,
+      "reference_energy": {
+        "potential_energy_kj_mol": 37618.17626254314,
+        "hydrogen_force_rms_kj_mol_nm": 217.0296578094558
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 35954.07320921022,
+        "hydrogen_force_rms_kj_mol_nm": 194.0346599328998
+      },
+      "delta_energy_kj_mol": -1664.1030533329176,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "81",
+          " ",
+          "MET",
+          "CG"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "81",
+            " ",
+            "MET",
+            "HG2"
+          ],
+          [
+            "H",
+            "81",
+            " ",
+            "MET",
+            "HG3"
+          ]
+        ],
+        "permutation": [
+          0,
+          1
+        ],
+        "max_after_matching_angstrom": 1.5394963462119693,
+        "max_by_atom_name_angstrom": 1.5394963462119693
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "double_serial",
+      "target": "antibody_000000",
+      "hydrogen_max_by_name_angstrom": 0.0,
+      "hydrogen_max_after_matching_angstrom": 0.0,
+      "hydrogen_rms_by_name_angstrom": 0.0,
+      "hydrogen_rms_after_matching_angstrom": 0.0,
+      "reference_energy": {
+        "potential_energy_kj_mol": -17140.395209088536,
+        "hydrogen_force_rms_kj_mol_nm": 61.708690777959255
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": -17140.395209088536,
+        "hydrogen_force_rms_kj_mol_nm": 61.708690777959255
+      },
+      "delta_energy_kj_mol": 0.0,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "1",
+          " ",
+          "GLU",
+          "CA"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "1",
+            " ",
+            "GLU",
+            "HA"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 0.0,
+        "max_by_atom_name_angstrom": 0.0
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "double_serial",
+      "target": "antibody_000001",
+      "hydrogen_max_by_name_angstrom": 2.0390208434442263,
+      "hydrogen_max_after_matching_angstrom": 2.0390208434442263,
+      "hydrogen_rms_by_name_angstrom": 0.08458169829500134,
+      "hydrogen_rms_after_matching_angstrom": 0.062430129959504053,
+      "reference_energy": {
+        "potential_energy_kj_mol": 14163.50250098729,
+        "hydrogen_force_rms_kj_mol_nm": 64.57047135444128
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 14301.647103251033,
+        "hydrogen_force_rms_kj_mol_nm": 126.38047324582736
+      },
+      "delta_energy_kj_mol": 138.14460226374285,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "103",
+          " ",
+          "ASN",
+          "CA"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "103",
+            " ",
+            "ASN",
+            "HA"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 2.0390208434442263,
+        "max_by_atom_name_angstrom": 2.0390208434442263
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "double_serial",
+      "target": "antibody_000002",
+      "hydrogen_max_by_name_angstrom": 0.18496215829190638,
+      "hydrogen_max_after_matching_angstrom": 0.18496215829190638,
+      "hydrogen_rms_by_name_angstrom": 0.020057827401028322,
+      "hydrogen_rms_after_matching_angstrom": 0.020057827401028322,
+      "reference_energy": {
+        "potential_energy_kj_mol": 359298.47763685964,
+        "hydrogen_force_rms_kj_mol_nm": 98.9970803356931
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 359306.2181436396,
+        "hydrogen_force_rms_kj_mol_nm": 170.5316091112223
+      },
+      "delta_energy_kj_mol": 7.740506779984571,
+      "largest_remaining_H_group": {
+        "parent": [
+          "L",
+          "120",
+          " ",
+          "GLN",
+          "NE2"
+        ],
+        "hydrogens": [
+          [
+            "L",
+            "120",
+            " ",
+            "GLN",
+            "HE21"
+          ],
+          [
+            "L",
+            "120",
+            " ",
+            "GLN",
+            "HE22"
+          ]
+        ],
+        "permutation": [
+          0,
+          1
+        ],
+        "max_after_matching_angstrom": 0.18496215829190638,
+        "max_by_atom_name_angstrom": 0.18496215829190638
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "double_serial",
+      "target": "antibody_000003",
+      "hydrogen_max_by_name_angstrom": 0.44202488617723906,
+      "hydrogen_max_after_matching_angstrom": 0.44202488617723906,
+      "hydrogen_rms_by_name_angstrom": 0.05338023268533266,
+      "hydrogen_rms_after_matching_angstrom": 0.05338023268533266,
+      "reference_energy": {
+        "potential_energy_kj_mol": 1981132.827392552,
+        "hydrogen_force_rms_kj_mol_nm": 1027.3651160688482
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 1978240.2298099508,
+        "hydrogen_force_rms_kj_mol_nm": 728.2266288626566
+      },
+      "delta_energy_kj_mol": -2892.5975826012436,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "93",
+          " ",
+          "VAL",
+          "CG1"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "93",
+            " ",
+            "VAL",
+            "HG11"
+          ],
+          [
+            "H",
+            "93",
+            " ",
+            "VAL",
+            "HG12"
+          ],
+          [
+            "H",
+            "93",
+            " ",
+            "VAL",
+            "HG13"
+          ]
+        ],
+        "permutation": [
+          0,
+          1,
+          2
+        ],
+        "max_after_matching_angstrom": 0.44202488617723906,
+        "max_by_atom_name_angstrom": 0.44202488617723906
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "double_serial",
+      "target": "antibody_000004",
+      "hydrogen_max_by_name_angstrom": 0.0014142135623710552,
+      "hydrogen_max_after_matching_angstrom": 0.0014142135623710552,
+      "hydrogen_rms_by_name_angstrom": 3.3757978902740194e-05,
+      "hydrogen_rms_after_matching_angstrom": 3.3757978902740194e-05,
+      "reference_energy": {
+        "potential_energy_kj_mol": 115949538084239.75,
+        "hydrogen_force_rms_kj_mol_nm": 7403.504469839184
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 115949538084257.55,
+        "hydrogen_force_rms_kj_mol_nm": 7403.525058787415
+      },
+      "delta_energy_kj_mol": 17.796875,
+      "largest_remaining_H_group": {
+        "parent": [
+          "L",
+          "232",
+          " ",
+          "LYS",
+          "CA"
+        ],
+        "hydrogens": [
+          [
+            "L",
+            "232",
+            " ",
+            "LYS",
+            "HA"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 0.0014142135623710552,
+        "max_by_atom_name_angstrom": 0.0014142135623710552
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "double_serial",
+      "target": "antibody_000005",
+      "hydrogen_max_by_name_angstrom": 0.0,
+      "hydrogen_max_after_matching_angstrom": 0.0,
+      "hydrogen_rms_by_name_angstrom": 0.0,
+      "hydrogen_rms_after_matching_angstrom": 0.0,
+      "reference_energy": {
+        "potential_energy_kj_mol": -16172.447562826077,
+        "hydrogen_force_rms_kj_mol_nm": 122.4048517223394
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": -16172.447562826077,
+        "hydrogen_force_rms_kj_mol_nm": 122.4048517223394
+      },
+      "delta_energy_kj_mol": 0.0,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "2",
+          " ",
+          "VAL",
+          "CA"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "2",
+            " ",
+            "VAL",
+            "HA"
+          ]
+        ],
+        "permutation": [
+          0
+        ],
+        "max_after_matching_angstrom": 0.0,
+        "max_by_atom_name_angstrom": 0.0
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "double_serial",
+      "target": "antibody_000006",
+      "hydrogen_max_by_name_angstrom": 0.11658473313431854,
+      "hydrogen_max_after_matching_angstrom": 0.11658473313431854,
+      "hydrogen_rms_by_name_angstrom": 0.010448076857986655,
+      "hydrogen_rms_after_matching_angstrom": 0.010448076857986655,
+      "reference_energy": {
+        "potential_energy_kj_mol": -15370.447240574962,
+        "hydrogen_force_rms_kj_mol_nm": 50.68126077401095
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": -15369.28333781285,
+        "hydrogen_force_rms_kj_mol_nm": 53.33460302631341
+      },
+      "delta_energy_kj_mol": 1.16390276211132,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "1",
+          " ",
+          "GLN",
+          "NE2"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "1",
+            " ",
+            "GLN",
+            "HE21"
+          ],
+          [
+            "H",
+            "1",
+            " ",
+            "GLN",
+            "HE22"
+          ]
+        ],
+        "permutation": [
+          0,
+          1
+        ],
+        "max_after_matching_angstrom": 0.11658473313431854,
+        "max_by_atom_name_angstrom": 0.11658473313431854
+      }
+    },
+    {
+      "route": "reduce",
+      "condition": "double_serial",
+      "target": "antibody_000007",
+      "hydrogen_max_by_name_angstrom": 1.792425730678959,
+      "hydrogen_max_after_matching_angstrom": 1.5394963462119693,
+      "hydrogen_rms_by_name_angstrom": 0.14527408062500666,
+      "hydrogen_rms_after_matching_angstrom": 0.12157689896979774,
+      "reference_energy": {
+        "potential_energy_kj_mol": 37618.17626254314,
+        "hydrogen_force_rms_kj_mol_nm": 217.0296578094558
+      },
+      "candidate_energy": {
+        "potential_energy_kj_mol": 35954.07320921022,
+        "hydrogen_force_rms_kj_mol_nm": 194.0346599328998
+      },
+      "delta_energy_kj_mol": -1664.1030533329176,
+      "largest_remaining_H_group": {
+        "parent": [
+          "H",
+          "81",
+          " ",
+          "MET",
+          "CG"
+        ],
+        "hydrogens": [
+          [
+            "H",
+            "81",
+            " ",
+            "MET",
+            "HG2"
+          ],
+          [
+            "H",
+            "81",
+            " ",
+            "MET",
+            "HG3"
+          ]
+        ],
+        "permutation": [
+          0,
+          1
+        ],
+        "max_after_matching_angstrom": 1.5394963462119693,
+        "max_by_atom_name_angstrom": 1.5394963462119693
+      }
+    }
+  ]
+}

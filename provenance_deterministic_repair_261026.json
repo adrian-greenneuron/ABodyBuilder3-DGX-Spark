@@ -1,0 +1,79 @@
+{
+  "protocol": {
+    "date": "2026-10-26",
+    "question": "Can explicit deterministic repair retain repeatability across process counts, with useful speed and shared-RAM tradeoffs?",
+    "reference_dev": "e6fabdf73aa9590431377de5f923c256576829fd",
+    "main_before": "c20d119957bcbbd24d8534fddbdc3e9fc7d57795",
+    "reference_image": "sha256:a4d29734d1b2ce98a09c4508e9047ad714a6da94be610fd5b8dda6b15285b590",
+    "candidate_base_tag": "abodybuilder3-dev-spark:parallel-preparation-261026",
+    "fixed": {
+      "ph": 7,
+      "seed": 42,
+      "hydrogens": "OpenMM CPU, one thread",
+      "optional_reduce": "same binary, flips enabled in Reduce route",
+      "relaxation": "off",
+      "model": "strict FP32 pLDDT, existing AOT/native writer"
+    },
+    "screen": {
+      "target": "antibody_000006.pdb (previous rounding failure)",
+      "policies": [
+        "reference",
+        "cuda_deterministic"
+      ],
+      "workers": [
+        1,
+        8
+      ],
+      "same_input_copies": {
+        "1_worker": 4,
+        "8_workers": 16
+      },
+      "independent_rounds": 2,
+      "capture": "full-float repair and hydrogen arrays, identities, PDBs and actual OpenMM Context properties"
+    },
+    "adaptive": "If CUDA deterministic forces does not remove repair variants, test explicit single-thread CPU repair as a separately labelled backend; do not silently switch. If it passes, test the eight distinct public targets, both hydrogen routes, serial/eight-worker, with two interleaved fresh repetitions.",
+    "memory": "20 ms MemAvailable; 5 s pre, 8 s post; peak additional RAM and pre/post baseline sensitivity; 0.25 GiB drift flag; no RSS or CUDA sums.",
+    "acceptance": "Report exactness within and between conditions separately. Preserve all original atoms, protonation, topology, finite coordinates and audit failures. No change enabled on main/dev; user review required.",
+    "inputs": {
+      "antibodies_8.csv": "00b58fc9816ff94d01b14864a16ed5e3c54fe7f6a439361cd08c397996a269fd",
+      "antibody_000000.pdb": "2ce8185eb0aabaa87aca156e8c4917d974f4349703c7230a01b32f259c177c02",
+      "antibody_000001.pdb": "e84eade0213831b5f22059c22c09b921c57cc09152ddec2bc7f8f05b5fa9afd6",
+      "antibody_000002.pdb": "8194d797f3b3c39237108dd8e5acd4c8579c0f3b61a95ea1280c7a3863bda666",
+      "antibody_000003.pdb": "166b0803c6ce0885fc2a2810e9148384f34973d7f9bdd9d86bf6d8a61fb8b81f",
+      "antibody_000004.pdb": "8b7ec8c11bb2e5e118687bcc4d3cff06e8ed3413bbdc81456979852092018303",
+      "antibody_000005.pdb": "1edce5ddb62044cf98ee3ae5c47c8c499332801fe41bef12240b0841d5c3ff6f",
+      "antibody_000006.pdb": "4ede18663c94c6f80e5267a62670745f6de2fd94bc0ed7cfe9bc53c8c017c1b4",
+      "antibody_000007.pdb": "3dce0880d83b3b87a606eded8f4bffaf95b384908d47b6aa64dabe114360d3f4"
+    },
+    "screen2": {
+      "reason": "CUDA single DeterministicForces=true still varied in concurrent repairs",
+      "policies": [
+        "cpu1",
+        "cuda_double"
+      ],
+      "workers": [
+        1,
+        8
+      ],
+      "copies": {
+        "1_worker": 4,
+        "8_workers": 16
+      },
+      "rounds": 2,
+      "extra_capture": "initial positions before repair minimisation",
+      "cpu_hydrogens": "unchanged CPU1 default force setting; only repair altered"
+    }
+  },
+  "reference_pdbfixer_sha256": "a52e39125e3e0e2d1b58b83841fb05b8669e0bcdd73461e1b0ed1d5a8e8261b9",
+  "pdbfixer_version": "1.12.0",
+  "openmm": "8.6.1.dev-b399af4",
+  "upstream_source": "https://github.com/openmm/pdbfixer/blob/v1.12/pdbfixer/pdbfixer.py",
+  "openmm_reference": "https://docs.openmm.org/latest/userguide/library/04_platform_specifics.html",
+  "passing_candidate_image": "sha256:76ec04f135dd35a151207b7daa2d65227524e3bef2b1bef45c3d6688bf4365f3",
+  "initial_single_precision_candidate_image": "sha256:8e6c3de49b709e763bee3e79198546e4a357425da6439f84ee3e1c7b3cd8e642",
+  "candidate_source_sha256": {
+    "pdbfixer.py": "9db3452fa396e61a73fd7ce26e225b1c3fdb52eb306d45ee7677cad5d860611c",
+    "structure_preparation.py": "a65c3a396c1097c2c892d7a02a03af09f4d0b9d73faa3690ab5be374ed4fafe7",
+    "repair_policy.py": "7b2cb0a87e907712668216c6c4034f9ffab06e9c59a0c6f0bbfef8c24c3324d6"
+  }
+}
