@@ -1,0 +1,13 @@
+{
+  "reference_repository": "adrian-greenneuron/ABodyBuilder3-DGX-Spark",
+  "reference_branch": "dev",
+  "reference_commit": "d3c7444a19ea48e3441c178b479422b7aa3450ab",
+  "image": "sha256:2774ec553f5653e8ba97c761824f55b6d6c49b5df3573382079a23a1ae912354",
+  "reference_sha256": {
+    "batch_pipeline.py": "b75ac91138274a523a1d078fbf2c61c37b2be19a291668f3c089e100213dbeac",
+    "inference_features.py": "a2c153acc0f254389548e3cd4b02dc0c83e7aff8431fe52afb0a4ecf4c925efd",
+    "aot_runtime.py": "7d947658472a7260df48f7972e5fa95153d582abd4a1ae5e50cdb3724f3c264c",
+    "batched_inference.py": "17a059554a8af3cbf764b3e714e20eb2813e11e216b9dec7928b2c8f68530c53"
+  },
+  "scope": "Own batching/output adapters only; model, weights, AOT binaries, precision and third-party kernels unchanged. Candidate is isolated until speed, memory and raw/PDB comparisons pass."
+}
