@@ -1,0 +1,8 @@
+{
+  "source_dev_commit": "bd8a12ea9f58fa3577215532653a05c47e90e256",
+  "original_source_path": "src/abodybuilder3/utils.py",
+  "original_source_sha256": "bd3b4e2fb3d818b812a4aac9f9d1d08ce32f4ae3c5babbce52bf2b4355c83f9f",
+  "original_function_sha256": "ba4a180954bfee3afcdb9b3c3900530fa2e03edec37d76ac8417d1681656de79",
+  "reference_function_copied_verbatim": true,
+  "scope": "PDB formatting only; no model or prediction arithmetic changes."
+}

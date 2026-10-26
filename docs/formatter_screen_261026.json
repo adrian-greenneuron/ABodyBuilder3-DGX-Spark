@@ -1,0 +1,20 @@
+{
+  "completed": true,
+  "fixtures": 413,
+  "all_bytes_exact": true,
+  "threaded_cases": 200,
+  "native_calls": 1213,
+  "seconds_per_200": {
+    "original": [
+      0.9095596490005846,
+      0.9091536449996056,
+      0.9095001899986528
+    ],
+    "native": [
+      0.16872464299376588,
+      0.1682196159963496,
+      0.16842942500079516
+    ]
+  },
+  "speedup_medians": 5.399888944549677
+}

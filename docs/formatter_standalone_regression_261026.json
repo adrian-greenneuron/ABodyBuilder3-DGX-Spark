@@ -1,0 +1,22 @@
+{
+  "completed": true,
+  "fixtures": 213,
+  "real_prediction_cases": 0,
+  "timing_cases": "200 generated fixtures",
+  "all_bytes_exact": true,
+  "threaded_cases": 200,
+  "native_calls": 1009,
+  "seconds_per_200": {
+    "original": [
+      0.5433792900003027,
+      0.5432682320024469,
+      0.5439206540031591
+    ],
+    "native": [
+      0.1373086180028622,
+      0.13722356100333855,
+      0.1371040890007862
+    ]
+  },
+  "speedup_medians": 3.9598104438281028
+}
