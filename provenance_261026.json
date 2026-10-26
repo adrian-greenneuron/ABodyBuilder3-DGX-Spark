@@ -1,0 +1,7 @@
+{
+  "date_utc": "2026-10-26T16:18:36.066697+00:00",
+  "dev_commit": "49080c361d9d28e233f544b5c73e60e8841cda3d",
+  "image": "sha256:a4d29734d1b2ce98a09c4508e9047ad714a6da94be610fd5b8dda6b15285b590",
+  "source_sha256": "f4c55dc2976ace36b534bff2193de1192298a612190579dcda34b98d1118ffd6",
+  "protocol": "Matched pLDDT raw public predictions. pH7,seed42,CPU hydrogenation; optional Reduce flips; optional restrained CUDA minimisation unchanged. cProfile is diagnostic, not a speed estimate."
+}

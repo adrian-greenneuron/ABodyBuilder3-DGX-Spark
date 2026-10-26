@@ -1,0 +1,2 @@
+# Unified diffs preserve whitespace-only context lines from the original file.
+candidate/dev_integration.patch -whitespace
