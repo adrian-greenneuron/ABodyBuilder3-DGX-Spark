@@ -61,8 +61,28 @@ as an invisible speed optimisation. No confidence correction is enabled here.
 | C | AOT shapes and batch scheduling | Compare the current dynamic package with a small bank of fixed/narrow-shape packages and length buckets, then tune microbatch caps and partial-batch handling for AOT. Test only a small profile-motivated grid first. Avoid excessive padding: pair work grows with the square of padded length. Any change in batching or compiler specialization needs paired numerical checks, even at strict FP32. |
 | D | Output/metadata streaming | If writing or host-memory growth matters, test batched writes and streaming input/audit metadata while preserving every output name and record. Keep the existing per-PDB format available; an alternative archive or coordinate format would be an explicit output choice, not a silent default change. |
 | E | Repeated small jobs | Compare several consecutive small submissions using one model-owning process with launching a fresh process each time. A persistent worker can retain weights and packages, but is useful primarily when that is the real workload. Do not build a network service merely to optimise a large single job. |
-| F | Language and optional chemistry | Profile ProtT5/embedding generation separately before designing language batching/AOT. For hydrogen addition and relaxation, measure CPU chemistry overlap and GPU scheduling independently; OpenMM and structure inference can contend for the same GPU. Preserve raw predictions and the established chemical protocol. |
+| F | Language model | Profile ProtT5/embedding generation separately before designing language batching/AOT. Qualify the language checkpoint independently of the base/pLDDT evidence. |
 | G | Kernel/component rewrites | Only when profiling identifies a substantial remaining kernel or third-party bottleneck, consider a targeted Triton/C++ implementation. Preserve the original code on a dedicated component branch, compare original and new outputs, and run regression/accuracy checks. AOT already fuses operations, so another rewrite is not assumed to improve speed. |
+| H | Reduce | Separate subprocess startup, dictionary loading, hydrogen placement and optional side-chain optimisation in the profile. Test bounded CPU parallelism across antibodies and reduced temporary-file/subprocess overhead where supported. Consider an internal rewrite only for a measured bottleneck, retaining identical hydrogen/orientation decisions and output semantics. |
+| I | PDBFixer and hydrogen preparation | Profile parsing, topology/repair, missing-atom detection and hydrogen addition separately. Evaluate worker-local reuse of immutable force-field/template data and removal of redundant conversions or repeated scans, with equivalence checks. Preserve required repair, protonation and disulfide handling; do not skip chemistry checks to claim a speedup. |
+| J | OpenMM and optional-stage scheduling | Profile system/context creation, force-field parameterisation, hydrogen optimisation and restrained minimisation. Test safe reuse of compatible systems/contexts with complete state reset, CPU worker/thread counts and explicit GPU scheduling. Compare bounded CPU preparation overlap with inference against phased GPU minimisation; measure whole-job throughput and peak memory, since OpenMM and inference share the GPU. |
+
+Optional-stage optimisation (H–J) is appended at the user's request on
+26 October 2026 and follows the prediction/deployment priorities above. Start
+with a small matched profile of preparation-only and preparation-plus-relaxation
+jobs, then prioritise changes within H–J by their measured contribution. Existing
+dependency upgrades and CUDA enablement are the baseline, not new optimisation
+results.
+
+Keep the established chemical protocol, including pH, side-chain-flip policy,
+force field, restraints, convergence criteria, seeds and precision, fixed in
+performance comparisons. Retain raw predictions and compare prepared atoms,
+coordinates, protonation/orientation decisions, energies, forces, convergence and
+geometry. Use paired repeats to distinguish a candidate's differences from the
+baseline's own variability. Any third-party code changes require a dedicated
+component branch containing the original and modified code and comparison and
+regression tests. Discuss changes that alter results before enabling them.
+Optional preparation must remain optional and must not slow plain prediction.
 
 Earlier eager CUDA-graph replay, larger-batch and extra-worker screens did not
 show a dependable gain. AOT changes the balance, but those experiments should be
