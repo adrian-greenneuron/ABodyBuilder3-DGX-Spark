@@ -5,5 +5,10 @@
   "integration": "C++ source copied unchanged; wrapper imports the original Python formatter from the installed package.",
   "aot_component": "components/openfold-structure-251026",
   "aot_evidence_commit": "936cb6f01f5209691b8ddfd4266697534c84774b",
-  "model_arithmetic": "Use the existing dev model, original broadcast point attention and all eight structure updates."
+  "model_arithmetic": "Use the existing dev model, original broadcast point attention and all eight structure updates.",
+  "structural_metrics": {
+    "component_path": "tools/structural_metrics.py",
+    "sha256": "cdc2ba9582086140b90d7dbec7694b1ae4b44446028efeb411d64256ac3b8452",
+    "integration": "Reused unchanged for paired numerical and experimental scoring."
+  }
 }

@@ -1,5 +1,7 @@
 # Exact-output dev inference optimisations — 25 October 2026
 
+**Historical measurements.** The [26 October saved-AOT deployment report](abodybuilder3_dev_aot_validation_261026.md) describes current dev; the results below retain their original runtime and precision.
+
 Dev now avoids dense one-hot pair inputs, unused intermediate side-chain outputs and repeated copies of the static pair representation. On the tested Spark, complete 1,000-input jobs took about **14% less time**, with approximately **16–17% more throughput**, **57% lower sampled process RSS** and **19% lower peak CUDA allocated memory** than the preceding dev implementation.
 
 **Every matched raw prediction and PDB was identical.** Main remains at `a5deeb1b73994491f94b5724d2f2baa9993d47a6`; no main files, checkpoints, chemistry dependencies or model settings were changed.

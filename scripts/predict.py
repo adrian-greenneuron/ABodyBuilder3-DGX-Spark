@@ -25,9 +25,9 @@ Input Formats:
            or by position (alternating heavy/light)
 
 Models:
-    base     - Fast baseline model (~60 antibodies/min)
-    plddt    - Base + pLDDT confidence scores (~30/min) [default]
-    language - ProtT5 embeddings for best CDR accuracy (~4/min)
+    base     - Released base checkpoint
+    plddt    - Released checkpoint with confidence head [default]
+    language - Checkpoint using ProtT5 embeddings; separate qualification
 """
 
 import os
@@ -508,14 +508,25 @@ def parse_csv(csv_path: Path) -> List[Tuple[str, str, str]]:
             name = row.get("name", row.get("id", f"antibody_{len(antibodies)+1}"))
             heavy = row.get("heavy", row.get("heavy_chain", row.get("VH", "")))
             light = row.get("light", row.get("light_chain", row.get("VL", "")))
-            if heavy and light:
-                antibodies.append((name, heavy, light))
+            if not heavy or not light:
+                raise ValueError(f'CSV row {reader.line_num} requires both heavy and light sequences.')
+            antibodies.append((name, heavy, light))
     return antibodies
+
+
+def validate_antibodies(antibodies):
+    allowed = set('ACDEFGHIKLMNPQRSTVWYX')
+    for name, heavy, light in antibodies:
+        if not name or name in ('.', '..') or any(character in name for character in ('/', '\\', '\x00')):
+            raise ValueError(f'Invalid output name: {name!r}; use a filename without path separators.')
+        if not heavy or not light or not set(heavy + light) <= allowed:
+            raise ValueError(f'Invalid sequence for {name!r}; both chains must contain uppercase amino-acid codes or X.')
 
 
 def run_batched_pipeline(antibodies, model, device, output, output_format,
                          confidence_threshold, preparation_options, max_batch_size,
-                         memory_gib, cpu_workers, report_path, unique_name, progress, task):
+                         memory_gib, cpu_workers, report_path, unique_name, progress, task,
+                         overwrite=False):
     script_dir = str(Path(__file__).resolve().parent)
     if script_dir not in sys.path:
         sys.path.insert(0, script_dir)
@@ -537,6 +548,10 @@ def run_batched_pipeline(antibodies, model, device, output, output_format,
     ext = {"pdb": ".pdb", "cif": ".cif", "json": ".json"}[output_format.value]
     if is_dir:
         output.mkdir(parents=True, exist_ok=True)
+    if not overwrite:
+        paths = [output / (name + ext) for name, _, _ in named] if is_dir else [output if str(output).endswith(ext) else output.with_suffix(ext)]
+        if any(path.exists() for path in paths):
+            raise ValueError('Prediction output already exists; use --overwrite to replace it.')
     start = time.perf_counter()
 
     def prepare(items):
@@ -697,11 +712,11 @@ def predict(
     ),
     workers: str = typer.Option(
         "auto", "--workers", "-w",
-        help="Parallel workers: 'auto' (detects optimal), '1' (sequential), or integer. Affects I/O, not GPU."
+        help="auto/1 for batched or AOT execution. Multiple model workers require eager execution and --batch-size 1."
     ),
     batch_size: str = typer.Option(
         "auto", "--batch-size", "-b",
-        help="GPU batch size: auto (16 for up to 128 inputs, otherwise 32), a positive integer, or 1 for workers. Language uses 1."
+        help="GPU batch cap: auto (16 for up to 128 inputs, otherwise 32), or a positive integer. AOT also supports batch 1; language uses eager batch 1."
     ),
     batch_memory_gib: float = typer.Option(
         6., "--batch-memory-gib", min=0.5,
@@ -816,6 +831,10 @@ def predict(
     if not antibodies:
         log("Error: No valid antibody sequences found", "error")
         raise typer.Exit(1)
+    try:
+        validate_antibodies(antibodies)
+    except ValueError as exc:
+        raise typer.BadParameter(str(exc)) from exc
     
     if batch_size == "auto" and use_batching and len(antibodies) <= 128:
         max_batch_size = 16
@@ -946,7 +965,7 @@ def predict(
             run_batched_pipeline(antibodies, model, device, output, output_format,
                                  confidence_threshold, preparation_options, max_batch_size,
                                  batch_memory_gib, cpu_workers, batch_report, get_unique_name,
-                                 progress, task)
+                                 progress, task, overwrite=overwrite)
             return
         elif use_multiprocess:
             # Use ProcessPoolExecutor with each worker having its own model

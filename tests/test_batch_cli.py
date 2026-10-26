@@ -73,4 +73,27 @@ class BatchCliTests(unittest.TestCase):
                 r=self.runner.invoke(cli.app,self.args+options)
                 self.assertNotEqual(r.exit_code,0);load.assert_not_called()
 
+    def test_invalid_sequence_or_name_is_rejected_before_model_load(self):
+        for name, heavy, light in [('bad', 'AA*', 'LL'), ('../escape', 'AA', 'LL'),
+                                    ('', 'AA', 'LL'), ('missing_chain', 'AA', '')]:
+            with self.csv.open('w') as f:
+                writer=csv.writer(f);writer.writerow(['name','heavy','light'])
+                writer.writerow([name,heavy,light])
+            with self.subTest(name=name),patch.object(cli,'load_model') as load:
+                r=self.runner.invoke(cli.app,self.args)
+                self.assertNotEqual(r.exit_code,0);load.assert_not_called()
+
+    def test_existing_output_requires_explicit_overwrite(self):
+        r=self.invoke();self.assertEqual(r.exit_code,0,(r.output,r.exception))
+        path=self.root/'out/duplicate.pdb';path.write_text('retained output')
+        r=self.invoke();self.assertNotEqual(r.exit_code,0)
+        self.assertEqual(path.read_text(),'retained output')
+        r=self.invoke(['--overwrite']);self.assertEqual(r.exit_code,0,(r.output,r.exception))
+        self.assertNotEqual(path.read_text(),'retained output')
+
+    def test_missing_custom_checkpoint_does_not_load_released_weights(self):
+        with patch.object(cli,'load_model') as load:
+            r=self.runner.invoke(cli.app,self.args+['--checkpoint',str(self.root/'absent.ckpt')])
+            self.assertNotEqual(r.exit_code,0);load.assert_not_called()
+
 if __name__=='__main__':unittest.main()
