@@ -25,9 +25,9 @@ Input Formats:
            or by position (alternating heavy/light)
 
 Models:
-    base     - Fast baseline model (~60 antibodies/min)
-    plddt    - Base + pLDDT confidence scores (~30/min) [default]
-    language - ProtT5 embeddings for best CDR accuracy (~4/min)
+    base     - Released base checkpoint
+    plddt    - Released checkpoint with confidence head [default]
+    language - Checkpoint using ProtT5 embeddings; separate qualification
 """
 
 import os
@@ -113,9 +113,10 @@ def get_optimal_workers() -> int:
     return 8
 
 
-def load_model(model_type: str, device: torch.device, checkpoint: Optional[Path] = None):
-    """Load the specified model."""
-    if checkpoint and checkpoint.exists():
+def checkpoint_path(model_type: str, checkpoint: Optional[Path] = None):
+    if checkpoint is not None:
+        if not checkpoint.is_file():
+            raise FileNotFoundError(f'Custom checkpoint not found: {checkpoint}')
         path = checkpoint
     else:
         model_paths = {
@@ -134,30 +135,48 @@ def load_model(model_type: str, device: torch.device, checkpoint: Optional[Path]
         if not path:
             raise FileNotFoundError(f"Model checkpoint not found for {model_type}")
     
+    return Path(path)
+
+
+def load_model(model_type: str, device: torch.device, checkpoint: Optional[Path] = None):
+    """Load the specified model and retain its exact checkpoint identity."""
+    path = checkpoint_path(model_type, checkpoint)
     module = LitABB3.load_from_checkpoint(str(path))
     model = module.model
     model.to(device)
     model.eval()
+    from abodybuilder3.aot_runtime import sha256
+    model._deployment_checkpoint_sha256 = sha256(path)
     return model
 
 
 # Global ProtT5 model (lazy loaded)
 _prott5_model = None
 _prott5_device = None
+_prott5_backend = None
 
 
-def load_prott5(device: torch.device):
+def load_prott5(device: torch.device, runtime: str = 'auto'):
     """Load ProtT5 model for embedding generation (lazy load)."""
-    global _prott5_model, _prott5_device
-    
-    if _prott5_model is not None and _prott5_device == device:
+    global _prott5_model, _prott5_device, _prott5_backend
+    backend = ('direct' if device.type == 'cuda' else 'trainer') if runtime == 'auto' else runtime
+    if backend not in ('direct', 'trainer'):
+        raise ValueError('Embedding runtime must be auto, direct or trainer.')
+    if backend == 'direct' and device.type != 'cuda':
+        raise ValueError('Direct embedding runtime requires CUDA; select trainer for CPU.')
+
+    if _prott5_model is not None and _prott5_device == device and _prott5_backend == backend:
         return _prott5_model
     
     log("[dim]Loading ProtT5 model for language embeddings...[/dim]")
-    from abodybuilder3.language.model import ProtT5
+    if backend == 'direct':
+        from abodybuilder3.language.direct_inference import ProtT5
+    else:
+        from abodybuilder3.language.model import ProtT5
     
     _prott5_model = ProtT5(device_map=str(device) if device.type == 'cuda' else 'cpu')
     _prott5_device = device
+    _prott5_backend = backend
     return _prott5_model
 
 
@@ -247,7 +266,14 @@ def extract_plddt_scores(output: Dict[str, Any]) -> List[float]:
 
 def generate_pdb(output: Dict[str, Any], ab_input: Dict[str, Any]) -> str:
     """Generate PDB string from model output."""
-    return output_to_pdb(output, ab_input)
+    # Formatting GPU scalar coordinates causes thousands of synchronisations.
+    # Keep model computation unchanged and transfer the compact result once.
+    cpu_output = dict(output)
+    coords = cpu_output['atom37']
+    cpu_output['atom37'] = coords.detach().cpu().numpy() if torch.is_tensor(coords) else coords
+    mask = cpu_output['atom37_atom_exists']
+    cpu_output['atom37_atom_exists'] = mask.detach().cpu() if torch.is_tensor(mask) else torch.as_tensor(mask)
+    return output_to_pdb(cpu_output, ab_input)
 
 
 def generate_cif(output: Dict[str, Any], ab_input: Dict[str, Any], name: str) -> str:
@@ -377,7 +403,7 @@ _worker_prott5 = None
 _worker_config = None
 
 
-def _init_worker(model_type: str, checkpoint_path: Optional[str], use_language: bool):
+def _init_worker(model_type: str, checkpoint_path: Optional[str], use_language: bool, precision: str = 'strict', embedding_runtime: str = 'auto'):
     """Initialize worker process with its own model instance."""
     global _worker_model, _worker_device, _worker_prott5, _worker_config
     
@@ -387,6 +413,8 @@ def _init_worker(model_type: str, checkpoint_path: Optional[str], use_language: 
     
     # Register safe globals
     torch.serialization.add_safe_globals([ml_collections.ConfigDict])
+    from abodybuilder3.aot_runtime import configure_precision
+    configure_precision(precision)
     
     # Setup device
     _worker_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -396,7 +424,7 @@ def _init_worker(model_type: str, checkpoint_path: Optional[str], use_language: 
     
     # Load ProtT5 for language model
     if use_language:
-        _worker_prott5 = load_prott5(_worker_device)
+        _worker_prott5 = load_prott5(_worker_device, embedding_runtime)
     
     _worker_config = {
         "model_type": model_type,
@@ -490,9 +518,109 @@ def parse_csv(csv_path: Path) -> List[Tuple[str, str, str]]:
             name = row.get("name", row.get("id", f"antibody_{len(antibodies)+1}"))
             heavy = row.get("heavy", row.get("heavy_chain", row.get("VH", "")))
             light = row.get("light", row.get("light_chain", row.get("VL", "")))
-            if heavy and light:
-                antibodies.append((name, heavy, light))
+            if not heavy or not light:
+                raise ValueError(f'CSV row {reader.line_num} requires both heavy and light sequences.')
+            antibodies.append((name, heavy, light))
     return antibodies
+
+
+def validate_antibodies(antibodies):
+    allowed = set('ACDEFGHIKLMNPQRSTVWYX')
+    for name, heavy, light in antibodies:
+        if not name or name in ('.', '..') or any(character in name for character in ('/', '\\', '\x00')):
+            raise ValueError(f'Invalid output name: {name!r}; use a filename without path separators.')
+        if not heavy or not light or not set(heavy + light) <= allowed:
+            raise ValueError(f'Invalid sequence for {name!r}; both chains must contain uppercase amino-acid codes or X.')
+
+
+def run_batched_pipeline(antibodies, model, device, output, output_format,
+                         confidence_threshold, preparation_options, max_batch_size,
+                         memory_gib, cpu_workers, report_path, unique_name, progress, task,
+                         overwrite=False):
+    script_dir = str(Path(__file__).resolve().parent)
+    if script_dir not in sys.path:
+        sys.path.insert(0, script_dir)
+    from batch_pipeline import BatchPolicy, plan_batches, run_pipeline
+    from abodybuilder3.batched_inference import prepare_cpu_batch, infer_prepared_batch
+    import threading
+    named = [(unique_name(name), h, l) for name, h, l in antibodies]
+    # Calibrated conservative estimate from the 227-231-residue FP32 screen.
+    # OOM retries remain necessary: this is not a hard allocator/physical limit.
+    pair_budget = max(1, int((memory_gib - .25) * 2**30 / 3000))
+    policy = BatchPolicy(max_batch_size, pair_budget)
+    stats = {"completed": False, "max_batch_size": max_batch_size,
+             "memory_target_gib": memory_gib, "pair_budget": pair_budget,
+             "batches": [], "oom_retries": [], "saved": 0, "skipped": 0}
+    stats['deployment'] = getattr(model, '_deployment_stats', {'execution': 'eager'})
+    lock = threading.Lock()
+    prepared_paths = []
+    is_dir = len(named) > 1 or output.is_dir()
+    ext = {"pdb": ".pdb", "cif": ".cif", "json": ".json"}[output_format.value]
+    if is_dir:
+        output.mkdir(parents=True, exist_ok=True)
+    if not overwrite:
+        paths = [output / (name + ext) for name, _, _ in named] if is_dir else [output if str(output).endswith(ext) else output.with_suffix(ext)]
+        if any(path.exists() for path in paths):
+            raise ValueError('Prediction output already exists; use --overwrite to replace it.')
+    start = time.perf_counter()
+
+    def prepare(items):
+        return prepare_cpu_batch([(h, l) for _, h, l in items], compact=True)
+
+    def infer(items, prepared):
+        try:
+            outputs, inputs = infer_prepared_batch(model, prepared, device)
+        except torch.cuda.OutOfMemoryError:
+            if len(items) == 1:
+                raise
+        else:
+            stats["batches"].append({"size": len(items), "max_length": max(len(h)+len(l) for _,h,l in items)})
+            return list(zip(items, outputs, inputs))
+        # Exit the exception handler first so its traceback releases GPU arrays.
+        stats["oom_retries"].append([x[0] for x in items])
+        log(f"CUDA memory exhausted for {len(items)} antibodies; splitting batch.", "warning")
+        torch.cuda.empty_cache()
+        middle = len(items)//2
+        return infer(items[:middle], prepare(items[:middle])) + infer(items[middle:], prepare(items[middle:]))
+
+    def write(records):
+        for (name, heavy, light), result, inp in records:
+            scores = extract_plddt_scores(result)
+            mean = sum(scores)/len(scores) if scores else None
+            if confidence_threshold is not None and mean is not None and mean < confidence_threshold:
+                with lock:
+                    stats["skipped"] += 1
+                    progress.update(task, advance=1)
+                continue
+            if output_format == OutputFormat.json:
+                text = json.dumps(generate_json_output(name, heavy, light, result, inp), indent=2)
+            elif output_format == OutputFormat.cif:
+                text = generate_cif(result, inp, name)
+            else:
+                text = generate_pdb(result, inp)
+            path = output / (name+ext) if is_dir else (output if str(output).endswith(ext) else output.with_suffix(ext))
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(text)
+            with lock:
+                stats["saved"] += 1
+                if preparation_options is not None:
+                    prepared_paths.append(path)
+                progress.update(task, advance=1)
+
+    try:
+        run_pipeline(plan_batches(named, policy), prepare, infer, write,
+                     prefetch=cpu_workers, writers=cpu_workers)
+        # Keep OpenMM CUDA work separate from the inference engine, as on main.
+        for path in prepared_paths:
+            write_prepared_outputs(path.read_text(), path, preparation_options)
+        stats["completed"] = True
+    finally:
+        stats["processing_seconds"] = time.perf_counter()-start
+        if report_path is not None:
+            report_path.parent.mkdir(parents=True, exist_ok=True)
+            report_path.write_text(json.dumps(stats, indent=2)+"\n")
+    log(f"Saved {stats['saved']} raw predictions; {stats['skipped']} filtered; "
+        f"{len(stats['batches'])} GPU batches in {stats['processing_seconds']:.2f}s.")
 
 
 @app.command()
@@ -546,6 +674,21 @@ def predict(
         "cuda", "--device", "-d",
         help="Compute device: 'cuda' (GPU, default) or 'cpu'."
     ),
+    execution: str = typer.Option(
+        "auto", "--execution", help="auto: saved AOT for released CUDA base/plddt; eager for other supported configurations. aot requires matching packages."
+    ),
+    precision: str = typer.Option(
+        "strict", "--precision", help="strict (default): FP32 without TF32; tf32: explicitly permit TF32 with eager execution."
+    ),
+    aot_root: Path = typer.Option(
+        "/opt/abodybuilder3/aot_packages", "--aot-root", help="Directory containing the matching saved AOT manifest and executables."
+    ),
+    pdb_writer: str = typer.Option(
+        "native", "--pdb-writer", help="native (default) or python reference. Both retain the existing PDB fields."
+    ),
+    embedding_runtime: str = typer.Option(
+        "auto", "--embedding-runtime", help="Language encoder: auto/direct keeps the batch-1 encoder on CUDA; trainer retains the reference lifecycle. CPU auto uses trainer."
+    ),
     
     # Processing options
     add_hydrogens: bool = typer.Option(
@@ -582,7 +725,22 @@ def predict(
     ),
     workers: str = typer.Option(
         "auto", "--workers", "-w",
-        help="Parallel workers: 'auto' (detects optimal), '1' (sequential), or integer. Affects I/O, not GPU."
+        help="auto/1 for batched or AOT execution. Multiple model workers require eager execution and --batch-size 1."
+    ),
+    batch_size: str = typer.Option(
+        "auto", "--batch-size", "-b",
+        help="GPU batch cap: auto (16 for up to 128 inputs, otherwise 32), or a positive integer. AOT also supports batch 1; language uses eager batch 1."
+    ),
+    batch_memory_gib: float = typer.Option(
+        6., "--batch-memory-gib", min=0.5,
+        help="Estimated inference allocation target, not a hard total-memory limit."
+    ),
+    cpu_workers: int = typer.Option(
+        2, "--cpu-workers", min=1, max=8,
+        help="CPU preparation/output workers per stage; bounded queues."
+    ),
+    batch_report: Optional[Path] = typer.Option(
+        None, "--batch-report", help="Save batch sizes, OOM retries and completion metadata as JSON."
     ),
     seed: Optional[int] = typer.Option(
         None, "--seed", "-s",
@@ -606,6 +764,38 @@ def predict(
     """
     global VERBOSE
     VERBOSE = not quiet
+    from abodybuilder3.aot_runtime import configure_precision
+    if execution not in ('auto', 'aot', 'eager'):
+        raise typer.BadParameter('--execution must be auto, aot or eager.')
+    if precision not in ('strict', 'tf32'):
+        raise typer.BadParameter('--precision must be strict or tf32.')
+    if model_type not in ('base', 'plddt', 'language'):
+        raise typer.BadParameter('--model must be base, plddt or language.')
+    if pdb_writer not in ('native', 'python'):
+        raise typer.BadParameter('--pdb-writer must be native or python.')
+    if embedding_runtime not in ('auto', 'direct', 'trainer'):
+        raise typer.BadParameter('--embedding-runtime must be auto, direct or trainer.')
+    os.environ['ABB3_PDB_WRITER'] = pdb_writer
+    configure_precision(precision)
+    if checkpoint is not None and not checkpoint.is_file():
+        raise typer.BadParameter(f'Custom checkpoint not found: {checkpoint}')
+    import math
+    if not math.isfinite(batch_memory_gib):
+        raise typer.BadParameter("--batch-memory-gib must be finite.")
+    if batch_size == "auto":
+        max_batch_size = 1 if model_type == "language" else 32
+    else:
+        try:
+            max_batch_size = int(batch_size)
+        except ValueError:
+            raise typer.BadParameter("--batch-size must be auto or a positive integer.")
+        if max_batch_size < 1:
+            raise typer.BadParameter("--batch-size must be positive.")
+    use_batching = max_batch_size > 1
+    if use_batching and model_type == "language":
+        raise typer.BadParameter("Language batching is not qualified; use --batch-size 1 --workers 1.")
+    if use_batching and workers not in ("auto", "1"):
+        raise typer.BadParameter("GPU batching uses one model process; use --workers auto or --workers 1.")
     preparation_options = None
     if add_hydrogens or relax != "none":
         if output_format != OutputFormat.pdb:
@@ -656,7 +846,14 @@ def predict(
     if not antibodies:
         log("Error: No valid antibody sequences found", "error")
         raise typer.Exit(1)
+    try:
+        validate_antibodies(antibodies)
+    except ValueError as exc:
+        raise typer.BadParameter(str(exc)) from exc
     
+    if batch_size == "auto" and use_batching and len(antibodies) <= 128:
+        max_batch_size = 16
+
     # Check output exists
     if len(antibodies) > 1:
         if output.exists() and not output.is_dir():
@@ -670,6 +867,18 @@ def predict(
     
     # Setup device
     device = torch.device(device_str if torch.cuda.is_available() or device_str == "cpu" else "cpu")
+    if model_type == 'language' and embedding_runtime == 'direct' and device.type != 'cuda':
+        raise typer.BadParameter('Direct embedding runtime requires CUDA; use --embedding-runtime trainer for CPU.')
+    eligible = model_type in ('base', 'plddt') and device.type == 'cuda' and checkpoint is None and precision == 'strict'
+    selected_execution = ('aot' if eligible else 'eager') if execution == 'auto' else execution
+    if selected_execution == 'aot' and not eligible:
+        raise typer.BadParameter('AOT requires a released base/plddt checkpoint, CUDA and --precision strict. Use --execution eager for this configuration.')
+    if selected_execution == 'aot':
+        use_batching = True  # The saved batch-1 domain uses the same compact path.
+        if workers not in ('auto', '1'):
+            raise typer.BadParameter('AOT uses one model process; use --workers auto or 1.')
+    if execution == 'auto' and selected_execution == 'eager':
+        log(f'Execution: eager; model={model_type}, device={device}, precision={precision}, custom_checkpoint={checkpoint is not None}.', 'warning')
     
     # Determine number of workers
     if workers == "auto":
@@ -678,7 +887,14 @@ def predict(
         try:
             num_workers = int(workers)
         except ValueError:
-            num_workers = 1
+            raise typer.BadParameter("--workers must be auto or a positive integer.")
+    if num_workers < 1:
+        raise typer.BadParameter("--workers must be positive.")
+    if use_batching or (model_type == "language" and workers == "auto"):
+        num_workers = 1
+    if use_batching:
+        # Avoid native thread oversubscription across CPU pipeline stages.
+        torch.set_num_threads(1)
     
     if len(antibodies) <= 2:
         num_workers = 1
@@ -703,13 +919,23 @@ def predict(
         start_time = time.time()
         with console.status("[bold green]Loading model..."):
             model = load_model(model_type, device, checkpoint)
+            if selected_execution == 'aot':
+                from abodybuilder3.aot_runtime import AOTForward
+                adapter = AOTForward(aot_root, model_type, model._deployment_checkpoint_sha256, model.forward)
+                model.forward = adapter
+                model._deployment_stats = adapter.stats
+            else:
+                try:
+                    model._deployment_stats = {'execution': 'eager', 'precision': precision}
+                except AttributeError:
+                    pass  # Lightweight CPU dispatch fixtures need no mutable model.
         load_time = time.time() - start_time
         log(f"Model loaded in {load_time:.2f}s")
         
         # Load ProtT5 for language model
         if model_type == "language":
             with console.status("[bold green]Loading ProtT5 embedder..."):
-                prott5_model = load_prott5(device)
+                prott5_model = load_prott5(device, embedding_runtime)
             log("ProtT5 embedder loaded")
     else:
         log("[dim]Skipping main process model load (using worker processes)[/dim]")
@@ -720,17 +946,20 @@ def predict(
     
     # Track used names and results
     name_counts = {}
+    used_names = set()
     results = []
     skipped = 0
     failed = 0
     
     def get_unique_name(name: str) -> str:
-        if name in name_counts:
-            name_counts[name] += 1
-            return f"{name}_{name_counts[name]}"
-        else:
-            name_counts[name] = 0
-            return name
+        count = name_counts.get(name, 0)
+        candidate = name if count == 0 else f"{name}_{count}"
+        while candidate in used_names:
+            count += 1
+            candidate = f"{name}_{count}"
+        name_counts[name] = count + 1
+        used_names.add(candidate)
+        return candidate
     
     start_time = time.time()
     
@@ -749,7 +978,13 @@ def predict(
         # Parallelization strategy decided earlier
 
         
-        if use_multiprocess:
+        if use_batching:
+            run_batched_pipeline(antibodies, model, device, output, output_format,
+                                 confidence_threshold, preparation_options, max_batch_size,
+                                 batch_memory_gib, cpu_workers, batch_report, get_unique_name,
+                                 progress, task, overwrite=overwrite)
+            return
+        elif use_multiprocess:
             # Use ProcessPoolExecutor with each worker having its own model
             from multiprocessing import get_context
             
@@ -772,7 +1007,7 @@ def predict(
                 max_workers=num_workers,
                 mp_context=ctx,
                 initializer=_init_worker,
-                initargs=(model_type, checkpoint_path, model_type == "language"),
+                initargs=(model_type, checkpoint_path, model_type == "language", precision, embedding_runtime),
             ) as executor:
                 # Submit all work
                 futures = {

@@ -22,6 +22,8 @@ LABEL pytorch.version="2.10"
 ENV TORCH_CUDA_ARCH_LIST="12.0" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
+    PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+    AOTI_RUNTIME_CHECK_INPUTS=1 \
     DEBIAN_FRONTEND=noninteractive
 
 # -----------------------------------------------------------------------------
@@ -119,7 +121,14 @@ RUN mkdir -p output/ zenodo/ \
 # -----------------------------------------------------------------------------
 # Keep the tested model source pinned above; deploy the versioned CLI and its
 # optional preparation module from this checkout, including local changes.
-COPY scripts/predict.py scripts/structure_preparation.py /opt/abodybuilder3/scripts/
+COPY scripts/predict.py scripts/structure_preparation.py scripts/batch_pipeline.py /opt/abodybuilder3/scripts/
+COPY src/abodybuilder3/batched_inference.py src/abodybuilder3/inference_features.py src/abodybuilder3/aot_runtime.py src/abodybuilder3/native_pdb.py src/abodybuilder3/pdb_native.cpp src/abodybuilder3/utils.py /opt/abodybuilder3/src/abodybuilder3/
+# Inference optimisations retain the released model architecture and weights.
+COPY src/abodybuilder3/openfold/model/structure_module.py /opt/abodybuilder3/src/abodybuilder3/openfold/model/
+COPY src/abodybuilder3/language/direct_inference.py /opt/abodybuilder3/src/abodybuilder3/language/
+COPY tools/prepare_aot.py tools/build_native_formatter.sh tools/download_prott5.py /opt/abodybuilder3/tools/
+COPY examples/antibodies.csv /opt/abodybuilder3/examples/
+RUN sh tools/build_native_formatter.sh
 # Verify all imports work
 RUN python3 -c "import abodybuilder3; import torch; import openmm; import pdbfixer; print(f'ABodyBuilder3 on PyTorch {torch.__version__}, CUDA {torch.version.cuda}, OpenMM {openmm.version.short_version}')"
 

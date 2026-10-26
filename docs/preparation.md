@@ -1,8 +1,6 @@
-# Prediction, preparation and relaxation — 25 October 2026
+# Structure preparation and restrained relaxation
 
-Plain prediction remains the fast default. Optional chemical preparation runs after inference and writing is kept separate from the model. This preserves an unmodified raw prediction for comparison. The model source, weights, precision and default pLDDT model are unchanged.
-
-Preparation performs more validation and force-field work than the legacy hydrogen-only path, and its cost is opt-in. In this study OpenMM preparation took roughly 8–10 seconds per antibody; CUDA preparation plus restrained relaxation took roughly 11–13 seconds. CPU relaxation is substantially slower. See the benchmark protocol before comparing these timings with inference or the old hydrogen-addition measurements.
+These optional steps run after prediction. The raw heavy-atom PDB is always retained.
 
 ## Commands and outputs
 
@@ -34,7 +32,7 @@ For each antibody, `.pdb` remains the raw prediction. Requested preparation adds
 3. OpenMM adds the final hydrogens against the repaired topology and requested pH. After optional Reduce processing, its hydrogens are discarded while requested heavy-atom orientations are retained. This declared combination avoids inconsistent disulfide/peptide assignments from Reduce's distance-based bond inference on strained predictions. No Reduce-only hydrogen result is presented as the canonical prepared structure.
 4. The force field must parameterise the prepared topology. Finite coordinates, preserved residues and the expected heavy atoms are checked. Existing heavy atoms must stay fixed unless side-chain flips were requested; those flips still cannot move backbone atoms. Long peptide bonds are reported, not silently turned into internal termini.
 
-The default pH is 7. pH-based protonation follows OpenMM's standard residue rules and local choices; it is not a full pKa calculation. Not every terminal/protonation combination has an Amber template. For example, the checked antibody's pH-2 protonated N-terminal Asp could not be parameterised; the command reports that failure rather than replacing it with a different charge state. Histidine protonation at pH 5 versus 7 was tested successfully.
+The default pH is 7. pH-based protonation follows OpenMM's standard residue rules and local choices; it is not a full pKa calculation. Not every terminal/protonation combination has an Amber template. An unsupported protonation state fails parameterisation rather than silently selecting a different charge state.
 
 Disulfides are inferred by the PDB reader from geometry/connectivity and recorded in the audit. Recording a bond does not independently establish the biological disulfide assignment. Review unexpected assignments, missing atoms and long-bond warnings before downstream simulation or docking.
 
@@ -56,14 +54,3 @@ The audit records initial/final restrained energies, final physical energy, forc
 
 No molecular dynamics trajectory is run. Lower energy, fewer overlaps and better local geometry do not establish improved structural accuracy. Relaxation may change a correct local conformation; the raw prediction remains available.
 
-## Rebuild, test and measure
-
-The Dockerfile obtains pinned model source and weights from public sources, then copies this checkout's CLI and preparation module into the image. `runtime-constraints.txt` pins CUDA 13.0 dependencies compatible with tested driver 580.178.04. Newer CUDA-13.4 NVRTC wheels emitted PTX that this driver could not load; the explicit pins resolve that failure without a driver change or custom OpenMM build.
-
-```bash
-IMAGE_TAG=preparation-local ./docker_build.sh build
-IMAGE_TAG=preparation-local ./docker_build.sh test
-python3 -m unittest discover -s tests -p 'test_structure_preparation.py' -v
-```
-
-`tests/test_preparation_integration.py` runs in the Docker environment with `ABB3_TEST_PDB` pointing to a saved public heavy-atom prediction and `trastuzumab_like.pdb` in the same directory. Those inputs are generated from `tests/benchmark_antibodies.json`. `tools/run_preparation_study.py --help` describes the finite matched benchmark queue. It requires the previous runtime/CLI identity and the pinned ProtT5 snapshot, plus the five saved public predictions from each model. Detailed protocol and measured results are in [the preparation benchmarks](abodybuilder3_preparation_benchmarks_251026.md).

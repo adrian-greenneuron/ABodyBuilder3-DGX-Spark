@@ -1,0 +1,6 @@
+# The build script first creates this runtime from the pinned public sources.
+# GPU export is a separate explicit step; inference needs no compiler cache.
+ARG RUNTIME_IMAGE=abodybuilder3-official-spark:latest-runtime
+FROM ${RUNTIME_IMAGE}
+COPY packages/ /opt/abodybuilder3/aot_packages/
+RUN python3 -c "import json; from pathlib import Path; p=Path('/opt/abodybuilder3/aot_packages'); m=json.loads((p/'manifest.json').read_text()); assert set(m['models']) == {'base', 'plddt'}; assert all((p/d['path']).is_file() for e in m['models'].values() for d in e['domains'].values())"

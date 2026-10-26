@@ -131,7 +131,7 @@ def output_to_pdb(output: dict, model_input: dict, apply_fixes: bool = False) ->
     return pdb_str
 
 
-def to_pdb_fast(prot: Protein) -> str:
+def to_pdb_fast_python(prot: Protein) -> str:
     """Fast vectorized PDB generation.
     
     Optimized version of to_pdb() that uses NumPy vectorization
@@ -269,3 +269,9 @@ class DelayedEarlyStopping(EarlyStopping):
         if self._should_delay(trainer, log_info=True):
             return
         super().on_validation_end(trainer, pl_module, *args, **kwargs)
+
+
+def to_pdb_fast(prot: Protein) -> str:
+    """Use the qualified native writer, preserving the Python reference fallback."""
+    from abodybuilder3.native_pdb import to_pdb_fast as native_writer
+    return native_writer(prot)

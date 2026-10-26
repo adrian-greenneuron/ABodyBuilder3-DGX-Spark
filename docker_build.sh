@@ -8,6 +8,7 @@ set -euo pipefail
 IMAGE_NAME="${IMAGE_NAME:-abodybuilder3-official-spark}"
 IMAGE_TAG="${IMAGE_TAG:-latest}"
 DOCKERFILE="${DOCKERFILE:-Dockerfile}"
+AOT_BUILD_DIR="${AOT_BUILD_DIR:-$(pwd)/.aot-build/$(date -u +%Y%m%dT%H%M%SZ)}"
 
 # Colors for output
 RED='\033[0;31m'
@@ -35,18 +36,32 @@ build() {
     
     # Check for GPU before building
     if ! command -v nvidia-smi &> /dev/null; then
-        echo -e "${YELLOW}Warning: nvidia-smi not found. Building without GPU verification.${NC}"
+        echo -e "${RED}Error: nvidia-smi is required. Building the saved executables needs a working NVIDIA GPU.${NC}" >&2
+        return 1
     fi
     
     local cache_args=()
     if [[ "${NO_CACHE:-0}" == "1" ]]; then
         cache_args+=(--no-cache)
     fi
+    local runtime_tag="${IMAGE_NAME}:${IMAGE_TAG}-runtime"
     DOCKER_BUILDKIT=1 docker build "${cache_args[@]}" \
         --progress=plain \
-        -t "${IMAGE_NAME}:${IMAGE_TAG}" \
+        -t "${runtime_tag}" \
         -f "${DOCKERFILE}" \
         .
+
+    mkdir -p "${AOT_BUILD_DIR}"
+    # GPU access is unavailable to ordinary docker build; prepare packages in
+    # the freshly built runtime, then put only executables/metadata in the image.
+    docker run --rm --gpus all --network none --ipc=host \
+        --user "$(id -u):$(id -g)" \
+        -e HOME=/tmp -e TORCHINDUCTOR_COMPILE_THREADS=4 \
+        -v "$(realpath "${AOT_BUILD_DIR}"):/aot" \
+        "${runtime_tag}" python3 -u tools/prepare_aot.py --output /aot/packages
+    DOCKER_BUILDKIT=1 docker build --network none --pull=false --progress=plain \
+        --build-arg "RUNTIME_IMAGE=${runtime_tag}" \
+        -t "${IMAGE_NAME}:${IMAGE_TAG}" -f Dockerfile.aot "${AOT_BUILD_DIR}"
     
     echo -e "${GREEN}Build complete: ${IMAGE_NAME}:${IMAGE_TAG}${NC}"
 }
