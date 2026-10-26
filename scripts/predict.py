@@ -113,9 +113,10 @@ def get_optimal_workers() -> int:
     return 8
 
 
-def load_model(model_type: str, device: torch.device, checkpoint: Optional[Path] = None):
-    """Load the specified model."""
-    if checkpoint and checkpoint.exists():
+def checkpoint_path(model_type: str, checkpoint: Optional[Path] = None):
+    if checkpoint is not None:
+        if not checkpoint.is_file():
+            raise FileNotFoundError(f'Custom checkpoint not found: {checkpoint}')
         path = checkpoint
     else:
         model_paths = {
@@ -134,10 +135,18 @@ def load_model(model_type: str, device: torch.device, checkpoint: Optional[Path]
         if not path:
             raise FileNotFoundError(f"Model checkpoint not found for {model_type}")
     
+    return Path(path)
+
+
+def load_model(model_type: str, device: torch.device, checkpoint: Optional[Path] = None):
+    """Load the specified model and retain its exact checkpoint identity."""
+    path = checkpoint_path(model_type, checkpoint)
     module = LitABB3.load_from_checkpoint(str(path))
     model = module.model
     model.to(device)
     model.eval()
+    from abodybuilder3.aot_runtime import sha256
+    model._deployment_checkpoint_sha256 = sha256(path)
     return model
 
 
@@ -384,7 +393,7 @@ _worker_prott5 = None
 _worker_config = None
 
 
-def _init_worker(model_type: str, checkpoint_path: Optional[str], use_language: bool):
+def _init_worker(model_type: str, checkpoint_path: Optional[str], use_language: bool, precision: str = 'strict'):
     """Initialize worker process with its own model instance."""
     global _worker_model, _worker_device, _worker_prott5, _worker_config
     
@@ -394,6 +403,8 @@ def _init_worker(model_type: str, checkpoint_path: Optional[str], use_language: 
     
     # Register safe globals
     torch.serialization.add_safe_globals([ml_collections.ConfigDict])
+    from abodybuilder3.aot_runtime import configure_precision
+    configure_precision(precision)
     
     # Setup device
     _worker_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -519,6 +530,7 @@ def run_batched_pipeline(antibodies, model, device, output, output_format,
     stats = {"completed": False, "max_batch_size": max_batch_size,
              "memory_target_gib": memory_gib, "pair_budget": pair_budget,
              "batches": [], "oom_retries": [], "saved": 0, "skipped": 0}
+    stats['deployment'] = getattr(model, '_deployment_stats', {'execution': 'eager'})
     lock = threading.Lock()
     prepared_paths = []
     is_dir = len(named) > 1 or output.is_dir()
@@ -637,6 +649,18 @@ def predict(
         "cuda", "--device", "-d",
         help="Compute device: 'cuda' (GPU, default) or 'cpu'."
     ),
+    execution: str = typer.Option(
+        "auto", "--execution", help="auto: saved AOT for released CUDA base/plddt; eager for other supported configurations. aot requires matching packages."
+    ),
+    precision: str = typer.Option(
+        "strict", "--precision", help="strict (default): FP32 without TF32; tf32: explicitly permit TF32 with eager execution."
+    ),
+    aot_root: Path = typer.Option(
+        "/opt/abodybuilder3/aot_packages", "--aot-root", help="Directory containing the matching saved AOT manifest and executables."
+    ),
+    pdb_writer: str = typer.Option(
+        "native", "--pdb-writer", help="native (default) or python reference. Both retain the existing PDB fields."
+    ),
     
     # Processing options
     add_hydrogens: bool = typer.Option(
@@ -712,6 +736,19 @@ def predict(
     """
     global VERBOSE
     VERBOSE = not quiet
+    from abodybuilder3.aot_runtime import configure_precision
+    if execution not in ('auto', 'aot', 'eager'):
+        raise typer.BadParameter('--execution must be auto, aot or eager.')
+    if precision not in ('strict', 'tf32'):
+        raise typer.BadParameter('--precision must be strict or tf32.')
+    if model_type not in ('base', 'plddt', 'language'):
+        raise typer.BadParameter('--model must be base, plddt or language.')
+    if pdb_writer not in ('native', 'python'):
+        raise typer.BadParameter('--pdb-writer must be native or python.')
+    os.environ['ABB3_PDB_WRITER'] = pdb_writer
+    configure_precision(precision)
+    if checkpoint is not None and not checkpoint.is_file():
+        raise typer.BadParameter(f'Custom checkpoint not found: {checkpoint}')
     import math
     if not math.isfinite(batch_memory_gib):
         raise typer.BadParameter("--batch-memory-gib must be finite.")
@@ -796,6 +833,16 @@ def predict(
     
     # Setup device
     device = torch.device(device_str if torch.cuda.is_available() or device_str == "cpu" else "cpu")
+    eligible = model_type in ('base', 'plddt') and device.type == 'cuda' and checkpoint is None and precision == 'strict'
+    selected_execution = ('aot' if eligible else 'eager') if execution == 'auto' else execution
+    if selected_execution == 'aot' and not eligible:
+        raise typer.BadParameter('AOT requires a released base/plddt checkpoint, CUDA and --precision strict. Use --execution eager for this configuration.')
+    if selected_execution == 'aot':
+        use_batching = True  # The saved batch-1 domain uses the same compact path.
+        if workers not in ('auto', '1'):
+            raise typer.BadParameter('AOT uses one model process; use --workers auto or 1.')
+    if execution == 'auto' and selected_execution == 'eager':
+        log(f'Execution: eager; model={model_type}, device={device}, precision={precision}, custom_checkpoint={checkpoint is not None}.', 'warning')
     
     # Determine number of workers
     if workers == "auto":
@@ -836,6 +883,16 @@ def predict(
         start_time = time.time()
         with console.status("[bold green]Loading model..."):
             model = load_model(model_type, device, checkpoint)
+            if selected_execution == 'aot':
+                from abodybuilder3.aot_runtime import AOTForward
+                adapter = AOTForward(aot_root, model_type, model._deployment_checkpoint_sha256, model.forward)
+                model.forward = adapter
+                model._deployment_stats = adapter.stats
+            else:
+                try:
+                    model._deployment_stats = {'execution': 'eager', 'precision': precision}
+                except AttributeError:
+                    pass  # Lightweight CPU dispatch fixtures need no mutable model.
         load_time = time.time() - start_time
         log(f"Model loaded in {load_time:.2f}s")
         
@@ -914,7 +971,7 @@ def predict(
                 max_workers=num_workers,
                 mp_context=ctx,
                 initializer=_init_worker,
-                initargs=(model_type, checkpoint_path, model_type == "language"),
+                initargs=(model_type, checkpoint_path, model_type == "language", precision),
             ) as executor:
                 # Submit all work
                 futures = {

@@ -1,0 +1,9 @@
+{
+  "native_writer_component": "components/pdb-formatting-261026",
+  "commit": "a400ff7283a1dfc0a0456fa71c7b3a2992925d12",
+  "cpp_sha256": "9ff39b8278658ccd2528e2d86bbfc0e8a17303f4dd0b316276af5f36748c3478",
+  "integration": "C++ source copied unchanged; wrapper imports the original Python formatter from the installed package.",
+  "aot_component": "components/openfold-structure-251026",
+  "aot_evidence_commit": "936cb6f01f5209691b8ddfd4266697534c84774b",
+  "model_arithmetic": "Use the existing dev model, original broadcast point attention and all eight structure updates."
+}
