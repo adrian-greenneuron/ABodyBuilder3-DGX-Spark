@@ -1,0 +1,533 @@
+{
+  "protocol": {
+    "date": "2026-10-26",
+    "question": "Complete installed-CLI performance of previous and new main defaults on identical public inputs.",
+    "versions": {
+      "previous": {
+        "commit": "a5deeb1b73994491f94b5724d2f2baa9993d47a6",
+        "image": "abodybuilder3-official-spark:preparation-251026",
+        "image_id": "sha256:5cae6273bb8e89fe514fecf8afdf68154389a2c444368b88c88b21a4b2cf2810"
+      },
+      "new": {
+        "commit": "78163003c6c18aa0557b23aae91848911d40553b",
+        "image": "abodybuilder3-official-spark:accepted-runtime-261026",
+        "image_id": "sha256:ab981f1494f2c817995a3cf767702181330af8d3f97584120d533dedd9432fd0"
+      }
+    },
+    "models": {
+      "base": 1000,
+      "plddt": 1000,
+      "language": 5
+    },
+    "replicates": 2,
+    "order": "previous,new for replicate 1; new,previous for replicate 2, sequential GPU jobs",
+    "inputs": {
+      "antibodies_5.csv": "5248bb290886195a9e82680de6a1f34b6401fe0955c82536d4d46dd082c2eb56",
+      "antibodies_1000.csv": "0466f48efae700215ee1590a64e4b5b685e131bf463e1effbe72b2e979cb7f5d"
+    },
+    "workload": "Base/pLDDT repeat the same 100 public targets ten times; language uses five distinct public examples. No sequence or embedding cache.",
+    "settings": "Installed defaults; CUDA; seed 42; PDB output; optional chemistry off. Previous auto uses eight workers for the 1000-input jobs; new auto uses one batched strict-FP32 saved model. Previous TF32 policy retained. No command changes precision, worker count or batch size.",
+    "timing": "Host wall time around fresh docker run, including startup, imports, loading, inference, PDB writes and exit. Build/export/ProtT5 download excluded.",
+    "memory": "Same 50ms summed process-tree RSS sampler and 100ms per-process CUDA sampler for both versions. Record cgroup memory.peak too. Summed RSS double-counts shared pages; CUDA sampling can miss short peaks. Do not add them on unified memory.",
+    "summary": "Median complete wall times; min/max ranges for two technical replicates; higher observed sampled memory peak across replicates. No statistical significance or biological accuracy claim."
+  },
+  "summary": [
+    {
+      "model": "base",
+      "count": 1000,
+      "conditions": {
+        "previous": {
+          "median_seconds": 81.88822884999536,
+          "min_seconds": 81.64959059499961,
+          "max_seconds": 82.1268671049911,
+          "time_replicates_seconds": [
+            81.64959059499961,
+            82.1268671049911
+          ],
+          "peak_summed_rss_gib": 14.265567779541016,
+          "sum_individual_cuda_peaks_gib": 1.5551486015319824,
+          "peak_sampled_concurrent_cuda_gib": 0.9977006912231445
+        },
+        "new": {
+          "median_seconds": 13.04663959699974,
+          "min_seconds": 12.97187230399868,
+          "max_seconds": 13.121406890000799,
+          "time_replicates_seconds": [
+            13.121406890000799,
+            12.97187230399868
+          ],
+          "peak_summed_rss_gib": 1.5360221862792969,
+          "sum_individual_cuda_peaks_gib": 2.389958381652832,
+          "peak_sampled_concurrent_cuda_gib": 0.8997459411621094
+        }
+      },
+      "speedup": 6.276576296997329,
+      "summed_rss_reduction_percent": 89.23265999631515
+    },
+    {
+      "model": "plddt",
+      "count": 1000,
+      "conditions": {
+        "previous": {
+          "median_seconds": 82.75784517550346,
+          "min_seconds": 82.3161562680034,
+          "max_seconds": 83.19953408300353,
+          "time_replicates_seconds": [
+            83.19953408300353,
+            82.3161562680034
+          ],
+          "peak_summed_rss_gib": 14.254417419433594,
+          "sum_individual_cuda_peaks_gib": 1.5640039443969727,
+          "peak_sampled_concurrent_cuda_gib": 1.0470776557922363
+        },
+        "new": {
+          "median_seconds": 13.215384118993825,
+          "min_seconds": 13.207569879989023,
+          "max_seconds": 13.223198357998626,
+          "time_replicates_seconds": [
+            13.223198357998626,
+            13.207569879989023
+          ],
+          "peak_summed_rss_gib": 1.5670394897460938,
+          "sum_individual_cuda_peaks_gib": 2.3903756141662598,
+          "peak_sampled_concurrent_cuda_gib": 0.901576042175293
+        }
+      },
+      "speedup": 6.262235318348383,
+      "summed_rss_reduction_percent": 89.00663953049607
+    },
+    {
+      "model": "language",
+      "count": 5,
+      "conditions": {
+        "previous": {
+          "median_seconds": 242.49812569349888,
+          "min_seconds": 222.73381322300702,
+          "max_seconds": 262.26243816399074,
+          "time_replicates_seconds": [
+            262.26243816399074,
+            222.73381322300702
+          ],
+          "peak_summed_rss_gib": 8.348758697509766,
+          "sum_individual_cuda_peaks_gib": 4.554987907409668,
+          "peak_sampled_concurrent_cuda_gib": 4.549215316772461
+        },
+        "new": {
+          "median_seconds": 11.278909480504808,
+          "min_seconds": 11.029868584999349,
+          "max_seconds": 11.527950376010267,
+          "time_replicates_seconds": [
+            11.527950376010267,
+            11.029868584999349
+          ],
+          "peak_summed_rss_gib": 5.592433929443359,
+          "sum_individual_cuda_peaks_gib": 4.685314655303955,
+          "peak_sampled_concurrent_cuda_gib": 4.613786697387695
+        }
+      },
+      "speedup": 21.500139362998542,
+      "summed_rss_reduction_percent": 33.014785406225144
+    }
+  ],
+  "rows": [
+    {
+      "model": "base",
+      "count": 1000,
+      "condition": "previous",
+      "replicate": 1,
+      "complete_container_seconds": 81.64959059499961,
+      "completed": true,
+      "wrapped_cli_seconds": 79.70853481501399,
+      "sampled_process_tree_rss_peak_bytes": 15296901120,
+      "main_process_lifetime_rss_peak_bytes": 1018384384,
+      "container_lifetime_memory_peak_bytes": 11836362752,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 1071272960,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 215,
+          "peak_cuda_allocated_bytes": 202550272,
+          "peak_cuda_reserved_bytes": 331350016
+        },
+        {
+          "pid": 213,
+          "peak_cuda_allocated_bytes": 209463808,
+          "peak_cuda_reserved_bytes": 352321536
+        },
+        {
+          "pid": 210,
+          "peak_cuda_allocated_bytes": 202578432,
+          "peak_cuda_reserved_bytes": 331350016
+        },
+        {
+          "pid": 212,
+          "peak_cuda_allocated_bytes": 209494528,
+          "peak_cuda_reserved_bytes": 310378496
+        },
+        {
+          "pid": 207,
+          "peak_cuda_allocated_bytes": 209405952,
+          "peak_cuda_reserved_bytes": 310378496
+        },
+        {
+          "pid": 214,
+          "peak_cuda_allocated_bytes": 209465856,
+          "peak_cuda_reserved_bytes": 352321536
+        },
+        {
+          "pid": 211,
+          "peak_cuda_allocated_bytes": 209522176,
+          "peak_cuda_reserved_bytes": 352321536
+        },
+        {
+          "pid": 216,
+          "peak_cuda_allocated_bytes": 209552384,
+          "peak_cuda_reserved_bytes": 310378496
+        }
+      ],
+      "pdb_count": 1000
+    },
+    {
+      "model": "base",
+      "count": 1000,
+      "condition": "new",
+      "replicate": 1,
+      "complete_container_seconds": 13.121406890000799,
+      "completed": true,
+      "wrapped_cli_seconds": 10.977777812993736,
+      "sampled_process_tree_rss_peak_bytes": 1649291264,
+      "main_process_lifetime_rss_peak_bytes": 1647771648,
+      "container_lifetime_memory_peak_bytes": 1439121408,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 966094848,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 2566198272,
+          "peak_cuda_reserved_bytes": 2659188736
+        }
+      ],
+      "pdb_count": 1000
+    },
+    {
+      "model": "base",
+      "count": 1000,
+      "condition": "new",
+      "replicate": 2,
+      "complete_container_seconds": 12.97187230399868,
+      "completed": true,
+      "wrapped_cli_seconds": 10.954693312000018,
+      "sampled_process_tree_rss_peak_bytes": 1647972352,
+      "main_process_lifetime_rss_peak_bytes": 1646592000,
+      "container_lifetime_memory_peak_bytes": 1474916352,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 966094848,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 2566198272,
+          "peak_cuda_reserved_bytes": 2659188736
+        }
+      ],
+      "pdb_count": 1000
+    },
+    {
+      "model": "base",
+      "count": 1000,
+      "condition": "previous",
+      "replicate": 2,
+      "complete_container_seconds": 82.1268671049911,
+      "completed": true,
+      "wrapped_cli_seconds": 80.13960135700472,
+      "sampled_process_tree_rss_peak_bytes": 15317536768,
+      "main_process_lifetime_rss_peak_bytes": 1019211776,
+      "container_lifetime_memory_peak_bytes": 11742851072,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 1038608384,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 215,
+          "peak_cuda_allocated_bytes": 206681088,
+          "peak_cuda_reserved_bytes": 310378496
+        },
+        {
+          "pid": 213,
+          "peak_cuda_allocated_bytes": 209435648,
+          "peak_cuda_reserved_bytes": 310378496
+        },
+        {
+          "pid": 206,
+          "peak_cuda_allocated_bytes": 209464832,
+          "peak_cuda_reserved_bytes": 352321536
+        },
+        {
+          "pid": 209,
+          "peak_cuda_allocated_bytes": 209492992,
+          "peak_cuda_reserved_bytes": 352321536
+        },
+        {
+          "pid": 210,
+          "peak_cuda_allocated_bytes": 209522176,
+          "peak_cuda_reserved_bytes": 310378496
+        },
+        {
+          "pid": 212,
+          "peak_cuda_allocated_bytes": 209083392,
+          "peak_cuda_reserved_bytes": 352321536
+        },
+        {
+          "pid": 214,
+          "peak_cuda_allocated_bytes": 209494016,
+          "peak_cuda_reserved_bytes": 352321536
+        },
+        {
+          "pid": 211,
+          "peak_cuda_allocated_bytes": 206653952,
+          "peak_cuda_reserved_bytes": 352321536
+        }
+      ],
+      "pdb_count": 1000
+    },
+    {
+      "model": "plddt",
+      "count": 1000,
+      "condition": "previous",
+      "replicate": 1,
+      "complete_container_seconds": 83.19953408300353,
+      "completed": true,
+      "wrapped_cli_seconds": 81.29831087999628,
+      "sampled_process_tree_rss_peak_bytes": 15276961792,
+      "main_process_lifetime_rss_peak_bytes": 1018691584,
+      "container_lifetime_memory_peak_bytes": 11721449472,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 1062633984,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 213,
+          "peak_cuda_allocated_bytes": 207159296,
+          "peak_cuda_reserved_bytes": 354418688
+        },
+        {
+          "pid": 209,
+          "peak_cuda_allocated_bytes": 209972224,
+          "peak_cuda_reserved_bytes": 354418688
+        },
+        {
+          "pid": 210,
+          "peak_cuda_allocated_bytes": 209970176,
+          "peak_cuda_reserved_bytes": 312475648
+        },
+        {
+          "pid": 212,
+          "peak_cuda_allocated_bytes": 209677824,
+          "peak_cuda_reserved_bytes": 354418688
+        },
+        {
+          "pid": 208,
+          "peak_cuda_allocated_bytes": 209913856,
+          "peak_cuda_reserved_bytes": 312475648
+        },
+        {
+          "pid": 214,
+          "peak_cuda_allocated_bytes": 207100928,
+          "peak_cuda_reserved_bytes": 354418688
+        },
+        {
+          "pid": 211,
+          "peak_cuda_allocated_bytes": 207187456,
+          "peak_cuda_reserved_bytes": 354418688
+        },
+        {
+          "pid": 205,
+          "peak_cuda_allocated_bytes": 209856512,
+          "peak_cuda_reserved_bytes": 312475648
+        }
+      ],
+      "pdb_count": 1000
+    },
+    {
+      "model": "plddt",
+      "count": 1000,
+      "condition": "new",
+      "replicate": 1,
+      "complete_container_seconds": 13.223198357998626,
+      "completed": true,
+      "wrapped_cli_seconds": 11.059008568990976,
+      "sampled_process_tree_rss_peak_bytes": 1657114624,
+      "main_process_lifetime_rss_peak_bytes": 1655894016,
+      "container_lifetime_memory_peak_bytes": 1488896000,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 968059904,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 2566646272,
+          "peak_cuda_reserved_bytes": 2661285888
+        }
+      ],
+      "pdb_count": 1000
+    },
+    {
+      "model": "plddt",
+      "count": 1000,
+      "condition": "new",
+      "replicate": 2,
+      "complete_container_seconds": 13.207569879989023,
+      "completed": true,
+      "wrapped_cli_seconds": 11.086942462992738,
+      "sampled_process_tree_rss_peak_bytes": 1682595840,
+      "main_process_lifetime_rss_peak_bytes": 1681166336,
+      "container_lifetime_memory_peak_bytes": 1513971712,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 968059904,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 2566646272,
+          "peak_cuda_reserved_bytes": 2661285888
+        }
+      ],
+      "pdb_count": 1000
+    },
+    {
+      "model": "plddt",
+      "count": 1000,
+      "condition": "previous",
+      "replicate": 2,
+      "complete_container_seconds": 82.3161562680034,
+      "completed": true,
+      "wrapped_cli_seconds": 80.48573802199098,
+      "sampled_process_tree_rss_peak_bytes": 15305564160,
+      "main_process_lifetime_rss_peak_bytes": 1018572800,
+      "container_lifetime_memory_peak_bytes": 11777912832,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 1124291072,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 213,
+          "peak_cuda_allocated_bytes": 209885696,
+          "peak_cuda_reserved_bytes": 354418688
+        },
+        {
+          "pid": 204,
+          "peak_cuda_allocated_bytes": 210000384,
+          "peak_cuda_reserved_bytes": 354418688
+        },
+        {
+          "pid": 209,
+          "peak_cuda_allocated_bytes": 209972224,
+          "peak_cuda_reserved_bytes": 354418688
+        },
+        {
+          "pid": 210,
+          "peak_cuda_allocated_bytes": 209710080,
+          "peak_cuda_reserved_bytes": 312475648
+        },
+        {
+          "pid": 212,
+          "peak_cuda_allocated_bytes": 209972224,
+          "peak_cuda_reserved_bytes": 354418688
+        },
+        {
+          "pid": 208,
+          "peak_cuda_allocated_bytes": 209942016,
+          "peak_cuda_reserved_bytes": 354418688
+        },
+        {
+          "pid": 207,
+          "peak_cuda_allocated_bytes": 209942016,
+          "peak_cuda_reserved_bytes": 312475648
+        },
+        {
+          "pid": 211,
+          "peak_cuda_allocated_bytes": 209911808,
+          "peak_cuda_reserved_bytes": 312475648
+        }
+      ],
+      "pdb_count": 1000
+    },
+    {
+      "model": "language",
+      "count": 5,
+      "condition": "previous",
+      "replicate": 1,
+      "complete_container_seconds": 262.26243816399074,
+      "completed": true,
+      "wrapped_cli_seconds": 259.64718841499416,
+      "sampled_process_tree_rss_peak_bytes": 8964411392,
+      "main_process_lifetime_rss_peak_bytes": 8964489216,
+      "container_lifetime_memory_peak_bytes": 9332121600,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4884682752,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 4890881024,
+          "peak_cuda_reserved_bytes": 4949278720
+        }
+      ],
+      "pdb_count": 5
+    },
+    {
+      "model": "language",
+      "count": 5,
+      "condition": "new",
+      "replicate": 1,
+      "complete_container_seconds": 11.527950376010267,
+      "completed": true,
+      "wrapped_cli_seconds": 9.113171167002292,
+      "sampled_process_tree_rss_peak_bytes": 6004830208,
+      "main_process_lifetime_rss_peak_bytes": 6003265536,
+      "container_lifetime_memory_peak_bytes": 1665875968,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4954015744,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5030818304,
+          "peak_cuda_reserved_bytes": 5117050880
+        }
+      ],
+      "pdb_count": 5
+    },
+    {
+      "model": "language",
+      "count": 5,
+      "condition": "new",
+      "replicate": 2,
+      "complete_container_seconds": 11.029868584999349,
+      "completed": true,
+      "wrapped_cli_seconds": 8.71806128899334,
+      "sampled_process_tree_rss_peak_bytes": 5951410176,
+      "main_process_lifetime_rss_peak_bytes": 6003814400,
+      "container_lifetime_memory_peak_bytes": 1662361600,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4952840192,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 5030818304,
+          "peak_cuda_reserved_bytes": 5117050880
+        }
+      ],
+      "pdb_count": 5
+    },
+    {
+      "model": "language",
+      "count": 5,
+      "condition": "previous",
+      "replicate": 2,
+      "complete_container_seconds": 222.73381322300702,
+      "completed": true,
+      "wrapped_cli_seconds": 220.1463472260075,
+      "sampled_process_tree_rss_peak_bytes": 8872300544,
+      "main_process_lifetime_rss_peak_bytes": 8948731904,
+      "container_lifetime_memory_peak_bytes": 8633823232,
+      "sampled_concurrent_cuda_allocated_peak_bytes": 4879059968,
+      "per_process_cuda_peaks": [
+        {
+          "pid": 1,
+          "peak_cuda_allocated_bytes": 4890881024,
+          "peak_cuda_reserved_bytes": 4949278720
+        }
+      ],
+      "pdb_count": 5
+    }
+  ],
+  "qualification": "All 8020 expected PDB files present, complete and finite. Runtime paths/checkpoints reused from the accepted old/new main qualification; this is performance evidence, not a new accuracy study.",
+  "previous_main_source_verification": {
+    "scripts/predict.py": "b61ff09be0565ca69e41425621fb6aeefd7b41fe04a2a3086fb23f8acfc698e5",
+    "scripts/structure_preparation.py": "f4c55dc2976ace36b534bff2193de1192298a612190579dcda34b98d1118ffd6",
+    "src/abodybuilder3/openfold/model/structure_module.py": "1d9b3500f0c524d641b23a7d21f1c946a4c57b336deead84c432328d584e7a78",
+    "src/abodybuilder3/utils.py": "bd3b4e2fb3d818b812a4aac9f9d1d08ce32f4ae3c5babbce52bf2b4355c83f9f"
+  }
+}
