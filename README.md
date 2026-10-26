@@ -105,6 +105,14 @@ measurements, excluding compilation and CLI overhead; neither combination is
 enabled on dev. The report includes all eight conditions, local accuracy,
 pairwise comparisons and resource definitions.
 
+The [complete-pipeline follow-up](docs/abodybuilder3_pipeline_compilation_261026.md)
+includes startup and writing every PDB in 48 fresh-container jobs. Empty compiler
+caches made both compiled approaches substantially slower for 100- and 1,000-input
+jobs. Peak CUDA allocation fell but CPU memory increased; fresh compiled
+processes did not consistently give bit-identical predictions, even with strict
+FP32. Neither option is enabled on dev. Reused caches and persistent workers
+remain untested in this comparison.
+
 [Component measurements](docs/component_comparisons_251026.json) and
 [source provenance](docs/provenance_251026.json) retain the accepted and held
 results separately. The production pipeline and complete-job measurements are
