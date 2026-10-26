@@ -1,0 +1,7 @@
+{
+  "upstream_component": "src/abodybuilder3/language/model.py",
+  "reference_dev_commit": "d3c7444a19ea48e3441c178b479422b7aa3450ab",
+  "reference_sha256": "bdd6587a9cf0c1d83e97ef7b303bd80522e440482ea2512bf45c3384431bd3a8",
+  "scope": "Replace Trainer prediction lifecycle only; reuse original tokeniser, released T5 encoder, predict_step, output masking and unpaired heavy/light concatenation. No model weights, settings, dtype, head or kernels change.",
+  "observed_runtime": "Installed SingleDeviceStrategy.teardown moves the model to CPU; CUDAAccelerator.teardown clears CUDA memory after each Trainer.predict call."
+}

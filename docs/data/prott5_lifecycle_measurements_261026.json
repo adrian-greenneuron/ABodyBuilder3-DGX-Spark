@@ -1,0 +1,841 @@
+{
+  "initial": [
+    {
+      "mode": "reference",
+      "replicate": 1,
+      "container_seconds": 215.45811702299397,
+      "metrics": {
+        "completed": true,
+        "mode": "reference",
+        "count": 5,
+        "encoder_parameter_dtypes": {
+          "torch.float32": 1208141824
+        },
+        "script_seconds": 213.4776439039997,
+        "stages": [
+          {
+            "stage": "structure_model_load",
+            "seconds": 0.8472623540001223
+          },
+          {
+            "stage": "encoder_and_tokeniser_load",
+            "seconds": 4.52397987000586
+          },
+          {
+            "stage": "embedding",
+            "seconds": 62.245846947000246,
+            "encoder_device_after": "cpu"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.11313639998843428
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000000",
+            "seconds": 62.40244922899001
+          },
+          {
+            "stage": "embedding",
+            "seconds": 58.58526955600246,
+            "encoder_device_after": "cpu"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.042010632998426445
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000001",
+            "seconds": 58.660531879999326
+          },
+          {
+            "stage": "embedding",
+            "seconds": 39.46484273399983,
+            "encoder_device_after": "cpu"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.04200743499677628
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000002",
+            "seconds": 39.5376822870021
+          },
+          {
+            "stage": "embedding",
+            "seconds": 23.752076774006127,
+            "encoder_device_after": "cpu"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.04455456099822186
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000003",
+            "seconds": 23.832106903006206
+          },
+          {
+            "stage": "embedding",
+            "seconds": 20.131791785999667,
+            "encoder_device_after": "cpu"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.04466113699891139
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000004",
+            "seconds": 20.216692693007644
+          }
+        ],
+        "peak_cuda_allocated_bytes": 4923719680,
+        "peak_cuda_reserved_bytes": 4949278720,
+        "sampled_process_tree_rss_peak_bytes": 9052323840,
+        "main_process_lifetime_rss_peak_bytes": 9051320320,
+        "container_lifetime_memory_peak_bytes": 9461256192
+      }
+    },
+    {
+      "mode": "direct",
+      "replicate": 1,
+      "container_seconds": 11.689739718000055,
+      "metrics": {
+        "completed": true,
+        "mode": "direct",
+        "count": 5,
+        "encoder_parameter_dtypes": {
+          "torch.float32": 1208141824
+        },
+        "script_seconds": 9.994372954999562,
+        "stages": [
+          {
+            "stage": "structure_model_load",
+            "seconds": 0.7330692739924416
+          },
+          {
+            "stage": "encoder_and_tokeniser_load",
+            "seconds": 4.391425495996373
+          },
+          {
+            "stage": "embedding",
+            "seconds": 0.3920565570006147,
+            "encoder_device_after": "cuda:0"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.11698285400052555
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000000",
+            "seconds": 0.5571885069948621
+          },
+          {
+            "stage": "embedding",
+            "seconds": 0.12002330800169148,
+            "encoder_device_after": "cuda:0"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.035846354003297165
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000001",
+            "seconds": 0.19283760100370273
+          },
+          {
+            "stage": "embedding",
+            "seconds": 0.11458758600929286,
+            "encoder_device_after": "cuda:0"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.03408335799758788
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000002",
+            "seconds": 0.18083425100485329
+          },
+          {
+            "stage": "embedding",
+            "seconds": 0.1146995059971232,
+            "encoder_device_after": "cuda:0"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.039531911999802105
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000003",
+            "seconds": 0.19474755600094795
+          },
+          {
+            "stage": "embedding",
+            "seconds": 0.11615634101326577,
+            "encoder_device_after": "cuda:0"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.03778589300054591
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000004",
+            "seconds": 0.19409019500017166
+          }
+        ],
+        "peak_cuda_allocated_bytes": 5033583616,
+        "peak_cuda_reserved_bytes": 5158993920,
+        "sampled_process_tree_rss_peak_bytes": 5962428416,
+        "main_process_lifetime_rss_peak_bytes": 6030651392,
+        "container_lifetime_memory_peak_bytes": 2058170368
+      }
+    },
+    {
+      "mode": "direct",
+      "replicate": 2,
+      "container_seconds": 10.810770090000005,
+      "metrics": {
+        "completed": true,
+        "mode": "direct",
+        "count": 5,
+        "encoder_parameter_dtypes": {
+          "torch.float32": 1208141824
+        },
+        "script_seconds": 9.252260652996483,
+        "stages": [
+          {
+            "stage": "structure_model_load",
+            "seconds": 0.6922634770016884
+          },
+          {
+            "stage": "encoder_and_tokeniser_load",
+            "seconds": 3.869018077995861
+          },
+          {
+            "stage": "embedding",
+            "seconds": 0.39043855799536686,
+            "encoder_device_after": "cuda:0"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.11375286499969661
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000000",
+            "seconds": 0.5499196500022663
+          },
+          {
+            "stage": "embedding",
+            "seconds": 0.11959580300026573,
+            "encoder_device_after": "cuda:0"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.034349823006778024
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000001",
+            "seconds": 0.18987953300529625
+          },
+          {
+            "stage": "embedding",
+            "seconds": 0.11448835500050336,
+            "encoder_device_after": "cuda:0"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.03479526400042232
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000002",
+            "seconds": 0.18059970799367875
+          },
+          {
+            "stage": "embedding",
+            "seconds": 0.11374747300578747,
+            "encoder_device_after": "cuda:0"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.03869395999936387
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000003",
+            "seconds": 0.19120811100583524
+          },
+          {
+            "stage": "embedding",
+            "seconds": 0.11594837300071958,
+            "encoder_device_after": "cuda:0"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.035937489999923855
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000004",
+            "seconds": 0.19167816099070478
+          }
+        ],
+        "peak_cuda_allocated_bytes": 5033583616,
+        "peak_cuda_reserved_bytes": 5158993920,
+        "sampled_process_tree_rss_peak_bytes": 5935443968,
+        "main_process_lifetime_rss_peak_bytes": 6029381632,
+        "container_lifetime_memory_peak_bytes": 1677656064
+      }
+    },
+    {
+      "mode": "reference",
+      "replicate": 2,
+      "container_seconds": 216.2762924389972,
+      "metrics": {
+        "completed": true,
+        "mode": "reference",
+        "count": 5,
+        "encoder_parameter_dtypes": {
+          "torch.float32": 1208141824
+        },
+        "script_seconds": 214.29670581499522,
+        "stages": [
+          {
+            "stage": "structure_model_load",
+            "seconds": 0.7395824499981245
+          },
+          {
+            "stage": "encoder_and_tokeniser_load",
+            "seconds": 4.198007899001823
+          },
+          {
+            "stage": "embedding",
+            "seconds": 46.513165461001336,
+            "encoder_device_after": "cpu"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.10768700198968872
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000000",
+            "seconds": 46.65906749598798
+          },
+          {
+            "stage": "embedding",
+            "seconds": 61.43307306600036,
+            "encoder_device_after": "cpu"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.0442737639968982
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000001",
+            "seconds": 61.51654266499099
+          },
+          {
+            "stage": "embedding",
+            "seconds": 36.94614884800103,
+            "encoder_device_after": "cpu"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.04330542800016701
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000002",
+            "seconds": 37.02128619400901
+          },
+          {
+            "stage": "embedding",
+            "seconds": 25.278270391994738,
+            "encoder_device_after": "cpu"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.04744086100254208
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000003",
+            "seconds": 25.36790170200402
+          },
+          {
+            "stage": "embedding",
+            "seconds": 35.2038448240055,
+            "encoder_device_after": "cpu"
+          },
+          {
+            "stage": "structure_inference",
+            "seconds": 0.04569789799279533
+          },
+          {
+            "stage": "complete_antibody",
+            "name": "antibody_000004",
+            "seconds": 35.285441336003714
+          }
+        ],
+        "peak_cuda_allocated_bytes": 4923719680,
+        "peak_cuda_reserved_bytes": 4949278720,
+        "sampled_process_tree_rss_peak_bytes": 8980971520,
+        "main_process_lifetime_rss_peak_bytes": 8979795968,
+        "container_lifetime_memory_peak_bytes": 8631799808
+      }
+    }
+  ],
+  "installed_cli": [
+    {
+      "count": 8,
+      "precision": "strict",
+      "mode": "trainer",
+      "container_seconds": 270.64645131600264,
+      "metrics": {
+        "completed": true,
+        "runtime": "trainer",
+        "precision": "strict",
+        "count": 8,
+        "script_seconds": 268.51928747100465,
+        "stages": [
+          {
+            "stage": "encoder_load",
+            "seconds": 5.008306875010021
+          },
+          {
+            "stage": "embedding",
+            "name": "6ct7_A0-B0",
+            "seconds": 62.4731246070005
+          },
+          {
+            "stage": "embedding",
+            "name": "8gbw_H0-L0",
+            "seconds": 51.08026147799683
+          },
+          {
+            "stage": "embedding",
+            "name": "6iea_H0-L0",
+            "seconds": 38.33197374800511
+          },
+          {
+            "stage": "embedding",
+            "name": "7k8q_H0-L0",
+            "seconds": 32.624839208001504
+          },
+          {
+            "stage": "embedding",
+            "name": "5ucb_H0-L0",
+            "seconds": 24.699169084997266
+          },
+          {
+            "stage": "embedding",
+            "name": "7kkh_B0-A0",
+            "seconds": 19.694381099994644
+          },
+          {
+            "stage": "embedding",
+            "name": "7e9b_H0-L0",
+            "seconds": 16.485019774001557
+          },
+          {
+            "stage": "embedding",
+            "name": "5i16_B0-A0",
+            "seconds": 13.919734316994436
+          }
+        ],
+        "torch_cpu_threads": 20,
+        "peak_cuda_allocated_bytes": 4893724672,
+        "peak_cuda_reserved_bytes": 4949278720,
+        "sampled_process_tree_rss_peak_bytes": 9053544448,
+        "main_process_lifetime_rss_peak_bytes": 9141268480,
+        "container_lifetime_memory_peak_bytes": 8797220864
+      }
+    },
+    {
+      "count": 8,
+      "precision": "strict",
+      "mode": "direct",
+      "container_seconds": 12.118958469000063,
+      "metrics": {
+        "completed": true,
+        "runtime": "direct",
+        "precision": "strict",
+        "count": 8,
+        "script_seconds": 10.447504525989643,
+        "stages": [
+          {
+            "stage": "encoder_load",
+            "seconds": 5.037655926003936
+          },
+          {
+            "stage": "embedding",
+            "name": "6ct7_A0-B0",
+            "seconds": 0.3964497939887224
+          },
+          {
+            "stage": "embedding",
+            "name": "8gbw_H0-L0",
+            "seconds": 0.13381979201221839
+          },
+          {
+            "stage": "embedding",
+            "name": "6iea_H0-L0",
+            "seconds": 0.12010581301001366
+          },
+          {
+            "stage": "embedding",
+            "name": "7k8q_H0-L0",
+            "seconds": 0.12574357399716973
+          },
+          {
+            "stage": "embedding",
+            "name": "5ucb_H0-L0",
+            "seconds": 0.11832610800047405
+          },
+          {
+            "stage": "embedding",
+            "name": "7kkh_B0-A0",
+            "seconds": 0.116599792992929
+          },
+          {
+            "stage": "embedding",
+            "name": "7e9b_H0-L0",
+            "seconds": 0.1172276480065193
+          },
+          {
+            "stage": "embedding",
+            "name": "5i16_B0-A0",
+            "seconds": 0.11624850498628803
+          }
+        ],
+        "torch_cpu_threads": 20,
+        "peak_cuda_allocated_bytes": 5053034496,
+        "peak_cuda_reserved_bytes": 5158993920,
+        "sampled_process_tree_rss_peak_bytes": 6004031488,
+        "main_process_lifetime_rss_peak_bytes": 6010454016,
+        "container_lifetime_memory_peak_bytes": 1680773120
+      }
+    },
+    {
+      "count": 1,
+      "precision": "tf32",
+      "mode": "trainer",
+      "container_seconds": 74.7644632110023,
+      "metrics": {
+        "completed": true,
+        "runtime": "trainer",
+        "precision": "tf32",
+        "count": 1,
+        "script_seconds": 73.02130337100243,
+        "stages": [
+          {
+            "stage": "encoder_load",
+            "seconds": 4.721621720993426
+          },
+          {
+            "stage": "embedding",
+            "name": "antibody_000000",
+            "seconds": 64.6752436550014
+          }
+        ],
+        "torch_cpu_threads": 20,
+        "peak_cuda_allocated_bytes": 4888994816,
+        "peak_cuda_reserved_bytes": 4949278720,
+        "sampled_process_tree_rss_peak_bytes": 6742167552,
+        "main_process_lifetime_rss_peak_bytes": 6740062208,
+        "container_lifetime_memory_peak_bytes": 6394724352
+      }
+    },
+    {
+      "count": 1,
+      "precision": "tf32",
+      "mode": "direct",
+      "container_seconds": 10.715652186001535,
+      "metrics": {
+        "completed": true,
+        "runtime": "direct",
+        "precision": "tf32",
+        "count": 1,
+        "script_seconds": 9.00455273600528,
+        "stages": [
+          {
+            "stage": "encoder_load",
+            "seconds": 4.954695733002154
+          },
+          {
+            "stage": "embedding",
+            "name": "antibody_000000",
+            "seconds": 0.3692241050011944
+          }
+        ],
+        "torch_cpu_threads": 20,
+        "peak_cuda_allocated_bytes": 5021446144,
+        "peak_cuda_reserved_bytes": 5117050880,
+        "sampled_process_tree_rss_peak_bytes": 6004289536,
+        "main_process_lifetime_rss_peak_bytes": 6003183616,
+        "container_lifetime_memory_peak_bytes": 1541943296
+      }
+    }
+  ],
+  "fast_path": [
+    {
+      "model": "base",
+      "condition": "accepted",
+      "replicate": 1,
+      "container_seconds": 13.22092855599476,
+      "metrics": {
+        "completed": true,
+        "model": "base",
+        "execution": "auto",
+        "precision": "strict",
+        "writer": "native",
+        "legacy": false,
+        "input_count": 1000,
+        "captured_targets": 100,
+        "script_to_cli_complete_seconds": 11.662827046995517,
+        "evidence_writing_seconds": 0.015378277996205725,
+        "peak_cuda_allocated_bytes": 2566198272,
+        "peak_cuda_reserved_bytes": 2659188736,
+        "native_writer_calls": 1000,
+        "dynamo_counters": {},
+        "allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "float32_matmul_precision": "highest",
+        "sampled_process_tree_rss_peak_bytes": 1667944448,
+        "main_process_lifetime_rss_peak_bytes": 1666834432,
+        "container_lifetime_memory_peak_bytes": 1464365056
+      }
+    },
+    {
+      "model": "base",
+      "condition": "language",
+      "replicate": 1,
+      "container_seconds": 13.169493913999759,
+      "metrics": {
+        "completed": true,
+        "model": "base",
+        "execution": "auto",
+        "precision": "strict",
+        "writer": "native",
+        "legacy": false,
+        "input_count": 1000,
+        "captured_targets": 100,
+        "script_to_cli_complete_seconds": 11.679941144000622,
+        "evidence_writing_seconds": 0.015893850999418646,
+        "peak_cuda_allocated_bytes": 2566198272,
+        "peak_cuda_reserved_bytes": 2659188736,
+        "native_writer_calls": 1000,
+        "dynamo_counters": {},
+        "allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "float32_matmul_precision": "highest",
+        "sampled_process_tree_rss_peak_bytes": 1692483584,
+        "main_process_lifetime_rss_peak_bytes": 1691222016,
+        "container_lifetime_memory_peak_bytes": 1520189440
+      }
+    },
+    {
+      "model": "base",
+      "condition": "language",
+      "replicate": 2,
+      "container_seconds": 13.27125315500598,
+      "metrics": {
+        "completed": true,
+        "model": "base",
+        "execution": "auto",
+        "precision": "strict",
+        "writer": "native",
+        "legacy": false,
+        "input_count": 1000,
+        "captured_targets": 100,
+        "script_to_cli_complete_seconds": 11.706941490003373,
+        "evidence_writing_seconds": 0.015852743992581964,
+        "peak_cuda_allocated_bytes": 2566198272,
+        "peak_cuda_reserved_bytes": 2659188736,
+        "native_writer_calls": 1000,
+        "dynamo_counters": {},
+        "allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "float32_matmul_precision": "highest",
+        "sampled_process_tree_rss_peak_bytes": 1673818112,
+        "main_process_lifetime_rss_peak_bytes": 1672527872,
+        "container_lifetime_memory_peak_bytes": 1498923008
+      }
+    },
+    {
+      "model": "base",
+      "condition": "accepted",
+      "replicate": 2,
+      "container_seconds": 13.337048645989853,
+      "metrics": {
+        "completed": true,
+        "model": "base",
+        "execution": "auto",
+        "precision": "strict",
+        "writer": "native",
+        "legacy": false,
+        "input_count": 1000,
+        "captured_targets": 100,
+        "script_to_cli_complete_seconds": 11.776058399002068,
+        "evidence_writing_seconds": 0.016056041000410914,
+        "peak_cuda_allocated_bytes": 2566198272,
+        "peak_cuda_reserved_bytes": 2659188736,
+        "native_writer_calls": 1000,
+        "dynamo_counters": {},
+        "allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "float32_matmul_precision": "highest",
+        "sampled_process_tree_rss_peak_bytes": 1680011264,
+        "main_process_lifetime_rss_peak_bytes": 1681358848,
+        "container_lifetime_memory_peak_bytes": 1507389440
+      }
+    },
+    {
+      "model": "plddt",
+      "condition": "accepted",
+      "replicate": 1,
+      "container_seconds": 13.240134855004726,
+      "metrics": {
+        "completed": true,
+        "model": "plddt",
+        "execution": "auto",
+        "precision": "strict",
+        "writer": "native",
+        "legacy": false,
+        "input_count": 1000,
+        "captured_targets": 100,
+        "script_to_cli_complete_seconds": 11.791222910993383,
+        "evidence_writing_seconds": 0.01764436600205954,
+        "peak_cuda_allocated_bytes": 2566646272,
+        "peak_cuda_reserved_bytes": 2661285888,
+        "native_writer_calls": 1000,
+        "dynamo_counters": {},
+        "allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "float32_matmul_precision": "highest",
+        "sampled_process_tree_rss_peak_bytes": 1682997248,
+        "main_process_lifetime_rss_peak_bytes": 1681137664,
+        "container_lifetime_memory_peak_bytes": 1513177088
+      }
+    },
+    {
+      "model": "plddt",
+      "condition": "language",
+      "replicate": 1,
+      "container_seconds": 13.379710228997283,
+      "metrics": {
+        "completed": true,
+        "model": "plddt",
+        "execution": "auto",
+        "precision": "strict",
+        "writer": "native",
+        "legacy": false,
+        "input_count": 1000,
+        "captured_targets": 100,
+        "script_to_cli_complete_seconds": 11.89403851798852,
+        "evidence_writing_seconds": 0.018341492002946325,
+        "peak_cuda_allocated_bytes": 2566646272,
+        "peak_cuda_reserved_bytes": 2661285888,
+        "native_writer_calls": 1000,
+        "dynamo_counters": {},
+        "allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "float32_matmul_precision": "highest",
+        "sampled_process_tree_rss_peak_bytes": 1670914048,
+        "main_process_lifetime_rss_peak_bytes": 1669746688,
+        "container_lifetime_memory_peak_bytes": 1500917760
+      }
+    },
+    {
+      "model": "plddt",
+      "condition": "language",
+      "replicate": 2,
+      "container_seconds": 13.523901913998998,
+      "metrics": {
+        "completed": true,
+        "model": "plddt",
+        "execution": "auto",
+        "precision": "strict",
+        "writer": "native",
+        "legacy": false,
+        "input_count": 1000,
+        "captured_targets": 100,
+        "script_to_cli_complete_seconds": 11.962295628007269,
+        "evidence_writing_seconds": 0.01774300199758727,
+        "peak_cuda_allocated_bytes": 2566646272,
+        "peak_cuda_reserved_bytes": 2661285888,
+        "native_writer_calls": 1000,
+        "dynamo_counters": {},
+        "allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "float32_matmul_precision": "highest",
+        "sampled_process_tree_rss_peak_bytes": 1659678720,
+        "main_process_lifetime_rss_peak_bytes": 1658462208,
+        "container_lifetime_memory_peak_bytes": 1472614400
+      }
+    },
+    {
+      "model": "plddt",
+      "condition": "accepted",
+      "replicate": 2,
+      "container_seconds": 13.231452952997643,
+      "metrics": {
+        "completed": true,
+        "model": "plddt",
+        "execution": "auto",
+        "precision": "strict",
+        "writer": "native",
+        "legacy": false,
+        "input_count": 1000,
+        "captured_targets": 100,
+        "script_to_cli_complete_seconds": 11.702555101001053,
+        "evidence_writing_seconds": 0.017784951996873133,
+        "peak_cuda_allocated_bytes": 2566646272,
+        "peak_cuda_reserved_bytes": 2661285888,
+        "native_writer_calls": 1000,
+        "dynamo_counters": {},
+        "allow_tf32": false,
+        "cudnn_allow_tf32": false,
+        "float32_matmul_precision": "highest",
+        "sampled_process_tree_rss_peak_bytes": 1678778368,
+        "main_process_lifetime_rss_peak_bytes": 1677324288,
+        "container_lifetime_memory_peak_bytes": 1509015552
+      }
+    }
+  ],
+  "exactness": [
+    {
+      "count": 8,
+      "precision": "strict",
+      "raw_exact": true,
+      "embeddings_exact": true,
+      "pdb_exact": true
+    },
+    {
+      "count": 1,
+      "precision": "tf32",
+      "raw_exact": true,
+      "embeddings_exact": true,
+      "pdb_exact": true
+    }
+  ],
+  "provenance": {
+    "upstream_component": "src/abodybuilder3/language/model.py",
+    "reference_dev_commit": "d3c7444a19ea48e3441c178b479422b7aa3450ab",
+    "reference_sha256": "bdd6587a9cf0c1d83e97ef7b303bd80522e440482ea2512bf45c3384431bd3a8",
+    "scope": "Replace Trainer prediction lifecycle only; reuse original tokeniser, released T5 encoder, predict_step, output masking and unpaired heavy/light concatenation. No model weights, settings, dtype, head or kernels change.",
+    "observed_runtime": "Installed SingleDeviceStrategy.teardown moves the model to CPU; CUDAAccelerator.teardown clears CUDA memory after each Trainer.predict call."
+  }
+}
