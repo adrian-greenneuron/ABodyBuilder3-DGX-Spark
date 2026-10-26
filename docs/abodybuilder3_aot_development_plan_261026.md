@@ -22,10 +22,12 @@ tuning but is the upstream authors' validation split, not an unseen model test.
 Length extremes remain engineering fixtures. Main remains
 `a5deeb1b73994491f94b5724d2f2baa9993d47a6` and is outside this change.
 
-The language checkpoint completed one offline strict-eager compatibility check;
-it has no AOT or language-batching qualification. Optional chemistry keeps its
-established protocol. Next: optimisation experiment A, profiling the integrated
-pipeline before considering further implementation changes.
+The [language lifecycle improvement](abodybuilder3_language_lifecycle_261026.md)
+is integrated on dev in `49080c3`, retaining exact checked batch-1 embeddings
+and predictions. Language AOT and batching are not qualified. The ordered A–J
+screens are now complete; see the [results and figures](abodybuilder3_ordered_optimisation_261026.md).
+Optional chemistry keeps its established serial protocol because final
+concurrency qualification found prepared-hydrogen differences.
 
 ## Deployment checks, in order
 
@@ -118,10 +120,30 @@ aggressive reduced precision are lower priorities than qualifying this default.
   It keeps the original batch-1 encoder on GPU, replacing repeated Trainer
   teardown. No embedding batching, precision change or weights change is enabled.
 
-**Next:** G, then the optional Reduce/PDBFixer/OpenMM work at H–J. Confidence
-export remains a separate correctness change for discussion. Detailed A–E
-experimental evidence remains on the isolated AOT-pipeline component branch;
-none of its small-gain or result-changing candidates is silently promoted.
+- **G:** the profile-motivated geometry-update alternative was exact but about
+  14–15× slower in a standalone microbenchmark. No kernel rewrite was retained.
+- **H:** Reduce itself took about 0.7 s per antibody, versus 8–9 s in OpenMM
+  hydrogen addition. Neither a Reduce rewrite nor caching its 0.002 s version
+  subprocess is justified by the measured whole-job contribution.
+- **I:** bounded independent CPU-1 preparation processes improved complete
+  eight-input CLI jobs by about 3× at four workers and 4.4–4.6× at eight.
+  Initial paired PDBs matched; an independent final check and float-array trace
+  found small repaired-atom/hydrogen differences. The candidate remains isolated.
+- **J:** two concurrent preparation/relaxation workers improved a five-input
+  group about 1.8×, but changed relaxed outputs. More CPU threads within a single
+  hydrogen engine were faster too, with much larger hydrogen differences.
+  Both remain isolated; no chemistry engine/settings/default change is enabled.
+
+The [ordered report](abodybuilder3_ordered_optimisation_261026.md) links the
+[pipeline component evidence](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/components/aot-pipeline-261026/docs/aot_pipeline_optimisation_261026.md)
+and [optional-stage component evidence](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/components/structure-preparation-261026/docs/preparation_optimisation_261026.md).
+Original and candidate code, tests, all images and local evidence are retained.
+
+**Next decision:** review the optional-stage repeatability differences before
+enabling concurrency or commissioning a deterministic-repair comparison.
+Resident requests remain a separate local prototype. Confidence export remains
+a separate correctness change for discussion. No result-changing candidate is
+silently promoted.
 
 ## Comparisons and presentation
 

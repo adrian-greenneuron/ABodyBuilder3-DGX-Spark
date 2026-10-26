@@ -21,6 +21,11 @@ for the reference lifecycle, with identical embeddings and PDBs; a separate
 installed-CLI validation also passed. See the [language runtime report](docs/abodybuilder3_language_lifecycle_261026.md)
 for coverage, memory trade-offs and individual measurements.
 
+The [ordered optimisation report](docs/abodybuilder3_ordered_optimisation_261026.md)
+includes pipeline timelines, shape/memory screens and optional chemistry trials.
+Chemical preparation remains serial: faster concurrent candidates are isolated
+for review of small prepared-coordinate differences.
+
 [Main](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/main) remains the stable worker-based deployment. The original rebuild recipe is preserved at [`original-runtime-251026`](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/original-runtime-251026). This dev branch includes main’s explicit chemical preparation and restrained minimisation.
 
 ## Requirements
