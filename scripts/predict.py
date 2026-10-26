@@ -153,20 +153,30 @@ def load_model(model_type: str, device: torch.device, checkpoint: Optional[Path]
 # Global ProtT5 model (lazy loaded)
 _prott5_model = None
 _prott5_device = None
+_prott5_backend = None
 
 
-def load_prott5(device: torch.device):
+def load_prott5(device: torch.device, runtime: str = 'auto'):
     """Load ProtT5 model for embedding generation (lazy load)."""
-    global _prott5_model, _prott5_device
-    
-    if _prott5_model is not None and _prott5_device == device:
+    global _prott5_model, _prott5_device, _prott5_backend
+    backend = ('direct' if device.type == 'cuda' else 'trainer') if runtime == 'auto' else runtime
+    if backend not in ('direct', 'trainer'):
+        raise ValueError('Embedding runtime must be auto, direct or trainer.')
+    if backend == 'direct' and device.type != 'cuda':
+        raise ValueError('Direct embedding runtime requires CUDA; select trainer for CPU.')
+
+    if _prott5_model is not None and _prott5_device == device and _prott5_backend == backend:
         return _prott5_model
     
     log("[dim]Loading ProtT5 model for language embeddings...[/dim]")
-    from abodybuilder3.language.model import ProtT5
+    if backend == 'direct':
+        from abodybuilder3.language.direct_inference import ProtT5
+    else:
+        from abodybuilder3.language.model import ProtT5
     
     _prott5_model = ProtT5(device_map=str(device) if device.type == 'cuda' else 'cpu')
     _prott5_device = device
+    _prott5_backend = backend
     return _prott5_model
 
 
@@ -393,7 +403,7 @@ _worker_prott5 = None
 _worker_config = None
 
 
-def _init_worker(model_type: str, checkpoint_path: Optional[str], use_language: bool, precision: str = 'strict'):
+def _init_worker(model_type: str, checkpoint_path: Optional[str], use_language: bool, precision: str = 'strict', embedding_runtime: str = 'auto'):
     """Initialize worker process with its own model instance."""
     global _worker_model, _worker_device, _worker_prott5, _worker_config
     
@@ -414,7 +424,7 @@ def _init_worker(model_type: str, checkpoint_path: Optional[str], use_language: 
     
     # Load ProtT5 for language model
     if use_language:
-        _worker_prott5 = load_prott5(_worker_device)
+        _worker_prott5 = load_prott5(_worker_device, embedding_runtime)
     
     _worker_config = {
         "model_type": model_type,
@@ -676,6 +686,9 @@ def predict(
     pdb_writer: str = typer.Option(
         "native", "--pdb-writer", help="native (default) or python reference. Both retain the existing PDB fields."
     ),
+    embedding_runtime: str = typer.Option(
+        "auto", "--embedding-runtime", help="Language encoder: auto/direct keeps the batch-1 encoder on CUDA; trainer retains the reference lifecycle. CPU auto uses trainer."
+    ),
     
     # Processing options
     add_hydrogens: bool = typer.Option(
@@ -760,6 +773,8 @@ def predict(
         raise typer.BadParameter('--model must be base, plddt or language.')
     if pdb_writer not in ('native', 'python'):
         raise typer.BadParameter('--pdb-writer must be native or python.')
+    if embedding_runtime not in ('auto', 'direct', 'trainer'):
+        raise typer.BadParameter('--embedding-runtime must be auto, direct or trainer.')
     os.environ['ABB3_PDB_WRITER'] = pdb_writer
     configure_precision(precision)
     if checkpoint is not None and not checkpoint.is_file():
@@ -852,6 +867,8 @@ def predict(
     
     # Setup device
     device = torch.device(device_str if torch.cuda.is_available() or device_str == "cpu" else "cpu")
+    if model_type == 'language' and embedding_runtime == 'direct' and device.type != 'cuda':
+        raise typer.BadParameter('Direct embedding runtime requires CUDA; use --embedding-runtime trainer for CPU.')
     eligible = model_type in ('base', 'plddt') and device.type == 'cuda' and checkpoint is None and precision == 'strict'
     selected_execution = ('aot' if eligible else 'eager') if execution == 'auto' else execution
     if selected_execution == 'aot' and not eligible:
@@ -918,7 +935,7 @@ def predict(
         # Load ProtT5 for language model
         if model_type == "language":
             with console.status("[bold green]Loading ProtT5 embedder..."):
-                prott5_model = load_prott5(device)
+                prott5_model = load_prott5(device, embedding_runtime)
             log("ProtT5 embedder loaded")
     else:
         log("[dim]Skipping main process model load (using worker processes)[/dim]")
@@ -990,7 +1007,7 @@ def predict(
                 max_workers=num_workers,
                 mp_context=ctx,
                 initializer=_init_worker,
-                initargs=(model_type, checkpoint_path, model_type == "language", precision),
+                initargs=(model_type, checkpoint_path, model_type == "language", precision, embedding_runtime),
             ) as executor:
                 # Submit all work
                 futures = {

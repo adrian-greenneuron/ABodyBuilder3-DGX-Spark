@@ -125,6 +125,7 @@ COPY scripts/predict.py scripts/structure_preparation.py scripts/batch_pipeline.
 COPY src/abodybuilder3/batched_inference.py src/abodybuilder3/inference_features.py src/abodybuilder3/aot_runtime.py src/abodybuilder3/native_pdb.py src/abodybuilder3/pdb_native.cpp src/abodybuilder3/utils.py /opt/abodybuilder3/src/abodybuilder3/
 # Reviewed inference-only subset of the isolated OpenFold-derived experiments.
 COPY src/abodybuilder3/openfold/model/structure_module.py /opt/abodybuilder3/src/abodybuilder3/openfold/model/
+COPY src/abodybuilder3/language/direct_inference.py /opt/abodybuilder3/src/abodybuilder3/language/
 COPY tools/prepare_aot.py tools/build_native_formatter.sh /opt/abodybuilder3/tools/
 COPY tests/benchmark_antibodies.json /opt/abodybuilder3/tests/
 RUN sh tools/build_native_formatter.sh

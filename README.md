@@ -15,6 +15,12 @@ about **0.0000016 Å**. AOT changes floating-point rounding, so predictions are
 not promised to be byte-identical to eager execution. See the
 [deployment results and limits](docs/abodybuilder3_dev_aot_validation_261026.md).
 
+The language path now keeps its original FP32 ProtT5 encoder on GPU between
+chains. Five matched inputs completed in **11.25 seconds versus 215.87 seconds**
+for the reference lifecycle, with identical embeddings and PDBs; a separate
+installed-CLI validation also passed. See the [language runtime report](docs/abodybuilder3_language_lifecycle_261026.md)
+for coverage, memory trade-offs and individual measurements.
+
 [Main](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/main) remains the stable worker-based deployment. The original rebuild recipe is preserved at [`original-runtime-251026`](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/original-runtime-251026). This dev branch includes main’s explicit chemical preparation and restrained minimisation.
 
 ## Requirements
@@ -119,7 +125,21 @@ corrupt or incompatible package fails explicitly: rebuild the image or choose
 `--execution eager`. Checkpoint, source, package checksum and runtime/GPU
 identities are checked before saved execution.
 
-The language checkpoint keeps its established single-model path: `auto` selects batch size 1 and one worker. Explicit language batching is rejected until a qualified implementation demonstrates an improvement. Its separate ProtT5 download is described below.
+The language checkpoint retains single-antibody structure inference: `auto`
+selects batch size 1 and one worker. Its encoder also keeps the original batch
+size 1, tokenizer, masking and weights; it stays on GPU between chain calls
+instead of repeatedly moving to CPU and clearing CUDA memory. No embeddings or
+predictions are cached. `--embedding-runtime auto` selects this direct CUDA
+lifecycle; `--embedding-runtime trainer` retains the original reference route.
+Explicit language batching is still rejected. ProtT5 remains a separate download.
+
+![Language runtime, stage timing and memory](docs/assets/prott5_lifecycle_261026.png)
+
+The initial two-repetition comparison and the eight-additional-antibody installed
+CLI check preserved every embedding, coordinate/mask and PDB byte. Peak CUDA
+allocation rose by about 2–3%, to approximately 4.7 GiB, while sampled RSS fell.
+The original model and its expected accuracy are unchanged; this is a lifecycle
+speed improvement, not a new trained model.
 
 **Confidence export limitation:** the current CLI's JSON and `--confidence-threshold` paths use flattened confidence logits rather than properly converted pLDDT scores; PDB B-factors are zero. Do not interpret those exported values as calibrated pLDDT or use the threshold for scientific filtering. This existing limitation is documented in the [reproducibility notes](docs/abodybuilder3_reproducibility_251026.md#interpretation-and-limitations); the model's confidence head itself is unchanged.
 
@@ -147,7 +167,7 @@ docker run --rm --gpus all --ipc=host \
         --model language --workers 1 --seed 42
 ```
 
-The language path uses eager execution and the explicit precision policy. The writable Lightning log mount is needed when running as a non-root user; the ProtT5 snapshot remains read-only. Its historical timings include embedding generation and exclude downloading.
+The language path uses eager execution and the explicit precision policy. The writable Lightning log mount is needed for `--embedding-runtime trainer` when running as a non-root user; the ProtT5 snapshot remains read-only. Downloading is excluded from prediction timings.
 
 ## Optional chemical preparation and relaxation
 
@@ -235,7 +255,7 @@ The Dockerfile pins the NGC base image by digest, the source foundation by commi
 
 The deployment retains the Flash Attention import compatibility fix, PyTorch checkpoint-loading compatibility and fast PDB writer. It replaces the historical custom OpenMM/PDBFixer builds with published packages. CUDA dependency pins avoid the unsupported-PTX failure observed with newer NVRTC wheels on the tested driver.
 
-Ubuntu packages and build tools can change, so an identical Docker image digest is not promised across build dates. The [rebuild and verification guide](docs/abodybuilder3_reproducibility_251026.md) explains source/checkpoint/runtime checks, prediction comparisons, the original build tag and the limits of reproducibility. For the integrated image, use `tests/reference_dev_aot_runtime_261026.json` for
+Ubuntu packages and build tools can change, so an identical Docker image digest is not promised across build dates. The [rebuild and verification guide](docs/abodybuilder3_reproducibility_251026.md) explains source/checkpoint/runtime checks, prediction comparisons, the original build tag and the limits of reproducibility. For the current image, use `tests/reference_dev_direct_language_runtime_261026.json` for
 source/checkpoint/runtime comparisons. Earlier references remain attached to
 their historical results. Package binary checksums are verified against their
 own build manifest; a new build is not promised to emit identical compiler

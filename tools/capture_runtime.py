@@ -34,6 +34,7 @@ for optional in ('scripts/structure_preparation.py', 'scripts/batch_pipeline.py'
                  'src/abodybuilder3/batched_inference.py', 'src/abodybuilder3/inference_features.py',
                  'src/abodybuilder3/aot_runtime.py', 'src/abodybuilder3/native_pdb.py',
                  'src/abodybuilder3/pdb_native.cpp', 'tools/prepare_aot.py',
+                 'src/abodybuilder3/language/direct_inference.py',
                  'tools/build_native_formatter.sh'):
     if (root / optional).is_file():
         paths = sorted(set(paths) | {optional})

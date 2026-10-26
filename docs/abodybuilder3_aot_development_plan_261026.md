@@ -96,6 +96,33 @@ revisited only for a specific reason visible in the new profile. The strict-FP32
 point-attention replacement had no consistent full-job benefit; TF32 and more
 aggressive reduced precision are lower priorities than qualifying this default.
 
+## Progress through the optimisation list — 26 October 2026
+
+- **A:** completed a CUDA/NVTX/kernel and queue profile with uninstrumented and
+  instrumented controls. All profiled outputs were exact. GPU model execution
+  dominates; CPU atom-conversion wall time largely waits for GPU completion.
+- **B:** deferred pinned transfers preserved all raw/PDB bytes. At 10,000 inputs
+  the measured gain was only 0.6–1.2%; the extra machinery remains isolated.
+- **C:** completed a six-condition batch/shape screen. Wider batch domains,
+  caps 16/32/64/128 and fixed length banks gave no convincing speed gain.
+  Batch 128 used about 9.3 GiB; no package/default change was retained.
+- **D:** the profile shows output already overlaps inference. The 20,000-job
+  trace found modest metadata growth, not a current output bottleneck. No new
+  writer/metadata rewrite is justified by these measurements.
+- **E:** a local resident-process prototype preserved all outputs and removed
+  repeated startup. Ten five-input requests took about 5.8 seconds rather than
+  52 seconds in fresh containers. It remains an isolated local-worker prototype;
+  it does not accelerate an already combined CSV or create a network service.
+- **F:** the [language lifecycle optimisation](abodybuilder3_language_lifecycle_261026.md)
+  passes exact embedding/structure/PDB comparisons and is integrated on dev.
+  It keeps the original batch-1 encoder on GPU, replacing repeated Trainer
+  teardown. No embedding batching, precision change or weights change is enabled.
+
+**Next:** G, then the optional Reduce/PDBFixer/OpenMM work at H–J. Confidence
+export remains a separate correctness change for discussion. Detailed A–E
+experimental evidence remains on the isolated AOT-pipeline component branch;
+none of its small-gain or result-changing candidates is silently promoted.
+
 ## Comparisons and presentation
 
 Freeze the integrated AOT default as the new optimisation reference. Change one
@@ -126,5 +153,5 @@ controlled measurement.
 - [DGX Spark memory reporting](https://docs.nvidia.com/dgx/dgx-spark/known-issues.html): platform-specific unified-memory accounting limits.
 
 This document records the accepted default and the scoped deployment validation.
-Optimisation experiments A–J remain proposed until their own results are recorded.
+The progress section distinguishes completed screens from work still proposed.
 The separate confidence-output correction remains disabled.
