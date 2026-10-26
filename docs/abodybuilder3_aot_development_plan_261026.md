@@ -22,10 +22,12 @@ tuning but is the upstream authors' validation split, not an unseen model test.
 Length extremes remain engineering fixtures. Main remains
 `a5deeb1b73994491f94b5724d2f2baa9993d47a6` and is outside this change.
 
-The language checkpoint completed one offline strict-eager compatibility check;
-it has no AOT or language-batching qualification. Optional chemistry keeps its
-established protocol. Next: optimisation experiment A, profiling the integrated
-pipeline before considering further implementation changes.
+The [language lifecycle improvement](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/dev/docs/abodybuilder3_language_lifecycle_261026.md)
+is integrated on dev in `49080c3`, retaining exact checked batch-1 embeddings
+and predictions. Language AOT and batching are not qualified. The ordered A–J
+screens are now complete; see the [results and figures](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/dev/docs/abodybuilder3_ordered_optimisation_261026.md).
+Optional chemistry keeps its established serial protocol because final
+concurrency qualification found prepared-hydrogen differences.
 
 ## Deployment checks, in order
 
@@ -96,6 +98,53 @@ revisited only for a specific reason visible in the new profile. The strict-FP32
 point-attention replacement had no consistent full-job benefit; TF32 and more
 aggressive reduced precision are lower priorities than qualifying this default.
 
+## Progress through the optimisation list — 26 October 2026
+
+- **A:** completed a CUDA/NVTX/kernel and queue profile with uninstrumented and
+  instrumented controls. All profiled outputs were exact. GPU model execution
+  dominates; CPU atom-conversion wall time largely waits for GPU completion.
+- **B:** deferred pinned transfers preserved all raw/PDB bytes. At 10,000 inputs
+  the measured gain was only 0.6–1.2%; the extra machinery remains isolated.
+- **C:** completed a six-condition batch/shape screen. Wider batch domains,
+  caps 16/32/64/128 and fixed length banks gave no convincing speed gain.
+  Batch 128 used about 9.3 GiB; no package/default change was retained.
+- **D:** the profile shows output already overlaps inference. The 20,000-job
+  trace found modest metadata growth, not a current output bottleneck. No new
+  writer/metadata rewrite is justified by these measurements.
+- **E:** a local resident-process prototype preserved all outputs and removed
+  repeated startup. Ten five-input requests took about 5.8 seconds rather than
+  52 seconds in fresh containers. It remains an isolated local-worker prototype;
+  it does not accelerate an already combined CSV or create a network service.
+- **F:** the [language lifecycle optimisation](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/dev/docs/abodybuilder3_language_lifecycle_261026.md)
+  passes exact embedding/structure/PDB comparisons and is integrated on dev.
+  It keeps the original batch-1 encoder on GPU, replacing repeated Trainer
+  teardown. No embedding batching, precision change or weights change is enabled.
+
+- **G:** the profile-motivated geometry-update alternative was exact but about
+  14–15× slower in a standalone microbenchmark. No kernel rewrite was retained.
+- **H:** Reduce itself took about 0.7 s per antibody, versus 8–9 s in OpenMM
+  hydrogen addition. Neither a Reduce rewrite nor caching its 0.002 s version
+  subprocess is justified by the measured whole-job contribution.
+- **I:** bounded independent CPU-1 preparation processes improved complete
+  eight-input CLI jobs by about 3× at four workers and 4.4–4.6× at eight.
+  Initial paired PDBs matched; an independent final check and float-array trace
+  found small repaired-atom/hydrogen differences. The candidate remains isolated.
+- **J:** two concurrent preparation/relaxation workers improved a five-input
+  group about 1.8×, but changed relaxed outputs. More CPU threads within a single
+  hydrogen engine were faster too, with much larger hydrogen differences.
+  Both remain isolated; no chemistry engine/settings/default change is enabled.
+
+The [ordered report](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/dev/docs/abodybuilder3_ordered_optimisation_261026.md) links the
+[pipeline component evidence](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/components/aot-pipeline-261026/docs/aot_pipeline_optimisation_261026.md)
+and [optional-stage component evidence](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/components/structure-preparation-261026/docs/preparation_optimisation_261026.md).
+Original and candidate code, tests, all images and local evidence are retained.
+
+**Next decision:** review the optional-stage repeatability differences before
+enabling concurrency or commissioning a deterministic-repair comparison.
+Resident requests remain a separate local prototype. Confidence export remains
+a separate correctness change for discussion. No result-changing candidate is
+silently promoted.
+
 ## Comparisons and presentation
 
 Freeze the integrated AOT default as the new optimisation reference. Change one
@@ -126,5 +175,5 @@ controlled measurement.
 - [DGX Spark memory reporting](https://docs.nvidia.com/dgx/dgx-spark/known-issues.html): platform-specific unified-memory accounting limits.
 
 This document records the accepted default and the scoped deployment validation.
-Optimisation experiments A–J remain proposed until their own results are recorded.
+The progress section distinguishes completed screens from work still proposed.
 The separate confidence-output correction remains disabled.
