@@ -4,25 +4,30 @@ Predict antibody variable-region structures from paired heavy- and light-chain s
 
 The default runs in **strict FP32**, with TF32 disabled. Base and pLDDT predictions share one GPU model process, while bounded CPU queues prepare features and write results. For the language model, the original FP32 ProtT5 encoder stays on GPU between chains. The model architectures and released weights are preserved.
 
-## ~4,500 antibody structures per minute
+## ~7,700 antibody structures per minute
 
-**About 75 structures/second on one DGX Spark**, including startup, model loading and writing every PDB file. The base and pLDDT models completed 1,000-input jobs in about **13 seconds**, roughly **6.3× faster** than the previous main version. This throughput makes large batches attractive for repertoire structure-prediction projects.
+**About 128 structures/second on one DGX Spark, using only ~4.4–4.6 GiB of additional unified RAM at peak.** Base and pLDDT each predicted **100,000 distinct antibodies in about 13 minutes**, including container startup, model loading and writing every PDB file. Complete-job throughput reached ~7,700 structures/minute on the larger panels, with steady throughput throughout the tested jobs.
 
-At 4,500 structures/minute, one million inputs would correspond to **about 3.7 hours if that rate held**. That is a rate-based projection, not a million-structure benchmark; longer sequences, input diversity and large-scale output handling can change throughput. The language model has a different throughput, shown separately below.
+![Repertoire-scale prediction: throughput rises to about 7,700 structures per minute while peak additional unified RAM stays below 4.7 GiB](docs/assets/abodybuilder3_main_throughput_memory_261026.png)
 
-![Previous and new main: structures per minute and estimated additional unified RAM](docs/assets/abodybuilder3_main_throughput_memory_261026.png)
-
-| Model · inputs | Structures/min: previous → new | Speedup | Unified RAM estimate: previous → new | Approx. RAM saved |
+| Model | Distinct antibody pairs | Complete-job time | Structures/minute | Peak additional unified RAM |
 |---|---:|---:|---:|---:|
-| Base · 1,000 | 733 → **4,599** | **6.3×** | ~15.7 → **~4.0 GiB** | **~11.7 GiB (~74%)** |
-| pLDDT · 1,000 | 725 → **4,540** | **6.3×** | ~15.6 → **~4.1 GiB** | **~11.5 GiB (~74%)** |
-| Language · 5 | 1.2 → **26.6** | **21.5×** | ~14.1 → **~6.6 GiB** | **~7.5 GiB (~53%)** |
+| Base | 1,000 | 13.13 s | 4,569 | ~4.20 GiB |
+| Base | 10,000 | 1 min 22.82 s | 7,245 | ~4.28 GiB |
+| **Base** | **100,000** | **12 min 56.57 s** | **7,726** | **~4.63 GiB** |
+| pLDDT | 1,000 | 13.17 s | 4,554 | ~4.23 GiB |
+| pLDDT | 10,000 | 1 min 23.40 s | 7,194 | ~4.14 GiB |
+| **pLDDT** | **100,000** | **13 min 04.68 s** | **7,646** | **~4.37 GiB** |
 
-Each version ran twice on identical inputs, using its installed defaults. Throughput uses median complete-job time, including container startup and output writing. The 1,000-input workload repeats 100 public antibodies (219–242 combined residues) ten times; the language workload uses five distinct examples. Downloads, image building and optional chemistry are excluded. These are throughput measurements, not an accuracy benchmark or a guarantee for every repertoire.
+Each model ran twice per panel in fresh containers, using strict FP32 and the installed defaults. Times are medians; throughput uses unrounded median time; RAM is the higher observed peak. The nested panels contain distinct, naturally paired human heavy/light sequences from **13 public studies**, balanced across studies rather than sampled at population frequencies. The 100,000-pair panel spans 211–258 combined residues and includes both kappa and lambda light chains. Predictions are computed afresh, without a sequence-result cache. Downloads, image building and optional chemical preparation are excluded.
 
-**RAM counts shared CPU/GPU pressure together**, using the peak drop in Linux `MemAvailable` relative to the idle baseline. It replaces the earlier summed-RSS comparison, which double-counted shared pages. Memory was measured in separate matched runs; the table reports the higher observed peak. This is an estimate of additional RAM made unavailable, not exact per-process ownership. Post-job baseline drift reached 0.94 GiB, so the RAM figures and savings are approximate. Do not add CUDA allocation or process RSS to these totals.
+**Unified RAM is measured across CPU and GPU together**, using the peak drop in Linux `MemAvailable` from the idle baseline, sampled every 20 ms during each job. Shared pages are counted once; process RSS and CUDA allocation are not added. This is an estimate of additional system RAM pressure, rather than exact memory owned by the job. Pre/post-job idle drift stayed below 0.16 GiB, with no swap change or OOM retries. A 100-fold increase in inputs used only modestly more RAM in these tests.
 
-[Measurement protocol, calibration and individual runs on dev](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/dev/docs/abodybuilder3_unified_memory_261026.md) · [Previous version](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/pre-aot-261026).
+A separate, broader-length panel of 3,756 distinct antibodies (206–281 residues) achieved **~6,450–6,480 structures/minute**, using **~4.4–4.5 GiB** additional RAM, including same-model eager execution for inputs outside the saved-executable length range. These measurements support large repertoire jobs up to **100,000 distinct pairs**; a million-structure job has not yet been benchmarked. Longer sequences and optional chemistry can change throughput. The language checkpoint was not included in this larger study.
+
+The earlier matched comparison with [previous main](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/pre-aot-261026) measured **~6.3× faster prediction and ~74% less additional unified RAM** for base/pLDDT on 1,000 inputs. Language prediction reached **26.6 structures/minute**, **21.5× faster**, with **~53% less RAM**, on five inputs. Those comparisons used separate, smaller panels; the previous version has not been rerun on the new 100,000-pair panel.
+
+[Repertoire benchmark protocol, individual runs and sustained-throughput plots](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/dev/docs/abodybuilder3_repertoire_scale_261026.md) · [Earlier version comparison and RAM calibration](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/dev/docs/abodybuilder3_unified_memory_261026.md).
 
 ## Requirements
 
