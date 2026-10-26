@@ -4,23 +4,25 @@ Predict antibody variable-region structures from paired heavy- and light-chain s
 
 The default runs in **strict FP32**, with TF32 disabled. Base and pLDDT predictions share one GPU model process, while bounded CPU queues prepare features and write results. For the language model, the original FP32 ProtT5 encoder stays on GPU between chains. The model architectures and released weights are preserved.
 
-## Performance compared with the previous version
+## ~4,500 antibody structures per minute
 
-On the DGX Spark, the new main completed the 1,000-input base and pLDDT jobs **about 6.3× faster**, with **89% lower summed process RSS**. The five-input language job was **21.5× faster**, with **33% lower summed RSS**.
+**About 75 structures/second on one DGX Spark**, including startup, model loading and writing every PDB file. The base and pLDDT models completed 1,000-input jobs in about **13 seconds**, roughly **6.3× faster** than the previous main version. This throughput makes large batches attractive for repertoire structure-prediction projects.
 
-![Previous and new main: complete runtime and peak summed process RSS](docs/assets/abodybuilder3_main_comparison_261026.png)
+At 4,500 structures/minute, one million inputs would correspond to **about 3.7 hours if that rate held**. That is a rate-based projection, not a million-structure benchmark; longer sequences, input diversity and large-scale output handling can change throughput. The language model has a different throughput, shown separately below.
 
-| Model · inputs | Time: previous → new | Speedup | Peak summed RSS: previous → new | RSS reduction |
+![Previous and new main: structures per minute and estimated additional unified RAM](docs/assets/abodybuilder3_main_throughput_memory_261026.png)
+
+| Model · inputs | Structures/min: previous → new | Speedup | Unified RAM estimate: previous → new | Approx. RAM saved |
 |---|---:|---:|---:|---:|
-| Base · 1,000 | 81.9 → **13.0 s** | **6.3×** | 14.27 → **1.54 GiB** | **89%** |
-| pLDDT · 1,000 | 82.8 → **13.2 s** | **6.3×** | 14.25 → **1.57 GiB** | **89%** |
-| Language · 5 | 242.5 → **11.3 s** | **21.5×** | 8.35 → **5.59 GiB** | **33%** |
+| Base · 1,000 | 733 → **4,599** | **6.3×** | ~15.7 → **~4.0 GiB** | **~11.7 GiB (~74%)** |
+| pLDDT · 1,000 | 725 → **4,540** | **6.3×** | ~15.6 → **~4.1 GiB** | **~11.5 GiB (~74%)** |
+| Language · 5 | 1.2 → **26.6** | **21.5×** | ~14.1 → **~6.6 GiB** | **~7.5 GiB (~53%)** |
 
-Each version ran twice in fresh containers on identical inputs, using its installed defaults. Times are medians and include startup, loading, prediction and all PDB writes; the figure shows the two-run range. Memory is the higher sampled peak. The base/pLDDT workload repeats 100 public antibodies ten times; language uses five distinct examples. Downloads, image building and optional chemistry are excluded.
+Each version ran twice on identical inputs, using its installed defaults. Throughput uses median complete-job time, including container startup and output writing. The 1,000-input workload repeats 100 public antibodies (219–242 combined residues) ten times; the language workload uses five distinct examples. Downloads, image building and optional chemistry are excluded. These are throughput measurements, not an accuracy benchmark or a guarantee for every repertoire.
 
-The previous version uses eight model workers for the 1,000-input jobs; the new version uses one batched model with saved execution and strict FP32. **Summed RSS counts shared pages once per process, so its reduction is not a measurement of total physical RAM saved.** GPU batching uses more CUDA allocation: the new base/pLDDT process peaks at 2.39 GiB, compared with about 1.56 GiB for the *sum of the previous workers' individual peaks* (an upper bound on their simultaneous allocation). The language CUDA peak rises slightly, from 4.55 to 4.69 GiB. These memory measures overlap on Spark and must not be added.
+**RAM counts shared CPU/GPU pressure together**, using the peak drop in Linux `MemAvailable` relative to the idle baseline. It replaces the earlier summed-RSS comparison, which double-counted shared pages. Memory was measured in separate matched runs; the table reports the higher observed peak. This is an estimate of additional RAM made unavailable, not exact per-process ownership. Post-job baseline drift reached 0.94 GiB, so the RAM figures and savings are approximate. Do not add CUDA allocation or process RSS to these totals.
 
-The checkpoints are unchanged; these are deployment benchmarks, not claims of improved structural accuracy. [Measurements and protocol on dev](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/dev/docs/abodybuilder3_main_comparison_261026.md) · [Previous version](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/pre-aot-261026).
+[Measurement protocol, calibration and individual runs on dev](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/dev/docs/abodybuilder3_unified_memory_261026.md) · [Previous version](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/pre-aot-261026).
 
 ## Requirements
 
