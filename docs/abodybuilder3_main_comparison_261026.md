@@ -4,6 +4,8 @@ The new main is about **6.3× faster** for both 1,000-input base/pLDDT jobs and 
 
 ![Matched complete runtime and summed RSS](assets/abodybuilder3_main_comparison_261026.png)
 
+**Updated RAM interpretation:** the original RSS values below remain historical measurements. For shared CPU/GPU RAM estimates and the current README figure, see the [system-level unified-memory study](abodybuilder3_unified_memory_261026.md).
+
 ## Protocol
 
 Two technical repetitions per version and model ran consecutively on the DGX Spark, driver 580.178.04, in fresh offline GPU containers. Replicate 1 ran previous then new, replicate 2 reversed that order. All 12 runs completed. Timing surrounds `docker run` and includes container startup/exit, imports, checkpoint and executable loading, inference and all output writes. No build/export, download, chemical preparation or accuracy scoring is timed. No separate whole-job warm-up was run; these measure fresh processes on an already running host, not a cold operating-system cache.
