@@ -4,6 +4,24 @@ Predict antibody variable-region structures from paired heavy- and light-chain s
 
 The default runs in **strict FP32**, with TF32 disabled. Base and pLDDT predictions share one GPU model process, while bounded CPU queues prepare features and write results. For the language model, the original FP32 ProtT5 encoder stays on GPU between chains. The model architectures and released weights are preserved.
 
+## Performance compared with the previous version
+
+On the DGX Spark, the new main completed the 1,000-input base and pLDDT jobs **about 6.3× faster**, with **89% lower summed process RSS**. The five-input language job was **21.5× faster**, with **33% lower summed RSS**.
+
+![Previous and new main: complete runtime and peak summed process RSS](docs/assets/abodybuilder3_main_comparison_261026.png)
+
+| Model · inputs | Time: previous → new | Speedup | Peak summed RSS: previous → new | RSS reduction |
+|---|---:|---:|---:|---:|
+| Base · 1,000 | 81.9 → **13.0 s** | **6.3×** | 14.27 → **1.54 GiB** | **89%** |
+| pLDDT · 1,000 | 82.8 → **13.2 s** | **6.3×** | 14.25 → **1.57 GiB** | **89%** |
+| Language · 5 | 242.5 → **11.3 s** | **21.5×** | 8.35 → **5.59 GiB** | **33%** |
+
+Each version ran twice in fresh containers on identical inputs, using its installed defaults. Times are medians and include startup, loading, prediction and all PDB writes; the figure shows the two-run range. Memory is the higher sampled peak. The base/pLDDT workload repeats 100 public antibodies ten times; language uses five distinct examples. Downloads, image building and optional chemistry are excluded.
+
+The previous version uses eight model workers for the 1,000-input jobs; the new version uses one batched model with saved execution and strict FP32. **Summed RSS counts shared pages once per process, so its reduction is not a measurement of total physical RAM saved.** GPU batching uses more CUDA allocation: the new base/pLDDT process peaks at 2.39 GiB, compared with about 1.56 GiB for the *sum of the previous workers' individual peaks* (an upper bound on their simultaneous allocation). The language CUDA peak rises slightly, from 4.55 to 4.69 GiB. These memory measures overlap on Spark and must not be added.
+
+The checkpoints are unchanged; these are deployment benchmarks, not claims of improved structural accuracy. [Measurements and protocol on dev](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/dev/docs/abodybuilder3_main_comparison_261026.md) · [Previous version](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/pre-aot-261026).
+
 ## Requirements
 
 - NVIDIA DGX Spark running Linux, with Docker and the NVIDIA Container Toolkit configured for GPU containers.
