@@ -1,5 +1,9 @@
 # Batching optimisation results — 26 October 2026
 
+Follow-up: the [saved AOT executable study](abodybuilder3_aot_deployment_261026.md)
+removes most of the remaining JIT startup cost. The measurements below retain
+the original kernel-cache comparison; the AOT results are reported separately.
+
 **Two useful gains emerged.** Replacing Python PDB formatting with an exact-output native writer gives **1.19–1.22× throughput** on 10,000-input jobs. Combining that writer with Docker-packaged compilation gives approximately **2.9–3.0× throughput**, including fresh startup and writing every PDB. Compilation changes floating-point results, so it remains a candidate for review. **Main and dev are unchanged; no new option is enabled there.**
 
 ## Full-pipeline results for 10,000 inputs

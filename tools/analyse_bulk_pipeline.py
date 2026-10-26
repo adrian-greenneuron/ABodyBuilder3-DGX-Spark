@@ -69,10 +69,15 @@ def main():
             assert json.loads((path / 'formatter_usage.json').read_text())['native_calls'] == count
         if row['mode'] != 'eager':
             assert metrics['packaged_cache_manifest_sha256']
+        if row['mode'] == 'aot':
+            assert metrics['aot_root']
+            assert metrics['dynamo_counters'].get('stats',{}).get('unique_graphs',0)==0
+            assert len(metrics['checkpoint_loading'][0]['aot_package_loading'])==2
         validations.append({'model':key[0], 'precision':key[1], 'label':key[2],
                             'replicate':key[3], 'written_pdbs':len(fp), 'finite_saved_raw_targets':100,
                             'native_calls':count if row['native_formatter'] else None,
                             'dynamo_counters':metrics['dynamo_counters'],
+                            'execution_mode':row['mode'],
                             'packaged_cache_manifest_sha256':metrics['packaged_cache_manifest_sha256']})
     for (model, precision, label), rows in sorted(groups.items()):
         rows.sort(key=lambda row:row['replicate'])

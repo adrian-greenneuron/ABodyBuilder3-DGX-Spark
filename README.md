@@ -4,6 +4,11 @@ This branch contains only the component under investigation, its untouched
 reference, candidate code and comparison/regression tests. It is not a new
 trained model or a replacement for ABodyBuilder3's default release.
 
+The latest [ahead-of-time deployment study](docs/abodybuilder3_aot_deployment_261026.md)
+tests saving the complete strict-FP32 executable in Docker. It removes most of
+the cached-JIT startup cost, with paired speed, memory and experimental-accuracy
+results at 100, 1,000 and 10,000 inputs. Main and dev remain unchanged.
+
 `reference/structure_module.py` is copied byte for byte from ABodyBuilder3 dev
 commit `07bfe1e`, whose core model is pinned to
 `a323ab3abe48440305e9b4baf1b5a393781d7d78`. The file retains the original Exscientia,

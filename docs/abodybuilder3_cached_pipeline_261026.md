@@ -1,5 +1,9 @@
 # Docker-packaged compilation caches — 26 October 2026
 
+Follow-up: [saving a whole-model AOT executable](abodybuilder3_aot_deployment_261026.md)
+substantially reduces the remaining startup cost. This page retains the earlier
+disk-cached JIT measurements, which describe a different deployment path.
+
 Packaging the prepared PyTorch/Triton caches cut complete compiled jobs from roughly **89–104 seconds to 28–39 seconds**, compared with the earlier empty-cache study. It still did not beat current dev on **100 or 1,000 inputs**. Large jobs subsequently became much faster when combined with the native writer; those separate measurements are in the [overnight results](abodybuilder3_overnight_optimisation_261026.md).
 
 ## What was packaged

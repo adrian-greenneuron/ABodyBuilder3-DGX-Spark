@@ -1,5 +1,9 @@
 # Choosing eager or compiled inference by job size — 26 October 2026
 
+The crossover here applies to the disk-cached JIT implementation. The later
+[saved AOT executable study](abodybuilder3_aot_deployment_261026.md) changes its
+startup cost; do not apply this threshold to AOT deployment.
+
 For the tested 219–242-residue antibodies, **eager inference was faster at 1,000 inputs; cached compilation was faster at 1,500, 2,000, 5,000 and 10,000 inputs**. Both strict-FP32 and TF32-permitted speed profiles showed this pattern on both checkpoints. This supports making the execution decision once at startup, while keeping precision an explicit user choice. Main and dev are unchanged; no automatic selector has been deployed.
 
 ![Job-size crossover in both precision profiles and checkpoints](assets/abodybuilder3_job_size_crossover_261026.png)

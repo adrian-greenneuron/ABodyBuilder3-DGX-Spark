@@ -28,7 +28,7 @@ def module_from_file(name, path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--mode', choices=['eager', 'compiled', 'combined', 'graph'], required=True)
+    parser.add_argument('--mode', choices=['eager', 'compiled', 'combined', 'graph', 'aot'], required=True)
     parser.add_argument('--precision', choices=['normal', 'strict'], required=True)
     parser.add_argument('--model', choices=['base', 'plddt'], required=True)
     parser.add_argument('--count', type=int, required=True)
@@ -37,6 +37,7 @@ def main():
     parser.add_argument('--batch-size',default='auto')
     parser.add_argument('--cpu-workers',type=int,default=2)
     parser.add_argument('--batch-memory-gib',type=float,default=6.)
+    parser.add_argument('--aot-root',type=Path,help='Qualified AOT packages; only used by the isolated AOT condition.')
     args = parser.parse_args()
     output = args.output
     cli = module_from_file('measured_pipeline_cli', '/frozen/predict_main.py')
@@ -69,7 +70,14 @@ def main():
             for layer in model.ipa_layers:
                 layer.__class__ = candidate.InvariantPointAttention
             original_forward = model.forward
-            execute = torch.compile(original_forward, mode='default', dynamic=True)
+            if args.mode == 'aot':
+                if args.precision != 'strict' or args.aot_root is None:
+                    raise ValueError('AOT comparison requires strict FP32 and --aot-root.')
+                from aot_model import AOTForward
+                execute = AOTForward(args.aot_root,args.model)
+                load_records[-1]['aot_package_loading'] = execute.events
+            else:
+                execute = torch.compile(original_forward, mode='default', dynamic=True)
 
             def forward(*values, **options):
                 if args.mode == 'combined':
@@ -148,6 +156,7 @@ def main():
                 'allow_tf32': initial_tf32, 'float32_matmul_precision': initial_precision,
                 'torch': torch.__version__, 'cuda': torch.version.cuda,
                 'compile': {'mode': 'default', 'dynamic': True} if args.mode in ('compiled','combined') else None,
+                'aot_root':str(args.aot_root) if args.mode=='aot' else None,
                 'checkpoint_loading': load_records, 'forward_calls': forwards,
                 'dynamo_counters': {str(k): dict(v) for k,v in counters.items()},
                 'peak_cuda_allocated_bytes': torch.cuda.max_memory_allocated(),
