@@ -2,6 +2,10 @@
 
 For the tested 219–242-residue antibodies, **eager inference was faster at 1,000 inputs; cached compilation was faster at 1,500, 2,000, 5,000 and 10,000 inputs**. Both strict-FP32 and TF32-permitted speed profiles showed this pattern on both checkpoints. This supports making the execution decision once at startup, while keeping precision an explicit user choice. Main and dev are unchanged; no automatic selector has been deployed.
 
+![Job-size crossover in both precision profiles and checkpoints](assets/abodybuilder3_job_size_crossover_261026.png)
+
+Above 1, cached execution is faster; below 1, eager inference is faster. Points are ratios of the two-job median times. Whiskers show the range of the two paired job ratios, **not confidence intervals**. The lines guide the eye rather than fit a cost model; [both individual timing pairs](data/abodybuilder3_crossover_plot_data_261026.csv) are available.
+
 ## Matched complete-job times
 
 All approaches use the exact-output native PDB writer. The **TF32-permitted profile** uses cached compilation plus point-matmul attention. The **strict-FP32 profile** uses cached compilation alone: its bulk speed was similar without introducing another arithmetic replacement. These profiles were selected for calibration after the preceding bulk study, not as new models or an independent accuracy test. References use the same precision as their candidate.

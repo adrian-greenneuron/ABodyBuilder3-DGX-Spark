@@ -6,14 +6,14 @@
 
 Each value is the median of two fresh-container jobs; the evidence retains both times. The four approaches used matched input order and GPU batch shapes. All times include imports, weight loading, CPU preparation, inference, coordinate conversion, common raw fingerprints, PDB output and container exit. The compiler conditions also use the native writer. Bold marks the lowest displayed median within each row, not significance.
 
+![Complete 10,000-input job times](assets/abodybuilder3_overnight_optimisation_261026.png)
+
 | Checkpoint | Precision | Current dev (s) | Native writer (s) | Cached compiler + writer (s) | Cached attention + compiler + writer (s) | Combined vs dev |
 | --- | --- | --- | --- | --- | --- | --- |
 | base | TF32 permitted | 253.52 | 213.58 | 86.20 | **84.87** | 2.99× |
 | base | Strict FP32 | 254.53 | 216.22 | **88.48** | 88.72 | 2.87× |
 | plddt | TF32 permitted | 257.34 | 213.96 | 87.04 | **86.36** | 2.98× |
 | plddt | Strict FP32 | 258.72 | 215.63 | 89.18 | **88.90** | 2.91× |
-
-![Complete 10,000-input job times](assets/abodybuilder3_overnight_optimisation_261026.png)
 
 These throughput jobs repeat **100 distinct published experimental antibodies** 100 times, using unique output names and **no prediction cache**. They are not 10,000 independent antibodies or a broader accuracy test. Both released base/pLDDT checkpoints, seed 42 and eight learned structure updates were preserved. Optional chemistry and the language checkpoint are outside the comparison. Two preparation and two writer threads overlap one model-owning GPU process; the automatic GPU batch cap is 32 here. Earlier tests use 16 for 100 inputs. Every job completed without OOM retries.
 
@@ -29,18 +29,15 @@ The native writer alone passed every fingerprint and PDB-byte comparison in all 
 
 For scientific accuracy, the **first occurrence of each of the 100 distinct experimental targets** was scored in **both** fresh repetitions. Masks and experimental backbone coordinates came from the retained published test dataset. CDR-H3 RMSD follows alignment on the heavy-chain framework Cα atoms; Cα-lDDT measures local distances on all matched Cα atoms. Both frameworks, all six CDRs and confidence changes are retained in the per-target evidence. Distances are Å; lDDT changes are percentage points.
 
-The table shows the larger deviation across the two fresh runs, always against current dev at the **same precision**. H3 mean is averaged across the two process replicates, not treated as 200 independent antibodies. Smaller accuracy changes do not establish a scientifically superior predictor.
+The paired distributions below compare each antibody with current dev at the **same precision**. Negative changes mean lower experimental error; the two columns use scales differing by 1,000×. Each curve contains 100 distinct targets from one repetition; the second repetition produced identical raw fingerprints and is not pooled as another 100 biological samples.
 
-| Checkpoint | Precision | Candidate | Mean H3 RMSD to experiment | Largest H3 RMSD change | Largest raw Cα displacement | Largest raw atom displacement | Largest Cα-lDDT change (pp) |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| base | TF32 permitted | Cached compiler + native writer | 2.913793 | 0.00248318 | 0.023713 | 1.403312 | 0.013080 |
-| base | TF32 permitted | Cached attention + compiler + native writer | 2.913700 | 0.00271644 | 0.030447 | 0.293824 | 0.022641 |
-| base | Strict FP32 | Cached compiler + native writer | 2.914036 | 0.00000434 | 0.000031 | 0.001338 | 0.000000 |
-| base | Strict FP32 | Cached attention + compiler + native writer | 2.914036 | 0.00000795 | 0.000032 | 0.000401 | 0.004186 |
-| plddt | TF32 permitted | Cached compiler + native writer | 2.799059 | 0.00297330 | 0.070995 | 0.224426 | 0.016504 |
-| plddt | TF32 permitted | Cached attention + compiler + native writer | 2.799105 | 0.00338361 | 0.062709 | 0.186948 | 0.025130 |
-| plddt | Strict FP32 | Cached compiler + native writer | 2.799067 | 0.00000462 | 0.000063 | 0.000242 | 0.004188 |
-| plddt | Strict FP32 | Cached attention + compiler + native writer | 2.799067 | 0.00000732 | 0.000113 | 0.000458 | 0.004219 |
+![Paired per-antibody H3 experimental-error changes](assets/abodybuilder3_paired_h3_accuracy_261026.png)
+
+The local-displacement distributions show the largest valid-atom shift in each antibody, including the tails that a mean would conceal. These are prediction disagreements, not changes in experimental side-chain accuracy.
+
+![Per-antibody local atom-displacement distributions](assets/abodybuilder3_local_atom_displacements_261026.png)
+
+The [detailed accuracy table](abodybuilder3_overnight_tables_261026.md#paired-experimental-accuracy-and-numerical-changes) retains the larger deviation across both fresh runs and the mean H3 errors. The [plot data](data/abodybuilder3_paired_accuracy_plot_data_261026.csv) retain every displayed target. Smaller accuracy changes do not establish a scientifically superior predictor.
 
 At TF32-permitted precision, compiler-related H3 accuracy changes stayed below **0.0034 Å** in this bulk test. Individual side-chain atoms still moved by up to **1.403 Å versus dev**, or **1.560 Å between attention-plus-compiler and compiler alone**. Such movements are not backbone accuracy losses, and atom displacement alone cannot tell whether a side chain became more accurate. Strict-FP32 changes were much smaller: H3 error changes below **0.000008 Å**. Accuracy gains/losses varied by target; neither arithmetic approach is uniformly closer to experiment.
 
@@ -50,24 +47,9 @@ Comparing TF32-permitted to strict-FP32 arithmetic within each approach changed 
 
 Each entry is the higher peak across two jobs, in GiB. Compiler paths lower CUDA allocated memory from **3.99 to about 2.26–2.27 GiB**, but increase sampled process-tree RSS from **about 1.85 to 4.64–4.67 GiB**. They therefore do not demonstrate a universal system-memory saving. RSS can double-count shared compiler-worker mappings; container lifetime memory is a different accounting measure. On unified memory, **do not add these columns** to estimate physical usage.
 
-| Checkpoint | Precision | Approach | CUDA allocated | CUDA reserved | Process-tree RSS | Container lifetime |
-| --- | --- | --- | --- | --- | --- | --- |
-| base | TF32 permitted | Current dev | 3.992 | 4.195 | 1.835 | 2.924 |
-| base | TF32 permitted | Native writer | 3.992 | 4.195 | 1.836 | 2.908 |
-| base | TF32 permitted | Cached compiler + native writer | 2.259 | 2.359 | 4.643 | 3.472 |
-| base | TF32 permitted | Cached attention + compiler + native writer | 2.268 | 2.359 | 4.666 | 3.457 |
-| base | Strict FP32 | Current dev | 3.992 | 4.195 | 1.847 | 2.921 |
-| base | Strict FP32 | Native writer | 3.992 | 4.195 | 1.874 | 2.937 |
-| base | Strict FP32 | Cached compiler + native writer | 2.259 | 2.359 | 4.646 | 3.497 |
-| base | Strict FP32 | Cached attention + compiler + native writer | 2.268 | 2.359 | 4.646 | 3.495 |
-| plddt | TF32 permitted | Current dev | 3.992 | 4.197 | 1.859 | 2.945 |
-| plddt | TF32 permitted | Native writer | 3.992 | 4.197 | 1.849 | 2.923 |
-| plddt | TF32 permitted | Cached compiler + native writer | 2.260 | 2.361 | 4.652 | 3.487 |
-| plddt | TF32 permitted | Cached attention + compiler + native writer | 2.268 | 2.361 | 4.657 | 3.484 |
-| plddt | Strict FP32 | Current dev | 3.992 | 4.197 | 1.861 | 2.951 |
-| plddt | Strict FP32 | Native writer | 3.992 | 4.197 | 1.876 | 2.929 |
-| plddt | Strict FP32 | Cached compiler + native writer | 2.260 | 2.361 | 4.638 | 3.521 |
-| plddt | Strict FP32 | Cached attention + compiler + native writer | 2.268 | 2.361 | 4.639 | 3.524 |
+![Runtime and memory changes in the four matched checkpoint/precision conditions](assets/abodybuilder3_resource_tradeoffs_261026.png)
+
+Each dot is one checkpoint/precision combination, relative to its matching dev control. The [full memory table](abodybuilder3_overnight_tables_261026.md#peak-memory-at-10000-inputs) and [plotted changes](data/abodybuilder3_resource_tradeoffs_261026.csv) retain the exact values, including reserved CUDA and separate container accounting in the table.
 
 ## Other completed experiments
 
