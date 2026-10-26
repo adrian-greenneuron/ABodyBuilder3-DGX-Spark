@@ -26,7 +26,7 @@ includes pipeline timelines, shape/memory screens and optional chemistry trials.
 Chemical preparation remains serial: faster concurrent candidates are isolated
 for review of small prepared-coordinate differences.
 
-[Main](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/main) remains the stable worker-based deployment. The original rebuild recipe is preserved at [`original-runtime-251026`](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/original-runtime-251026). This dev branch includes main’s explicit chemical preparation and restrained minimisation.
+[Main](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/main) now ships the accepted strict-FP32 AOT, batching, native writer and language runtime. Tests, experiment tools and research reports remain here on dev; see the [promotion checks](docs/abodybuilder3_main_promotion_261026.md). The original rebuild recipe is preserved at [`original-runtime-251026`](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/original-runtime-251026). This dev branch includes main’s explicit chemical preparation and restrained minimisation.
 
 ## Requirements
 
