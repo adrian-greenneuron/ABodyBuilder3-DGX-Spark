@@ -113,6 +113,17 @@ processes did not consistently give bit-identical predictions, even with strict
 FP32. Neither option is enabled on dev. Reused caches and persistent workers
 remain untested in this comparison.
 
+The subsequent [Docker-packaged cache study](docs/abodybuilder3_cached_pipeline_261026.md)
+removes much of that cold compilation cost. Cached compilation still loses on
+100- and 1,000-input jobs, but the [overnight optimisation report](docs/abodybuilder3_overnight_optimisation_261026.md)
+shows **2.9–3.0× complete-job throughput on 10,000 inputs** when combined with an
+exact-output native PDB writer. Both strict-FP32 and TF32-permitted modes were
+tested, with memory and experimental accuracy kept separate from timing.
+The [isolated writer component](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/components/pdb-formatting-261026)
+contains its original, candidate and byte-regression tests. CUDA graph replay,
+larger GPU batches and extra CPU workers did not yield a dependable further gain.
+Main and dev remain unchanged; the compiler/attention candidates await review.
+
 [Component measurements](docs/component_comparisons_251026.json) and
 [source provenance](docs/provenance_251026.json) retain the accepted and held
 results separately. The production pipeline and complete-job measurements are

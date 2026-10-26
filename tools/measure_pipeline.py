@@ -28,12 +28,17 @@ def module_from_file(name, path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--mode', choices=['eager', 'compiled', 'combined'], required=True)
+    parser.add_argument('--mode', choices=['eager', 'compiled', 'combined', 'graph'], required=True)
     parser.add_argument('--precision', choices=['normal', 'strict'], required=True)
     parser.add_argument('--model', choices=['base', 'plddt'], required=True)
     parser.add_argument('--count', type=int, required=True)
+    parser.add_argument('--output', type=Path, default=Path('/output'))
+    parser.add_argument('--date-code', default='251026')
+    parser.add_argument('--batch-size',default='auto')
+    parser.add_argument('--cpu-workers',type=int,default=2)
+    parser.add_argument('--batch-memory-gib',type=float,default=6.)
     args = parser.parse_args()
-    output = Path('/output')
+    output = args.output
     cli = module_from_file('measured_pipeline_cli', '/frozen/predict_main.py')
     if args.precision == 'strict':
         torch.set_float32_matmul_precision('highest')
@@ -53,7 +58,12 @@ def main():
         start = time.perf_counter()
         model = original_load(*a, **kw)
         load_records.append({'checkpoint_loading_seconds': time.perf_counter()-start})
-        if args.mode != 'eager':
+        if args.mode == 'graph':
+            from graph_runtime import GraphForward
+            model.forward=GraphForward(model.forward,(16 if args.count<=128 else 32) if args.batch_size=='auto' else int(args.batch_size),
+                max(len(row['heavy'])+len(row['light']) for row in source))
+            load_records[-1]['graph_forward']=model.forward.events
+        elif args.mode != 'eager':
             candidate = module_from_file('pipeline_candidate', '/component/candidate/structure_module.py')
             model.__class__ = candidate.StructureModule
             for layer in model.ipa_layers:
@@ -106,9 +116,10 @@ def main():
     completed = False
     with Memory() as memory:
         sys.argv = ['/frozen/predict_main.py', 'predict', '--csv', f'/frozen/antibodies_{args.count}.csv',
-                    '--output', '/output/pdbs/', '--model', args.model, '--workers', '1',
-                    '--batch-size', 'auto', '--cpu-workers', '2', '--seed', '42', '--quiet',
-                    '--batch-report', '/output/batching.json']
+                    '--output', str(output/'pdbs')+'/', '--model', args.model, '--workers', '1',
+                    '--batch-size', args.batch_size, '--cpu-workers', str(args.cpu_workers),
+                    '--batch-memory-gib',str(args.batch_memory_gib),'--seed', '42', '--quiet',
+                    '--batch-report', str(output/'batching.json')]
         try:
             cli.app()
             completed = True
@@ -131,17 +142,20 @@ def main():
     from torch._dynamo.utils import counters
     metadata = {'completed': completed, 'model': args.model, 'mode': args.mode, 'precision': args.precision,
                 'count': args.count, 'distinct_experimental_targets': len(captured),
+                'requested_batch_size':args.batch_size,'cpu_workers':args.cpu_workers,'batch_memory_gib':args.batch_memory_gib,
                 'script_to_cli_complete_seconds': cli_complete-SCRIPT_START,
                 'raw_evidence_writing_seconds': evidence_seconds,
                 'allow_tf32': initial_tf32, 'float32_matmul_precision': initial_precision,
                 'torch': torch.__version__, 'cuda': torch.version.cuda,
-                'compile': {'mode': 'default', 'dynamic': True} if args.mode != 'eager' else None,
+                'compile': {'mode': 'default', 'dynamic': True} if args.mode in ('compiled','combined') else None,
                 'checkpoint_loading': load_records, 'forward_calls': forwards,
                 'dynamo_counters': {str(k): dict(v) for k,v in counters.items()},
                 'peak_cuda_allocated_bytes': torch.cuda.max_memory_allocated(),
                 'peak_cuda_reserved_bytes': torch.cuda.max_memory_reserved(),
                 **memory.result()}
-    (output/'metrics_251026.json').write_text(json.dumps(metadata, indent=2)+'\n')
+    cache_manifest=Path('/opt/abodybuilder3_compilation_cache_manifest.json')
+    metadata['packaged_cache_manifest_sha256'] = hashlib.sha256(cache_manifest.read_bytes()).hexdigest() if cache_manifest.exists() else None
+    (output/f'metrics_{args.date_code}.json').write_text(json.dumps(metadata, indent=2)+'\n')
     print(json.dumps({'event': 'completed', 'count': args.count, 'mode': args.mode,
                       'cli_seconds': metadata['script_to_cli_complete_seconds'],
                       'raw_evidence_seconds': evidence_seconds}), flush=True)

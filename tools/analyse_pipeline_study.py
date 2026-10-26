@@ -20,8 +20,9 @@ def main():
     p.add_argument('--study', type=Path, required=True)
     p.add_argument('--truth-study', type=Path, required=True)
     p.add_argument('--replicate', type=int, choices=[1,2], default=1)
+    p.add_argument('--date-code', default='251026')
     args = p.parse_args(); root = args.study
-    measurements = json.loads((root/'measurements_251026.json').read_text())
+    measurements = json.loads((root/f'measurements_{args.date_code}.json').read_text())
     assert len(measurements) == 48
     grouped = {}
     for r in measurements:
