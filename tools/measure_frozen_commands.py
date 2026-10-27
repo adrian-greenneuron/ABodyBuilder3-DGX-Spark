@@ -51,7 +51,10 @@ def main():
              'swap_change_bytes':pre[0][3]-min(r[3] for r in during)}
         rows.append(row);results.write_text(json.dumps({'completed':len(rows)==len(protocol['cases']),'rows':rows},indent=2)+'\n')
         print('DONE',case['label'],round(elapsed,3),'s',round((baseline-low)/2**30,3),'GiB',result.returncode,flush=True)
-        if result.returncode:raise RuntimeError('Command failed; inspect retained log. No automatic retry.')
+        if result.returncode not in case.get('allowed_exit_codes',[0]):
+            raise RuntimeError('Command failed; inspect retained log. No automatic retry.')
+        if case.get('verification_command'):
+            subprocess.run(case['verification_command'],check=True)
 
 
 if __name__=='__main__':main()

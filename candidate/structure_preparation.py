@@ -352,3 +352,16 @@ def prepare_structure(raw, options):
     except Exception as exc:
         report.update(status="failed", error=str(exc), seconds=time.perf_counter()-started)
         raise PreparationError(str(exc), report) from exc
+
+
+# The full-pipeline rescue experiment preserves the complete R8 implementation
+# above. Compatible inputs return directly from it; only its explicit frozen-
+# heavy planar rejection may enter the separately audited rescue path.
+prepare_structure_without_rescue = prepare_structure
+
+
+def prepare_structure(raw, options):
+    if os.environ.get("AB3_EXPERIMENTAL_RESCUE", "off") == "off":
+        return prepare_structure_without_rescue(raw, options)
+    from rescue_policy import dispatch
+    return dispatch(raw, options, prepare_structure_without_rescue, PreparationError)

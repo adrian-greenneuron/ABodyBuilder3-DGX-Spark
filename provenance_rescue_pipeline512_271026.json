@@ -1,0 +1,155 @@
+{
+  "study": "rescue_pipeline512_271026",
+  "generated_utc": "2026-10-27T13:48:44.544962+00:00",
+  "branch": "components/heavy-atom-rescue-271026",
+  "parent_result_commit": "544e618109fd9bab638b24d7061d9c026a32971f",
+  "protected_git_refs_verified_unchanged": {
+    "main": "c20d119957bcbbd24d8534fddbdc3e9fc7d57795",
+    "dev": "e6fabdf73aa9590431377de5f923c256576829fd"
+  },
+  "images": {
+    "main_default": {
+      "tag": "abodybuilder3-official-spark:latest",
+      "image_id": "sha256:ab981f1494f2c817995a3cf767702181330af8d3f97584120d533dedd9432fd0"
+    },
+    "dev_default": {
+      "tag": "abodybuilder3-dev-spark:latest",
+      "image_id": "sha256:a4d29734d1b2ce98a09c4508e9047ad714a6da94be610fd5b8dda6b15285b590"
+    },
+    "parent_R8": {
+      "tag": "abodybuilder3-dev-spark:hydrogen-geometry-planar-r8-271026",
+      "image_id": "sha256:ca85c1a16c618bb6674ca48432e43e7db5d7911821a1a96cf7e1374d580dd558"
+    },
+    "rescue_candidate": {
+      "tag": "abodybuilder3-dev-spark:heavy-rescue-candidate-271026",
+      "image_id": "sha256:4d25935b90be9099c4f0acf199d046d8f09dee2e0c007d445737371e3aa88b7f"
+    },
+    "pipeline_candidate": {
+      "tag": "abodybuilder3-dev-spark:heavy-rescue-pipeline-271026",
+      "image_id": "sha256:f44b7f1cd2b4900295156def97292c16f12da84f88f884db2d8d076030517762"
+    }
+  },
+  "installed_source_sha256": {
+    "structure_preparation.py": "4819c71903d33a5d4ab07ab49f56fe859c38931bb6cb91d9f9d378b557047c16",
+    "rescue_policy.py": "f2702b9fae0d149881066f020d5dbefbb537799819337f860b83996e671c9e0d",
+    "rejected_rescue.py": "21ce0ffd7641d7c33e2d92e8577be9a89986b1dcae2cd715e98d81041839e188",
+    "hydrogen_geometry.py": "99a2e6fc7408c51e0bc7937db24c68467012c2d8d9fd856d233f49096965fc20"
+  },
+  "frozen_benchmark_source_sha256": {
+    "candidate/structure_preparation.py": "4819c71903d33a5d4ab07ab49f56fe859c38931bb6cb91d9f9d378b557047c16",
+    "candidate/rescue_policy.py": "f2702b9fae0d149881066f020d5dbefbb537799819337f860b83996e671c9e0d",
+    "candidate/rejected_rescue.py": "21ce0ffd7641d7c33e2d92e8577be9a89986b1dcae2cd715e98d81041839e188",
+    "candidate/heavy_atom_rescue.py": "edfe15351046e8a4be5e9b97980f8e921973e3f67a6385d87f628cb271abeaa7",
+    "reference/structure_preparation_r8.py": "23c7e927260680cdc7b6b6279f8763d16d6f0ec5dbc6df6a68524614bb987900",
+    "Dockerfile.rescue-pipeline": "6beda70056fb2b70b87d2eaa76cde1cd1d549500c07ef683267e3ae126841d97",
+    "tools/measure_frozen_commands.py": "754362391cf5ae5eae48bb648daa39208edccd5542e822c5ca87e28ab7252dd6",
+    "tools/check_pipeline_completion.py": "24da8ddc0ee1f965253f060f86739e99d9f4b5bb30b4bfae4870d1a3ef78cf73"
+  },
+  "new_and_updated_file_sha256": {
+    "Dockerfile.rescue-pipeline": "6beda70056fb2b70b87d2eaa76cde1cd1d549500c07ef683267e3ae126841d97",
+    "README.md": "f151e7debe423f56287abf5a0de3abf7c93eef87fe408b7650a9a06360798baf",
+    "candidate/rejected_rescue.py": "21ce0ffd7641d7c33e2d92e8577be9a89986b1dcae2cd715e98d81041839e188",
+    "candidate/rescue_policy.py": "f2702b9fae0d149881066f020d5dbefbb537799819337f860b83996e671c9e0d",
+    "candidate/structure_preparation.py": "4819c71903d33a5d4ab07ab49f56fe859c38931bb6cb91d9f9d378b557047c16",
+    "docs/assets/rescue_pipeline512_geometry_271026.png": "af992b1ed43c6d223c88e31686ba0ac478f1aac4224e7edbe29470720316ac59",
+    "docs/assets/rescue_pipeline512_geometry_271026.svg": "2119c8d5f51d260a1feec6e43f04928db18302b69370ea837c93eae6f4b23b97",
+    "docs/assets/rescue_pipeline512_performance_271026.png": "db9f409c20480ef6a7c54054a0ac3e2b6a978263e400cc593827d4eb8979f315",
+    "docs/assets/rescue_pipeline512_performance_271026.svg": "d587fa7a3f0409e2bdf563397e1350252d869709bd6e8c9b11c52073ea319fbe",
+    "docs/data/rescue_pipeline512_results_271026.json": "9d0f597891d2e5c3282c29721a4c0ce37e0921b44249f26de4ceb80210b443c9",
+    "docs/rescue_pipeline512_271026.md": "84b8cdc7396db940c790536e22f2e9445e988da8a85efcbd030ed4f615586396",
+    "reference/structure_preparation_r8.py": "23c7e927260680cdc7b6b6279f8763d16d6f0ec5dbc6df6a68524614bb987900",
+    "tests/test_rescue_dispatch.py": "a9559e0f2b348501d3b64e83b0b2ec3dd09aaefeadd916d37d4804d367c122bf",
+    "tools/check_pipeline_completion.py": "24da8ddc0ee1f965253f060f86739e99d9f4b5bb30b4bfae4870d1a3ef78cf73",
+    "tools/measure_frozen_commands.py": "754362391cf5ae5eae48bb648daa39208edccd5542e822c5ca87e28ab7252dd6",
+    "tools/smoke_rescue_integration.py": "86fa6bedb59947c677c340bc57b9ed19bb470f611820b3200a8d94f455e5fded",
+    "tools/validate_rescue_pipeline.py": "7a119f9e6caf7e4fe35f4b0470f6d8b656335f01edcaa2f5579cfc71ad70835b",
+    "tools/write_rescue_pipeline_report.py": "21ff27330e250878274921c32344a20505864ca04027cdea28e12094d7b4fffc"
+  },
+  "experiment": {
+    "input_manifest": {
+      "count": 512,
+      "distinct_native_pairs": 512,
+      "sha256": "821425400855c38929976cf5c6fe6bea6107e30d164b09c6d833b07b754a851a",
+      "sources": [
+        {
+          "stage": "tuned128",
+          "filename": "antibodies_128.csv",
+          "sha256": "c5f62baa50c6c9afe7cf5f23b62a0ccd124f293cfabcfe65603777ecd4260288",
+          "count": 128
+        },
+        {
+          "stage": "validation256",
+          "filename": "validation_256.csv",
+          "sha256": "42fd08d76270cab9b52a56dd3192e30e455f998f9eb1a4c7f2a543de33ac7fc2",
+          "count": 256
+        },
+        {
+          "stage": "fresh128",
+          "filename": "fresh_128.csv",
+          "sha256": "93b9d7064cd181688e8ff85b1af7bde2ab840c42e57348bbbbbedcdc96beb7d3",
+          "count": 128
+        }
+      ],
+      "combined_length_range": [
+        220,
+        246
+      ],
+      "selection": "All retained 128+256+128 native pairs, including the original three rejections, with source-prefixed names. No sequence synthesis, re-pairing or exclusion.",
+      "batch_composition": "New combined 512-input prediction job with fixed batch cap32; identical across compared policies. Raw predictions will be compared explicitly to each other and to retained source runs."
+    },
+    "inference": {
+      "model": "plddt",
+      "precision": "strict FP32",
+      "execution": "saved AOT",
+      "batch_cap": 32,
+      "cpu_workers": 2,
+      "model_checkpoint_sha256": "421aa6c52a5152f781b35007411985146fb520a90286a955161cb8e50584d615",
+      "aot_manifest_sha256": "947bbaf04b6633cb9b0a073fb62d090b55610e1b2964b750466c95840bc6203e"
+    },
+    "preparation": {
+      "workers": 12,
+      "schedule": "phased",
+      "repair": "CPU1 deterministic",
+      "hydrogens": "R8 robust_planar GPU mixed, steric backoff500000/200000/100000, gtol5",
+      "rescue": "Only the exact existing incompatible-planar-frozen-heavy ValueError cause triggers rescue; no whitelist, generic failure catch or pre-emptive heavy movement. Compatible paths execute original R8 function unchanged."
+    },
+    "primary_estimand": "Full container wall time for512 successful prepared structures; throughput=512*60/median walltime. Two complete technical repeats per rescue/route, not independent biological replicates.",
+    "jobs": 13,
+    "original_jobs": 12,
+    "explicit_same_configuration_replacement": 1,
+    "source_or_configuration_changed_for_replacement": false,
+    "completed_rescue_jobs": 8,
+    "retained_reference_jobs_with_three_expected_rejections": 4,
+    "retained_cuda_affected_job": {
+      "label": "reduce_local_r1",
+      "prepared": 508,
+      "rescued": 3,
+      "runtime_failures": 4
+    },
+    "raw_predictions_identical_across_all_jobs": true,
+    "nonrescued_prepared_outputs_identical_to_matched_route_control": true,
+    "unique_stored_geometry_scores": 922,
+    "all_unique_H_screens_pass": true,
+    "paired_rescues_checked": 27,
+    "all_paired_rescues_pass": true,
+    "RAM": "Host MemAvailable 20ms sampling,5s pre-job baseline and8s post-job window. No RSS+CUDA sum. Pre/post sensitivity retained; drift >0.25 GiB in6/12 selected jobs limits memory rankings. No swap growth."
+  },
+  "regression_tests": {
+    "passed": true,
+    "count": 45,
+    "log_sha256": "9ee7307921350855f3bc62d19519130a759023c948d013cfdcc18b8a9a943c59"
+  },
+  "integration_checks": {
+    "openmm_local": "301d73a58c9f803d99ad3ade242a2fcd87b5754ce884d865b7d04d2347c68e31",
+    "openmm_restrained": "237a4894172b62b83b17d5eb57220d6a2ada500b81203eab4a9bbe5b7c86a799",
+    "reduce_local": "1b562ca920a9363bcc4f2a1ec428b394887743b1e3471537cc15abe72cc721a6",
+    "reduce_restrained": "913481a00d53437685f9bf2586a01891b8b2bb24a4e7918acc889e2273b7247b"
+  },
+  "frozen_protocol_sha256": {
+    "protocol_271026.json": "5ebeb3134d2b2d6a3e4c4a7d9c8c53604ec93f8d47a2a7fa0fdacaaf696c1882",
+    "retry1_protocol_271026.json": "181119d5f6d5b03a72075d8f11ea65608327c634442474ed1bba75c47db24ad6"
+  },
+  "third_party_changes_this_stage": "None. Original R8 application preparation function retained verbatim; opt-in dispatcher adds rejection-only use of the already qualified rescue API. Neural/AOT/writer, OpenMM/PDBFixer/Reduce and model weights unchanged.",
+  "historical_provenance": "Prior rescue evidence and source/runtime identities belong to parent_result_commit. Older qualified snapshots, images and logs remain intact; current report/README/source hashes are recorded separately here.",
+  "local_retention": "rescue_pipeline512_271026 retains all source/input snapshots, original and retry outputs, detailed atom/residue diagnostics, failing audits, logs and host memory traces. No biological sequences or structures are uploaded."
+}

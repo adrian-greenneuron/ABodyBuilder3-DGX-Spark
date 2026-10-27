@@ -1,0 +1,4 @@
+# Local incremental experiment. Verify the parent image against provenance.
+ARG BASE_IMAGE=abodybuilder3-dev-spark:heavy-rescue-candidate-271026
+FROM ${BASE_IMAGE}
+COPY candidate/structure_preparation.py candidate/rescue_policy.py candidate/rejected_rescue.py /opt/abodybuilder3/scripts/
