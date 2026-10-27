@@ -7,6 +7,9 @@ Base and pLDDT use the same released checkpoints and eight learned structure
 updates, with one GPU model process and bounded CPU preparation/output queues.
 The default disables TF32; earlier dev measurements permitted it.
 
+For current decisions, retained resources and proposed next work, read the
+[development handover](docs/abodybuilder3_development_handover_271026.md).
+
 In the installed-CLI comparison, 1,000 inputs completed in **about 13 seconds**,
 versus **about 30 seconds** for matched strict-FP32 eager execution with the
 Python writer. Peak CUDA allocation fell from **3.99 to 2.39 GiB**. On a separate
