@@ -23,8 +23,10 @@ for coverage, memory trade-offs and individual measurements.
 
 The [ordered optimisation report](docs/abodybuilder3_ordered_optimisation_261026.md)
 includes pipeline timelines, shape/memory screens and optional chemistry trials.
-Chemical preparation remains serial: faster concurrent candidates are isolated
-for review of small prepared-coordinate differences.
+Optional pH-7 preparation now uses GPU hydrogen placement and up to 12 isolated
+preparation workers. **Local rescue is enabled by default for rejected cases**;
+`--rescue restrained` selects the more extensive repair. See the
+[rescue integration and checks](docs/abodybuilder3_rescue_integration_271026.md).
 
 [Main](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/main) now ships the accepted strict-FP32 AOT, batching, native writer and language runtime. Tests, experiment tools and research reports remain here on dev; see the [promotion checks](docs/abodybuilder3_main_promotion_261026.md). The original rebuild recipe is preserved at [`original-runtime-251026`](https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/tree/original-runtime-251026). This dev branch includes main’s explicit chemical preparation and restrained minimisation.
 
@@ -180,14 +182,16 @@ Plain prediction is the fast default. Preparation runs only when requested, save
 
 | Options | Behaviour |
 |---|---|
-| `--add-hydrogens --ph 7` | Repair missing heavy/terminal atoms and add hydrogens at pH 7 |
+| `--add-hydrogens --ph 7` | GPU hydrogen placement; local heavy-atom rescue only if the fixed-heavy geometry is rejected |
+| `--add-hydrogens --rescue restrained` | Use guarded restrained rescue for rejected cases only |
+| `--add-hydrogens --rescue off` | Disable heavy-atom rescue; incompatible fixed-heavy geometry fails explicitly |
 | `--add-hydrogens --hydrogen-method reduce --sidechain-flips` | Also allow Reduce to optimise Asn/Gln/His side-chain orientations |
-| `--relax restrained --relax-platform cuda` | Prepare, then perform restrained energy minimisation on the Spark GPU |
+| `--relax restrained --relax-platform cuda` | Separately request whole-structure restrained minimisation for every structure |
 
 For example, keep the quick-start Docker command and change its final line to:
 
 ```bash
-        --model plddt --workers 1 --seed 42 --relax restrained --relax-platform cuda
+        --model plddt --workers 1 --seed 42 --add-hydrogens
 ```
 
 | Output | Contents |
@@ -198,6 +202,26 @@ For example, keep the quick-start Docker command and change its final line to:
 | `.preparation.json` | Options, repairs, protonation, inferred disulfides, warnings, timings and minimisation results |
 
 PDBFixer repairs missing heavy/terminal atoms; OpenMM places the final hydrogens. Optional Reduce processing changes side-chain orientations only when requested, then OpenMM rebuilds hydrogens against the repaired topology. There is no silent fallback between methods. Preparation does not reconstruct missing sequence stretches, and unsupported protonation/force-field combinations fail explicitly.
+
+At pH 7, normal preparation keeps existing heavy atoms fixed, apart from requested
+Reduce flips. If their geometry cannot support a planar, outward hydrogen within
+the angle limits, local rescue repairs a bounded residue neighbourhood and
+rebuilds hydrogens. The raw prediction stays untouched, and the audit records
+the rejection, repair attempts, geometry checks and coordinate changes. Failed
+local rescue never silently invokes restrained rescue. Other errors, including
+CUDA failures, remain failures.
+
+`--rescue restrained` allows larger changes on those same rejected cases and
+requires convergence and stereochemistry checks. It is distinct from `--relax
+restrained`, which minimises every structure. Rescue is qualified at pH 7; use
+`--rescue off` for other pH values, which retain the earlier CPU protonation path.
+The new pH-7 geometry path requires CUDA, including when rescue is off.
+`--preparation-workers auto` uses up to 12 processes after inference; an explicit
+count from 1 to 20 is available. Whole-structure relaxation remains serial.
+
+Local rescue prioritises speed and leaves unrelated pre-existing heavy-atom
+strain. Neither rescue policy establishes improved accuracy against an
+experimental structure or guarantees a clash-free result.
 
 Relaxation uses Amber ff14SB with GBn2 implicit solvent. It first optimises hydrogen positions with heavy atoms fixed, then minimises with positional restraints on heavy atoms. Select `--relax-platform cuda` on Spark: the portable default is `cpu`, which was substantially slower. Inspect the audit's convergence and geometry warnings before downstream use. Lower energy or fewer overlaps does not establish greater accuracy against an experimental structure.
 
@@ -242,8 +266,14 @@ promise for arbitrarily large CSVs.
 See the [current report, plots and compact data](docs/abodybuilder3_dev_aot_validation_261026.md).
 The [25 October exact-output optimisation report](docs/abodybuilder3_dev_optimisation_251026.md)
 and [earlier batching/main comparison](docs/abodybuilder3_dev_batching_251026.md)
-retain their original measurements and precision policies. Optional chemistry
-keeps the [established protocol and timings](docs/abodybuilder3_preparation_benchmarks_251026.md).
+retain their original measurements and precision policies. The qualified
+512-antibody chemistry pipeline achieved **146 structures/minute with local
+rescue**, or **129/minute with optional Reduce processing**, including startup,
+prediction and writing. Both routes prepared all 512 inputs; only three needed
+rescue. These are separate from prediction-only rates. See the
+[rescue results and integration checks](docs/abodybuilder3_rescue_integration_271026.md);
+the [25 October preparation measurements](docs/abodybuilder3_preparation_benchmarks_251026.md)
+retain the earlier serial protocol.
 
 ## Reproducible builds and verification
 
@@ -253,7 +283,7 @@ The Dockerfile pins the NGC base image by digest, the source foundation by commi
 |---|---|
 | Base image | NVIDIA NGC PyTorch 25.11, pinned digest |
 | Python / PyTorch / CUDA | 3.12 / NGC 2.10 prerelease / 13.0 |
-| OpenMM / PDBFixer | 8.6.1 / 1.12.0, published ARM64 packages |
+| OpenMM / PDBFixer | 8.6.1 / 1.12.0, published ARM64 packages with version-guarded preparation API patches |
 | OpenMM CUDA dependencies | Published wheels pinned to CUDA 13.0 |
 | Reduce | 4.17, pinned source revision |
 | ABodyBuilder3 weights | Three checkpoints from [Zenodo 11354577](https://zenodo.org/records/11354577); approximately 441 MB compressed archive |

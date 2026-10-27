@@ -1,0 +1,20 @@
+--- a/openmm_modeller.py
++++ b/openmm_modeller.py
+@@ -756 +756 @@
+-    def addHydrogens(self, forcefield=None, pH=7.0, variants=None, platform=None, residueTemplates=dict()):
++    def addHydrogens(self, forcefield=None, pH=7.0, variants=None, platform=None, residueTemplates=dict(), platformProperties=None, hydrogenOptimizer=None):
+@@ -1100,0 +1101,5 @@
++        if hydrogenOptimizer is not None:
++            self.positions = hydrogenOptimizer(system, newTopology, newPositions, newIndices, platform, platformProperties)
++            self.topology = newTopology
++            return actualVariants
++
+@@ -1101,0 +1107,2 @@
++            if platformProperties:
++                raise ValueError("Hydrogen Context properties require an explicit platform")
+@@ -1102,0 +1110,2 @@
++        elif platformProperties is None:
++            context = Context(system, VerletIntegrator(0.0), platform)
+@@ -1104 +1113 @@
+-            context = Context(system, VerletIntegrator(0.0), platform)
++            context = Context(system, VerletIntegrator(0.0), platform, platformProperties)

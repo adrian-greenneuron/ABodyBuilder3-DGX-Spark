@@ -5,6 +5,18 @@
 scripts/*
 !scripts/predict.py
 !scripts/structure_preparation.py
+!scripts/preparation_pool.py
+!scripts/hydrogen_geometry.py
+!scripts/heavy_atom_rescue.py
+!scripts/rescue_geometry.py
+!scripts/rejected_rescue.py
+!scripts/rescue_policy.py
+!patches/
+patches/*
+!patches/preparation/
+!patches/preparation/*.py
+!patches/preparation/*.json
+!patches/preparation/*.patch
 
 !scripts/batch_pipeline.py
 !src/

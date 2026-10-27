@@ -1,0 +1,18 @@
+--- a/pdbfixer.py
++++ b/pdbfixer.py
+@@ -1207 +1207 @@
+-    def addMissingAtoms(self, seed=None):
++    def addMissingAtoms(self, seed=None, platformProperties=None):
+@@ -1214,0 +1215,3 @@
++        platformProperties : dict, optional
++            Experimental extension: explicit properties for the repair Context.
++            Requires self.platform; does not change platform-global defaults.
+@@ -1284,0 +1288,2 @@
++                if platformProperties:
++                    raise ValueError("Repair platform properties require an explicit platform")
+@@ -1285,0 +1291,2 @@
++            elif platformProperties is None:
++                context = mm.Context(system, integrator, self.platform)
+@@ -1287 +1294 @@
+-                context = mm.Context(system, integrator, self.platform)
++                context = mm.Context(system, integrator, self.platform, platformProperties)

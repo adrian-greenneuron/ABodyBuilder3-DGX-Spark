@@ -1,0 +1,12 @@
+{
+  "openmm_modeller.py": {
+    "module": "openmm.app.modeller",
+    "original_sha256": "f61e61f1419fcc3c24e7096ab96e10f87f70951085a83941d6040390e8819ca3",
+    "patched_sha256": "f3b89e8a5e1677c8c69849d611926d2774ba1739cbf358226c088d9446b0cbe6"
+  },
+  "pdbfixer.py": {
+    "module": "pdbfixer.pdbfixer",
+    "original_sha256": "a52e39125e3e0e2d1b58b83841fb05b8669e0bcdd73461e1b0ed1d5a8e8261b9",
+    "patched_sha256": "9db3452fa396e61a73fd7ce26e225b1c3fdb52eb306d45ee7677cad5d860611c"
+  }
+}

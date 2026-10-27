@@ -96,4 +96,26 @@ class BatchCliTests(unittest.TestCase):
             r=self.runner.invoke(cli.app,self.args+['--checkpoint',str(self.root/'absent.ckpt')])
             self.assertNotEqual(r.exit_code,0);load.assert_not_called()
 
+    def test_rescue_policy_reaches_the_preparation_controller(self):
+        for extra, expected in [([], 'local'), (['--rescue', 'restrained'], 'restrained'),
+                                (['--rescue', 'off'], 'off')]:
+            with self.subTest(policy=expected),patch.object(cli,'prepare_output_paths') as prepare:
+                r=self.invoke(['--add-hydrogens','--overwrite']+extra)
+                self.assertEqual(r.exit_code,0,(r.output,r.exception))
+                prepare.assert_called_once()
+                paths, options, workers=prepare.call_args.args
+                self.assertEqual(len(paths),5)
+                self.assertEqual(options.rescue_policy,expected)
+                self.assertGreater(workers,1)
+
+    def test_invalid_rescue_options_fail_before_model_loading(self):
+        for extra in [['--rescue','local'], ['--add-hydrogens','--rescue','unknown'],
+                      ['--add-hydrogens','--ph','5'],
+                      ['--relax','restrained','--rescue','local'],
+                      ['--add-hydrogens','--preparation-workers','21']]:
+            with self.subTest(extra=extra),patch.object(cli,'load_model') as load:
+                r=self.runner.invoke(cli.app,self.args+extra)
+                self.assertNotEqual(r.exit_code,0)
+                load.assert_not_called()
+
 if __name__=='__main__':unittest.main()

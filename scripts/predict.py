@@ -356,6 +356,17 @@ def write_prepared_outputs(raw, output_path, options):
     record_path.write_text(json.dumps(record, indent=2) + "\n")
 
 
+def prepare_output_paths(paths, options, workers):
+    from preparation_pool import prepare_paths
+    if workers <= 1 or len(paths) <= 1:
+        for path in paths:
+            write_prepared_outputs(path.read_text(), path, options)
+        return
+    for record in prepare_paths(paths, options, workers):
+        for warning in record["warnings"]:
+            log(f"{Path(record['path']).name}: {warning}", "error")
+
+
 def process_single_antibody(
     name: str,
     heavy: str,
@@ -536,7 +547,7 @@ def validate_antibodies(antibodies):
 def run_batched_pipeline(antibodies, model, device, output, output_format,
                          confidence_threshold, preparation_options, max_batch_size,
                          memory_gib, cpu_workers, report_path, unique_name, progress, task,
-                         overwrite=False):
+                         overwrite=False, preparation_workers=1):
     script_dir = str(Path(__file__).resolve().parent)
     if script_dir not in sys.path:
         sys.path.insert(0, script_dir)
@@ -551,6 +562,8 @@ def run_batched_pipeline(antibodies, model, device, output, output_format,
     stats = {"completed": False, "max_batch_size": max_batch_size,
              "memory_target_gib": memory_gib, "pair_budget": pair_budget,
              "batches": [], "oom_retries": [], "saved": 0, "skipped": 0}
+    if preparation_options is not None:
+        stats["preparation_workers"] = preparation_workers
     stats['deployment'] = getattr(model, '_deployment_stats', {'execution': 'eager'})
     lock = threading.Lock()
     prepared_paths = []
@@ -611,8 +624,8 @@ def run_batched_pipeline(antibodies, model, device, output, output_format,
         run_pipeline(plan_batches(named, policy), prepare, infer, write,
                      prefetch=cpu_workers, writers=cpu_workers)
         # Keep OpenMM CUDA work separate from the inference engine, as on main.
-        for path in prepared_paths:
-            write_prepared_outputs(path.read_text(), path, preparation_options)
+        if preparation_options is not None:
+            prepare_output_paths(prepared_paths, preparation_options, preparation_workers)
         stats["completed"] = True
     finally:
         stats["processing_seconds"] = time.perf_counter()-start
@@ -699,10 +712,14 @@ def predict(
         None, "--hydrogen-method", help="Preparation: openmm (default) or reduce then OpenMM protonation."
     ),
     ph: Optional[float] = typer.Option(
-        None, "--ph", help="Final OpenMM preparation pH, 0-14 (default 7)."
+        None, "--ph", help="Final preparation pH, 0-14 (default 7). Other values require --rescue off."
     ),
     sidechain_flips: bool = typer.Option(
         False, "--sidechain-flips", help="Allow Reduce to change Asn/Gln/His side-chain orientations."
+    ),
+    rescue: Optional[str] = typer.Option(
+        None, "--rescue",
+        help="Rejected-case heavy-atom rescue: local (default for pH-7 preparation), restrained, or off. Separate from --relax."
     ),
     relax: str = typer.Option(
         "none", "--relax", help="none (default) or restrained: prepare and energy-minimise with OpenMM."
@@ -738,6 +755,10 @@ def predict(
     cpu_workers: int = typer.Option(
         2, "--cpu-workers", min=1, max=8,
         help="CPU preparation/output workers per stage; bounded queues."
+    ),
+    preparation_workers: str = typer.Option(
+        "auto", "--preparation-workers",
+        help="Independent preparation processes: auto uses up to 12, or 1-20. Whole-structure relaxation stays serial; atom repair uses one CPU thread."
     ),
     batch_report: Optional[Path] = typer.Option(
         None, "--batch-report", help="Save batch sizes, OOM retries and completion metadata as JSON."
@@ -797,6 +818,7 @@ def predict(
     if use_batching and workers not in ("auto", "1"):
         raise typer.BadParameter("GPU batching uses one model process; use --workers auto or --workers 1.")
     preparation_options = None
+    preparation_worker_count = 1
     if add_hydrogens or relax != "none":
         if output_format != OutputFormat.pdb:
             raise typer.BadParameter("Preparation/relaxation currently requires --format pdb; other formats are never silently ignored.")
@@ -805,7 +827,7 @@ def predict(
             sys.path.insert(0, script_dir)
         from structure_preparation import Options
         preparation_options = Options(
-            hydrogen_method=hydrogen_method or "openmm", ph=ph,
+            hydrogen_method=hydrogen_method or "openmm", ph=ph, rescue=rescue,
             sidechain_flips=sidechain_flips, relax=relax,
             restraint_k=relax_restraint, tolerance=relax_tolerance,
             max_iterations=relax_max_iterations, seed=seed if seed is not None else 0,
@@ -815,7 +837,7 @@ def predict(
             preparation_options.validate()
         except ValueError as exc:
             raise typer.BadParameter(str(exc)) from exc
-    elif hydrogen_method is not None or ph is not None or sidechain_flips or relax_restraint != 1000. or relax_tolerance != 10. or relax_max_iterations != 1000 or relax_platform != "cpu":
+    elif hydrogen_method is not None or ph is not None or sidechain_flips or relax_restraint != 1000. or relax_tolerance != 10. or relax_max_iterations != 1000 or relax_platform != "cpu" or preparation_workers != "auto" or rescue is not None:
         raise typer.BadParameter("Preparation settings require --add-hydrogens or --relax restrained.")
     
     # Set random seed if provided
@@ -850,6 +872,12 @@ def predict(
         validate_antibodies(antibodies)
     except ValueError as exc:
         raise typer.BadParameter(str(exc)) from exc
+    if preparation_options is not None:
+        from preparation_pool import worker_count
+        try:
+            preparation_worker_count = worker_count(preparation_workers, len(antibodies), relax)
+        except ValueError as exc:
+            raise typer.BadParameter(str(exc)) from exc
     
     if batch_size == "auto" and use_batching and len(antibodies) <= 128:
         max_batch_size = 16
@@ -902,7 +930,7 @@ def predict(
     log(f"[bold]ABodyBuilder3[/bold] - {model_type} model on {device}")
     log(f"Processing {len(antibodies)} antibody(ies) with {num_workers} worker(s)...")
     if preparation_options is not None:
-        log(f"[dim]Separate preparation: {preparation_options.hydrogen_method}; relaxation: {relax}[/dim]")
+        log(f"[dim]Separate preparation: {preparation_options.hydrogen_method}; rescue: {preparation_options.rescue_policy}; whole-structure relaxation: {relax}[/dim]")
     if confidence_threshold:
         log(f"[dim]Confidence threshold: {confidence_threshold}[/dim]")
     if model_type == "language":
@@ -982,7 +1010,8 @@ def predict(
             run_batched_pipeline(antibodies, model, device, output, output_format,
                                  confidence_threshold, preparation_options, max_batch_size,
                                  batch_memory_gib, cpu_workers, batch_report, get_unique_name,
-                                 progress, task, overwrite=overwrite)
+                                 progress, task, overwrite=overwrite,
+                                 preparation_workers=preparation_worker_count)
             return
         elif use_multiprocess:
             # Use ProcessPoolExecutor with each worker having its own model
@@ -1063,14 +1092,17 @@ def predict(
     if output_is_dir:
         # Ensure directory exists
         output.mkdir(parents=True, exist_ok=True)
+        preparation_paths = []
         
         def write_output(item: Tuple[str, str, Optional[float]]) -> str:
             unique_name, output_string, _ = item
             output_path = output / f"{unique_name}{ext}"
             with open(output_path, "w") as f:
                 f.write(output_string)
-            if preparation_options is not None:
+            if preparation_options is not None and preparation_worker_count <= 1:
                 write_prepared_outputs(output_string, output_path, preparation_options)
+            elif preparation_options is not None:
+                preparation_paths.append(output_path)
             return unique_name
         
         if len(results) > 1 and preparation_options is None:
@@ -1083,6 +1115,12 @@ def predict(
                 except Exception as exc:
                     failed += 1
                     log(f"Preparation failed for {result[0]} (raw prediction retained): {exc}", "error")
+        if preparation_options is not None and preparation_worker_count > 1:
+            try:
+                prepare_output_paths(preparation_paths, preparation_options, preparation_worker_count)
+            except Exception as exc:
+                failed += 1
+                log(f"Preparation failed (raw predictions retained): {exc}", "error")
     elif results:
         # Single file output
         unique_name, output_string, _ = results[0]

@@ -1,6 +1,7 @@
 """Chemical checks in the Docker runtime using a saved public prediction.
 
-Set ABB3_TEST_PDB to a heavy-atom PDB; tests need no prediction model or GPU.
+Set ABB3_TEST_PDB to a heavy-atom PDB. Geometry preparation requires CUDA;
+tests need no neural prediction model.
 """
 import io
 import os
@@ -39,7 +40,7 @@ class ChemistryTests(unittest.TestCase):
         # combinations are not all parameterised by the bundled Amber force field.
         path = Path(os.environ["ABB3_TEST_PDB"]).with_name("trastuzumab_like.pdb")
         raw = path.read_text()
-        low = prepare_structure(raw, Options(ph=5, seed=42))[2]
+        low = prepare_structure(raw, Options(ph=5, seed=42, rescue="off"))[2]
         high = prepare_structure(raw, Options(ph=7, seed=42))[2]
         self.assertGreater(low["prepared_geometry"]["hydrogens"], high["prepared_geometry"]["hydrogens"])
 

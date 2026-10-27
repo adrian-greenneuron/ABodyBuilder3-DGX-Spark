@@ -26,8 +26,18 @@ class Options:
     max_iterations: int = 1000
     relax_platform: str = "CPU"
     seed: int = 0
+    rescue: str | None = None
+
+    @property
+    def rescue_policy(self):
+        # Whole-structure relaxation retains its separate established protocol.
+        return self.rescue if self.rescue is not None else ("local" if self.relax == "none" else "off")
 
     def validate(self):
+        if self.rescue_policy not in ("local", "restrained", "off"):
+            raise ValueError("--rescue must be local, restrained or off.")
+        if self.rescue_policy != "off" and (self.relax != "none" or self.ph not in (None, 7.0)):
+            raise ValueError("Rescue requires pH 7 and no --relax option. Use --rescue off for other pH values or whole-structure relaxation.")
         if self.hydrogen_method not in ("openmm", "reduce"):
             raise ValueError("--hydrogen-method must be 'openmm' or 'reduce'.")
         if self.relax not in ("none", "restrained"):
@@ -157,7 +167,12 @@ def _repair(raw, options, report):
         "missing_terminal_atoms": [{"chain": r.chain.id, "residue": r.id,
         "atoms": list(names)} for r,names in fixer.missingTerminals.items()],
         "missing_sequence_reconstruction": False}
-    fixer.addMissingAtoms(seed=options.seed)
+    _, mm, _, _, _ = _runtime()
+    fixer.platform = mm.Platform.getPlatformByName("CPU")
+    properties = {"Threads": "1", "DeterministicForces": "true"}
+    fixer.addMissingAtoms(seed=options.seed, platformProperties=properties)
+    report["repair_runtime"] = {"policy": "cpu1", "platform": "CPU",
+                                "requested_properties": properties}
     if list((r.chain.id,r.id,r.name) for r in fixer.topology.residues()) != list((r.chain.id,r.id,r.name) for r in original.topology.residues()):
         raise ValueError("Repair changed chain/residue identities.")
     changes = _changes(original.topology, original.positions, fixer.topology, fixer.positions)
@@ -261,7 +276,7 @@ def _minimise(topology, positions, options, freeze_heavy=False):
         del context, integrator
 
 
-def prepare_structure(raw, options):
+def prepare_structure_without_rescue(raw, options):
     """Return (prepared PDB, optional relaxed PDB, machine-readable record).
 
     Failure carries the partial record and is never converted into raw success.
@@ -271,7 +286,8 @@ def prepare_structure(raw, options):
     report = {"status": "started", "options": asdict(options),
               "raw_sha256": hashlib.sha256(raw.encode()).hexdigest(),
               "forcefield": ["amber14/protein.ff14SB.xml", "implicit/gbn2.xml"],
-              "fallback": "disabled", "warnings": []}
+              "fallback": "disabled", "warnings": [],
+              "rescue": {"policy": options.rescue_policy, "applied": False}}
     try:
         np, mm, app, _, _ = _runtime()
         random.seed(options.seed); np.random.seed(options.seed)
@@ -285,9 +301,29 @@ def prepare_structure(raw, options):
         report["effective_ph"] = ph
         report["hydrogen_backend"] = "OpenMM (after optional Reduce orientation)"
         modeller = app.Modeller(topology, positions)
+        geometry_policy = "robust_planar" if options.relax == "none" and ph == 7.0 else "off"
         try:
-            variants = modeller.addHydrogens(_forcefield(), pH=ph, platform=mm.Platform.getPlatformByName("CPU"))
+            policy = "gpu_mixed" if geometry_policy != "off" else "cpu1"
+            platform_name = "CUDA" if policy == "gpu_mixed" else "CPU"
+            properties = {"Precision": "mixed", "DeterministicForces": "true"} if platform_name == "CUDA" else None
+            report["hydrogen_runtime"] = {"policy": policy, "platform": platform_name,
+                                          "requested_properties": properties}
+            kwargs = {} if properties is None else {"platformProperties": properties}
+            if geometry_policy != "off":
+                if options.relax != "none":
+                    raise ValueError("Fixed-heavy hydrogen placement requires preparation without whole-structure relaxation.")
+                from hydrogen_geometry import optimise
+                kwargs["hydrogenOptimizer"] = optimise
+            variants = modeller.addHydrogens(_forcefield(), pH=ph,
+                platform=mm.Platform.getPlatformByName(platform_name), **kwargs)
+            if geometry_policy != "off":
+                report["hydrogen_geometry_optimisation"] = dict(optimise.last_report)
+                report["hydrogen_backend"] = "Fixed-heavy geometry placement on CUDA (after optional Reduce orientation)"
+                if not optimise.last_report.get("success", True):
+                    report["warnings"].append("Hydrogen placement reached its finite optimiser budget; geometric checks passed, optimisation convergence is not claimed.")
         except ValueError as exc:
+            if geometry_policy != "off":
+                raise ValueError(f"Geometry-based hydrogen placement failed; no alternate method was used. {exc}") from exc
             raise ValueError(f"OpenMM could not parameterise preparation at pH {ph}. "
                              f"Some protonation/terminal combinations lack Amber templates; no different state was substituted. {exc}") from exc
         topology, positions = modeller.topology, modeller.positions
@@ -322,3 +358,10 @@ def prepare_structure(raw, options):
     except Exception as exc:
         report.update(status="failed", error=str(exc), seconds=time.perf_counter()-started)
         raise PreparationError(str(exc), report) from exc
+
+
+def prepare_structure(raw, options):
+    """Prepare first; rescue only the explicitly identified frozen-heavy failure."""
+    options.validate()
+    from rescue_policy import dispatch
+    return dispatch(raw, options, prepare_structure_without_rescue, PreparationError)

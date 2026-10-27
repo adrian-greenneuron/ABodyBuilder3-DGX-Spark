@@ -1,0 +1,205 @@
+{
+  "date": "2026-10-27",
+  "component_commit": "da2672e33dd1afdc4f1b3fadf5d997ef9f8fdd99",
+  "dev_parent_commit": "e6fabdf73aa9590431377de5f923c256576829fd",
+  "main_unchanged_commit": "c20d119957bcbbd24d8534fddbdc3e9fc7d57795",
+  "fixture_checks": [
+    {
+      "route": "openmm",
+      "rescue_policy": "local",
+      "prepared": 6,
+      "rescues": 3,
+      "identical_to_qualified": 6
+    },
+    {
+      "route": "openmm",
+      "rescue_policy": "restrained",
+      "prepared": 6,
+      "rescues": 3,
+      "identical_to_qualified": 3
+    },
+    {
+      "route": "reduce",
+      "rescue_policy": "local",
+      "prepared": 6,
+      "rescues": 3,
+      "identical_to_qualified": 6
+    },
+    {
+      "route": "reduce",
+      "rescue_policy": "restrained",
+      "prepared": 6,
+      "rescues": 3,
+      "identical_to_qualified": 3
+    }
+  ],
+  "cli": {
+    "previous": {
+      "completed": true,
+      "raw_outputs": 6,
+      "prepared_outputs": 0,
+      "rescues": 0,
+      "raw_identical_to_previous": true,
+      "preparation_workers": null,
+      "deployment": {
+        "execution": "aot",
+        "precision": "strict_fp32",
+        "checkpoint_sha256": "421aa6c52a5152f781b35007411985146fb520a90286a955161cb8e50584d615",
+        "manifest_sha256": "947bbaf04b6633cb9b0a073fb62d090b55610e1b2964b750466c95840bc6203e",
+        "packages": {
+          "single": {
+            "sha256": "6615886ed9cef2a9853d04b513e9c67f7409c33dfce85d2d4e5120d9b0b535ee",
+            "load_seconds": 0.08338884901604615
+          },
+          "multi": {
+            "sha256": "562816d5d947de42656756f7bd1af9210a38451f4d455d23eba325ff5492ae81",
+            "load_seconds": 0.07772827698499896
+          }
+        },
+        "aot_batches": 2,
+        "eager_shape_fallback_batches": 0,
+        "fallback_reasons": {}
+      }
+    },
+    "plain": {
+      "completed": true,
+      "raw_outputs": 6,
+      "prepared_outputs": 0,
+      "rescues": 0,
+      "raw_identical_to_previous": true,
+      "preparation_workers": null,
+      "deployment": {
+        "execution": "aot",
+        "precision": "strict_fp32",
+        "checkpoint_sha256": "421aa6c52a5152f781b35007411985146fb520a90286a955161cb8e50584d615",
+        "manifest_sha256": "947bbaf04b6633cb9b0a073fb62d090b55610e1b2964b750466c95840bc6203e",
+        "packages": {
+          "single": {
+            "sha256": "6615886ed9cef2a9853d04b513e9c67f7409c33dfce85d2d4e5120d9b0b535ee",
+            "load_seconds": 0.07847100400249474
+          },
+          "multi": {
+            "sha256": "562816d5d947de42656756f7bd1af9210a38451f4d455d23eba325ff5492ae81",
+            "load_seconds": 0.07698904001154006
+          }
+        },
+        "aot_batches": 2,
+        "eager_shape_fallback_batches": 0,
+        "fallback_reasons": {}
+      }
+    },
+    "local": {
+      "completed": true,
+      "raw_outputs": 6,
+      "prepared_outputs": 6,
+      "rescues": 3,
+      "raw_identical_to_previous": true,
+      "preparation_workers": 6,
+      "deployment": {
+        "execution": "aot",
+        "precision": "strict_fp32",
+        "checkpoint_sha256": "421aa6c52a5152f781b35007411985146fb520a90286a955161cb8e50584d615",
+        "manifest_sha256": "947bbaf04b6633cb9b0a073fb62d090b55610e1b2964b750466c95840bc6203e",
+        "packages": {
+          "single": {
+            "sha256": "6615886ed9cef2a9853d04b513e9c67f7409c33dfce85d2d4e5120d9b0b535ee",
+            "load_seconds": 0.07827256998280063
+          },
+          "multi": {
+            "sha256": "562816d5d947de42656756f7bd1af9210a38451f4d455d23eba325ff5492ae81",
+            "load_seconds": 0.07684391899965703
+          }
+        },
+        "aot_batches": 2,
+        "eager_shape_fallback_batches": 0,
+        "fallback_reasons": {}
+      }
+    },
+    "restrained": {
+      "completed": true,
+      "raw_outputs": 6,
+      "prepared_outputs": 6,
+      "rescues": 3,
+      "raw_identical_to_previous": true,
+      "preparation_workers": 6,
+      "deployment": {
+        "execution": "aot",
+        "precision": "strict_fp32",
+        "checkpoint_sha256": "421aa6c52a5152f781b35007411985146fb520a90286a955161cb8e50584d615",
+        "manifest_sha256": "947bbaf04b6633cb9b0a073fb62d090b55610e1b2964b750466c95840bc6203e",
+        "packages": {
+          "single": {
+            "sha256": "6615886ed9cef2a9853d04b513e9c67f7409c33dfce85d2d4e5120d9b0b535ee",
+            "load_seconds": 0.0903706960089039
+          },
+          "multi": {
+            "sha256": "562816d5d947de42656756f7bd1af9210a38451f4d455d23eba325ff5492ae81",
+            "load_seconds": 0.09032146300887689
+          }
+        },
+        "aot_batches": 2,
+        "eager_shape_fallback_batches": 0,
+        "fallback_reasons": {}
+      }
+    }
+  },
+  "geometry": {
+    "completed": true,
+    "prepared_files": 36,
+    "unique_files": 25,
+    "rescue_calls": 18,
+    "hydrogen_geometry_passed": true,
+    "paired_heavy_geometry_passed": true
+  },
+  "checksums": {
+    "scripts/heavy_atom_rescue.py": "cac1593ae41c412b1478be0ccc205bb00c3254d8cae166a240c739fe26e0e470",
+    "scripts/hydrogen_geometry.py": "4cc4f1f304f8589c59f69f43af3a3531dc8607b3b297107a6b1c5087b7b97f36",
+    "scripts/predict.py": "feb46f3af4009d7ac6e969434f8929c7dc3b8c12ba901078a55c234c6304335e",
+    "scripts/preparation_pool.py": "4e5eba7f811a36863684c6f00695ec9b15e1355e7e328663177ad691b5006851",
+    "scripts/rejected_rescue.py": "7ac960499413d690cdfbd2868ec96fb342a9c8367abcc33a4b9abb1316ffded1",
+    "scripts/rescue_geometry.py": "8501f4b66349dba90b75989dcf9dfd46a49fafee85d7d62524717befa5dd440e",
+    "scripts/rescue_policy.py": "eea033b92a40c30f870c6e8f02c6bdf2d004ad24163011fff6b43a87349f2bff",
+    "scripts/structure_preparation.py": "d95bddf8de8d5b34a5319a7aa310bf89245fb7c4babd0e64423c56c2f8adbf26"
+  },
+  "benchmark_source": "https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark/blob/da2672e33dd1afdc4f1b3fadf5d997ef9f8fdd99/docs/rescue_pipeline512_271026.md",
+  "scope": "Focused dev packaging/CLI qualification; full512 performance evidence reused from the frozen component study. Inputs, predictions and detailed audits stay local.",
+  "focused_tests_passed": 39,
+  "final_runtime": {
+    "completed": true,
+    "default_local_rejected_case_passed": true,
+    "qualified_prepared_bytes_unchanged": true,
+    "auto_worker_cap": 12,
+    "upstream_sources_verified": true,
+    "installed_sources": {
+      "structure_preparation.py": "d95bddf8de8d5b34a5319a7aa310bf89245fb7c4babd0e64423c56c2f8adbf26",
+      "rejected_rescue.py": "7ac960499413d690cdfbd2868ec96fb342a9c8367abcc33a4b9abb1316ffded1",
+      "predict.py": "feb46f3af4009d7ac6e969434f8929c7dc3b8c12ba901078a55c234c6304335e",
+      "rescue_geometry.py": "8501f4b66349dba90b75989dcf9dfd46a49fafee85d7d62524717befa5dd440e",
+      "heavy_atom_rescue.py": "cac1593ae41c412b1478be0ccc205bb00c3254d8cae166a240c739fe26e0e470",
+      "preparation_pool.py": "4e5eba7f811a36863684c6f00695ec9b15e1355e7e328663177ad691b5006851",
+      "hydrogen_geometry.py": "4cc4f1f304f8589c59f69f43af3a3531dc8607b3b297107a6b1c5087b7b97f36",
+      "rescue_policy.py": "eea033b92a40c30f870c6e8f02c6bdf2d004ad24163011fff6b43a87349f2bff"
+    }
+  },
+  "off_failure_check": {
+    "completed": true,
+    "expected_exit_code": 1,
+    "raw_retained": 6,
+    "prepared": 3,
+    "explicit_geometry_rejections": 3,
+    "rescues": 0,
+    "raw_identical_to_previous": true
+  },
+  "final_image_id": "sha256:deca5b8a477bbca7ed60b0f929efb4cb4e76df65d06097ae3cace2b99195cce2",
+  "build": "Incremental image over the retained verified dev runtime; full source recipe and guarded upstream patches updated. Model/AOT packages unchanged.",
+  "local_log_checksums": {
+    "build_final_271026.log": "3d41d43585759afdf0895edde3d2bf6e5171fcf835ee2b3bb5bd1f9077e87682",
+    "tests_final_271026.log": "44bb9a73ab1c009a13d522dac411c426cd8558c85d5995096996499a71d2b754",
+    "chemistry_271026.log": "617217f1c5d79cefa740e054e870983e67acd045453c85759b56b200342d3bee",
+    "cli_checks_271026.log": "45563243dbb662cd681d7f48be580e5f09ba99968f71217896ac7bfd6ba206a2",
+    "geometry_271026.log": "acd47b8e41ff2f08ceab1ec22d2844d306089cfa65bb375a87886259ed2a769e",
+    "final_runtime_271026.log": "910fe2e6ce9fc715102f63c687d32c8fcfc548e84172a1929482de84288f1275",
+    "final_checks_271026.log": "4331a47aaa123e623e1a112dd0ae80091d0939488af32fa8cabdd3c41d37f534",
+    "build_final_patches_271026.log": "2c7383d6a4dd9f4f035231a2a2056f44e1d0a9d2c9caaa536a6c7ca66dba0a11"
+  }
+}

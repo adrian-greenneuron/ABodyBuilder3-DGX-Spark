@@ -38,11 +38,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     doxygen \
     swig \
     libboost-dev \
+    patch \
     && rm -rf /var/lib/apt/lists/*
 
 # Published ARM64 and CUDA 13 packages replace the historical source builds.
 COPY runtime-constraints.txt /opt/runtime-constraints.txt
 RUN pip install --no-cache-dir -c /opt/runtime-constraints.txt "openmm[cuda13]==8.6.1" pdbfixer==1.12.0
+COPY patches/preparation/ /opt/preparation-patches/
+RUN python3 /opt/preparation-patches/apply.py
 
 # -----------------------------------------------------------------------------
 # Reduce (MolProbity/Richardson Lab) for fast hydrogen addition
@@ -121,7 +124,9 @@ RUN mkdir -p output/ zenodo/ \
 # -----------------------------------------------------------------------------
 # Keep the tested model source pinned above; deploy the versioned CLI and its
 # optional preparation module from this checkout, including local changes.
-COPY scripts/predict.py scripts/structure_preparation.py scripts/batch_pipeline.py /opt/abodybuilder3/scripts/
+COPY scripts/predict.py scripts/structure_preparation.py scripts/preparation_pool.py scripts/batch_pipeline.py \
+    scripts/hydrogen_geometry.py scripts/heavy_atom_rescue.py scripts/rescue_geometry.py \
+    scripts/rejected_rescue.py scripts/rescue_policy.py /opt/abodybuilder3/scripts/
 COPY src/abodybuilder3/batched_inference.py src/abodybuilder3/inference_features.py src/abodybuilder3/aot_runtime.py src/abodybuilder3/native_pdb.py src/abodybuilder3/pdb_native.cpp src/abodybuilder3/utils.py /opt/abodybuilder3/src/abodybuilder3/
 # Reviewed inference-only subset of the isolated OpenFold-derived experiments.
 COPY src/abodybuilder3/openfold/model/structure_module.py /opt/abodybuilder3/src/abodybuilder3/openfold/model/
