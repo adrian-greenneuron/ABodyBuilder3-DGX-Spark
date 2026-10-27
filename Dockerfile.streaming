@@ -1,0 +1,2 @@
+FROM abodybuilder3-dev-spark:gpu-hydrogen-screen-261026
+COPY candidate/predict.py candidate/preparation_pool.py candidate/stream_preparation.py /opt/abodybuilder3/scripts/

@@ -1,0 +1,26 @@
+--- reference/openmm_modeller.py
++++ candidate/openmm_modeller.py
+@@ -753,7 +753,7 @@
+             Modeller.loadHydrogenDefinitions(os.path.join(os.path.dirname(__file__), 'data', 'hydrogens.xml'))
+             Modeller._hasLoadedStandardHydrogens = True
+ 
+-    def addHydrogens(self, forcefield=None, pH=7.0, variants=None, platform=None, residueTemplates=dict()):
++    def addHydrogens(self, forcefield=None, pH=7.0, variants=None, platform=None, residueTemplates=dict(), platformProperties=None):
+         """Add missing hydrogens to the model.
+ 
+         Some residues can exist in multiple forms depending on the pH and properties of the local environment.  These
+@@ -1099,9 +1099,13 @@
+                             angles.addAngle(bondedTo[index][0].index, index, bondedTo[index][1].index, 1.894, 460.24)
+ 
+         if platform is None:
++            if platformProperties:
++                raise ValueError("Hydrogen Context properties require an explicit platform")
+             context = Context(system, VerletIntegrator(0.0))
++        elif platformProperties is None:
++            context = Context(system, VerletIntegrator(0.0), platform)
+         else:
+-            context = Context(system, VerletIntegrator(0.0), platform)
++            context = Context(system, VerletIntegrator(0.0), platform, platformProperties)
+         context.setPositions(newPositions)
+         LocalEnergyMinimizer.minimize(context, 1.0, 50)
+         self.topology = newTopology

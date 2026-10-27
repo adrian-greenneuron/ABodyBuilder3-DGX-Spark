@@ -23,7 +23,7 @@ class PreparationPoolTests(unittest.TestCase):
             self.assertEqual(pool.worker_count("auto", 100, "none"), 1)
             with self.assertRaisesRegex(ValueError, "OPENMM_CPU_THREADS"):
                 pool.worker_count("4", 100, "none")
-        for value, relax in (("0", "none"), ("9", "none"), ("bad", "none"), ("2", "restrained")):
+        for value, relax in (("0", "none"), ("21", "none"), ("bad", "none"), ("2", "restrained")):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 pool.worker_count(value, 8, relax)
 

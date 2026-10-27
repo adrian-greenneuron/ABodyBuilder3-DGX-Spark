@@ -296,7 +296,14 @@ def prepare_structure(raw, options):
         report["hydrogen_backend"] = "OpenMM (after optional Reduce orientation)"
         modeller = app.Modeller(topology, positions)
         try:
-            variants = modeller.addHydrogens(_forcefield(), pH=ph, platform=mm.Platform.getPlatformByName("CPU"))
+            from hydrogen_policy import hydrogen_properties
+            policy = os.environ.get("AB3_EXPERIMENTAL_HYDROGEN", "cpu1")
+            platform_name, properties = hydrogen_properties(policy)
+            report["hydrogen_runtime"] = {"policy": policy, "platform": platform_name,
+                                          "requested_properties": properties}
+            kwargs = {} if properties is None else {"platformProperties": properties}
+            variants = modeller.addHydrogens(_forcefield(), pH=ph,
+                platform=mm.Platform.getPlatformByName(platform_name), **kwargs)
         except ValueError as exc:
             raise ValueError(f"OpenMM could not parameterise preparation at pH {ph}. "
                              f"Some protonation/terminal combinations lack Amber templates; no different state was substituted. {exc}") from exc

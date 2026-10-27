@@ -1,0 +1,52 @@
+--- reference/predict.py
++++ candidate/predict.py
+@@ -567,6 +567,12 @@
+     stats['deployment'] = getattr(model, '_deployment_stats', {'execution': 'eager'})
+     lock = threading.Lock()
+     prepared_paths = []
++    stream = None
++    schedule = os.environ.get("AB3_EXPERIMENTAL_SCHEDULE", "phased")
++    if schedule not in ("phased", "stream"):
++        raise ValueError("Unknown experimental preparation schedule.")
++    stats["preparation_schedule"] = schedule
++    stats["phase_events"] = {}
+     is_dir = len(named) > 1 or output.is_dir()
+     ext = {"pdb": ".pdb", "cif": ".cif", "json": ".json"}[output_format.value]
+     if is_dir:
+@@ -614,20 +620,35 @@
+             path = output / (name+ext) if is_dir else (output if str(output).endswith(ext) else output.with_suffix(ext))
+             path.parent.mkdir(parents=True, exist_ok=True)
+             path.write_text(text)
++            now = time.monotonic()
+             with lock:
++                stats["phase_events"].setdefault("first_raw_write", now)
++                stats["phase_events"]["last_raw_write"] = now
+                 stats["saved"] += 1
+                 if preparation_options is not None:
+                     prepared_paths.append(path)
+                 progress.update(task, advance=1)
++            if stream is not None:
++                stream.submit(path)
+ 
+     try:
++        if preparation_options is not None and schedule == "stream":
++            from stream_preparation import PreparationStream
++            stream = PreparationStream(preparation_options, preparation_workers)
+         run_pipeline(plan_batches(named, policy), prepare, infer, write,
+                      prefetch=cpu_workers, writers=cpu_workers)
+         # Keep OpenMM CUDA work separate from the inference engine, as on main.
+-        if preparation_options is not None:
++        stats["phase_events"]["prediction_pipeline_finished"] = time.monotonic()
++        if stream is not None:
++            stats["preparation_stream"] = stream.finish()
++        elif preparation_options is not None:
++            stats["phase_events"]["phased_preparation_start"] = time.monotonic()
+             prepare_output_paths(prepared_paths, preparation_options, preparation_workers)
++        stats["phase_events"]["all_preparation_finished"] = time.monotonic()
+         stats["completed"] = True
+     finally:
++        if stream is not None and not stream.closed:
++            stream.finish(raise_errors=False)
+         stats["processing_seconds"] = time.perf_counter()-start
+         if report_path is not None:
+             report_path.parent.mkdir(parents=True, exist_ok=True)

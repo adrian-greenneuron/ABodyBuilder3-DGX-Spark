@@ -3,4 +3,7 @@ FROM ${REFERENCE_IMAGE}
 # Only the PDBFixer Context-properties extension and optional wrapper change.
 # The checkpoint, executable packages, writer, hydrogen engine and Reduce stay fixed.
 COPY candidate/pdbfixer.py /usr/local/lib/python3.12/dist-packages/pdbfixer/pdbfixer.py
-COPY candidate/structure_preparation.py candidate/repair_policy.py /opt/abodybuilder3/scripts/
+# Freeze the CPU candidate wrapper at the parent experiment; the next layer
+# installs the hydrogen-policy wrapper and its additional module together.
+COPY reference/deterministic_structure_preparation.py /opt/abodybuilder3/scripts/structure_preparation.py
+COPY candidate/repair_policy.py /opt/abodybuilder3/scripts/

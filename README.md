@@ -1,27 +1,34 @@
-# Deterministic atom-repair experiments
+# GPU hydrogen and streaming-preparation experiments
 
-**CPU-one-thread repair + eight preparation workers was 5.2–5.4× faster than
-current serial preparation**, with ~2.29 GiB additional unified RAM for OpenMM
-hydrogens and ~3.39 GiB with Reduce. CPU repair and CUDA-double repair repeated
-exactly in the tests. Their prepared hydrogen coordinates differ from the
-current repair, so **neither candidate is enabled on dev or main**.
+**GPU hydrogen preparation with 20 workers was 2.23× faster for OpenMM and
+1.68× faster with Reduce than the tuned CPU candidate on 128 antibodies.**
+Raw neural predictions matched byte for byte throughout all 65 jobs.
 
-See the [report, figures and comparison tables](docs/deterministic_repair_261026.md).
-The earlier [preparation-concurrency findings](docs/preparation_optimisation_261026.md)
-are retained alongside them.
+The GPU preparation introduced some new chemical-geometry defects, so it is
+**not enabled on dev or main**. Bounded streaming worked, but did not improve
+throughput consistently. See the [report with figures and results](docs/hydrogen_pipeline_271026.md).
 
-- `reference/`: original wrapper and exact installed PDBFixer source with its MIT notice.
-- `candidate/`: explicit repair Context properties, wrapper, scheduler and reviewable patches.
-- `Dockerfile.deterministic`: adds only the experimental repair code to the retained candidate runtime.
-- `tools/`: repeatability screens, full-CLI/shared-RAM measurements, coordinate/chemistry diagnostics and plots.
-- `tests/`: policy, source-scope and bounded-scheduler regression checks.
+![Full-pipeline time and unified RAM](docs/assets/hydrogen_pipeline_confirmation_271026.png)
+
+This isolated component branch preserves original and modified third-party code:
+
+- `reference/`: original OpenMM Modeller, original/CPU-candidate preparation and original CLI/pool.
+- `candidate/`: scoped OpenMM Context-properties patch, hydrogen policy, bounded stream and reviewable diffs.
+- `Dockerfile.hydrogen` and `Dockerfile.streaming`: experimental layers over the retained CPU candidate.
+- `tests/`: source-scope, policy, failure, backpressure and analysis checks.
+- `tools/`: frozen-protocol measurements, chemical diagnostics, paired analysis and plotting.
 
 ```bash
 python3 -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
-Actual chemistry/plotting tools use the pinned application runtime. Input
-sequences, predictions, full atom arrays and per-residue identity lists remain
-local. Compact evidence and checksums are included in the report. The image
-`abodybuilder3-dev-spark:deterministic-repair-screen2-261026` is experimental;
-it does not replace `latest` or change either production branch.
+Chemistry and plotting tools use the pinned application container. The report
+links compact evidence, input/source identities and artifact checksums; all
+sequences, structures and per-residue identity lists stay local. The recipes
+are incremental experiment layers; use the exact base/image identities in
+[provenance](provenance_hydrogen_pipeline_261026.json), not a mutable `latest` tag.
+No production defaults or image tags changed and nothing was deleted.
+
+The earlier [deterministic-repair](docs/deterministic_repair_261026.md) and
+[preparation concurrency](docs/preparation_optimisation_261026.md) studies remain
+available as historical evidence.

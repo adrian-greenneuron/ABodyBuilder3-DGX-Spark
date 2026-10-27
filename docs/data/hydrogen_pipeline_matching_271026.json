@@ -1,0 +1,2310 @@
+{
+  "completed": true,
+  "protocol": "Compare CPU/GPU hydrogen positions allowing same-parent label permutations.\n\nThis deliberately generous label-matching diagnostic never moves heavy atoms,\naligns structures, minimises coordinates or rewrites predictions. Parent and\nresidue identities remain local; exported records contain generic target IDs.\n",
+  "rows": [
+    {
+      "route": "openmm",
+      "target": "antibody_000000",
+      "H_count": 1700,
+      "max_by_name_A": 0.10361949623502353,
+      "rms_by_name_A": 0.011651659816120149,
+      "max_after_matching_A": 0.10361949623502353,
+      "rms_after_matching_A": 0.011651659816120149
+    },
+    {
+      "route": "openmm",
+      "target": "antibody_000001",
+      "H_count": 1633,
+      "max_by_name_A": 0.181234654522804,
+      "rms_by_name_A": 0.019822466794893658,
+      "max_after_matching_A": 0.181234654522804,
+      "rms_after_matching_A": 0.019822466794893658
+    },
+    {
+      "route": "openmm",
+      "target": "antibody_000002",
+      "H_count": 1618,
+      "max_by_name_A": 0.20043452796362282,
+      "rms_by_name_A": 0.02462360660975946,
+      "max_after_matching_A": 0.20043452796362282,
+      "rms_after_matching_A": 0.02462360660975946
+    },
+    {
+      "route": "openmm",
+      "target": "antibody_000003",
+      "H_count": 1714,
+      "max_by_name_A": 0.7286288492778745,
+      "rms_by_name_A": 0.08873055853915145,
+      "max_after_matching_A": 0.7286288492778745,
+      "rms_after_matching_A": 0.08873055853915145
+    },
+    {
+      "route": "openmm",
+      "target": "antibody_000004",
+      "H_count": 1755,
+      "max_by_name_A": 7.489188540823364,
+      "rms_by_name_A": 0.22269667641572405,
+      "max_after_matching_A": 7.489188540823364,
+      "rms_after_matching_A": 0.22220630541288014
+    },
+    {
+      "route": "openmm",
+      "target": "antibody_000005",
+      "H_count": 1692,
+      "max_by_name_A": 1.9398605619992384,
+      "rms_by_name_A": 0.13212395677059735,
+      "max_after_matching_A": 1.0009060895009088,
+      "rms_after_matching_A": 0.09058146810505002
+    },
+    {
+      "route": "openmm",
+      "target": "antibody_000006",
+      "H_count": 1645,
+      "max_by_name_A": 0.194843526964588,
+      "rms_by_name_A": 0.012446505594734536,
+      "max_after_matching_A": 0.194843526964588,
+      "rms_after_matching_A": 0.012446505594734536
+    },
+    {
+      "route": "openmm",
+      "target": "antibody_000007",
+      "H_count": 1735,
+      "max_by_name_A": 2.2115709348786434,
+      "rms_by_name_A": 0.10248884946729415,
+      "max_after_matching_A": 2.2089028951042637,
+      "rms_after_matching_A": 0.09661673890331443
+    },
+    {
+      "route": "openmm",
+      "target": "native_000000",
+      "H_count": 1720,
+      "max_by_name_A": 0.09840223574695933,
+      "rms_by_name_A": 0.012732808747666446,
+      "max_after_matching_A": 0.09840223574695933,
+      "rms_after_matching_A": 0.012732808747666446
+    },
+    {
+      "route": "openmm",
+      "target": "native_000001",
+      "H_count": 1624,
+      "max_by_name_A": 2.166405548368079,
+      "rms_by_name_A": 0.05944755937186096,
+      "max_after_matching_A": 2.166405548368079,
+      "rms_after_matching_A": 0.05944755937186096
+    },
+    {
+      "route": "openmm",
+      "target": "native_000002",
+      "H_count": 1636,
+      "max_by_name_A": 0.17060187572239846,
+      "rms_by_name_A": 0.016096420200662123,
+      "max_after_matching_A": 0.17060187572239846,
+      "rms_after_matching_A": 0.016096420200662123
+    },
+    {
+      "route": "openmm",
+      "target": "native_000003",
+      "H_count": 1698,
+      "max_by_name_A": 0.12106609764917659,
+      "rms_by_name_A": 0.010544370326531594,
+      "max_after_matching_A": 0.12106609764917659,
+      "rms_after_matching_A": 0.010544370326531594
+    },
+    {
+      "route": "openmm",
+      "target": "native_000004",
+      "H_count": 1746,
+      "max_by_name_A": 1.6728042324193249,
+      "rms_by_name_A": 0.07384000225868384,
+      "max_after_matching_A": 1.6728042324193249,
+      "rms_after_matching_A": 0.07384000225868384
+    },
+    {
+      "route": "openmm",
+      "target": "native_000005",
+      "H_count": 1656,
+      "max_by_name_A": 2.0755736556431814,
+      "rms_by_name_A": 0.3414257828831785,
+      "max_after_matching_A": 2.0755736556431814,
+      "rms_after_matching_A": 0.3400088909039289
+    },
+    {
+      "route": "openmm",
+      "target": "native_000006",
+      "H_count": 1738,
+      "max_by_name_A": 1.9265671542928386,
+      "rms_by_name_A": 0.06893166760364285,
+      "max_after_matching_A": 0.47231980691052955,
+      "rms_after_matching_A": 0.03682570992380736
+    },
+    {
+      "route": "openmm",
+      "target": "native_000007",
+      "H_count": 1665,
+      "max_by_name_A": 0.8216988499444285,
+      "rms_by_name_A": 0.07647388217329273,
+      "max_after_matching_A": 0.7151629185017901,
+      "rms_after_matching_A": 0.07574370408627186
+    },
+    {
+      "route": "openmm",
+      "target": "native_000008",
+      "H_count": 1711,
+      "max_by_name_A": 0.14738046003456565,
+      "rms_by_name_A": 0.010830585303876546,
+      "max_after_matching_A": 0.14738046003456565,
+      "rms_after_matching_A": 0.010830585303876546
+    },
+    {
+      "route": "openmm",
+      "target": "native_000009",
+      "H_count": 1639,
+      "max_by_name_A": 0.2907679487151225,
+      "rms_by_name_A": 0.03660989374072447,
+      "max_after_matching_A": 0.2907679487151225,
+      "rms_after_matching_A": 0.03660989374072447
+    },
+    {
+      "route": "openmm",
+      "target": "native_000010",
+      "H_count": 1720,
+      "max_by_name_A": 0.1493887545968572,
+      "rms_by_name_A": 0.01460099152415252,
+      "max_after_matching_A": 0.1493887545968572,
+      "rms_after_matching_A": 0.01460099152415252
+    },
+    {
+      "route": "openmm",
+      "target": "native_000011",
+      "H_count": 1716,
+      "max_by_name_A": 0.12830432572598657,
+      "rms_by_name_A": 0.006680216416800525,
+      "max_after_matching_A": 0.12830432572598657,
+      "rms_after_matching_A": 0.006680216416800525
+    },
+    {
+      "route": "openmm",
+      "target": "native_000012",
+      "H_count": 1735,
+      "max_by_name_A": 1.2388648029547047,
+      "rms_by_name_A": 0.06548467493465036,
+      "max_after_matching_A": 0.559815148062285,
+      "rms_after_matching_A": 0.05072625862530208
+    },
+    {
+      "route": "openmm",
+      "target": "native_000013",
+      "H_count": 1769,
+      "max_by_name_A": 2.1137194705069065,
+      "rms_by_name_A": 0.12664476519668758,
+      "max_after_matching_A": 2.1137194705069065,
+      "rms_after_matching_A": 0.12664476519668758
+    },
+    {
+      "route": "openmm",
+      "target": "native_000014",
+      "H_count": 1658,
+      "max_by_name_A": 1.7482888777315957,
+      "rms_by_name_A": 0.06289606472411816,
+      "max_after_matching_A": 0.5410462087474595,
+      "rms_after_matching_A": 0.021493048782315345
+    },
+    {
+      "route": "openmm",
+      "target": "native_000015",
+      "H_count": 1737,
+      "max_by_name_A": 0.9735681794306953,
+      "rms_by_name_A": 0.06144342263722852,
+      "max_after_matching_A": 0.9735681794306953,
+      "rms_after_matching_A": 0.06144342263722852
+    },
+    {
+      "route": "openmm",
+      "target": "native_000016",
+      "H_count": 1705,
+      "max_by_name_A": 0.17887705274852894,
+      "rms_by_name_A": 0.007037478220694148,
+      "max_after_matching_A": 0.17887705274852894,
+      "rms_after_matching_A": 0.007037478220694148
+    },
+    {
+      "route": "openmm",
+      "target": "native_000017",
+      "H_count": 1679,
+      "max_by_name_A": 0.3588384037418508,
+      "rms_by_name_A": 0.04137817858357924,
+      "max_after_matching_A": 0.3588384037418508,
+      "rms_after_matching_A": 0.04137817858357924
+    },
+    {
+      "route": "openmm",
+      "target": "native_000018",
+      "H_count": 1641,
+      "max_by_name_A": 0.08179242018671416,
+      "rms_by_name_A": 0.004111783575066909,
+      "max_after_matching_A": 0.08179242018671416,
+      "rms_after_matching_A": 0.004111783575066909
+    },
+    {
+      "route": "openmm",
+      "target": "native_000019",
+      "H_count": 1660,
+      "max_by_name_A": 0.19197395656703017,
+      "rms_by_name_A": 0.03735914107265781,
+      "max_after_matching_A": 0.19197395656703017,
+      "rms_after_matching_A": 0.03735914107265781
+    },
+    {
+      "route": "openmm",
+      "target": "native_000020",
+      "H_count": 1626,
+      "max_by_name_A": 1.8826951426080647,
+      "rms_by_name_A": 0.2251677220985076,
+      "max_after_matching_A": 1.8826951426080647,
+      "rms_after_matching_A": 0.2251677220985076
+    },
+    {
+      "route": "openmm",
+      "target": "native_000021",
+      "H_count": 1740,
+      "max_by_name_A": 2.152424679286131,
+      "rms_by_name_A": 0.16428612550815958,
+      "max_after_matching_A": 2.152424679286131,
+      "rms_after_matching_A": 0.16428612550815958
+    },
+    {
+      "route": "openmm",
+      "target": "native_000022",
+      "H_count": 1688,
+      "max_by_name_A": 0.06992138442565374,
+      "rms_by_name_A": 0.00561849940331255,
+      "max_after_matching_A": 0.06992138442565374,
+      "rms_after_matching_A": 0.00561849940331255
+    },
+    {
+      "route": "openmm",
+      "target": "native_000023",
+      "H_count": 1736,
+      "max_by_name_A": 1.2792564246467557,
+      "rms_by_name_A": 0.047496846851443675,
+      "max_after_matching_A": 0.18676723481381843,
+      "rms_after_matching_A": 0.019631513272390815
+    },
+    {
+      "route": "openmm",
+      "target": "native_000024",
+      "H_count": 1689,
+      "max_by_name_A": 1.753312864265816,
+      "rms_by_name_A": 0.1116176257379185,
+      "max_after_matching_A": 0.5867035026314393,
+      "rms_after_matching_A": 0.09281888690738473
+    },
+    {
+      "route": "openmm",
+      "target": "native_000025",
+      "H_count": 1641,
+      "max_by_name_A": 0.22463080821650197,
+      "rms_by_name_A": 0.014186663665562085,
+      "max_after_matching_A": 0.22463080821650197,
+      "rms_after_matching_A": 0.014186663665562085
+    },
+    {
+      "route": "openmm",
+      "target": "native_000026",
+      "H_count": 1674,
+      "max_by_name_A": 0.1883878977004635,
+      "rms_by_name_A": 0.020438414647653978,
+      "max_after_matching_A": 0.1883878977004635,
+      "rms_after_matching_A": 0.020438414647653978
+    },
+    {
+      "route": "openmm",
+      "target": "native_000027",
+      "H_count": 1702,
+      "max_by_name_A": 1.9006254233804192,
+      "rms_by_name_A": 0.07949539743825447,
+      "max_after_matching_A": 1.9006254233804192,
+      "rms_after_matching_A": 0.05580702650039248
+    },
+    {
+      "route": "openmm",
+      "target": "native_000028",
+      "H_count": 1749,
+      "max_by_name_A": 2.05062965939733,
+      "rms_by_name_A": 0.09881412632256556,
+      "max_after_matching_A": 2.05062965939733,
+      "rms_after_matching_A": 0.07640149657726142
+    },
+    {
+      "route": "openmm",
+      "target": "native_000029",
+      "H_count": 1674,
+      "max_by_name_A": 0.30688597230893255,
+      "rms_by_name_A": 0.03334060852507016,
+      "max_after_matching_A": 0.30688597230893255,
+      "rms_after_matching_A": 0.03334060852507016
+    },
+    {
+      "route": "openmm",
+      "target": "native_000030",
+      "H_count": 1763,
+      "max_by_name_A": 0.25845309052127957,
+      "rms_by_name_A": 0.048273886548717365,
+      "max_after_matching_A": 0.25845309052127957,
+      "rms_after_matching_A": 0.048273886548717365
+    },
+    {
+      "route": "openmm",
+      "target": "native_000031",
+      "H_count": 1730,
+      "max_by_name_A": 0.11448143954370624,
+      "rms_by_name_A": 0.009856308680700325,
+      "max_after_matching_A": 0.11448143954370624,
+      "rms_after_matching_A": 0.009856308680700325
+    },
+    {
+      "route": "openmm",
+      "target": "native_000032",
+      "H_count": 1726,
+      "max_by_name_A": 1.738470879825143,
+      "rms_by_name_A": 0.045646736635484644,
+      "max_after_matching_A": 1.738470879825143,
+      "rms_after_matching_A": 0.045646736635484644
+    },
+    {
+      "route": "openmm",
+      "target": "native_000033",
+      "H_count": 1661,
+      "max_by_name_A": 0.31883694892530823,
+      "rms_by_name_A": 0.02411394284671612,
+      "max_after_matching_A": 0.31883694892530823,
+      "rms_after_matching_A": 0.02411394284671612
+    },
+    {
+      "route": "openmm",
+      "target": "native_000034",
+      "H_count": 1770,
+      "max_by_name_A": 1.6230800966064478,
+      "rms_by_name_A": 0.0458980877954282,
+      "max_after_matching_A": 1.6230800966064478,
+      "rms_after_matching_A": 0.0458980877954282
+    },
+    {
+      "route": "openmm",
+      "target": "native_000035",
+      "H_count": 1681,
+      "max_by_name_A": 2.0713862507992076,
+      "rms_by_name_A": 0.1034122583712377,
+      "max_after_matching_A": 2.0713862507992076,
+      "rms_after_matching_A": 0.1034122583712377
+    },
+    {
+      "route": "openmm",
+      "target": "native_000036",
+      "H_count": 1696,
+      "max_by_name_A": 2.1772941923405744,
+      "rms_by_name_A": 0.06661832022516508,
+      "max_after_matching_A": 2.0950505960477424,
+      "rms_after_matching_A": 0.056254019772510794
+    },
+    {
+      "route": "openmm",
+      "target": "native_000037",
+      "H_count": 1655,
+      "max_by_name_A": 1.7685841795063093,
+      "rms_by_name_A": 0.09317352164618267,
+      "max_after_matching_A": 1.4610109513621041,
+      "rms_after_matching_A": 0.05440849187319395
+    },
+    {
+      "route": "openmm",
+      "target": "native_000038",
+      "H_count": 1638,
+      "max_by_name_A": 0.3371364708838251,
+      "rms_by_name_A": 0.019101122201401453,
+      "max_after_matching_A": 0.3371364708838251,
+      "rms_after_matching_A": 0.019101122201401453
+    },
+    {
+      "route": "openmm",
+      "target": "native_000039",
+      "H_count": 1700,
+      "max_by_name_A": 0.7377194588730867,
+      "rms_by_name_A": 0.09474410737535578,
+      "max_after_matching_A": 0.7377194588730867,
+      "rms_after_matching_A": 0.09474410737535578
+    },
+    {
+      "route": "openmm",
+      "target": "native_000040",
+      "H_count": 1677,
+      "max_by_name_A": 2.258311316005834,
+      "rms_by_name_A": 0.12082997363371555,
+      "max_after_matching_A": 2.258311316005834,
+      "rms_after_matching_A": 0.11049828865132619
+    },
+    {
+      "route": "openmm",
+      "target": "native_000041",
+      "H_count": 1662,
+      "max_by_name_A": 0.41335819817683767,
+      "rms_by_name_A": 0.018431321115823712,
+      "max_after_matching_A": 0.41335819817683767,
+      "rms_after_matching_A": 0.018431321115823712
+    },
+    {
+      "route": "openmm",
+      "target": "native_000042",
+      "H_count": 1705,
+      "max_by_name_A": 0.1467344540317608,
+      "rms_by_name_A": 0.016199453305282538,
+      "max_after_matching_A": 0.1467344540317608,
+      "rms_after_matching_A": 0.016199453305282538
+    },
+    {
+      "route": "openmm",
+      "target": "native_000043",
+      "H_count": 1703,
+      "max_by_name_A": 0.22270383921252931,
+      "rms_by_name_A": 0.025865363495855862,
+      "max_after_matching_A": 0.22270383921252931,
+      "rms_after_matching_A": 0.025865363495855862
+    },
+    {
+      "route": "openmm",
+      "target": "native_000044",
+      "H_count": 1678,
+      "max_by_name_A": 0.27953890605781573,
+      "rms_by_name_A": 0.01867688366172123,
+      "max_after_matching_A": 0.27953890605781573,
+      "rms_after_matching_A": 0.01867688366172123
+    },
+    {
+      "route": "openmm",
+      "target": "native_000045",
+      "H_count": 1703,
+      "max_by_name_A": 1.0940114259001144,
+      "rms_by_name_A": 0.06778726957635728,
+      "max_after_matching_A": 0.49795381311924947,
+      "rms_after_matching_A": 0.05672635740282113
+    },
+    {
+      "route": "openmm",
+      "target": "native_000046",
+      "H_count": 1729,
+      "max_by_name_A": 0.22057425053709112,
+      "rms_by_name_A": 0.02194170466717576,
+      "max_after_matching_A": 0.22057425053709112,
+      "rms_after_matching_A": 0.02194170466717576
+    },
+    {
+      "route": "openmm",
+      "target": "native_000047",
+      "H_count": 1635,
+      "max_by_name_A": 0.2512946477742802,
+      "rms_by_name_A": 0.024384346008766124,
+      "max_after_matching_A": 0.2512946477742802,
+      "rms_after_matching_A": 0.024384346008766124
+    },
+    {
+      "route": "openmm",
+      "target": "native_000048",
+      "H_count": 1702,
+      "max_by_name_A": 1.7516104018873593,
+      "rms_by_name_A": 0.10955986886111566,
+      "max_after_matching_A": 1.7516104018873593,
+      "rms_after_matching_A": 0.10955986886111566
+    },
+    {
+      "route": "openmm",
+      "target": "native_000049",
+      "H_count": 1633,
+      "max_by_name_A": 0.11356055653262541,
+      "rms_by_name_A": 0.011127882151413622,
+      "max_after_matching_A": 0.11356055653262541,
+      "rms_after_matching_A": 0.011127882151413622
+    },
+    {
+      "route": "openmm",
+      "target": "native_000050",
+      "H_count": 1749,
+      "max_by_name_A": 0.12444275792507914,
+      "rms_by_name_A": 0.011236070723606604,
+      "max_after_matching_A": 0.12444275792507914,
+      "rms_after_matching_A": 0.011236070723606604
+    },
+    {
+      "route": "openmm",
+      "target": "native_000051",
+      "H_count": 1772,
+      "max_by_name_A": 0.22932291643008482,
+      "rms_by_name_A": 0.016243248293495775,
+      "max_after_matching_A": 0.22932291643008482,
+      "rms_after_matching_A": 0.016243248293495775
+    },
+    {
+      "route": "openmm",
+      "target": "native_000052",
+      "H_count": 1789,
+      "max_by_name_A": 0.9466493543017921,
+      "rms_by_name_A": 0.04703616462425574,
+      "max_after_matching_A": 0.9466493543017921,
+      "rms_after_matching_A": 0.04703616462425574
+    },
+    {
+      "route": "openmm",
+      "target": "native_000053",
+      "H_count": 1714,
+      "max_by_name_A": 0.9476254534361145,
+      "rms_by_name_A": 0.07794056093271605,
+      "max_after_matching_A": 0.8894031706712096,
+      "rms_after_matching_A": 0.07344030907137727
+    },
+    {
+      "route": "openmm",
+      "target": "native_000054",
+      "H_count": 1666,
+      "max_by_name_A": 0.736588759077953,
+      "rms_by_name_A": 0.07393084273700064,
+      "max_after_matching_A": 0.736588759077953,
+      "rms_after_matching_A": 0.07393084273700064
+    },
+    {
+      "route": "openmm",
+      "target": "native_000055",
+      "H_count": 1777,
+      "max_by_name_A": 2.095099997613478,
+      "rms_by_name_A": 0.08330008265541841,
+      "max_after_matching_A": 2.095099997613478,
+      "rms_after_matching_A": 0.08330008265541841
+    },
+    {
+      "route": "openmm",
+      "target": "native_000056",
+      "H_count": 1756,
+      "max_by_name_A": 0.46618236774893124,
+      "rms_by_name_A": 0.04861800218719666,
+      "max_after_matching_A": 0.46618236774893124,
+      "rms_after_matching_A": 0.04861800218719666
+    },
+    {
+      "route": "openmm",
+      "target": "native_000057",
+      "H_count": 1686,
+      "max_by_name_A": 0.45018773861579,
+      "rms_by_name_A": 0.026999264082058175,
+      "max_after_matching_A": 0.45018773861579,
+      "rms_after_matching_A": 0.026999264082058175
+    },
+    {
+      "route": "openmm",
+      "target": "native_000058",
+      "H_count": 1690,
+      "max_by_name_A": 1.4932695670909533,
+      "rms_by_name_A": 0.14624826909409133,
+      "max_after_matching_A": 1.4932695670909533,
+      "rms_after_matching_A": 0.14624826909409133
+    },
+    {
+      "route": "openmm",
+      "target": "native_000059",
+      "H_count": 1704,
+      "max_by_name_A": 0.6909688849724004,
+      "rms_by_name_A": 0.029754640226752463,
+      "max_after_matching_A": 0.6909688849724004,
+      "rms_after_matching_A": 0.029754640226752463
+    },
+    {
+      "route": "openmm",
+      "target": "native_000060",
+      "H_count": 1649,
+      "max_by_name_A": 0.0930483745156252,
+      "rms_by_name_A": 0.009752610012804553,
+      "max_after_matching_A": 0.0930483745156252,
+      "rms_after_matching_A": 0.009752610012804553
+    },
+    {
+      "route": "openmm",
+      "target": "native_000061",
+      "H_count": 1702,
+      "max_by_name_A": 0.2919143710062916,
+      "rms_by_name_A": 0.0263127153563483,
+      "max_after_matching_A": 0.2919143710062916,
+      "rms_after_matching_A": 0.0263127153563483
+    },
+    {
+      "route": "openmm",
+      "target": "native_000062",
+      "H_count": 1722,
+      "max_by_name_A": 1.4151257894618414,
+      "rms_by_name_A": 0.05944793933593661,
+      "max_after_matching_A": 1.4151257894618414,
+      "rms_after_matching_A": 0.05944793933593661
+    },
+    {
+      "route": "openmm",
+      "target": "native_000063",
+      "H_count": 1651,
+      "max_by_name_A": 0.3232615040489665,
+      "rms_by_name_A": 0.03246722244064461,
+      "max_after_matching_A": 0.3232615040489665,
+      "rms_after_matching_A": 0.03246722244064461
+    },
+    {
+      "route": "openmm",
+      "target": "native_000064",
+      "H_count": 1641,
+      "max_by_name_A": 1.7789460362810339,
+      "rms_by_name_A": 0.11716534928781432,
+      "max_after_matching_A": 0.717614799178502,
+      "rms_after_matching_A": 0.06525371194505464
+    },
+    {
+      "route": "openmm",
+      "target": "native_000065",
+      "H_count": 1769,
+      "max_by_name_A": 1.0419817656753878,
+      "rms_by_name_A": 0.04276344545072827,
+      "max_after_matching_A": 0.7085943832687357,
+      "rms_after_matching_A": 0.03433027166058305
+    },
+    {
+      "route": "openmm",
+      "target": "native_000066",
+      "H_count": 1707,
+      "max_by_name_A": 0.2785300701899167,
+      "rms_by_name_A": 0.025636936044467075,
+      "max_after_matching_A": 0.2785300701899167,
+      "rms_after_matching_A": 0.025636936044467075
+    },
+    {
+      "route": "openmm",
+      "target": "native_000067",
+      "H_count": 1631,
+      "max_by_name_A": 0.17568437608393153,
+      "rms_by_name_A": 0.012138860380219892,
+      "max_after_matching_A": 0.17568437608393153,
+      "rms_after_matching_A": 0.012138860380219892
+    },
+    {
+      "route": "openmm",
+      "target": "native_000068",
+      "H_count": 1722,
+      "max_by_name_A": 1.8478016668463084,
+      "rms_by_name_A": 0.12586803138224498,
+      "max_after_matching_A": 1.779214714417573,
+      "rms_after_matching_A": 0.11013120936074991
+    },
+    {
+      "route": "openmm",
+      "target": "native_000069",
+      "H_count": 1684,
+      "max_by_name_A": 0.25526652737873823,
+      "rms_by_name_A": 0.031331961400870745,
+      "max_after_matching_A": 0.25526652737873823,
+      "rms_after_matching_A": 0.031331961400870745
+    },
+    {
+      "route": "openmm",
+      "target": "native_000070",
+      "H_count": 1653,
+      "max_by_name_A": 0.660177248926377,
+      "rms_by_name_A": 0.031450553668795844,
+      "max_after_matching_A": 0.660177248926377,
+      "rms_after_matching_A": 0.031450553668795844
+    },
+    {
+      "route": "openmm",
+      "target": "native_000071",
+      "H_count": 1709,
+      "max_by_name_A": 0.3350238797459061,
+      "rms_by_name_A": 0.022923933542944457,
+      "max_after_matching_A": 0.3350238797459061,
+      "rms_after_matching_A": 0.022923933542944457
+    },
+    {
+      "route": "openmm",
+      "target": "native_000072",
+      "H_count": 1729,
+      "max_by_name_A": 0.3837824904812621,
+      "rms_by_name_A": 0.03234877170239325,
+      "max_after_matching_A": 0.3837824904812621,
+      "rms_after_matching_A": 0.03234877170239325
+    },
+    {
+      "route": "openmm",
+      "target": "native_000073",
+      "H_count": 1694,
+      "max_by_name_A": 2.250960239542227,
+      "rms_by_name_A": 0.13205071742199925,
+      "max_after_matching_A": 2.273588353242513,
+      "rms_after_matching_A": 0.130364437860928
+    },
+    {
+      "route": "openmm",
+      "target": "native_000074",
+      "H_count": 1754,
+      "max_by_name_A": 0.46193181314995124,
+      "rms_by_name_A": 0.044570041479579624,
+      "max_after_matching_A": 0.46193181314995124,
+      "rms_after_matching_A": 0.044570041479579624
+    },
+    {
+      "route": "openmm",
+      "target": "native_000075",
+      "H_count": 1699,
+      "max_by_name_A": 0.05707889277132129,
+      "rms_by_name_A": 0.006632184711206015,
+      "max_after_matching_A": 0.05707889277132129,
+      "rms_after_matching_A": 0.006632184711206015
+    },
+    {
+      "route": "openmm",
+      "target": "native_000076",
+      "H_count": 1767,
+      "max_by_name_A": 1.419567539781043,
+      "rms_by_name_A": 0.07472698090486217,
+      "max_after_matching_A": 0.7970100375779464,
+      "rms_after_matching_A": 0.05447468428609915
+    },
+    {
+      "route": "openmm",
+      "target": "native_000077",
+      "H_count": 1694,
+      "max_by_name_A": 0.8143789044419073,
+      "rms_by_name_A": 0.08169052812222381,
+      "max_after_matching_A": 0.8143789044419073,
+      "rms_after_matching_A": 0.08169052812222381
+    },
+    {
+      "route": "openmm",
+      "target": "native_000078",
+      "H_count": 1758,
+      "max_by_name_A": 1.6187495173744448,
+      "rms_by_name_A": 0.08468529038316515,
+      "max_after_matching_A": 1.172490511688688,
+      "rms_after_matching_A": 0.06476194264394072
+    },
+    {
+      "route": "openmm",
+      "target": "native_000079",
+      "H_count": 1722,
+      "max_by_name_A": 0.05675385449465111,
+      "rms_by_name_A": 0.006031277362235035,
+      "max_after_matching_A": 0.05675385449465111,
+      "rms_after_matching_A": 0.006031277362235035
+    },
+    {
+      "route": "openmm",
+      "target": "native_000080",
+      "H_count": 1689,
+      "max_by_name_A": 0.1525712948099985,
+      "rms_by_name_A": 0.012129042696428857,
+      "max_after_matching_A": 0.1525712948099985,
+      "rms_after_matching_A": 0.012129042696428857
+    },
+    {
+      "route": "openmm",
+      "target": "native_000081",
+      "H_count": 1697,
+      "max_by_name_A": 2.2647355253980543,
+      "rms_by_name_A": 0.13509059794200204,
+      "max_after_matching_A": 2.2647355253980543,
+      "rms_after_matching_A": 0.12886205640767429
+    },
+    {
+      "route": "openmm",
+      "target": "native_000082",
+      "H_count": 1645,
+      "max_by_name_A": 0.19791412279066914,
+      "rms_by_name_A": 0.012672014015527552,
+      "max_after_matching_A": 0.19791412279066914,
+      "rms_after_matching_A": 0.012672014015527552
+    },
+    {
+      "route": "openmm",
+      "target": "native_000083",
+      "H_count": 1677,
+      "max_by_name_A": 9.73370951898607,
+      "rms_by_name_A": 0.866014333530079,
+      "max_after_matching_A": 9.73370951898607,
+      "rms_after_matching_A": 0.8654595798975788
+    },
+    {
+      "route": "openmm",
+      "target": "native_000084",
+      "H_count": 1717,
+      "max_by_name_A": 2.165395806775287,
+      "rms_by_name_A": 0.08746734143832034,
+      "max_after_matching_A": 2.165395806775287,
+      "rms_after_matching_A": 0.07482527113059488
+    },
+    {
+      "route": "openmm",
+      "target": "native_000085",
+      "H_count": 1656,
+      "max_by_name_A": 0.23351659469939215,
+      "rms_by_name_A": 0.01771587009266258,
+      "max_after_matching_A": 0.23351659469939215,
+      "rms_after_matching_A": 0.01771587009266258
+    },
+    {
+      "route": "openmm",
+      "target": "native_000086",
+      "H_count": 1702,
+      "max_by_name_A": 0.32078185734233783,
+      "rms_by_name_A": 0.018951946159161126,
+      "max_after_matching_A": 0.32078185734233783,
+      "rms_after_matching_A": 0.018951946159161126
+    },
+    {
+      "route": "openmm",
+      "target": "native_000087",
+      "H_count": 1668,
+      "max_by_name_A": 0.06335613624583271,
+      "rms_by_name_A": 0.003803239184874199,
+      "max_after_matching_A": 0.06335613624583271,
+      "rms_after_matching_A": 0.003803239184874199
+    },
+    {
+      "route": "openmm",
+      "target": "native_000088",
+      "H_count": 1704,
+      "max_by_name_A": 1.8368192616585866,
+      "rms_by_name_A": 0.06679311218741607,
+      "max_after_matching_A": 0.24759038753554236,
+      "rms_after_matching_A": 0.022712416719482632
+    },
+    {
+      "route": "openmm",
+      "target": "native_000089",
+      "H_count": 1676,
+      "max_by_name_A": 0.11369256791892829,
+      "rms_by_name_A": 0.010024849792648054,
+      "max_after_matching_A": 0.11369256791892829,
+      "rms_after_matching_A": 0.010024849792648054
+    },
+    {
+      "route": "openmm",
+      "target": "native_000090",
+      "H_count": 1633,
+      "max_by_name_A": 2.408058554105361,
+      "rms_by_name_A": 0.32708265199638326,
+      "max_after_matching_A": 2.408058554105361,
+      "rms_after_matching_A": 0.32708265199638326
+    },
+    {
+      "route": "openmm",
+      "target": "native_000091",
+      "H_count": 1707,
+      "max_by_name_A": 0.8978574497101423,
+      "rms_by_name_A": 0.09732069117246885,
+      "max_after_matching_A": 0.6658783672713803,
+      "rms_after_matching_A": 0.08975154144394484
+    },
+    {
+      "route": "openmm",
+      "target": "native_000092",
+      "H_count": 1680,
+      "max_by_name_A": 0.2866443789785527,
+      "rms_by_name_A": 0.03581002287202899,
+      "max_after_matching_A": 0.2866443789785527,
+      "rms_after_matching_A": 0.03581002287202899
+    },
+    {
+      "route": "openmm",
+      "target": "native_000093",
+      "H_count": 1704,
+      "max_by_name_A": 1.8377412766763437,
+      "rms_by_name_A": 0.11344778638096813,
+      "max_after_matching_A": 0.9820722987641993,
+      "rms_after_matching_A": 0.07087481524928106
+    },
+    {
+      "route": "openmm",
+      "target": "native_000094",
+      "H_count": 1717,
+      "max_by_name_A": 2.0632782168190493,
+      "rms_by_name_A": 0.12250706182918518,
+      "max_after_matching_A": 1.8790258114246319,
+      "rms_after_matching_A": 0.09250165198669649
+    },
+    {
+      "route": "openmm",
+      "target": "native_000095",
+      "H_count": 1659,
+      "max_by_name_A": 0.15545095689637875,
+      "rms_by_name_A": 0.01596281090935386,
+      "max_after_matching_A": 0.15545095689637875,
+      "rms_after_matching_A": 0.01596281090935386
+    },
+    {
+      "route": "openmm",
+      "target": "native_000096",
+      "H_count": 1705,
+      "max_by_name_A": 0.11439405578962751,
+      "rms_by_name_A": 0.012232810070819404,
+      "max_after_matching_A": 0.11439405578962751,
+      "rms_after_matching_A": 0.012232810070819404
+    },
+    {
+      "route": "openmm",
+      "target": "native_000097",
+      "H_count": 1663,
+      "max_by_name_A": 1.5304930578084956,
+      "rms_by_name_A": 0.048844107557152905,
+      "max_after_matching_A": 1.5304930578084956,
+      "rms_after_matching_A": 0.048844107557152905
+    },
+    {
+      "route": "openmm",
+      "target": "native_000098",
+      "H_count": 1658,
+      "max_by_name_A": 1.765431108822997,
+      "rms_by_name_A": 0.10391448767082005,
+      "max_after_matching_A": 0.6898775253622922,
+      "rms_after_matching_A": 0.048262051064780646
+    },
+    {
+      "route": "openmm",
+      "target": "native_000099",
+      "H_count": 1650,
+      "max_by_name_A": 1.8184504392476573,
+      "rms_by_name_A": 0.049026022774552175,
+      "max_after_matching_A": 1.8184504392476573,
+      "rms_after_matching_A": 0.049026022774552175
+    },
+    {
+      "route": "openmm",
+      "target": "native_000100",
+      "H_count": 1675,
+      "max_by_name_A": 0.07044856279584333,
+      "rms_by_name_A": 0.007732775756190219,
+      "max_after_matching_A": 0.07044856279584333,
+      "rms_after_matching_A": 0.007732775756190219
+    },
+    {
+      "route": "openmm",
+      "target": "native_000101",
+      "H_count": 1657,
+      "max_by_name_A": 0.1912825135761228,
+      "rms_by_name_A": 0.016284732622805255,
+      "max_after_matching_A": 0.1912825135761228,
+      "rms_after_matching_A": 0.016284732622805255
+    },
+    {
+      "route": "openmm",
+      "target": "native_000102",
+      "H_count": 1694,
+      "max_by_name_A": 0.8344357374897123,
+      "rms_by_name_A": 0.05293945774694653,
+      "max_after_matching_A": 0.8344357374897123,
+      "rms_after_matching_A": 0.05293945774694653
+    },
+    {
+      "route": "openmm",
+      "target": "native_000103",
+      "H_count": 1639,
+      "max_by_name_A": 0.11959096955874175,
+      "rms_by_name_A": 0.008457805403245564,
+      "max_after_matching_A": 0.11959096955874175,
+      "rms_after_matching_A": 0.008457805403245564
+    },
+    {
+      "route": "openmm",
+      "target": "native_000104",
+      "H_count": 1721,
+      "max_by_name_A": 0.20442602574036425,
+      "rms_by_name_A": 0.018848211699080127,
+      "max_after_matching_A": 0.20442602574036425,
+      "rms_after_matching_A": 0.018848211699080127
+    },
+    {
+      "route": "openmm",
+      "target": "native_000105",
+      "H_count": 1711,
+      "max_by_name_A": 0.09249324299644833,
+      "rms_by_name_A": 0.012073440766667533,
+      "max_after_matching_A": 0.09249324299644833,
+      "rms_after_matching_A": 0.012073440766667533
+    },
+    {
+      "route": "openmm",
+      "target": "native_000106",
+      "H_count": 1714,
+      "max_by_name_A": 1.641958891081016,
+      "rms_by_name_A": 0.07793367389167771,
+      "max_after_matching_A": 1.338904402860787,
+      "rms_after_matching_A": 0.05656057460605065
+    },
+    {
+      "route": "openmm",
+      "target": "native_000107",
+      "H_count": 1752,
+      "max_by_name_A": 0.14379847008921812,
+      "rms_by_name_A": 0.01017371938919321,
+      "max_after_matching_A": 0.14379847008921812,
+      "rms_after_matching_A": 0.01017371938919321
+    },
+    {
+      "route": "openmm",
+      "target": "native_000108",
+      "H_count": 1683,
+      "max_by_name_A": 0.09540440241414574,
+      "rms_by_name_A": 0.00900683044430206,
+      "max_after_matching_A": 0.09540440241414574,
+      "rms_after_matching_A": 0.00900683044430206
+    },
+    {
+      "route": "openmm",
+      "target": "native_000109",
+      "H_count": 1660,
+      "max_by_name_A": 1.7105873260374636,
+      "rms_by_name_A": 0.06582124386988075,
+      "max_after_matching_A": 0.294516553015276,
+      "rms_after_matching_A": 0.02918643850782558
+    },
+    {
+      "route": "openmm",
+      "target": "native_000110",
+      "H_count": 1700,
+      "max_by_name_A": 0.1607140317458319,
+      "rms_by_name_A": 0.008401225400814701,
+      "max_after_matching_A": 0.1607140317458319,
+      "rms_after_matching_A": 0.008401225400814701
+    },
+    {
+      "route": "openmm",
+      "target": "native_000111",
+      "H_count": 1797,
+      "max_by_name_A": 1.9500456404915256,
+      "rms_by_name_A": 0.08170746031222209,
+      "max_after_matching_A": 1.0548274740449273,
+      "rms_after_matching_A": 0.058252620844739894
+    },
+    {
+      "route": "openmm",
+      "target": "native_000112",
+      "H_count": 1719,
+      "max_by_name_A": 0.16014056325615927,
+      "rms_by_name_A": 0.011481730435727883,
+      "max_after_matching_A": 0.16014056325615927,
+      "rms_after_matching_A": 0.011481730435727883
+    },
+    {
+      "route": "openmm",
+      "target": "native_000113",
+      "H_count": 1687,
+      "max_by_name_A": 0.8848078887532598,
+      "rms_by_name_A": 0.05464492268800413,
+      "max_after_matching_A": 0.8848078887532598,
+      "rms_after_matching_A": 0.05464492268800413
+    },
+    {
+      "route": "openmm",
+      "target": "native_000114",
+      "H_count": 1615,
+      "max_by_name_A": 0.11144954015158513,
+      "rms_by_name_A": 0.013859958586243493,
+      "max_after_matching_A": 0.11144954015158513,
+      "rms_after_matching_A": 0.013859958586243493
+    },
+    {
+      "route": "openmm",
+      "target": "native_000115",
+      "H_count": 1742,
+      "max_by_name_A": 0.5970745347107009,
+      "rms_by_name_A": 0.03956558739719358,
+      "max_after_matching_A": 0.5970745347107009,
+      "rms_after_matching_A": 0.03579480524690151
+    },
+    {
+      "route": "openmm",
+      "target": "native_000116",
+      "H_count": 1702,
+      "max_by_name_A": 1.7842065463392967,
+      "rms_by_name_A": 0.3197925232581977,
+      "max_after_matching_A": 1.7842065463392967,
+      "rms_after_matching_A": 0.3197925232581977
+    },
+    {
+      "route": "openmm",
+      "target": "native_000117",
+      "H_count": 1731,
+      "max_by_name_A": 2.0466181861793378,
+      "rms_by_name_A": 0.11424341076632809,
+      "max_after_matching_A": 2.0466181861793378,
+      "rms_after_matching_A": 0.10799496907211623
+    },
+    {
+      "route": "openmm",
+      "target": "native_000118",
+      "H_count": 1716,
+      "max_by_name_A": 2.0162975970823354,
+      "rms_by_name_A": 0.07231718772895997,
+      "max_after_matching_A": 2.0162975970823354,
+      "rms_after_matching_A": 0.057483265021880565
+    },
+    {
+      "route": "openmm",
+      "target": "native_000119",
+      "H_count": 1684,
+      "max_by_name_A": 1.1614921437530261,
+      "rms_by_name_A": 0.05191234847308005,
+      "max_after_matching_A": 1.1614921437530261,
+      "rms_after_matching_A": 0.05191234847308005
+    },
+    {
+      "route": "reduce",
+      "target": "antibody_000000",
+      "H_count": 1700,
+      "max_by_name_A": 1.8086553015983986,
+      "rms_by_name_A": 0.07979918177377951,
+      "max_after_matching_A": 0.2676060537431858,
+      "rms_after_matching_A": 0.03034625667389055
+    },
+    {
+      "route": "reduce",
+      "target": "antibody_000001",
+      "H_count": 1633,
+      "max_by_name_A": 2.0655275355221008,
+      "rms_by_name_A": 0.07857653135544378,
+      "max_after_matching_A": 2.0655275355221008,
+      "rms_after_matching_A": 0.07857653135544378
+    },
+    {
+      "route": "reduce",
+      "target": "antibody_000002",
+      "H_count": 1618,
+      "max_by_name_A": 0.19106543381784188,
+      "rms_by_name_A": 0.023971952605970445,
+      "max_after_matching_A": 0.19106543381784188,
+      "rms_after_matching_A": 0.023971952605970445
+    },
+    {
+      "route": "reduce",
+      "target": "antibody_000003",
+      "H_count": 1714,
+      "max_by_name_A": 0.38716146502460513,
+      "rms_by_name_A": 0.03710770693066708,
+      "max_after_matching_A": 0.38716146502460513,
+      "rms_after_matching_A": 0.03710770693066708
+    },
+    {
+      "route": "reduce",
+      "target": "antibody_000004",
+      "H_count": 1755,
+      "max_by_name_A": 7.4884170556934135,
+      "rms_by_name_A": 0.22268415280129822,
+      "max_after_matching_A": 7.4884170556934135,
+      "rms_after_matching_A": 0.22219375415943718
+    },
+    {
+      "route": "reduce",
+      "target": "antibody_000005",
+      "H_count": 1692,
+      "max_by_name_A": 1.7282907741465254,
+      "rms_by_name_A": 0.10335216026156814,
+      "max_after_matching_A": 0.39911151323909383,
+      "rms_after_matching_A": 0.03206109342464673
+    },
+    {
+      "route": "reduce",
+      "target": "antibody_000006",
+      "H_count": 1645,
+      "max_by_name_A": 0.06624198064671777,
+      "rms_by_name_A": 0.0068591119259984925,
+      "max_after_matching_A": 0.06624198064671777,
+      "rms_after_matching_A": 0.0068591119259984925
+    },
+    {
+      "route": "reduce",
+      "target": "antibody_000007",
+      "H_count": 1735,
+      "max_by_name_A": 1.8694229056048286,
+      "rms_by_name_A": 0.08768713048689604,
+      "max_after_matching_A": 0.9806212316689868,
+      "rms_after_matching_A": 0.06805251405045883
+    },
+    {
+      "route": "reduce",
+      "target": "native_000000",
+      "H_count": 1720,
+      "max_by_name_A": 0.11584903970253693,
+      "rms_by_name_A": 0.00842677074069771,
+      "max_after_matching_A": 0.11584903970253693,
+      "rms_after_matching_A": 0.00842677074069771
+    },
+    {
+      "route": "reduce",
+      "target": "native_000001",
+      "H_count": 1624,
+      "max_by_name_A": 2.1445001748659287,
+      "rms_by_name_A": 0.062057438037382326,
+      "max_after_matching_A": 2.1445001748659287,
+      "rms_after_matching_A": 0.062057438037382326
+    },
+    {
+      "route": "reduce",
+      "target": "native_000002",
+      "H_count": 1636,
+      "max_by_name_A": 0.27953711739230674,
+      "rms_by_name_A": 0.016922121341872216,
+      "max_after_matching_A": 0.27953711739230674,
+      "rms_after_matching_A": 0.016922121341872216
+    },
+    {
+      "route": "reduce",
+      "target": "native_000003",
+      "H_count": 1698,
+      "max_by_name_A": 0.0775112895003066,
+      "rms_by_name_A": 0.007232956898033537,
+      "max_after_matching_A": 0.0775112895003066,
+      "rms_after_matching_A": 0.007232956898033537
+    },
+    {
+      "route": "reduce",
+      "target": "native_000004",
+      "H_count": 1746,
+      "max_by_name_A": 0.6427799001213399,
+      "rms_by_name_A": 0.020950317600459827,
+      "max_after_matching_A": 0.6427799001213399,
+      "rms_after_matching_A": 0.020950317600459827
+    },
+    {
+      "route": "reduce",
+      "target": "native_000005",
+      "H_count": 1656,
+      "max_by_name_A": 4.637050463387261,
+      "rms_by_name_A": 0.4721892666107686,
+      "max_after_matching_A": 4.637050463387261,
+      "rms_after_matching_A": 0.46768371380605117
+    },
+    {
+      "route": "reduce",
+      "target": "native_000006",
+      "H_count": 1738,
+      "max_by_name_A": 1.9760511126992641,
+      "rms_by_name_A": 0.056894199550240616,
+      "max_after_matching_A": 1.9760511126992641,
+      "rms_after_matching_A": 0.056894199550240616
+    },
+    {
+      "route": "reduce",
+      "target": "native_000007",
+      "H_count": 1665,
+      "max_by_name_A": 2.601899882777967,
+      "rms_by_name_A": 0.14594648737526086,
+      "max_after_matching_A": 2.601899882777967,
+      "rms_after_matching_A": 0.14594648737526086
+    },
+    {
+      "route": "reduce",
+      "target": "native_000008",
+      "H_count": 1711,
+      "max_by_name_A": 0.011045361017186325,
+      "rms_by_name_A": 0.0006850665583452306,
+      "max_after_matching_A": 0.011045361017186325,
+      "rms_after_matching_A": 0.0006850665583452306
+    },
+    {
+      "route": "reduce",
+      "target": "native_000009",
+      "H_count": 1639,
+      "max_by_name_A": 0.4041113707878043,
+      "rms_by_name_A": 0.04137618164555047,
+      "max_after_matching_A": 0.4041113707878043,
+      "rms_after_matching_A": 0.04137618164555047
+    },
+    {
+      "route": "reduce",
+      "target": "native_000010",
+      "H_count": 1720,
+      "max_by_name_A": 1.9508892844033967,
+      "rms_by_name_A": 0.05477797151036804,
+      "max_after_matching_A": 1.9508892844033967,
+      "rms_after_matching_A": 0.05477797151036804
+    },
+    {
+      "route": "reduce",
+      "target": "native_000011",
+      "H_count": 1716,
+      "max_by_name_A": 2.1736653376267476,
+      "rms_by_name_A": 0.07728824367730587,
+      "max_after_matching_A": 2.1736653376267476,
+      "rms_after_matching_A": 0.07728824367730587
+    },
+    {
+      "route": "reduce",
+      "target": "native_000012",
+      "H_count": 1735,
+      "max_by_name_A": 0.17428711943227593,
+      "rms_by_name_A": 0.021435567953451348,
+      "max_after_matching_A": 0.17428711943227593,
+      "rms_after_matching_A": 0.021435567953451348
+    },
+    {
+      "route": "reduce",
+      "target": "native_000013",
+      "H_count": 1769,
+      "max_by_name_A": 2.8641113805157774,
+      "rms_by_name_A": 0.11100799272503377,
+      "max_after_matching_A": 2.8641113805157774,
+      "rms_after_matching_A": 0.11100799272503377
+    },
+    {
+      "route": "reduce",
+      "target": "native_000014",
+      "H_count": 1658,
+      "max_by_name_A": 1.739044565271402,
+      "rms_by_name_A": 0.06594514663183586,
+      "max_after_matching_A": 0.49136951472390056,
+      "rms_after_matching_A": 0.0285205151228187
+    },
+    {
+      "route": "reduce",
+      "target": "native_000015",
+      "H_count": 1737,
+      "max_by_name_A": 1.623687469927633,
+      "rms_by_name_A": 0.09272122249381966,
+      "max_after_matching_A": 1.623687469927633,
+      "rms_after_matching_A": 0.09272122249381966
+    },
+    {
+      "route": "reduce",
+      "target": "native_000016",
+      "H_count": 1705,
+      "max_by_name_A": 0.21935131638538277,
+      "rms_by_name_A": 0.022953874442153733,
+      "max_after_matching_A": 0.21935131638538277,
+      "rms_after_matching_A": 0.022953874442153733
+    },
+    {
+      "route": "reduce",
+      "target": "native_000017",
+      "H_count": 1679,
+      "max_by_name_A": 0.13848104563441324,
+      "rms_by_name_A": 0.008846853988360222,
+      "max_after_matching_A": 0.13848104563441324,
+      "rms_after_matching_A": 0.008846853988360222
+    },
+    {
+      "route": "reduce",
+      "target": "native_000018",
+      "H_count": 1641,
+      "max_by_name_A": 0.5116375670335398,
+      "rms_by_name_A": 0.021043815466994038,
+      "max_after_matching_A": 0.4766224921255799,
+      "rms_after_matching_A": 0.020022717140944567
+    },
+    {
+      "route": "reduce",
+      "target": "native_000019",
+      "H_count": 1660,
+      "max_by_name_A": 0.7854304552282161,
+      "rms_by_name_A": 0.048546468857726593,
+      "max_after_matching_A": 0.7854304552282161,
+      "rms_after_matching_A": 0.048546468857726593
+    },
+    {
+      "route": "reduce",
+      "target": "native_000020",
+      "H_count": 1626,
+      "max_by_name_A": 1.1593813005219633,
+      "rms_by_name_A": 0.09325686662885332,
+      "max_after_matching_A": 1.1593813005219633,
+      "rms_after_matching_A": 0.09325686662885332
+    },
+    {
+      "route": "reduce",
+      "target": "native_000021",
+      "H_count": 1740,
+      "max_by_name_A": 0.9817229751818998,
+      "rms_by_name_A": 0.07944003015359824,
+      "max_after_matching_A": 0.9817229751818998,
+      "rms_after_matching_A": 0.07944003015359824
+    },
+    {
+      "route": "reduce",
+      "target": "native_000022",
+      "H_count": 1688,
+      "max_by_name_A": 0.3430510166141484,
+      "rms_by_name_A": 0.020808894038128183,
+      "max_after_matching_A": 0.3430510166141484,
+      "rms_after_matching_A": 0.020808894038128183
+    },
+    {
+      "route": "reduce",
+      "target": "native_000023",
+      "H_count": 1736,
+      "max_by_name_A": 1.3624088960367229,
+      "rms_by_name_A": 0.03697331364185507,
+      "max_after_matching_A": 1.3624088960367229,
+      "rms_after_matching_A": 0.03697331364185507
+    },
+    {
+      "route": "reduce",
+      "target": "native_000024",
+      "H_count": 1689,
+      "max_by_name_A": 1.3493961612513938,
+      "rms_by_name_A": 0.09057635660896375,
+      "max_after_matching_A": 0.7893833035984481,
+      "rms_after_matching_A": 0.08538515462279467
+    },
+    {
+      "route": "reduce",
+      "target": "native_000025",
+      "H_count": 1641,
+      "max_by_name_A": 0.3517584398418901,
+      "rms_by_name_A": 0.019007920347941472,
+      "max_after_matching_A": 0.3517584398418901,
+      "rms_after_matching_A": 0.019007920347941472
+    },
+    {
+      "route": "reduce",
+      "target": "native_000026",
+      "H_count": 1674,
+      "max_by_name_A": 0.5420341317666267,
+      "rms_by_name_A": 0.033895809857944444,
+      "max_after_matching_A": 0.5420341317666267,
+      "rms_after_matching_A": 0.033895809857944444
+    },
+    {
+      "route": "reduce",
+      "target": "native_000027",
+      "H_count": 1702,
+      "max_by_name_A": 2.205742958732954,
+      "rms_by_name_A": 0.09620263572810296,
+      "max_after_matching_A": 2.205742958732954,
+      "rms_after_matching_A": 0.09620263572810296
+    },
+    {
+      "route": "reduce",
+      "target": "native_000028",
+      "H_count": 1749,
+      "max_by_name_A": 2.083458902882417,
+      "rms_by_name_A": 0.14539370064598997,
+      "max_after_matching_A": 1.7868721274898236,
+      "rms_after_matching_A": 0.1446127396966169
+    },
+    {
+      "route": "reduce",
+      "target": "native_000029",
+      "H_count": 1674,
+      "max_by_name_A": 0.2110308034387396,
+      "rms_by_name_A": 0.0136732653009602,
+      "max_after_matching_A": 0.2110308034387396,
+      "rms_after_matching_A": 0.0136732653009602
+    },
+    {
+      "route": "reduce",
+      "target": "native_000030",
+      "H_count": 1763,
+      "max_by_name_A": 0.806516583834452,
+      "rms_by_name_A": 0.05067385958635075,
+      "max_after_matching_A": 0.806516583834452,
+      "rms_after_matching_A": 0.05067385958635075
+    },
+    {
+      "route": "reduce",
+      "target": "native_000031",
+      "H_count": 1730,
+      "max_by_name_A": 0.05815496539419466,
+      "rms_by_name_A": 0.004403821251878584,
+      "max_after_matching_A": 0.05815496539419466,
+      "rms_after_matching_A": 0.004403821251878584
+    },
+    {
+      "route": "reduce",
+      "target": "native_000032",
+      "H_count": 1726,
+      "max_by_name_A": 2.1582351586423565,
+      "rms_by_name_A": 0.08229988546262419,
+      "max_after_matching_A": 2.1582351586423565,
+      "rms_after_matching_A": 0.05888068537373784
+    },
+    {
+      "route": "reduce",
+      "target": "native_000033",
+      "H_count": 1661,
+      "max_by_name_A": 0.0897440805847415,
+      "rms_by_name_A": 0.007178258363744286,
+      "max_after_matching_A": 0.0897440805847415,
+      "rms_after_matching_A": 0.007178258363744286
+    },
+    {
+      "route": "reduce",
+      "target": "native_000034",
+      "H_count": 1770,
+      "max_by_name_A": 2.098047425584083,
+      "rms_by_name_A": 0.07002932396281764,
+      "max_after_matching_A": 2.098047425584083,
+      "rms_after_matching_A": 0.07002932396281764
+    },
+    {
+      "route": "reduce",
+      "target": "native_000035",
+      "H_count": 1681,
+      "max_by_name_A": 1.681494870643381,
+      "rms_by_name_A": 0.05998830939052721,
+      "max_after_matching_A": 1.681494870643381,
+      "rms_after_matching_A": 0.05093588135605535
+    },
+    {
+      "route": "reduce",
+      "target": "native_000036",
+      "H_count": 1696,
+      "max_by_name_A": 1.9021232872766145,
+      "rms_by_name_A": 0.10828377343638627,
+      "max_after_matching_A": 0.36621851400496114,
+      "rms_after_matching_A": 0.025283265496192236
+    },
+    {
+      "route": "reduce",
+      "target": "native_000037",
+      "H_count": 1655,
+      "max_by_name_A": 0.35539836803226926,
+      "rms_by_name_A": 0.016828098355423877,
+      "max_after_matching_A": 0.35539836803226926,
+      "rms_after_matching_A": 0.016828098355423877
+    },
+    {
+      "route": "reduce",
+      "target": "native_000038",
+      "H_count": 1638,
+      "max_by_name_A": 0.3197530296963578,
+      "rms_by_name_A": 0.019625694577973224,
+      "max_after_matching_A": 0.3197530296963578,
+      "rms_after_matching_A": 0.019625694577973224
+    },
+    {
+      "route": "reduce",
+      "target": "native_000039",
+      "H_count": 1700,
+      "max_by_name_A": 0.4489788413722848,
+      "rms_by_name_A": 0.021924643668712118,
+      "max_after_matching_A": 0.4489788413722848,
+      "rms_after_matching_A": 0.021924643668712118
+    },
+    {
+      "route": "reduce",
+      "target": "native_000040",
+      "H_count": 1677,
+      "max_by_name_A": 2.2101373260501274,
+      "rms_by_name_A": 0.11758419254945565,
+      "max_after_matching_A": 2.2101373260501274,
+      "rms_after_matching_A": 0.10414935550848332
+    },
+    {
+      "route": "reduce",
+      "target": "native_000041",
+      "H_count": 1662,
+      "max_by_name_A": 1.99105223437257,
+      "rms_by_name_A": 0.06980204518086856,
+      "max_after_matching_A": 0.6186768138535665,
+      "rms_after_matching_A": 0.04056457020846341
+    },
+    {
+      "route": "reduce",
+      "target": "native_000042",
+      "H_count": 1705,
+      "max_by_name_A": 0.13907551905349966,
+      "rms_by_name_A": 0.015918008393085666,
+      "max_after_matching_A": 0.13907551905349966,
+      "rms_after_matching_A": 0.015918008393085666
+    },
+    {
+      "route": "reduce",
+      "target": "native_000043",
+      "H_count": 1703,
+      "max_by_name_A": 1.7459833905280997,
+      "rms_by_name_A": 0.1085549155981823,
+      "max_after_matching_A": 1.7459833905280997,
+      "rms_after_matching_A": 0.10250919211751136
+    },
+    {
+      "route": "reduce",
+      "target": "native_000044",
+      "H_count": 1678,
+      "max_by_name_A": 2.099025964584526,
+      "rms_by_name_A": 0.12063256250725976,
+      "max_after_matching_A": 0.9782969896713378,
+      "rms_after_matching_A": 0.04272394549283082
+    },
+    {
+      "route": "reduce",
+      "target": "native_000045",
+      "H_count": 1703,
+      "max_by_name_A": 2.0382916866827454,
+      "rms_by_name_A": 0.055222493438470736,
+      "max_after_matching_A": 2.0382916866827454,
+      "rms_after_matching_A": 0.055222493438470736
+    },
+    {
+      "route": "reduce",
+      "target": "native_000046",
+      "H_count": 1729,
+      "max_by_name_A": 1.8583113302135348,
+      "rms_by_name_A": 0.0948822075736772,
+      "max_after_matching_A": 0.5304959943298353,
+      "rms_after_matching_A": 0.06409293696746231
+    },
+    {
+      "route": "reduce",
+      "target": "native_000047",
+      "H_count": 1635,
+      "max_by_name_A": 0.12221292893961787,
+      "rms_by_name_A": 0.017443960075603983,
+      "max_after_matching_A": 0.12221292893961787,
+      "rms_after_matching_A": 0.017443960075603983
+    },
+    {
+      "route": "reduce",
+      "target": "native_000048",
+      "H_count": 1702,
+      "max_by_name_A": 1.3449334556029156,
+      "rms_by_name_A": 0.08248292918853312,
+      "max_after_matching_A": 1.3449334556029156,
+      "rms_after_matching_A": 0.08248292918853312
+    },
+    {
+      "route": "reduce",
+      "target": "native_000049",
+      "H_count": 1633,
+      "max_by_name_A": 0.0091104335791412,
+      "rms_by_name_A": 0.000835524777249988,
+      "max_after_matching_A": 0.0091104335791412,
+      "rms_after_matching_A": 0.000835524777249988
+    },
+    {
+      "route": "reduce",
+      "target": "native_000050",
+      "H_count": 1749,
+      "max_by_name_A": 0.08524083528450467,
+      "rms_by_name_A": 0.012158073596317341,
+      "max_after_matching_A": 0.08524083528450467,
+      "rms_after_matching_A": 0.012158073596317341
+    },
+    {
+      "route": "reduce",
+      "target": "native_000051",
+      "H_count": 1772,
+      "max_by_name_A": 1.8410043454592937,
+      "rms_by_name_A": 0.0490612610553695,
+      "max_after_matching_A": 1.8410043454592937,
+      "rms_after_matching_A": 0.0490612610553695
+    },
+    {
+      "route": "reduce",
+      "target": "native_000052",
+      "H_count": 1789,
+      "max_by_name_A": 2.303306102106274,
+      "rms_by_name_A": 0.11987256835462881,
+      "max_after_matching_A": 2.303306102106274,
+      "rms_after_matching_A": 0.11987256835462881
+    },
+    {
+      "route": "reduce",
+      "target": "native_000053",
+      "H_count": 1714,
+      "max_by_name_A": 0.8558516226543004,
+      "rms_by_name_A": 0.05407344609814344,
+      "max_after_matching_A": 0.8558516226543004,
+      "rms_after_matching_A": 0.05407344609814344
+    },
+    {
+      "route": "reduce",
+      "target": "native_000054",
+      "H_count": 1666,
+      "max_by_name_A": 2.3295900926987128,
+      "rms_by_name_A": 0.17768189199211257,
+      "max_after_matching_A": 2.3295900926987128,
+      "rms_after_matching_A": 0.17768189199211257
+    },
+    {
+      "route": "reduce",
+      "target": "native_000055",
+      "H_count": 1777,
+      "max_by_name_A": 2.0552861114696412,
+      "rms_by_name_A": 0.06405512099438225,
+      "max_after_matching_A": 2.0552861114696412,
+      "rms_after_matching_A": 0.06405512099438225
+    },
+    {
+      "route": "reduce",
+      "target": "native_000056",
+      "H_count": 1756,
+      "max_by_name_A": 2.5299092869112916,
+      "rms_by_name_A": 0.2566902543421929,
+      "max_after_matching_A": 2.1193661788374354,
+      "rms_after_matching_A": 0.2493565809075699
+    },
+    {
+      "route": "reduce",
+      "target": "native_000057",
+      "H_count": 1686,
+      "max_by_name_A": 0.1589528231897754,
+      "rms_by_name_A": 0.014458862986459564,
+      "max_after_matching_A": 0.1589528231897754,
+      "rms_after_matching_A": 0.014458862986459564
+    },
+    {
+      "route": "reduce",
+      "target": "native_000058",
+      "H_count": 1690,
+      "max_by_name_A": 2.2201614806135166,
+      "rms_by_name_A": 0.08416650165000324,
+      "max_after_matching_A": 1.0170614534038738,
+      "rms_after_matching_A": 0.06644660622853465
+    },
+    {
+      "route": "reduce",
+      "target": "native_000059",
+      "H_count": 1704,
+      "max_by_name_A": 1.6467622779259932,
+      "rms_by_name_A": 0.05673956233768731,
+      "max_after_matching_A": 1.6467622779259932,
+      "rms_after_matching_A": 0.049442383597220016
+    },
+    {
+      "route": "reduce",
+      "target": "native_000060",
+      "H_count": 1649,
+      "max_by_name_A": 0.30672626232521877,
+      "rms_by_name_A": 0.022401174382279045,
+      "max_after_matching_A": 0.30672626232521877,
+      "rms_after_matching_A": 0.022401174382279045
+    },
+    {
+      "route": "reduce",
+      "target": "native_000061",
+      "H_count": 1702,
+      "max_by_name_A": 0.16033090781256085,
+      "rms_by_name_A": 0.012028022509931178,
+      "max_after_matching_A": 0.16033090781256085,
+      "rms_after_matching_A": 0.012028022509931178
+    },
+    {
+      "route": "reduce",
+      "target": "native_000062",
+      "H_count": 1722,
+      "max_by_name_A": 2.2083353459110318,
+      "rms_by_name_A": 0.07700282435956222,
+      "max_after_matching_A": 1.4141021886695455,
+      "rms_after_matching_A": 0.05490658839772647
+    },
+    {
+      "route": "reduce",
+      "target": "native_000063",
+      "H_count": 1651,
+      "max_by_name_A": 0.6200887033320337,
+      "rms_by_name_A": 0.043098116055236106,
+      "max_after_matching_A": 0.6200887033320337,
+      "rms_after_matching_A": 0.043098116055236106
+    },
+    {
+      "route": "reduce",
+      "target": "native_000064",
+      "H_count": 1641,
+      "max_by_name_A": 1.8931040647571395,
+      "rms_by_name_A": 0.5100934752013817,
+      "max_after_matching_A": 1.8931040647571395,
+      "rms_after_matching_A": 0.5100934752013817
+    },
+    {
+      "route": "reduce",
+      "target": "native_000065",
+      "H_count": 1769,
+      "max_by_name_A": 0.27974273895849067,
+      "rms_by_name_A": 0.041708773899953214,
+      "max_after_matching_A": 0.27974273895849067,
+      "rms_after_matching_A": 0.041708773899953214
+    },
+    {
+      "route": "reduce",
+      "target": "native_000066",
+      "H_count": 1707,
+      "max_by_name_A": 0.43962484006252456,
+      "rms_by_name_A": 0.043976753991429765,
+      "max_after_matching_A": 0.43962484006252456,
+      "rms_after_matching_A": 0.043976753991429765
+    },
+    {
+      "route": "reduce",
+      "target": "native_000067",
+      "H_count": 1631,
+      "max_by_name_A": 0.17963017563872472,
+      "rms_by_name_A": 0.01283725896201672,
+      "max_after_matching_A": 0.17963017563872472,
+      "rms_after_matching_A": 0.01283725896201672
+    },
+    {
+      "route": "reduce",
+      "target": "native_000068",
+      "H_count": 1722,
+      "max_by_name_A": 1.1906250459317615,
+      "rms_by_name_A": 0.0897865031283577,
+      "max_after_matching_A": 1.1906250459317615,
+      "rms_after_matching_A": 0.08940585598709481
+    },
+    {
+      "route": "reduce",
+      "target": "native_000069",
+      "H_count": 1684,
+      "max_by_name_A": 2.586507104185103,
+      "rms_by_name_A": 0.14614090018827203,
+      "max_after_matching_A": 2.600340554619722,
+      "rms_after_matching_A": 0.13814479563331392
+    },
+    {
+      "route": "reduce",
+      "target": "native_000070",
+      "H_count": 1653,
+      "max_by_name_A": 0.6847868281443504,
+      "rms_by_name_A": 0.028371434472209706,
+      "max_after_matching_A": 0.6847868281443504,
+      "rms_after_matching_A": 0.028371434472209706
+    },
+    {
+      "route": "reduce",
+      "target": "native_000071",
+      "H_count": 1709,
+      "max_by_name_A": 2.2299717486999695,
+      "rms_by_name_A": 0.19521480869304014,
+      "max_after_matching_A": 2.2299717486999695,
+      "rms_after_matching_A": 0.19450765740393192
+    },
+    {
+      "route": "reduce",
+      "target": "native_000072",
+      "H_count": 1729,
+      "max_by_name_A": 0.8700287351576386,
+      "rms_by_name_A": 0.030417929478791766,
+      "max_after_matching_A": 0.8700287351576386,
+      "rms_after_matching_A": 0.030417929478791766
+    },
+    {
+      "route": "reduce",
+      "target": "native_000073",
+      "H_count": 1694,
+      "max_by_name_A": 0.34543450898831685,
+      "rms_by_name_A": 0.024665519241104456,
+      "max_after_matching_A": 0.34543450898831685,
+      "rms_after_matching_A": 0.024665519241104456
+    },
+    {
+      "route": "reduce",
+      "target": "native_000074",
+      "H_count": 1754,
+      "max_by_name_A": 0.14798986451781154,
+      "rms_by_name_A": 0.014151968810334054,
+      "max_after_matching_A": 0.14798986451781154,
+      "rms_after_matching_A": 0.014151968810334054
+    },
+    {
+      "route": "reduce",
+      "target": "native_000075",
+      "H_count": 1699,
+      "max_by_name_A": 0.01067707825203022,
+      "rms_by_name_A": 0.0015587381141598396,
+      "max_after_matching_A": 0.01067707825203022,
+      "rms_after_matching_A": 0.0015587381141598396
+    },
+    {
+      "route": "reduce",
+      "target": "native_000076",
+      "H_count": 1767,
+      "max_by_name_A": 1.9623409489688595,
+      "rms_by_name_A": 0.11835833288456919,
+      "max_after_matching_A": 0.9598682201219098,
+      "rms_after_matching_A": 0.06013627233797768
+    },
+    {
+      "route": "reduce",
+      "target": "native_000077",
+      "H_count": 1694,
+      "max_by_name_A": 2.1562418695498886,
+      "rms_by_name_A": 0.09311932969670748,
+      "max_after_matching_A": 2.1562418695498886,
+      "rms_after_matching_A": 0.09311932969670748
+    },
+    {
+      "route": "reduce",
+      "target": "native_000078",
+      "H_count": 1758,
+      "max_by_name_A": 1.8662641827994233,
+      "rms_by_name_A": 0.11380007617696901,
+      "max_after_matching_A": 1.2109310467569985,
+      "rms_after_matching_A": 0.10258756353050927
+    },
+    {
+      "route": "reduce",
+      "target": "native_000079",
+      "H_count": 1722,
+      "max_by_name_A": 0.0954725091322109,
+      "rms_by_name_A": 0.011390976929161797,
+      "max_after_matching_A": 0.0954725091322109,
+      "rms_after_matching_A": 0.011390976929161797
+    },
+    {
+      "route": "reduce",
+      "target": "native_000080",
+      "H_count": 1689,
+      "max_by_name_A": 0.14229898102235272,
+      "rms_by_name_A": 0.014609096333377918,
+      "max_after_matching_A": 0.14229898102235272,
+      "rms_after_matching_A": 0.014609096333377918
+    },
+    {
+      "route": "reduce",
+      "target": "native_000081",
+      "H_count": 1697,
+      "max_by_name_A": 1.8953194981321753,
+      "rms_by_name_A": 0.11230807763339598,
+      "max_after_matching_A": 1.8121390675111004,
+      "rms_after_matching_A": 0.087924989458977
+    },
+    {
+      "route": "reduce",
+      "target": "native_000082",
+      "H_count": 1645,
+      "max_by_name_A": 0.0765571681816926,
+      "rms_by_name_A": 0.007668551814396934,
+      "max_after_matching_A": 0.0765571681816926,
+      "rms_after_matching_A": 0.007668551814396934
+    },
+    {
+      "route": "reduce",
+      "target": "native_000083",
+      "H_count": 1677,
+      "max_by_name_A": 9.705708526429177,
+      "rms_by_name_A": 0.8550748864393112,
+      "max_after_matching_A": 9.705708526429177,
+      "rms_after_matching_A": 0.8545714294116128
+    },
+    {
+      "route": "reduce",
+      "target": "native_000084",
+      "H_count": 1717,
+      "max_by_name_A": 1.9150780662939046,
+      "rms_by_name_A": 0.12110456741705483,
+      "max_after_matching_A": 1.9150780662939046,
+      "rms_after_matching_A": 0.1140837980949502
+    },
+    {
+      "route": "reduce",
+      "target": "native_000085",
+      "H_count": 1656,
+      "max_by_name_A": 0.12182774724996001,
+      "rms_by_name_A": 0.013967093833182617,
+      "max_after_matching_A": 0.12182774724996001,
+      "rms_after_matching_A": 0.013967093833182617
+    },
+    {
+      "route": "reduce",
+      "target": "native_000086",
+      "H_count": 1702,
+      "max_by_name_A": 0.11412712210513433,
+      "rms_by_name_A": 0.012768042693324867,
+      "max_after_matching_A": 0.11412712210513433,
+      "rms_after_matching_A": 0.012768042693324867
+    },
+    {
+      "route": "reduce",
+      "target": "native_000087",
+      "H_count": 1668,
+      "max_by_name_A": 0.08336666000266722,
+      "rms_by_name_A": 0.008195966136537594,
+      "max_after_matching_A": 0.08336666000266722,
+      "rms_after_matching_A": 0.008195966136537594
+    },
+    {
+      "route": "reduce",
+      "target": "native_000088",
+      "H_count": 1704,
+      "max_by_name_A": 1.871026723486334,
+      "rms_by_name_A": 0.06579793277715099,
+      "max_after_matching_A": 0.24525293066546652,
+      "rms_after_matching_A": 0.019418467445559983
+    },
+    {
+      "route": "reduce",
+      "target": "native_000089",
+      "H_count": 1676,
+      "max_by_name_A": 0.05675385449465,
+      "rms_by_name_A": 0.004719898971452184,
+      "max_after_matching_A": 0.05675385449465,
+      "rms_after_matching_A": 0.004719898971452184
+    },
+    {
+      "route": "reduce",
+      "target": "native_000090",
+      "H_count": 1633,
+      "max_by_name_A": 1.4989616406032542,
+      "rms_by_name_A": 0.3375323821529382,
+      "max_after_matching_A": 1.4989616406032542,
+      "rms_after_matching_A": 0.3375323821529382
+    },
+    {
+      "route": "reduce",
+      "target": "native_000091",
+      "H_count": 1707,
+      "max_by_name_A": 2.253413854577094,
+      "rms_by_name_A": 0.15987117140680182,
+      "max_after_matching_A": 2.040789553089686,
+      "rms_after_matching_A": 0.15771620118797122
+    },
+    {
+      "route": "reduce",
+      "target": "native_000092",
+      "H_count": 1680,
+      "max_by_name_A": 0.13528118864054922,
+      "rms_by_name_A": 0.010929890209878569,
+      "max_after_matching_A": 0.13528118864054922,
+      "rms_after_matching_A": 0.010929890209878569
+    },
+    {
+      "route": "reduce",
+      "target": "native_000093",
+      "H_count": 1704,
+      "max_by_name_A": 2.205826375760342,
+      "rms_by_name_A": 0.07307947953179811,
+      "max_after_matching_A": 2.205826375760342,
+      "rms_after_matching_A": 0.07307947953179811
+    },
+    {
+      "route": "reduce",
+      "target": "native_000094",
+      "H_count": 1717,
+      "max_by_name_A": 2.2725993927659136,
+      "rms_by_name_A": 0.14555381954987026,
+      "max_after_matching_A": 2.2725993927659136,
+      "rms_after_matching_A": 0.143198619044369
+    },
+    {
+      "route": "reduce",
+      "target": "native_000095",
+      "H_count": 1659,
+      "max_by_name_A": 0.10993179703798134,
+      "rms_by_name_A": 0.008839878953674184,
+      "max_after_matching_A": 0.10993179703798134,
+      "rms_after_matching_A": 0.008839878953674184
+    },
+    {
+      "route": "reduce",
+      "target": "native_000096",
+      "H_count": 1705,
+      "max_by_name_A": 0.09291931984253779,
+      "rms_by_name_A": 0.009288816471270729,
+      "max_after_matching_A": 0.09291931984253779,
+      "rms_after_matching_A": 0.009288816471270729
+    },
+    {
+      "route": "reduce",
+      "target": "native_000097",
+      "H_count": 1663,
+      "max_by_name_A": 0.2685013966444109,
+      "rms_by_name_A": 0.015819961966850298,
+      "max_after_matching_A": 0.2685013966444109,
+      "rms_after_matching_A": 0.015819961966850298
+    },
+    {
+      "route": "reduce",
+      "target": "native_000098",
+      "H_count": 1658,
+      "max_by_name_A": 0.31483646548644983,
+      "rms_by_name_A": 0.02429442196225502,
+      "max_after_matching_A": 0.31483646548644983,
+      "rms_after_matching_A": 0.02429442196225502
+    },
+    {
+      "route": "reduce",
+      "target": "native_000099",
+      "H_count": 1650,
+      "max_by_name_A": 1.898609491180322,
+      "rms_by_name_A": 0.0680153458619985,
+      "max_after_matching_A": 0.48648329878835445,
+      "rms_after_matching_A": 0.022959410825510066
+    },
+    {
+      "route": "reduce",
+      "target": "native_000100",
+      "H_count": 1675,
+      "max_by_name_A": 0.12381437719424973,
+      "rms_by_name_A": 0.01338883473355276,
+      "max_after_matching_A": 0.12381437719424973,
+      "rms_after_matching_A": 0.01338883473355276
+    },
+    {
+      "route": "reduce",
+      "target": "native_000101",
+      "H_count": 1657,
+      "max_by_name_A": 0.6467279180613742,
+      "rms_by_name_A": 0.02511404284175637,
+      "max_after_matching_A": 0.6467279180613742,
+      "rms_after_matching_A": 0.02511404284175637
+    },
+    {
+      "route": "reduce",
+      "target": "native_000102",
+      "H_count": 1694,
+      "max_by_name_A": 0.6276543634835978,
+      "rms_by_name_A": 0.03370533469314405,
+      "max_after_matching_A": 0.6276543634835978,
+      "rms_after_matching_A": 0.03370533469314405
+    },
+    {
+      "route": "reduce",
+      "target": "native_000103",
+      "H_count": 1639,
+      "max_by_name_A": 0.21049228014347743,
+      "rms_by_name_A": 0.012234190281194978,
+      "max_after_matching_A": 0.21049228014347743,
+      "rms_after_matching_A": 0.012234190281194978
+    },
+    {
+      "route": "reduce",
+      "target": "native_000104",
+      "H_count": 1721,
+      "max_by_name_A": 0.2645713514347313,
+      "rms_by_name_A": 0.02491413493777878,
+      "max_after_matching_A": 0.2645713514347313,
+      "rms_after_matching_A": 0.02491413493777878
+    },
+    {
+      "route": "reduce",
+      "target": "native_000105",
+      "H_count": 1711,
+      "max_by_name_A": 0.704846791863309,
+      "rms_by_name_A": 0.021901258140205153,
+      "max_after_matching_A": 0.704846791863309,
+      "rms_after_matching_A": 0.021901258140205153
+    },
+    {
+      "route": "reduce",
+      "target": "native_000106",
+      "H_count": 1714,
+      "max_by_name_A": 1.7123396275272018,
+      "rms_by_name_A": 0.06976900125119512,
+      "max_after_matching_A": 1.1080482841464996,
+      "rms_after_matching_A": 0.04507243618980474
+    },
+    {
+      "route": "reduce",
+      "target": "native_000107",
+      "H_count": 1752,
+      "max_by_name_A": 0.1939175082348185,
+      "rms_by_name_A": 0.013687393793503855,
+      "max_after_matching_A": 0.1939175082348185,
+      "rms_after_matching_A": 0.013687393793503855
+    },
+    {
+      "route": "reduce",
+      "target": "native_000108",
+      "H_count": 1683,
+      "max_by_name_A": 0.1371276777313754,
+      "rms_by_name_A": 0.013580069979701669,
+      "max_after_matching_A": 0.1371276777313754,
+      "rms_after_matching_A": 0.013580069979701669
+    },
+    {
+      "route": "reduce",
+      "target": "native_000109",
+      "H_count": 1660,
+      "max_by_name_A": 0.08706893820416177,
+      "rms_by_name_A": 0.010334670855269039,
+      "max_after_matching_A": 0.08706893820416177,
+      "rms_after_matching_A": 0.010334670855269039
+    },
+    {
+      "route": "reduce",
+      "target": "native_000110",
+      "H_count": 1700,
+      "max_by_name_A": 0.07915806970865374,
+      "rms_by_name_A": 0.003303474107128809,
+      "max_after_matching_A": 0.07915806970865374,
+      "rms_after_matching_A": 0.003303474107128809
+    },
+    {
+      "route": "reduce",
+      "target": "native_000111",
+      "H_count": 1797,
+      "max_by_name_A": 0.6348810912289009,
+      "rms_by_name_A": 0.12157636017028046,
+      "max_after_matching_A": 0.6348810912289009,
+      "rms_after_matching_A": 0.12157636017028046
+    },
+    {
+      "route": "reduce",
+      "target": "native_000112",
+      "H_count": 1719,
+      "max_by_name_A": 0.2194857626362143,
+      "rms_by_name_A": 0.013761092093788544,
+      "max_after_matching_A": 0.2194857626362143,
+      "rms_after_matching_A": 0.013761092093788544
+    },
+    {
+      "route": "reduce",
+      "target": "native_000113",
+      "H_count": 1687,
+      "max_by_name_A": 0.26864660801879037,
+      "rms_by_name_A": 0.026090320071295494,
+      "max_after_matching_A": 0.26864660801879037,
+      "rms_after_matching_A": 0.026090320071295494
+    },
+    {
+      "route": "reduce",
+      "target": "native_000114",
+      "H_count": 1615,
+      "max_by_name_A": 0.0660681466366371,
+      "rms_by_name_A": 0.008045189705617937,
+      "max_after_matching_A": 0.0660681466366371,
+      "rms_after_matching_A": 0.008045189705617937
+    },
+    {
+      "route": "reduce",
+      "target": "native_000115",
+      "H_count": 1742,
+      "max_by_name_A": 1.4173715109314116,
+      "rms_by_name_A": 0.06575087362399964,
+      "max_after_matching_A": 0.6102179938349886,
+      "rms_after_matching_A": 0.03823667158580834
+    },
+    {
+      "route": "reduce",
+      "target": "native_000116",
+      "H_count": 1702,
+      "max_by_name_A": 1.5323439561664978,
+      "rms_by_name_A": 0.10929643065183549,
+      "max_after_matching_A": 1.5086368018844019,
+      "rms_after_matching_A": 0.10772443846035176
+    },
+    {
+      "route": "reduce",
+      "target": "native_000117",
+      "H_count": 1731,
+      "max_by_name_A": 2.9109738920162083,
+      "rms_by_name_A": 0.12418468245031655,
+      "max_after_matching_A": 2.9109738920162083,
+      "rms_after_matching_A": 0.12284196072064099
+    },
+    {
+      "route": "reduce",
+      "target": "native_000118",
+      "H_count": 1716,
+      "max_by_name_A": 2.145730877812964,
+      "rms_by_name_A": 0.053812471150115816,
+      "max_after_matching_A": 2.145730877812964,
+      "rms_after_matching_A": 0.053812471150115816
+    },
+    {
+      "route": "reduce",
+      "target": "native_000119",
+      "H_count": 1684,
+      "max_by_name_A": 1.6938683537984875,
+      "rms_by_name_A": 0.10443208592224541,
+      "max_after_matching_A": 1.3212229183601074,
+      "rms_after_matching_A": 0.07354442643961903
+    }
+  ]
+}

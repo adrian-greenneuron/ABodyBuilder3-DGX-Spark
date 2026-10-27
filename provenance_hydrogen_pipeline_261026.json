@@ -1,0 +1,89 @@
+{
+  "protocol": {
+    "date": "2026-10-26",
+    "question": "Compare GPU hydrogen minimisation and bounded streaming preparation against deterministic CPU repair/H preparation; optimise complete-job throughput, with chemical-geometry checks.",
+    "reference_branch": "components/deterministic-repair-261026",
+    "reference_commit": "619d63703f3309d1b2c8262d8f555889dc8e0396",
+    "main_before": "c20d119957bcbbd24d8534fddbdc3e9fc7d57795",
+    "dev_before": "e6fabdf73aa9590431377de5f923c256576829fd",
+    "fixed": {
+      "repair": "CPU1, deterministic forces",
+      "neural_model": "released pLDDT, strict FP32, saved AOT, native writer",
+      "hydrogen_forcefield": "Amber ff14SB/GBn2, pH7, seed42, CutoffNonPeriodic as original addHydrogens",
+      "hydrogen_minimisation": "original tolerance1.0, max50 iterations; heavy atoms massless",
+      "relaxation": "off",
+      "reduce": "same binary, original optional flips"
+    },
+    "engine_screen": {
+      "inputs": 8,
+      "conditions": [
+        "CPU H/8 workers",
+        "CUDA H single/1 worker",
+        "CUDA H mixed/1 worker",
+        "CUDA H double/1 worker"
+      ],
+      "repetitions": 2,
+      "routes": [
+        "openmm",
+        "reduce"
+      ]
+    },
+    "pipeline_screen": {
+      "panel": "8 retained public benchmark pairs plus 56 distinct native OAS pairs; 64 distinct pairs total",
+      "CPU_workers": [
+        8,
+        12,
+        16,
+        20
+      ],
+      "GPU_workers": [
+        1,
+        2,
+        4
+      ],
+      "schedules": [
+        "phased",
+        "bounded streaming"
+      ],
+      "repetitions": 2,
+      "selection": "Use small-engine evidence to bound the full-pipeline grid; retain failed/worse configurations. Confirm leading conditions on a larger distinct panel if the small screen passes."
+    },
+    "geometry": {
+      "hard_checks": "finite coordinates, atom/residue identities, parameterisation, protonation choices, original-heavy preservation under each route",
+      "diagnostics": [
+        "H bond-length errors against force-field targets (>0.05/0.10 Angstrom)",
+        "H-involving bond-angle errors (>20/30 degrees)",
+        "alpha H opposite CB relative N-CA-C plane; flag degenerate heavy geometry",
+        "severe H-involving overlaps, excluding pairs within three covalent bonds",
+        "same-parent H permutation matching and per-target coordinate changes"
+      ],
+      "decision": "No new severe H bond/alpha-H defect accepted silently; existing baseline defects disclosed. No candidate enabled before user review."
+    },
+    "measurement": "Fresh containers; complete-job seconds/throughput. 20ms MemAvailable, 5s pre/8s post, 0.25GiB drift flag; no RSS/CUDA sums. Pipeline events show first preparation vs last raw output; no host interval claimed as device execution.",
+    "retention": "No deletions or production branch/image changes; original/modified third-party source and regression tests on component branch; biological inputs/predictions/full atom data stay local."
+  },
+  "openmm_source_sha256": "f61e61f1419fcc3c24e7096ab96e10f87f70951085a83941d6040390e8819ca3",
+  "followup_record_271026": {
+    "reason": "Four GPU workers approached CPU20 throughput, justifying GPU8/12/16/20 concurrency tests; plateau candidates then characterised on128 pairs with both routes. No geometry acceptance inferred.",
+    "runs": 65,
+    "predictions": 4120,
+    "completed": true,
+    "enabled_on_main_or_dev": false,
+    "stage_case_protocols": {
+      "engine": "runs/hydrogen_pipeline_261026/engine/cli_protocol_261026.json",
+      "smoke": "runs/hydrogen_pipeline_261026/smoke/cli_protocol_261026.json",
+      "pipeline64": "runs/hydrogen_pipeline_261026/pipeline64/cli_protocol_261026.json",
+      "pipeline64_followup": "runs/hydrogen_pipeline_261026/pipeline64_followup/cli_protocol_261026.json",
+      "confirmation128": "runs/hydrogen_pipeline_261026/confirmation128/cli_protocol_261026.json"
+    },
+    "images": {
+      "cpu_candidate": "sha256:76ec04f135dd35a151207b7daa2d65227524e3bef2b1bef45c3d6688bf4365f3",
+      "gpu_engine": "sha256:8c5df88e735c9dffdaa1584613fa0e20c799bbb6ed6ff7e0402b52342a4f18d4",
+      "streaming_candidate": "sha256:3b13290a647b29766a8d0c65689fbbe0dea40bdf600318a9b26dcc0bd6ce2ce4",
+      "dev_latest_unchanged": "sha256:a4d29734d1b2ce98a09c4508e9047ad714a6da94be610fd5b8dda6b15285b590",
+      "main_latest_unchanged": "sha256:ab981f1494f2c817995a3cf767702181330af8d3f97584120d533dedd9432fd0"
+    },
+    "decision": "Do not enable GPU hydrogen or streaming; retain full results for review. GPU speed gain confirmed but new chemical defects remain.",
+    "public_payload": "Source, aggregate/per-target numerical summaries under generic IDs, protocols, telemetry and test logs only; no input sequences or predictions."
+  }
+}
