@@ -95,7 +95,9 @@ def med(rows,key):return st.median(r[key] for r in rows)
 
 
 def save(fig,folder,name):
-    for extension in ['png','svg']:fig.savefig(folder/(name+'.'+extension),dpi=180,bbox_inches='tight')
+    for extension in ['png','svg']:
+        path=folder/(name+'.'+extension);fig.savefig(path,dpi=180,bbox_inches='tight')
+        if extension=='svg':path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines())+'\n')
     plt.close(fig)
 
 

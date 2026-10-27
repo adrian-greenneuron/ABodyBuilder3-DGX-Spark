@@ -94,9 +94,9 @@
     "Dockerfile.heavy-rescue": "ce27b3dd21aaa7708314147bdebdd9e8725b16c5aa6731bd1f85f8b544b1611f",
     "candidate/heavy_atom_rescue.py": "edfe15351046e8a4be5e9b97980f8e921973e3f67a6385d87f628cb271abeaa7",
     "docs/assets/heavy_atom_rescue_geometry_271026.png": "4d504adde31827a3ef315ad2cdcc5b0647178ff0058a7db19181f8b7e274c7a0",
-    "docs/assets/heavy_atom_rescue_geometry_271026.svg": "828868b16aa965499f2326baafcc701d1a5b120bf6a35e73f54a92c0695c1e23",
+    "docs/assets/heavy_atom_rescue_geometry_271026.svg": "a34bd864aa13a644bab210d6aa83c23743ae189a0aa08fe4819d37968907fe7e",
     "docs/assets/heavy_atom_rescue_tradeoffs_271026.png": "71c1af1b127a4f0564d4506b64b64996b7e379a00db9f701154c61844a596773",
-    "docs/assets/heavy_atom_rescue_tradeoffs_271026.svg": "902a000257353de638e1c113fbcaeb93e554804861e710154b7900b809ab63de",
+    "docs/assets/heavy_atom_rescue_tradeoffs_271026.svg": "7e83d985b067dfae1fa77bd44bc071c871ea65d3737f7e7bc24f4f063f5ea03d",
     "docs/data/heavy_atom_rescue_results_271026.json": "326969d4d190c152bfce27c1d33ff446547df28f99f1fa80cce2a61c4f001c1b",
     "docs/heavy_atom_rescue_271026.md": "e551fd6ba57b5fb20926b302798e8b91cf07b43c005d1d729107de114dee6ae5",
     "tests/test_heavy_atom_rescue.py": "a395d3311d65fe87e36684401117d949a15d1f512cf5228f9ed095e13f3a14bc",
@@ -106,6 +106,6 @@
     "tools/screen_heavy_rescue.py": "89aa6967ca33ad6d6a93dc0152897c6e94247ba3c71808e32e9fa7eb5e8704cd",
     "tools/validate_heavy_rescue.py": "0657baa1d83178155ed1f6e3eeea0024093872e4068fb63d9e4462a747ea7b9e",
     "tools/validate_rescue_jobs.py": "3b9fce9caffde5bb5ea9cf1eecc277f62fecef43a9b77786ee9aec1d6bb78651",
-    "tools/write_heavy_rescue_report.py": "29f7741701be293883473944b1ebc5e5ded11a642ee2c25d0a7504fee70a578e"
+    "tools/write_heavy_rescue_report.py": "0d3068a992b488da0b5571a791c32f972dd825a8db9e6eeeec543310053bb8fa"
   }
 }
