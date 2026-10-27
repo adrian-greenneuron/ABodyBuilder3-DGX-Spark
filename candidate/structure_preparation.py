@@ -295,6 +295,7 @@ def prepare_structure(raw, options):
         report["effective_ph"] = ph
         report["hydrogen_backend"] = "OpenMM (after optional Reduce orientation)"
         modeller = app.Modeller(topology, positions)
+        geometry_policy = os.environ.get("AB3_EXPERIMENTAL_GEOMETRY", "off")
         try:
             from hydrogen_policy import hydrogen_properties
             policy = os.environ.get("AB3_EXPERIMENTAL_HYDROGEN", "cpu1")
@@ -302,9 +303,21 @@ def prepare_structure(raw, options):
             report["hydrogen_runtime"] = {"policy": policy, "platform": platform_name,
                                           "requested_properties": properties}
             kwargs = {} if properties is None else {"platformProperties": properties}
+            if geometry_policy != "off":
+                if options.relax != "none":
+                    raise ValueError("Experimental fixed-heavy hydrogen placement is qualified only without structural relaxation.")
+                from hydrogen_geometry import optimise
+                kwargs["hydrogenOptimizer"] = optimise
             variants = modeller.addHydrogens(_forcefield(), pH=ph,
                 platform=mm.Platform.getPlatformByName(platform_name), **kwargs)
+            if geometry_policy != "off":
+                report["hydrogen_geometry_optimisation"] = dict(optimise.last_report)
+                report["hydrogen_backend"] = "Experimental fixed-heavy geometry placement (after optional Reduce orientation)"
+                if not optimise.last_report.get("success", True):
+                    report["warnings"].append("Hydrogen placement reached its finite optimiser budget; geometric checks passed, optimisation convergence is not claimed.")
         except ValueError as exc:
+            if geometry_policy != "off":
+                raise ValueError(f"Experimental hydrogen placement failed; no alternate method was used. {exc}") from exc
             raise ValueError(f"OpenMM could not parameterise preparation at pH {ph}. "
                              f"Some protonation/terminal combinations lack Amber templates; no different state was substituted. {exc}") from exc
         topology, positions = modeller.topology, modeller.positions

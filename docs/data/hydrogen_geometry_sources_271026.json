@@ -1,0 +1,130 @@
+{
+  "generation_date": "2026-10-27",
+  "component_parent": "967b4fe3ddef04888376f1d01122d8ee5fcc1bc2",
+  "branch": "components/hydrogen-pipeline-261026",
+  "sha256": {
+    "reference/deterministic_structure_preparation.py": "a65c3a396c1097c2c892d7a02a03af09f4d0b9d73faa3690ab5be374ed4fafe7",
+    "reference/gpu_openmm_modeller.py": "59d24bcbd795eb091256f77f58aa5d4c7a37f502efceb79501774afdcab39ec9",
+    "reference/gpu_structure_preparation.py": "5a41bdee6933e51e4c931dbf97ed188bf947c8b91313f83bebefcf7858792b5e",
+    "reference/openmm_modeller.py": "f61e61f1419fcc3c24e7096ab96e10f87f70951085a83941d6040390e8819ca3",
+    "reference/pdbfixer.py": "a52e39125e3e0e2d1b58b83841fb05b8669e0bcdd73461e1b0ed1d5a8e8261b9",
+    "reference/predict.py": "308bdbdec331df108f3941d7ddf72abc7fbd607c291a04248b85edbdae18a833",
+    "reference/preparation_pool.py": "7c5ee32a99e26aee5d5e3510f3da084d7ea48a28a892b053baabcad83bdc5ccb",
+    "reference/structure_preparation.py": "f4c55dc2976ace36b534bff2193de1192298a612190579dcda34b98d1118ffd6",
+    "candidate/hydrogen_geometry.py": "99a2e6fc7408c51e0bc7937db24c68467012c2d8d9fd856d233f49096965fc20",
+    "candidate/hydrogen_policy.py": "8131073f51eb45ab1d59d7242f87f49126f33cf091be9ac57f24782159a12a1a",
+    "candidate/openmm_modeller.py": "f3b89e8a5e1677c8c69849d611926d2774ba1739cbf358226c088d9446b0cbe6",
+    "candidate/pdbfixer.py": "9db3452fa396e61a73fd7ce26e225b1c3fdb52eb306d45ee7677cad5d860611c",
+    "candidate/predict.py": "f72b74a53206de6f93cda4e071844b0919602abefd195fd7a59beb06c2dc7df9",
+    "candidate/preparation_pool.py": "b930593469f84ca8e90ffda8390780265d4838096f31ebbc5dec60881619dafa",
+    "candidate/repair_policy.py": "7b2cb0a87e907712668216c6c4034f9ffab06e9c59a0c6f0bbfef8c24c3324d6",
+    "candidate/stream_preparation.py": "41055acf47a4a2d1d8b1700653ff230dd3ec49d9807527af102730903bf1c182",
+    "candidate/structure_preparation.py": "23c7e927260680cdc7b6b6279f8763d16d6f0ec5dbc6df6a68524614bb987900",
+    "tests/test_alpha_h_geometry.py": "097a18bf1ac9c7f11b8a923c4d0e2efa0e1e1ca40e9366da0af641aef32ebbbe",
+    "tests/test_contact_bounds.py": "9587df78167e56c413c9cab85c0a14401ac183260c3a8bad1bb520dc8c1c4e61",
+    "tests/test_deterministic_policy.py": "da410c19600dd5eae49db33b3d2d79067856b80ad19036732ddaee4299bce1ae",
+    "tests/test_hydrogen_geometry.py": "08d58961a44b259b15131f5d8dd0aee052a620988cdb762562e94a90db0e046a",
+    "tests/test_hydrogen_planes.py": "d66c180ca3d36560211d174d8e6dde99d21992c176c08f6a818dd79f3ef57530",
+    "tests/test_hydrogen_policy.py": "fde6349aa9c9644d78c4474a94ea89d5bb47958c81ab61973cbb34ce45b2a6c6",
+    "tests/test_pipeline_analysis.py": "3b88e84b791f0bb56a197d8409707f4b3a81d547898b8a594e648e4005824bd8",
+    "tests/test_preparation_pool.py": "fcba09b2140a219d167d92e158da8ff7d180df21e600110c6d67de99afca9182",
+    "tests/test_stream_preparation.py": "e477ef57959d97b00aa9539afcd35248fa1307ab133d9ec8b5e79be5398c0594",
+    "tools/analyse_deterministic_repair.py": "d2b6b0a18bcab5263d3b98889ec5114da1ee542086dd1837971ed7758e9f19ea",
+    "tools/analyse_hydrogen_geometry.py": "f65c8c336f14f2324a820a14b89c5890bfe6a666fbf124aad9b66fc604aff229",
+    "tools/analyse_hydrogen_pipeline.py": "53e4fe78cd6e3e184d59fca0e9c4f6c938d316be1ad51a76bb42129c36b7e2d5",
+    "tools/benchmark_deterministic_repair.py": "50705cf27ccc690f6e2c5844d43f901b0f253d0c8a5002bafdd7fb494b670e01",
+    "tools/benchmark_hydrogen_pipeline.py": "13c48defec3144346905dead85e591a286b7e8d8f5a72cf21416ebe87a368696",
+    "tools/bound_fixed_heavy_contacts.py": "ee3e7fa0259fdd3031b23a3d11f4c30e295b25f7a4f4b90db6a3f8c062353dd3",
+    "tools/check_planar_rejections.py": "f5c8977ab2364bfc8899d12d9ae5b17c49a2bf2103d71a93e47a5d8e21fb7cfc",
+    "tools/check_preparation_failures.py": "31fff04f8f2c489e2183720ec63b0d25664a5022647da5bd5e2f2a0a045540fb",
+    "tools/check_stored_tetrahedral_volumes.py": "2629db6f424afa88bf17f6f7f6f5614108625cdbc037229c9467445d736d122a",
+    "tools/diagnose_hydrogen_geometry.py": "7bcab81ff9abdde49d3ecf50a1ae2b8f43a124aa40923fb87f2ee1964fe25ef5",
+    "tools/match_hydrogen_pipeline.py": "a092b93f58dfa60f14514db8b4c82c3ea04652f2ba281480f1df6767abeb910d",
+    "tools/measure_chemical_geometry.py": "af66d78ae86755ac8713527ef45f92cf77395ad3e8c41212e5da97c9de39cf97",
+    "tools/measure_preparation_cli.py": "9a59fe023be2b81a67c8b86e2850022ea7139f1826a0a1ccca33cf6635a6d693",
+    "tools/measure_preparation_jobs.py": "76f5e57a5b6524c22a68b7e6e0c23511db0060baa438f9b5bf0e4910735c067c",
+    "tools/package_deterministic_evidence.py": "c79e3ae23ec6c601836e65b7a7ca2725b46b16b2746e9f9e042d219793800fd1",
+    "tools/package_hydrogen_evidence.py": "2f5cb31194fa71cdc49ce96fdc007b5b19a2a9cf3c2c157bbfe893aafa3adc4c",
+    "tools/package_hydrogen_geometry.py": "90b35dd903a0c5fb337cb7204ad5065835157d2a0040a177574218626ee09e39",
+    "tools/plot_deterministic_repair.py": "f5333c5127fecf1e3485f671e238450472e4869cbbdef856e442b6c258975732",
+    "tools/plot_hydrogen_geometry.py": "a5ded44a1ff875dc5bb28e5b9ef38d07fba95a032f3ac022c88c7bb9ae942955",
+    "tools/plot_hydrogen_pipeline.py": "550ee251cedd61a02c0cfd99fb7360eb823469eaf1f0279e99a640d3624ad74d",
+    "tools/preflight_planar_hydrogens.py": "91be1bf2cc93578521ccce722a96b88b89bb370b58d90515e4f355bee54b51a9",
+    "tools/prepare_hydrogen_inputs.py": "68678e1a56b36cdbdb9d7aaa493f727efad6b35eefa7452c313504c79920044f",
+    "tools/prepare_planar_validation.py": "e183514f589f8496eb48289cec6d2eca6bf1d6714d8365205c2828360e42427f",
+    "tools/profile_preparation.py": "04ca4ff8389530d394ffea261f17f07edccfe94741b2a84a7896355a63d5a0ee",
+    "tools/publish_preparation_results.py": "f5844d4ac8eda8e6ee25e3780d54d47f53f78f04b3e4fe61777f0865e0648125",
+    "tools/run_preparation_cli.py": "80bdbcd731d360098eba7b0771cb61a0550ecbc4dfd219b0780664d228ad201e",
+    "tools/run_worker_caps.py": "1d26c2a5a2b0f6375cef5c75d925d308f2e6edb671506b0e06e3ad059eef878e",
+    "tools/score_hydrogen_differences.py": "ebc8b309cb2909fa0b4c5f73be5536704a846c1194f6fce0ae3148b9634a061b",
+    "tools/score_hydrogen_planes.py": "6a84a5ad1ea8bcbdb7b01581b1916d8cf223eaca3f359b2dd19dd7639f97fbf4",
+    "tools/score_preparation_jobs.py": "f60b61ed4da2b9d0b492252004fc4fb1680451384e1e421422e264cfe7323992",
+    "tools/score_probe_hydrogens.py": "4981d0581e2b7454f4fd771343a3d429055db7184f9dff0b63657bc4a6df5dc0",
+    "tools/screen_deterministic_repair.py": "405ddc343919a8644c564a024ff6bd8979970612d06888b04dacc3c3215fa87f",
+    "tools/screen_hydrogen_geometry.py": "7ce0a5ebdee55697edfbe51aae8d9c09990c79ea243bddcdee8e28ff223741ff",
+    "tools/select_hydrogen_validation.py": "f4e0fae01f931a0f69997ed410560924d9cb37fbaf26e1d9c3e3124bf18979bf",
+    "tools/trace_preparation_repeatability.py": "8c8063e345de17ce8df38267579f0f422ecfedf63a6ca554dbbff16a5517c4ec",
+    "tools/validate_hydrogen_study.py": "98818867ca3dac7c3f425b6933aeab198e60817a1dc93254e563ab3ae6dbe703",
+    "tools/write_hydrogen_geometry_report.py": "c35c920e8e93c41200fcecb2d541ad2cf798ef07805e73f327eea0c938c47738",
+    "Dockerfile.deterministic": "41529abe381d62918f853e842ce5017923376af40f0e618abc5df9b1750aa1c2",
+    "Dockerfile.streaming": "8924a04d3adfa3db2937921b3243a4542758f362e90ddea18ce9f7b6523fbda9",
+    "Dockerfile.geometry": "f7e5d57792ec31ac2f71a6beabbadcc6e07dc7a2b306e45cace675649c42161a",
+    "Dockerfile.hydrogen": "8c528d79e19a557bba29ffb5c68f837d39efa4a41ed003825d4eaefd8ad45f82"
+  },
+  "images": {
+    "earlier": {
+      "id": "sha256:3b13290a647b29766a8d0c65689fbbe0dea40bdf600318a9b26dcc0bd6ce2ce4",
+      "created": "2026-10-26T23:49:44.812005298Z",
+      "source_sha256": {
+        "openmm_modeller.py": "59d24bcbd795eb091256f77f58aa5d4c7a37f502efceb79501774afdcab39ec9",
+        "structure_preparation.py": "5a41bdee6933e51e4c931dbf97ed188bf947c8b91313f83bebefcf7858792b5e"
+      }
+    },
+    "robust_r3": {
+      "id": "sha256:b794a0b09039f7fadc086384812a0708591c724bccca9d887f1028e562de72bb",
+      "created": "2026-10-27T02:45:20.793142996Z",
+      "source_sha256": {
+        "openmm_modeller.py": "f3b89e8a5e1677c8c69849d611926d2774ba1739cbf358226c088d9446b0cbe6",
+        "structure_preparation.py": "e500039339b13e3871937b691ea8bbf146d19c6e9a9839bf02d135f2f2c15585",
+        "hydrogen_geometry.py": "d5c5b74a43cd326549c926053b8253da65d1b00d85e8b7146d9674220413ac37"
+      }
+    },
+    "robust_r4": {
+      "id": "sha256:4f8f1031be5cfd43740739b4e46d98d03b5ac1bf050151345827165125256637",
+      "created": "2026-10-27T04:40:30.580842754Z",
+      "source_sha256": {
+        "openmm_modeller.py": "f3b89e8a5e1677c8c69849d611926d2774ba1739cbf358226c088d9446b0cbe6",
+        "structure_preparation.py": "e500039339b13e3871937b691ea8bbf146d19c6e9a9839bf02d135f2f2c15585",
+        "hydrogen_geometry.py": "0aa99edf572847840087f932e3a4bf8e5c9bb5609bd4a899e2e5dc0af1cebf01"
+      }
+    },
+    "planar_r7": {
+      "id": "sha256:ef13b76eb63cedfd4cb089b0f03511e81d4968070dd52e3207e0c968c1e39b23",
+      "created": "2026-10-27T06:11:01.841519675Z",
+      "source_sha256": {
+        "openmm_modeller.py": "f3b89e8a5e1677c8c69849d611926d2774ba1739cbf358226c088d9446b0cbe6",
+        "structure_preparation.py": "23c7e927260680cdc7b6b6279f8763d16d6f0ec5dbc6df6a68524614bb987900",
+        "hydrogen_geometry.py": "924ef3edab63ffc219c73f8c6d5ba46f29cb3e62a9d1fb16897b15ee56f71991"
+      }
+    },
+    "adaptive_r8": {
+      "id": "sha256:ca85c1a16c618bb6674ca48432e43e7db5d7911821a1a96cf7e1374d580dd558",
+      "created": "2026-10-27T08:27:54.666598559Z",
+      "source_sha256": {
+        "openmm_modeller.py": "f3b89e8a5e1677c8c69849d611926d2774ba1739cbf358226c088d9446b0cbe6",
+        "structure_preparation.py": "23c7e927260680cdc7b6b6279f8763d16d6f0ec5dbc6df6a68524614bb987900",
+        "hydrogen_geometry.py": "99a2e6fc7408c51e0bc7937db24c68467012c2d8d9fd856d233f49096965fc20"
+      }
+    }
+  },
+  "protected_unchanged": {
+    "main": "c20d119957bcbbd24d8534fddbdc3e9fc7d57795",
+    "dev": "e6fabdf73aa9590431377de5f923c256576829fd",
+    "abodybuilder3-dev-spark:latest": "sha256:a4d29734d1b2ce98a09c4508e9047ad714a6da94be610fd5b8dda6b15285b590",
+    "abodybuilder3-official-spark:latest": "sha256:ab981f1494f2c817995a3cf767702181330af8d3f97584120d533dedd9432fd0"
+  },
+  "model_checkpoint_sha256": "421aa6c52a5152f781b35007411985146fb520a90286a955161cb8e50584d615",
+  "AOT_manifest_sha256": "947bbaf04b6633cb9b0a073fb62d090b55610e1b2964b750466c95840bc6203e",
+  "build_note": "Dockerfile.geometry is an incremental layer on the retained earlier GPU image. Verify the immutable base identity before using its tag. Historical image sources are included separately; current tools do not retroactively identify old runs.",
+  "licence_note": "Original OpenMM Modeller and MIT notice retained; Probe source is unmodified upstream code, not a candidate rewrite."
+}

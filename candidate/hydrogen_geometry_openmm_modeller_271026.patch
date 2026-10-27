@@ -1,0 +1,23 @@
+--- reference/gpu_openmm_modeller.py
++++ candidate/openmm_modeller.py
+@@ -753,7 +753,7 @@
+             Modeller.loadHydrogenDefinitions(os.path.join(os.path.dirname(__file__), 'data', 'hydrogens.xml'))
+             Modeller._hasLoadedStandardHydrogens = True
+ 
+-    def addHydrogens(self, forcefield=None, pH=7.0, variants=None, platform=None, residueTemplates=dict(), platformProperties=None):
++    def addHydrogens(self, forcefield=None, pH=7.0, variants=None, platform=None, residueTemplates=dict(), platformProperties=None, hydrogenOptimizer=None):
+         """Add missing hydrogens to the model.
+ 
+         Some residues can exist in multiple forms depending on the pH and properties of the local environment.  These
+@@ -1097,6 +1097,11 @@
+                         index = atom.index
+                         if atom.element == elem.oxygen and len(bondedTo[index]) == 2 and elem.hydrogen in (a.element for a in bondedTo[index]):
+                             angles.addAngle(bondedTo[index][0].index, index, bondedTo[index][1].index, 1.894, 460.24)
++
++        if hydrogenOptimizer is not None:
++            self.positions = hydrogenOptimizer(system, newTopology, newPositions, newIndices, platform, platformProperties)
++            self.topology = newTopology
++            return actualVariants
+ 
+         if platform is None:
+             if platformProperties:

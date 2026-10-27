@@ -24,11 +24,13 @@ def main():
     parser.add_argument("--study", type=Path, required=True)
     parser.add_argument("--protocol", default="cli_protocol_261026.json")
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--record-tag", default="261026")
     args = parser.parse_args()
     root = args.study.resolve()
     protocol = json.loads((root / args.protocol).read_text())
     input_catalog = protocol["inputs"]
-    measurements = root / "cli_measurements_261026.json"
+    tag = args.record_tag
+    measurements = root / f"cli_measurements_{tag}.json"
     records = json.loads(measurements.read_text())["rows"] if args.resume else []
     completed = {row["label"] for row in records}
     for case in protocol["cases"]:
@@ -51,7 +53,7 @@ def main():
 
         def observe():
             try:
-                with (output / "system_memory_trace_261026.csv").open("w") as stream:
+                with (output / f"system_memory_trace_{tag}.csv").open("w") as stream:
                     writer = csv.writer(stream)
                     writer.writerow(["monotonic", "phase", *FIELDS, "cpu_total", "cpu_idle"])
                     while not stop.is_set():
@@ -78,6 +80,10 @@ def main():
                    "-e", f"AB3_EXPERIMENTAL_REPAIR={case['policy']}",
                    "-e", f"AB3_EXPERIMENTAL_HYDROGEN={case['hydrogen']}",
                    "-e", f"AB3_EXPERIMENTAL_SCHEDULE={case['schedule']}",
+                   "-e", f"AB3_EXPERIMENTAL_GEOMETRY={case.get('geometry', 'off')}",
+                   "-e", f"AB3_H_GRAD_TOL={case.get('gradient_tolerance', 0.01)}",
+                   "-e", f"AB3_H_STERIC_K={case.get('steric_k', 100000)}",
+                   "-e", f"AB3_H_STERIC_SCHEDULE={case.get('steric_schedule', '')}",
                    "-v", f"{root}/inputs:/inputs:ro", "-v", f"{output}:/results",
                    case["image_id"], "python", "scripts/predict.py", "predict",
                    "--csv", f"/inputs/{case['input']}", "--output", "/results/pdbs",
@@ -87,7 +93,7 @@ def main():
             command += ["--preparation-workers", str(case["workers"])]
         if case["route"] == "reduce":
             command += ["--hydrogen-method", "reduce", "--sidechain-flips"]
-        (output / "command_261026.json").write_text(json.dumps(command, indent=2) + "\n")
+        (output / f"command_{tag}.json").write_text(json.dumps(command, indent=2) + "\n")
         print("START", case["label"], flush=True)
         phase = "job"
         started = time.perf_counter()
@@ -137,7 +143,8 @@ def main():
                 assert changes["max_original_heavy_displacement_angstrom"] <= 1e-5
             audits.append({"name": row["name"], "seconds": audit["seconds"],
                            "repair": audit["repair"], "repair_runtime": audit.get("repair_runtime"),
-                           "geometry": audit["prepared_geometry"], "warnings": audit["warnings"]})
+                           "geometry": audit["prepared_geometry"], "warnings": audit["warnings"],
+                           "hydrogen_optimisation":audit.get("hydrogen_geometry_optimisation")})
         batching = json.loads((output / "batching.json").read_text())
         assert batching["completed"] and batching["saved"] == count and not batching["oom_retries"]
         cpu_total = during[-1]["cpu_total"]-during[0]["cpu_total"]
@@ -154,7 +161,7 @@ def main():
                   "swap_change_bytes": before[0]["SwapFree"] - min(row["SwapFree"] for row in during),
                   "outputs": hashes, "audits": audits, "exit_code": result.returncode}
         records.append(record)
-        (root / "cli_measurements_261026.json").write_text(json.dumps(
+        measurements.write_text(json.dumps(
             {"completed": len(records) == len(protocol["cases"]), "protocol": protocol, "rows": records},
             indent=2) + "\n")
         print("DONE", case["label"], "seconds", round(elapsed, 3), "RAM GiB",

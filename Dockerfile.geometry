@@ -1,0 +1,3 @@
+FROM abodybuilder3-dev-spark:stream-hydrogen-candidate-261026
+COPY candidate/openmm_modeller.py /usr/local/lib/python3.12/dist-packages/openmm/app/modeller.py
+COPY candidate/structure_preparation.py candidate/hydrogen_geometry.py /opt/abodybuilder3/scripts/
