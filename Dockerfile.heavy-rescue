@@ -1,0 +1,8 @@
+# Explicit experimental tools only. The installed prediction/preparation CLI
+# and parent image stay unchanged. Verify BASE_IMAGE against the recorded local
+# image ID before building; BuildKit FROM does not accept a bare local image ID.
+ARG BASE_IMAGE=abodybuilder3-dev-spark:hydrogen-geometry-planar-r8-271026
+FROM ${BASE_IMAGE}
+COPY candidate/heavy_atom_rescue.py /opt/heavy-rescue/candidate/heavy_atom_rescue.py
+COPY tools/run_heavy_rescue.py tools/diagnose_heavy_rescue.py tools/validate_heavy_rescue.py /opt/heavy-rescue/tools/
+COPY tools/measure_chemical_geometry.py tools/score_hydrogen_planes.py /opt/heavy-rescue/tools/

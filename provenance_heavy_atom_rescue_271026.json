@@ -1,0 +1,111 @@
+{
+  "study": "heavy_atom_rescue_271026",
+  "recorded_utc": "2026-10-27T12:13:33.173390+00:00",
+  "branch": "components/heavy-atom-rescue-271026",
+  "repository": "https://github.com/adrian-greenneuron/ABodyBuilder3-DGX-Spark",
+  "parent_commit": "9d2a77a8cf858dedc8ef68719a584845b455b15f",
+  "protected_git_refs_unchanged": {
+    "main": "c20d119957bcbbd24d8534fddbdc3e9fc7d57795",
+    "dev": "e6fabdf73aa9590431377de5f923c256576829fd",
+    "parent_hydrogen_component": "9d2a77a8cf858dedc8ef68719a584845b455b15f"
+  },
+  "remote_main_dev_verified_unchanged": true,
+  "images": {
+    "main_default": {
+      "tag": "abodybuilder3-official-spark:latest",
+      "image_id": "sha256:ab981f1494f2c817995a3cf767702181330af8d3f97584120d533dedd9432fd0"
+    },
+    "dev_default": {
+      "tag": "abodybuilder3-dev-spark:latest",
+      "image_id": "sha256:a4d29734d1b2ce98a09c4508e9047ad714a6da94be610fd5b8dda6b15285b590"
+    },
+    "parent_R8": {
+      "tag": "abodybuilder3-dev-spark:hydrogen-geometry-planar-r8-271026",
+      "image_id": "sha256:ca85c1a16c618bb6674ca48432e43e7db5d7911821a1a96cf7e1374d580dd558"
+    },
+    "rescue_candidate": {
+      "tag": "abodybuilder3-dev-spark:heavy-rescue-candidate-271026",
+      "image_id": "sha256:4d25935b90be9099c4f0acf199d046d8f09dee2e0c007d445737371e3aa88b7f"
+    }
+  },
+  "installed_runtime": {
+    "openmm": "8.6.1.dev-b399af4",
+    "pdbfixer": "1.12.0",
+    "source_sha256": {
+      "structure_preparation": "23c7e927260680cdc7b6b6279f8763d16d6f0ec5dbc6df6a68524614bb987900",
+      "hydrogen_geometry": "99a2e6fc7408c51e0bc7937db24c68467012c2d8d9fd856d233f49096965fc20",
+      "openmm.app.modeller": "f3b89e8a5e1677c8c69849d611926d2774ba1739cbf358226c088d9446b0cbe6",
+      "pdbfixer.pdbfixer": "9db3452fa396e61a73fd7ce26e225b1c3fdb52eb306d45ee7677cad5d860611c"
+    }
+  },
+  "changes": "Application rescue helpers and explicit saved-prediction runner only; no additional upstream library edits and no installed prediction/preparation CLI change. Main/dev, raw predictions, prior experiments and default images unchanged.",
+  "qualification_source_sha256": {
+    "candidate/heavy_atom_rescue.py": "edfe15351046e8a4be5e9b97980f8e921973e3f67a6385d87f628cb271abeaa7",
+    "tools/diagnose_heavy_rescue.py": "fc6f47bf495668f027f713def244f2952c86d05dd425de2ef4e74120d27982f2",
+    "tools/measure_frozen_commands.py": "25d8444ea148058d70784f0ade5b7ddb5c1fb1a9be63909855ab2d4aee445fe9",
+    "tools/validate_heavy_rescue.py": "0657baa1d83178155ed1f6e3eeea0024093872e4068fb63d9e4462a747ea7b9e",
+    "tools/run_heavy_rescue.py": "81b70920c34ec43b54f59531519b7b00d563ac9d5a39edee3eaebba4edb1aa1c"
+  },
+  "environment": {
+    "HOME": "/tmp",
+    "PYTHONHASHSEED": "0",
+    "OPENMM_CPU_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",
+    "AB3_EXPERIMENTAL_REPAIR": "cpu1",
+    "AB3_EXPERIMENTAL_GEOMETRY": "robust_planar",
+    "AB3_H_GRAD_TOL": "5",
+    "AB3_H_STERIC_SCHEDULE": "500000,200000,100000"
+  },
+  "measurements": {
+    "fresh_containers": 12,
+    "repetitions_per_policy_route": 2,
+    "targets_per_job": 6,
+    "preparation_workers": 3,
+    "completed_outputs": 60,
+    "expected_rejections": 12,
+    "rescued_outputs": 24,
+    "independent_stored_checks": "all 60 completed outputs pass",
+    "scope": "Complete preparation of six saved raw PDBs: three rejected plus three compatible controls. Not neural inference or repertoire throughput. Same parent R8 H geometry, pH7, protonation variants and disulfides. 3 workers, two fresh containers per policy and route; reversed order in replicate2.",
+    "unified_ram": "Host MemAvailable at 20ms, 5s pre idle median, 8s post. Additional unavailable memory includes host noise/cache; post drift and baseline sensitivity reported. No summed RSS+CUDA."
+  },
+  "tests": {
+    "count": 40,
+    "passed": true,
+    "log_sha256": "eee3f9d6ef54e8997a37688cd6051611705d68c1a7eb7297b4fb412e112f9deb"
+  },
+  "probe": {
+    "commit": "f3e0fadd3986d228f3b37c17f4ec20a7391daf37",
+    "binary_sha256": "075a388915933bdf0bbd48541ee949c68e31c90a13788d2401a306e83173b5a5",
+    "scope": "Unmodified legacy Probe nuclear-radii bad-overlap pairs, not MolProbity clashscore; see tools/score_probe_hydrogens.py"
+  },
+  "frozen_protocol_sha256": {
+    "protocol_271026.json": "b1e8c9c22172c636a3f8da2ac0fbbb169b67a1fa0d777f98be8f7b5568dcd56e",
+    "qualification_protocol_271026.json": "dddb87ebd22716b2faa04eaf344b22dcceed35288ef3ef54dfc057cd687ab4be",
+    "screen_protocol_271026.json": "2722b01c249edc7b0e8be2bc56cecb5bbdd9d118ef73c03c468b18d5cb1f845a",
+    "screen_protocol_v2_271026.json": "dbe349df61b405384f14f459be5c31c77ba473a5780c5285f322468c35ac645d",
+    "screen_protocol_v3_271026.json": "d3be4a7d3bbabcee9514decd6d3d15b91e33cce84fbaca7aeb4b2476d247a4b6",
+    "screen_protocol_v4_271026.json": "8f527766fad6d569c5db5bde5ef214b03473a0001bb5252dc65708beffa547f2",
+    "screen_protocol_v5_271026.json": "cb46534716607ef39f09be6d27a8ce3ec04d55db6f7cef36673ad434f61ce9da"
+  },
+  "local_retention": "heavy_atom_rescue_271026: all input structures, saved raw predictions, intermediate/failure outputs, diagnostics, logs, frozen source snapshots and host memory traces retained; no biological sequences or structures included in Git.",
+  "new_and_updated_file_sha256": {
+    "README.md": "302fb0235d7e1b1769beb03e66e5eee6d9584de3bf2f7804154b923e456982bb",
+    "Dockerfile.heavy-rescue": "ce27b3dd21aaa7708314147bdebdd9e8725b16c5aa6731bd1f85f8b544b1611f",
+    "candidate/heavy_atom_rescue.py": "edfe15351046e8a4be5e9b97980f8e921973e3f67a6385d87f628cb271abeaa7",
+    "docs/assets/heavy_atom_rescue_geometry_271026.png": "4d504adde31827a3ef315ad2cdcc5b0647178ff0058a7db19181f8b7e274c7a0",
+    "docs/assets/heavy_atom_rescue_geometry_271026.svg": "828868b16aa965499f2326baafcc701d1a5b120bf6a35e73f54a92c0695c1e23",
+    "docs/assets/heavy_atom_rescue_tradeoffs_271026.png": "71c1af1b127a4f0564d4506b64b64996b7e379a00db9f701154c61844a596773",
+    "docs/assets/heavy_atom_rescue_tradeoffs_271026.svg": "902a000257353de638e1c113fbcaeb93e554804861e710154b7900b809ab63de",
+    "docs/data/heavy_atom_rescue_results_271026.json": "326969d4d190c152bfce27c1d33ff446547df28f99f1fa80cce2a61c4f001c1b",
+    "docs/heavy_atom_rescue_271026.md": "e551fd6ba57b5fb20926b302798e8b91cf07b43c005d1d729107de114dee6ae5",
+    "tests/test_heavy_atom_rescue.py": "a395d3311d65fe87e36684401117d949a15d1f512cf5228f9ed095e13f3a14bc",
+    "tools/diagnose_heavy_rescue.py": "fc6f47bf495668f027f713def244f2952c86d05dd425de2ef4e74120d27982f2",
+    "tools/measure_frozen_commands.py": "25d8444ea148058d70784f0ade5b7ddb5c1fb1a9be63909855ab2d4aee445fe9",
+    "tools/run_heavy_rescue.py": "81b70920c34ec43b54f59531519b7b00d563ac9d5a39edee3eaebba4edb1aa1c",
+    "tools/screen_heavy_rescue.py": "89aa6967ca33ad6d6a93dc0152897c6e94247ba3c71808e32e9fa7eb5e8704cd",
+    "tools/validate_heavy_rescue.py": "0657baa1d83178155ed1f6e3eeea0024093872e4068fb63d9e4462a747ea7b9e",
+    "tools/validate_rescue_jobs.py": "3b9fce9caffde5bb5ea9cf1eecc277f62fecef43a9b77786ee9aec1d6bb78651",
+    "tools/write_heavy_rescue_report.py": "29f7741701be293883473944b1ebc5e5ded11a642ee2c25d0a7504fee70a578e"
+  }
+}

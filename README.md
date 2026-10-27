@@ -1,45 +1,44 @@
-# Hydrogen geometry correction experiments
+# Heavy-atom rescue experiments
 
-**Corrected GPU hydrogen preparation is about 3.5–4× faster than corrected CPU
-preparation, with the tested bond, angle, chirality and planarity defects
-removed on 509 compatible antibody pairs.** Three of the original 512 have
-incompatible fixed-heavy geometry and are explicitly rejected.
+**Both local repair and guarded restrained relaxation rescue all three antibodies
+that the fixed-heavy hydrogen protocol rejected.** Results repeat with and
+without Reduce orientation. Main, dev and their default images are unchanged;
+these tools are available only for experimental review on this component branch.
 
-On 127 matched inputs, full jobs take **56.23 s** for OpenMM hydrogens or
-**61.18 s** with Reduce orientation first, using **6.89 / 7.73 GiB** of additional
-unified RAM. Hydrogen-contact flags fall by about 29–30% relative to the earlier
-GPU candidate, although residual clashes remain. Raw neural predictions and
-prepared heavy atoms are unchanged; hydrogen coordinates use a different
-geometry protocol.
+Local repair takes **3.8–4.7 seconds per rejected antibody**, versus **8.9–12.1
+seconds** for restrained relaxation on the OpenMM route (two-call medians, three
+workers). Local repair moves 28–33 original heavy atoms, with a maximum movement
+of 1.29–3.02 Å. Relaxation moves almost the whole structure and removes much more
+pre-existing heavy strain. Passing the rescue checks does not establish better
+experimental structural accuracy or a clash-free structure.
 
-**Not enabled on dev or main.** See the [new report and figures](docs/hydrogen_geometry_271026.md)
-for paired measurements, chemistry changes, rejected inputs and the recorded
-CUDA-initialisation retry. This branch is experimental review material.
+![Speed, atom movement and hydrogen contacts](docs/assets/heavy_atom_rescue_tradeoffs_271026.png)
 
-![Full-pipeline time and unified RAM](docs/assets/hydrogen_geometry_performance_271026.png)
+The [report](docs/heavy_atom_rescue_271026.md) includes both routes, individual
+fresh-container times, unified RAM, stored-file geometry checks, residual
+clashes and failed approaches. The three compatible controls remain
+byte-identical across all rescue policies and repeats within each route.
+All **40 preparation and geometry regression tests pass**.
 
-This isolated component branch preserves original and modified third-party code:
+- [Paired geometry figure](docs/assets/heavy_atom_rescue_geometry_271026.png)
+- [Compact measurements and screening history](docs/data/heavy_atom_rescue_results_271026.json)
+- [Source/runtime provenance](provenance_heavy_atom_rescue_271026.json)
+- [Explicit rescue runner](tools/run_heavy_rescue.py) and [experimental image layer](Dockerfile.heavy-rescue)
 
-- `reference/`: original OpenMM Modeller, original/CPU-candidate preparation and original CLI/pool.
-- `candidate/`: scoped OpenMM callback/properties patch, fixed-heavy geometry optimiser, explicit steric back-off, hydrogen policy and bounded stream.
-- `Dockerfile.geometry`: the current experimental layer over the retained earlier GPU candidate; `Dockerfile.hydrogen` and `Dockerfile.streaming` preserve earlier recipes.
-- `tests/`: source-scope, policy, failure, backpressure and analysis checks.
-- `tools/`: frozen-protocol measurements, chemical diagnostics, paired analysis and plotting.
+The runner supports explicit `fixed`, `local` and `restrained` policies on saved
+predictions. Compatible structures bypass heavy repair. Failed local attempts
+are recorded; they never trigger automatic whole-protein relaxation. No
+installed predictor or preparation CLI is modified. This is an incremental
+layer over the retained R8 runtime, whose exact identity must be checked before
+building. See the report for methods and reproduction details.
 
-```bash
-docker run --rm --network none -v "$PWD:/component:ro" \
-  abodybuilder3-dev-spark:hydrogen-geometry-planar-r8-271026 \
-  python -m unittest discover -s /component/tests -p 'test_*.py' -v
-```
+The original and modified OpenMM/PDBFixer component sources remain in
+`reference/` and `candidate/`. This rescue study adds application code using
+OpenMM's public force/minimisation API; it makes no further upstream-library
+edits. Sequences, raw/prepared structures, per-residue diagnostics and traces
+remain local. Nothing was deleted.
 
-Chemistry and plotting tools use the pinned application container. The report
-links compact evidence, input/source identities and artifact checksums; all
-sequences, structures and per-residue identity lists stay local. The recipes
-are incremental experiment layers; use the exact base/image identities in
-[source/runtime manifest](docs/data/hydrogen_geometry_sources_271026.json), not a mutable `latest` tag.
-No production defaults or image tags changed and nothing was deleted.
-
-The earlier [GPU/streaming](docs/hydrogen_pipeline_271026.md),
-[deterministic-repair](docs/deterministic_repair_261026.md) and
-[preparation concurrency](docs/preparation_optimisation_261026.md) studies remain
-available as historical evidence.
+Earlier studies remain unchanged: [fixed-heavy H geometry](docs/hydrogen_geometry_271026.md),
+[GPU/streaming preparation](docs/hydrogen_pipeline_271026.md),
+[deterministic atom repair](docs/deterministic_repair_261026.md), and
+[preparation concurrency](docs/preparation_optimisation_261026.md).
